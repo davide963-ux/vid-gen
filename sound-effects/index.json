@@ -271,6 +271,135 @@
       "use": "Sad trombone (12s). Fail punchline. Long: trim or fade after the first notes."
     },
     {
+      "id": "glitch-stutter-03",
+      "file": "sound-effects/glitch-synth/glitch-stutter-03.wav",
+      "category": "glitch-synth",
+      "duration": 0.35,
+      "tags": [
+        "stutter"
+      ],
+      "use": ""
+    },
+    {
+      "id": "glitch-zap-01",
+      "file": "sound-effects/glitch-synth/glitch-zap-01.wav",
+      "category": "glitch-synth",
+      "duration": 0.35,
+      "tags": [
+        "zap"
+      ],
+      "use": ""
+    },
+    {
+      "id": "glitch-static-burst-01",
+      "file": "sound-effects/glitch-synth/glitch-static-burst-01.wav",
+      "category": "glitch-synth",
+      "duration": 0.4,
+      "tags": [
+        "static",
+        "burst"
+      ],
+      "use": ""
+    },
+    {
+      "id": "glitch-stutter-01",
+      "file": "sound-effects/glitch-synth/glitch-stutter-01.wav",
+      "category": "glitch-synth",
+      "duration": 0.45,
+      "tags": [
+        "stutter"
+      ],
+      "use": ""
+    },
+    {
+      "id": "glitch-zap-02",
+      "file": "sound-effects/glitch-synth/glitch-zap-02.wav",
+      "category": "glitch-synth",
+      "duration": 0.5,
+      "tags": [
+        "zap"
+      ],
+      "use": ""
+    },
+    {
+      "id": "glitch-tape-stop",
+      "file": "sound-effects/glitch-synth/glitch-tape-stop.wav",
+      "category": "glitch-synth",
+      "duration": 0.55,
+      "tags": [
+        "tape",
+        "stop"
+      ],
+      "use": ""
+    },
+    {
+      "id": "glitch-stutter-02",
+      "file": "sound-effects/glitch-synth/glitch-stutter-02.wav",
+      "category": "glitch-synth",
+      "duration": 0.6,
+      "tags": [
+        "stutter"
+      ],
+      "use": ""
+    },
+    {
+      "id": "glitch-data-whirr",
+      "file": "sound-effects/glitch-synth/glitch-data-whirr.wav",
+      "category": "glitch-synth",
+      "duration": 0.7,
+      "tags": [
+        "data",
+        "whirr"
+      ],
+      "use": ""
+    },
+    {
+      "id": "glitch-static-burst-02",
+      "file": "sound-effects/glitch-synth/glitch-static-burst-02.wav",
+      "category": "glitch-synth",
+      "duration": 0.7,
+      "tags": [
+        "static",
+        "burst"
+      ],
+      "use": ""
+    },
+    {
+      "id": "glitch-stutter-04",
+      "file": "sound-effects/glitch-synth/glitch-stutter-04.wav",
+      "category": "glitch-synth",
+      "duration": 0.8,
+      "tags": [
+        "stutter",
+        "04"
+      ],
+      "use": ""
+    },
+    {
+      "id": "impact-sub-boom",
+      "file": "sound-effects/impacts-synth/impact-sub-boom.wav",
+      "category": "impacts-synth",
+      "duration": 1.1,
+      "tags": [
+        "impact",
+        "sub",
+        "boom"
+      ],
+      "use": ""
+    },
+    {
+      "id": "impact-glass-shatter",
+      "file": "sound-effects/impacts-synth/impact-glass-shatter.wav",
+      "category": "impacts-synth",
+      "duration": 1.2,
+      "tags": [
+        "impact",
+        "glass",
+        "shatter"
+      ],
+      "use": ""
+    },
+    {
       "id": "riser-transition-reverse-eerie-fast-short",
       "file": "sound-effects/riser-designed/riser-transition-reverse-eerie-fast-short.mp3",
       "category": "riser-designed",
@@ -416,6 +545,69 @@
         "sweep"
       ],
       "use": "Classic long airy sweep (3.6s). Big transitions and slow camera sweeps."
+    },
+    {
+      "id": "ui-click-02",
+      "file": "sound-effects/ui-synth/ui-click-02.wav",
+      "category": "ui-synth",
+      "duration": 0.02,
+      "tags": [
+        "click"
+      ],
+      "use": ""
+    },
+    {
+      "id": "ui-typing-tick",
+      "file": "sound-effects/ui-synth/ui-typing-tick.wav",
+      "category": "ui-synth",
+      "duration": 0.02,
+      "tags": [
+        "typing",
+        "tick"
+      ],
+      "use": ""
+    },
+    {
+      "id": "ui-click-01",
+      "file": "sound-effects/ui-synth/ui-click-01.wav",
+      "category": "ui-synth",
+      "duration": 0.03,
+      "tags": [
+        "click"
+      ],
+      "use": ""
+    },
+    {
+      "id": "ui-blip-down",
+      "file": "sound-effects/ui-synth/ui-blip-down.wav",
+      "category": "ui-synth",
+      "duration": 0.09,
+      "tags": [
+        "blip",
+        "down"
+      ],
+      "use": ""
+    },
+    {
+      "id": "ui-blip-up",
+      "file": "sound-effects/ui-synth/ui-blip-up.wav",
+      "category": "ui-synth",
+      "duration": 0.09,
+      "tags": [
+        "blip",
+        "up"
+      ],
+      "use": ""
+    },
+    {
+      "id": "ui-confirm",
+      "file": "sound-effects/ui-synth/ui-confirm.wav",
+      "category": "ui-synth",
+      "duration": 0.4,
+      "tags": [
+        "confirm"
+      ],
+      "use": ""
     }
   ]
 }
