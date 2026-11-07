@@ -6,12 +6,14 @@
       "category": "car",
       "duration": 0.48,
       "tags": [
+        "car",
         "door",
-        "suv",
         "close",
-        "external"
+        "thud",
+        "arrival",
+        "exit"
       ],
-      "use": ""
+      "use": "Car door slam from outside. Arriving, getting out, or a hard cut-off beat."
     },
     {
       "id": "car-horn-beep-short-x3",
@@ -19,11 +21,14 @@
       "category": "car",
       "duration": 0.86,
       "tags": [
+        "car",
         "horn",
         "beep",
-        "short"
+        "alert",
+        "warning",
+        "comedy"
       ],
-      "use": ""
+      "use": "Three short honks. Impatient driver, 'watch out', or a comic interruption."
     },
     {
       "id": "car-tire-squeal-brake-skid-03",
@@ -31,12 +36,14 @@
       "category": "car",
       "duration": 1.92,
       "tags": [
+        "car",
         "tire",
         "squeal",
         "brake",
-        "skid"
+        "skid",
+        "sudden-stop"
       ],
-      "use": ""
+      "use": "Short skid (1.9s). Quick screech for a sudden stop or 'wait, what?' beat."
     },
     {
       "id": "car-skid-to-stop-tire-squeal",
@@ -44,12 +51,14 @@
       "category": "car",
       "duration": 2.47,
       "tags": [
+        "car",
         "skid",
-        "stop",
         "tire",
-        "squeal"
+        "squeal",
+        "stop",
+        "sudden-stop"
       ],
-      "use": ""
+      "use": "Skid that ends in a full stop (2.5s). Dramatic halt or record-scratch style cut."
     },
     {
       "id": "car-tire-squeal-brake-skid",
@@ -57,12 +66,14 @@
       "category": "car",
       "duration": 2.52,
       "tags": [
+        "car",
         "tire",
         "squeal",
         "brake",
-        "skid"
+        "skid",
+        "near-miss"
       ],
-      "use": ""
+      "use": "Longer brake skid (2.5s). Near-miss, emergency stop, or tension moment."
     },
     {
       "id": "car-pass-by-fast",
@@ -70,11 +81,14 @@
       "category": "car",
       "duration": 3.19,
       "tags": [
-        "pass",
-        "by",
-        "fast"
+        "car",
+        "pass-by",
+        "fast",
+        "motion",
+        "speed",
+        "transition"
       ],
-      "use": ""
+      "use": "Fast car passing left-to-right. Speed, urgency, or a transition between scenes."
     },
     {
       "id": "car-start-idle-external-rover",
@@ -82,12 +96,14 @@
       "category": "car",
       "duration": 5.4,
       "tags": [
+        "car",
+        "engine",
         "start",
         "idle",
-        "external",
-        "rover"
+        "ignition",
+        "departure"
       ],
-      "use": ""
+      "use": "Engine start into idle (5.4s). Starting a journey or a car-intro scene. Trim the idle tail if needed."
     },
     {
       "id": "police-siren-close",
@@ -95,11 +111,14 @@
       "category": "car",
       "duration": 12.02,
       "tags": [
-        "police",
         "siren",
-        "close"
+        "police",
+        "emergency",
+        "alarm",
+        "danger",
+        "chase"
       ],
-      "use": ""
+      "use": "Police siren nearby (12s). Chase, bust, or alarm scene. Long: trim or fade out."
     },
     {
       "id": "cartoon-whistle-slip-trip-up",
@@ -107,12 +126,14 @@
       "category": "cartoon",
       "duration": 0.36,
       "tags": [
+        "cartoon",
         "whistle",
         "slip",
         "trip",
-        "up"
+        "fail",
+        "comedy"
       ],
-      "use": ""
+      "use": "Tiny slip whistle (0.36s). Quick stumble, small mistake, or sudden drop."
     },
     {
       "id": "cartoon-pop-mouth-finger",
@@ -120,11 +141,14 @@
       "category": "cartoon",
       "duration": 0.43,
       "tags": [
+        "cartoon",
         "pop",
         "mouth",
-        "finger"
+        "finger",
+        "reveal",
+        "ui"
       ],
-      "use": ""
+      "use": "Single finger-in-cheek pop (0.43s). Fast text or element appearing."
     },
     {
       "id": "cartoon-pop-pops-x6",
@@ -132,10 +156,14 @@
       "category": "cartoon",
       "duration": 0.98,
       "tags": [
+        "cartoon",
         "pop",
-        "pops"
+        "multiple",
+        "bubbles",
+        "list",
+        "reveal"
       ],
-      "use": ""
+      "use": "Six rapid pops (~1s). Items popping in one after another, list or icon reveals."
     },
     {
       "id": "cartoon-pop-various",
@@ -143,10 +171,14 @@
       "category": "cartoon",
       "duration": 1.82,
       "tags": [
+        "cartoon",
         "pop",
-        "various"
+        "various",
+        "bubbles",
+        "reveal",
+        "ui"
       ],
-      "use": ""
+      "use": "Assorted pops (1.8s). Staggered element reveals or playful UI accents."
     },
     {
       "id": "cartoon-boing-jump",
@@ -154,10 +186,14 @@
       "category": "cartoon",
       "duration": 2.11,
       "tags": [
+        "cartoon",
         "boing",
-        "jump"
+        "jump",
+        "bounce",
+        "spring",
+        "playful"
       ],
-      "use": ""
+      "use": "Springy boing (2.1s). Bouncing in, jumping, or a playful emphasis."
     },
     {
       "id": "cartoon-making-fun-of-descending-02",
@@ -165,11 +201,14 @@
       "category": "cartoon",
       "duration": 2.95,
       "tags": [
-        "making",
-        "fun",
-        "descending"
+        "cartoon",
+        "descending",
+        "mocking",
+        "fail",
+        "comedy",
+        "stupid"
       ],
-      "use": ""
+      "use": "Mocking descending phrase (3s). Teasing a mistake or a 'wrong answer' beat."
     },
     {
       "id": "cartoon-boing-action-jump-jaw-harp",
@@ -177,13 +216,14 @@
       "category": "cartoon",
       "duration": 3.07,
       "tags": [
+        "cartoon",
         "boing",
-        "action",
+        "jaw-harp",
         "jump",
-        "jaw",
-        "harp"
+        "action",
+        "comedy"
       ],
-      "use": ""
+      "use": "Jaw-harp boing (3s). Bigger comic jump or a wacky action moment."
     },
     {
       "id": "cartoon-musical-success-fanfare",
@@ -191,11 +231,14 @@
       "category": "cartoon",
       "duration": 3.5,
       "tags": [
-        "musical",
+        "cartoon",
+        "fanfare",
         "success",
-        "fanfare"
+        "win",
+        "celebration",
+        "musical"
       ],
-      "use": ""
+      "use": "Short success fanfare (3.5s). Win, achievement, or 'it worked' payoff."
     },
     {
       "id": "cartoon-boing-comic-fly-crash-impact",
@@ -203,13 +246,14 @@
       "category": "cartoon",
       "duration": 4.03,
       "tags": [
+        "cartoon",
         "boing",
-        "comic",
         "fly",
         "crash",
-        "impact"
+        "impact",
+        "comedy"
       ],
-      "use": ""
+      "use": "Fly-then-crash comic impact (4s). Something launched and landing badly."
     },
     {
       "id": "cartoon-trombone-vintage-failure-sad",
@@ -217,12 +261,14 @@
       "category": "cartoon",
       "duration": 12.05,
       "tags": [
+        "cartoon",
         "trombone",
-        "vintage",
         "failure",
-        "sad"
+        "sad",
+        "fail",
+        "punchline"
       ],
-      "use": ""
+      "use": "Sad trombone (12s). Fail punchline. Long: trim or fade after the first notes."
     },
     {
       "id": "riser-transition-reverse-eerie-fast-short",
@@ -231,13 +277,13 @@
       "duration": 2.9,
       "tags": [
         "riser",
-        "transition",
         "reverse",
         "eerie",
-        "fast",
+        "transition",
+        "tension",
         "short"
       ],
-      "use": ""
+      "use": "Short eerie reverse riser (2.9s). Quick tension build into a cut or reveal."
     },
     {
       "id": "riser-transition-whoosh-fast-short-01",
@@ -246,12 +292,13 @@
       "duration": 3.05,
       "tags": [
         "riser",
-        "transition",
         "whoosh",
+        "transition",
         "fast",
-        "short"
+        "short",
+        "build"
       ],
-      "use": ""
+      "use": "Short whoosh riser (3s). Quick build into a scene change."
     },
     {
       "id": "riser-stutter-is-coming",
@@ -261,9 +308,12 @@
       "tags": [
         "riser",
         "stutter",
-        "coming"
+        "build-up",
+        "anticipation",
+        "hype",
+        "short"
       ],
-      "use": ""
+      "use": "Stuttering build (3.8s). 'It's coming' anticipation before a reveal or drop."
     },
     {
       "id": "riser-string",
@@ -272,9 +322,13 @@
       "duration": 6.84,
       "tags": [
         "riser",
-        "string"
+        "string",
+        "build-up",
+        "cinematic",
+        "tension",
+        "reveal"
       ],
-      "use": ""
+      "use": "String riser (6.8s). Slower cinematic build before a big reveal. Time its peak to the cut."
     },
     {
       "id": "riser-reversed-no-hit",
@@ -284,10 +338,12 @@
       "tags": [
         "riser",
         "reversed",
-        "no",
-        "hit"
+        "build-up",
+        "long",
+        "no-hit",
+        "tension"
       ],
-      "use": ""
+      "use": "Long reversed riser (13s) with no impact at the end. Add a hit or whoosh at the cut."
     },
     {
       "id": "whoosh-designed-generic-air",
@@ -297,10 +353,12 @@
       "tags": [
         "whoosh",
         "designed",
-        "generic",
-        "air"
+        "air",
+        "short",
+        "quick-cut",
+        "transition"
       ],
-      "use": ""
+      "use": "Very short air whoosh (0.6s). Fast cuts, element slide-ins, text moves."
     },
     {
       "id": "whoosh-wind",
@@ -309,9 +367,12 @@
       "duration": 1.68,
       "tags": [
         "whoosh",
-        "wind"
+        "wind",
+        "airy",
+        "transition",
+        "slide"
       ],
-      "use": ""
+      "use": "Windy whoosh (1.7s). Medium scene transitions or camera moves."
     },
     {
       "id": "whoosh-mids",
@@ -320,9 +381,12 @@
       "duration": 1.78,
       "tags": [
         "whoosh",
-        "mids"
+        "mids",
+        "body",
+        "transition",
+        "slide"
       ],
-      "use": ""
+      "use": "Mid-weight whoosh (1.8s). Standard transition with more body than the airy ones."
     },
     {
       "id": "whoosh-softs",
@@ -331,9 +395,12 @@
       "duration": 2.52,
       "tags": [
         "whoosh",
-        "softs"
+        "soft",
+        "gentle",
+        "transition",
+        "subtle"
       ],
-      "use": ""
+      "use": "Soft whoosh (2.5s). Gentle, subtle transitions where a hard swoosh would be too loud."
     },
     {
       "id": "whoosh-classic-airy",
@@ -343,9 +410,12 @@
       "tags": [
         "whoosh",
         "classic",
-        "airy"
+        "airy",
+        "long",
+        "transition",
+        "sweep"
       ],
-      "use": ""
+      "use": "Classic long airy sweep (3.6s). Big transitions and slow camera sweeps."
     }
   ]
 }
