@@ -12,7 +12,7 @@ const BOOM = 'impact-sub-boom', SHAT = 'impact-glass-shatter';
 const ST = (i) => `glitch-stutter-0${i}`, ZAP = (i) => `glitch-zap-0${i}`, STAT = (i) => `glitch-static-burst-0${i}`;
 const T2 = W(2, 'potential') - 0.05, T3 = W(2, 'but') - 0.1, T4 = LS(3) - 0.12, T5 = LS(4) - 0.12, T6 = LS(5) - 0.12, T7 = LS(6) - 0.12, T8 = LS(7) - 0.1, T9 = LS(8);
 // S1 hook
-c(ST(1), 0.03, 0.55); c(UI, 0.02, 0.55); c(BOOM, 0.04, 0.55); c(STAT(1), 0.12, 0.35);
+c(ST(1), 0.03, 0.55); c('whoosh-classic-airy', 0.0, 0.5); c(BOOM, 0.04, 0.6); c(STAT(1), 0.12, 0.35); for (let k = 0; k < 4; k++) c(UP, 0.25 + k * 0.28, 0.3);
 // S2 customers
 c('whoosh-classic-airy', T2 - 0.35, 0.6); c(ZAP(1), T2 - 0.2, 0.5);
 for (let i = 0; i < 16; i++) c(TICK, W(2, 'customers') + 0.5 + i * 0.125, 0.25);

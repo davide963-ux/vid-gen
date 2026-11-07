@@ -51,12 +51,18 @@
       // ===== scene start times =====
       const T2 = W(2, 'potential') - 0.05, T3 = W(2, 'but') - 0.1, T4 = LS(3) - 0.12, T5 = LS(4) - 0.12, T6 = LS(5) - 0.12, T7 = LS(6) - 0.12, T8 = LS(7) - 0.1, T9 = LS(8);
 
-      // ============ S1  HOOK  ============
-      add(SC(1, 130, `${MARK('h0', 'position:absolute;left:480px;top:330px;width:120px;height:122px')}<div id="h1" class="abs mono" style="left:60px;top:500px;width:900px;font-size:26px">Zenith Software</div>${HD('h2', 640, 210, 'THINK')}${HD('h3', 880, 118, 'ABOUT IT.', 'lb')}`));
-      rays('r1_', 540, 1090, 0.02, { n: 34, dur: 0.85 });
-      tl.set(['#h0', '#h1'], { opacity: 1 }, 0); tl.fromTo('#h0', { rotationY: 180, scale: 0.4 }, { rotationY: 0, scale: 1, duration: 0.8, ease: 'expo.out', transformPerspective: 600, immediateRender: false }, 0); tl.fromTo('#h1', { x: -40, letterSpacing: '0.9em' }, { x: 0, letterSpacing: '0.32em', duration: 0.9, ease: 'expo.out', immediateRender: false }, 0);
-      kin('#h2', 0, 'glitch', { visible: true, stagger: 0.04 }); kin('#h3', 0.1, 'glitch', { visible: true, stagger: 0.03 });
-      camMove(1, 0, T2 + 0.2, { s0: 1, s1: 1.3, e: 'power2.in' }); shake('#k1', 0.05, 12, 0.35);
+      // ============ S1  HOOK  (no text: real app icons rush at the camera around a glowing question mark)  ============
+      const TUN = ['instagram', 'facebook', 'tiktok', 'youtube', 'linkedin', 'whatsapp', 'x', 'instagram', 'tiktok', 'facebook'];
+      add(SC(1, 0, `${TUN.map((n, i) => IM('ti' + i, 0, 0, 220, 'app-' + n)).join('')}
+        ${[0, 1, 2].map((k) => `<div id="hr${k}" class="ring" style="left:${540 - 300}px;top:${960 - 300}px;width:600px;height:600px"></div>`).join('')}
+        ${IM('hq', 390, 810, 300, 'ico-question', 'glow')}`));
+      rays('r1_', 540, 960, 0.02, { n: 40, dur: 0.9 });
+      const tunnel = (t) => { TUN.forEach((n, i) => { const q = ((t * 0.62 + i / TUN.length) % 1), a = i * 2.39996, r = 90 + Math.pow(q, 2.1) * 980, sc = 0.14 + Math.pow(q, 2.3) * 2.7; const el = document.getElementById('ti' + i); el.style.opacity = String(Math.min(1, q * 7) * (1 - Math.pow(q, 7))); el.style.transform = `translate(${540 + Math.cos(a) * r - 110}px, ${960 + Math.sin(a) * r * 1.25 - 110}px) scale(${sc}) rotate(${(q - 0.5) * 50 * (i % 2 ? 1 : -1)}deg)`; el.style.zIndex = String(Math.round(q * 10)); }); };
+      tunnel(0); driver(0, T2 + 0.3, (t) => tunnel(t));
+      tl.set('#hq', { opacity: 1 }, 0);
+      tl.fromTo('#hq', { scale: 1.0, rotation: -6 }, { scale: 1.16, rotation: 6, duration: 0.42, ease: 'sine.inOut', yoyo: true, repeat: 3, immediateRender: false }, 0);
+      [0, 1, 2].forEach((k) => ringBurst('#hr' + k, 0.02 + k * 0.38, 1.0, 0.35, 1.5));
+      camMove(1, 0, T2 + 0.2, { s0: 1, s1: 1.25, e: 'power2.in' }); shake('#k1', 0.05, 14, 0.35);
 
       // ============ S2  customers find you online (typing search + 3D app carousel)  ============
       const QT = 'business near me';
@@ -200,14 +206,14 @@
       // ============ S8  Expand your opportunities  (chart grows, tiles blast outward)  ============
       add(SC(8, 110, `${HD('e1', 220, 190, 'EXPAND')}${HD('e2', 440, 96, 'YOUR')}${HD('e3', 560, 78, 'OPPORTUNITIES', 'lb')}
         ${[0, 1, 2].map((k) => `<div id="er${k}" class="ring" style="left:${510 - (200 + k * 130)}px;top:${1050 - (200 + k * 130)}px;width:${400 + k * 260}px;height:${400 + k * 260}px"></div>`).join('')}
-        ${[0, 1, 2, 3, 4].map((k) => `<div id="cb${k}" style="position:absolute;left:${150 + k * 150}px;top:${1330 - (90 + k * 85)}px;width:112px;height:${90 + k * 85}px;border-radius:16px 16px 0 0;background:linear-gradient(#7FB6FF,#2A6BFF);box-shadow:0 0 40px rgba(61,123,255,0.5);transform-origin:bottom;opacity:0"></div>`).join('')}
-        <svg width="1080" height="1920" style="position:absolute;left:0;top:0"><polyline id="ar" points="190,1190 340,1090 490,1000 640,880 790,790 880,700" fill="none" stroke="#E8F0FF" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1100" stroke-dashoffset="1100" opacity="0"/><polygon id="ah" points="850,690 905,672 893,730" fill="#E8F0FF" opacity="0"/></svg>
-        ${IM('ef0', 360, 780, 130, 'ico-users-three')}${IM('ef1', 560, 780, 130, 'ico-target')}${IM('ef2', 360, 1230, 130, 'ico-storefront')}${IM('ef3', 560, 1230, 130, 'ico-rocket-launch')}`));
+        ${[0, 1, 2, 3, 4].map((k) => `<div id="cb${k}" style="position:absolute;left:${150 + k * 150}px;top:${1380 - (90 + k * 85)}px;width:112px;height:${90 + k * 85}px;border-radius:16px 16px 0 0;background:linear-gradient(#7FB6FF,#2A6BFF);box-shadow:0 0 40px rgba(61,123,255,0.5);transform-origin:bottom;opacity:0"></div>`).join('')}
+        <svg width="1080" height="1920" style="position:absolute;left:0;top:0"><polyline id="ar" points="190,1240 340,1140 490,1050 640,930 790,840 880,750" fill="none" stroke="#E8F0FF" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1100" stroke-dashoffset="1100" opacity="0"/><polygon id="ah" points="850,740 905,722 893,780" fill="#E8F0FF" opacity="0"/></svg>
+        ${IM('ef0', 80, 40, 130, 'ico-users-three')}${IM('ef1', 830, 40, 130, 'ico-target')}${IM('ef2', 80, 1410, 130, 'ico-storefront')}${IM('ef3', 830, 1410, 130, 'ico-rocket-launch')}`));
       kin('#e1', W(7, 'expand'), 'zoom', { stagger: 0.05 }); kin('#e2', W(7, 'your'), 'slide', { dir: 'r' }); kin('#e3', W(7, 'opportunities') - 0.1, 'up', { stagger: 0.02 });
       [0, 1, 2].forEach((k) => ringBurst('#er' + k, LS(7) + 0.1 + k * 0.2, 1.1, 0.5, 1.15));
       [0, 1, 2, 3, 4].forEach((k) => tl.fromTo('#cb' + k, { opacity: 1, scaleY: 0 }, { scaleY: 1, duration: 0.55, ease: 'back.out(1.7)', immediateRender: false }, LS(7) + 0.1 + k * 0.13));
       tl.set('#ar', { opacity: 1 }, LS(7) + 0.5); tl.fromTo('#ar', { attr: { 'stroke-dashoffset': 1100 } }, { attr: { 'stroke-dashoffset': 0 }, duration: 0.8, ease: 'power2.out', immediateRender: false }, LS(7) + 0.5); pop('#ah', LS(7) + 1.25, { s: 0.2, y: 0 }); tl.set('#ah', { opacity: 1 }, LS(7) + 1.3);
-      [['#ef0', -330, -300], ['#ef1', 340, -300], ['#ef2', -330, 250], ['#ef3', 340, 250]].forEach(([s, dx, dy], k) => tl.fromTo(s, { opacity: 0, x: 0, y: 0, scale: 0.2, rotation: -90 }, { opacity: 1, x: dx, y: dy, scale: 1, rotation: 0, duration: 0.8, ease: 'back.out(1.5)', immediateRender: false }, W(7, 'opportunities') - 0.5 + k * 0.1));
+      ['#ef0', '#ef1', '#ef2', '#ef3'].forEach((sel, k) => { pop(sel, W(7, 'opportunities') + 0.15 + k * 0.1, { s: 0.2, y: 0, r: k % 2 ? 40 : -40, e: 'back.out(1.6)' }); bob(sel, W(7, 'opportunities') + 0.9, T9, 10, 1.1 + k * 0.1); });
       camMove(8, T8, T9, { s0: 1.0, s1: 1.18, r0: 0, r1: 1.2, e: 'power2.in' });
 
       // ============ S9  brand sting (reference 1)  ============

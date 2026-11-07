@@ -5,19 +5,39 @@
   "vol": 0.55
  },
  {
-  "id": "whoosh-designed-generic-air",
-  "t": 0.02,
-  "vol": 0.55
+  "id": "whoosh-classic-airy",
+  "t": 0,
+  "vol": 0.5
  },
  {
   "id": "impact-sub-boom",
   "t": 0.04,
-  "vol": 0.55
+  "vol": 0.6
  },
  {
   "id": "glitch-static-burst-01",
   "t": 0.12,
   "vol": 0.35
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 0.25,
+  "vol": 0.3
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 0.53,
+  "vol": 0.3
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 0.81,
+  "vol": 0.3
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 1.09,
+  "vol": 0.3
  },
  {
   "id": "whoosh-classic-airy",
