@@ -16,3 +16,7 @@ videos/_sheet*
 videos/*/qa/
 assets/rec/
 scratch_unused/
+
+# keep curated sound effects tracked
+!sound-effects/**/*.mp3
+!sound-effects/**/*.wav
