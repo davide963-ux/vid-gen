@@ -1,0 +1,168 @@
+      // ===== helpers =====
+      const norm = (s) => s.toLowerCase().replace(/[^a-z0-9$]/g, '');
+      const LS = (n) => WORDS.find((w) => w.line === n).s;
+      const WW = (n, p) => { const x = WORDS.find((w) => w.line === n && norm(w.w).startsWith(p)); if (!x) throw new Error('word not found: L' + n + ' ' + p); return x; };
+      const W = (n, p) => WW(n, p).s;
+      const TOTAL = WORDS[WORDS.length - 1].e + 1.6;
+      const NO_CAPTION_LINES = [1, 2, 3, 4, 5, 6, 7, 8, 9];   // brief: no captions
+      const pop = (sel, t, o = {}) => tl.fromTo(sel, { opacity: 0, scale: o.s || 0.6, y: o.y === undefined ? 36 : o.y, x: o.x || 0 }, { opacity: 1, scale: 1, y: 0, x: 0, duration: o.d || 0.6, ease: o.e || 'expo.out', immediateRender: false }, t);
+      const out = (sel, t, d) => tl.to(sel, { opacity: 0, duration: d || 0.25, ease: 'power2.in' }, t);
+      const bob = (sel, from, to, amp, per) => { amp = amp || 12; per = per || 2.4; const n = Math.max(2, 2 * Math.round((to - from) / per)); tl.fromTo(sel, { y: 0 }, { y: -amp, duration: (to - from) / n, ease: 'sine.inOut', yoyo: true, repeat: n - 1, immediateRender: false }, from); };
+      const HD = (id, top, size, txt, cls) => { size = Math.min(size, Math.floor(860 / (txt.length * 1.04))); return `<div id="${id}" class="abs hd ${cls || ''}" style="left:60px;top:${top}px;width:900px;font-size:${size}px">${txt}</div>`; };
+      const mr = (sel, t) => { maskReveal(tl, sel, t); tl.fromTo(sel, { filter: 'blur(14px)' }, { filter: 'blur(0px)', duration: 0.55, ease: 'power2.out', immediateRender: false }, t); };
+      const IM = (id, l, t, s, file, cls) => `<div id="${id}" class="tilex ${cls || ''}" style="left:${l}px;top:${t}px;width:${s}px;height:${s}px"><img src="assets/img/${file}.svg"></div>`;
+      const CG = (id, l, t, w, h, icon, label, sub, fs) => `<div id="${id}" class="chg" style="left:${l}px;top:${t}px;width:${w}px;height:${h}px;font-size:${fs || 30}px"><img src="assets/img/ico-${icon}.svg"><div style="white-space:normal">${label}${sub ? '<small>' + sub + '</small>' : ''}</div></div>`;
+      const ringBurst = (sel, t, d, s0, s1) => tl.fromTo(sel, { scale: s0 || 0.5, opacity: 0.85 }, { scale: s1 || 1.6, opacity: 0, duration: d || 1.2, ease: 'power2.out', immediateRender: false }, t);
+      // light streaks (reference 1): rush out of / converge into a point
+      const rays = (id, cx, cy, t0, o = {}) => { const n = o.n || 34; let h = '';
+        for (let i = 0; i < n; i++) { const a = (i * 360 / n + hashH(i + 3) * 9).toFixed(1); h += `<div class="rw" style="left:${cx}px;top:${cy}px;transform:rotate(${a}deg)"><div id="${id}${i}" class="rb" style="width:${(120 + hashH(i + 11) * 280).toFixed(0)}px;height:${(3 + hashH(i + 5) * 4).toFixed(1)}px"></div></div>`; }
+        add(h);
+        for (let i = 0; i < n; i++) { const st = t0 + hashH(i + 1) * (o.spread || 0.25), d = o.dur || 0.75, far = 1150 + hashH(i) * 300;
+          if (o.inward) { tl.fromTo('#' + id + i, { x: far, opacity: 0 }, { x: 30, opacity: 1, duration: d, ease: 'power3.in', immediateRender: false }, st); tl.to('#' + id + i, { opacity: 0, duration: 0.12 }, st + d); }
+          else { tl.fromTo('#' + id + i, { x: 40, opacity: 0 }, { x: far, opacity: 1, duration: d, ease: 'power2.in', immediateRender: false }, st); tl.to('#' + id + i, { opacity: 0, duration: 0.2 }, st + d - 0.15); } } };
+      const MARK = (id, st) => `<svg id="${id}" viewBox="380 210 500 510" style="${st}"><polygon fill="url(#gB)" points="630,226 742,350 630,280 520,350"/><polygon fill="url(#gZ)" points="462,361 815,361 484,700 398,700 652,425 418,425"/><polygon fill="url(#gW)" points="676,573 856,573 738,700 484,700"/></svg>`;
+
+      // ===== persistent background =====
+      add('<svg width="0" height="0" style="position:absolute"><defs><linearGradient id="gB" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7FB6FF"/><stop offset="1" stop-color="#3D7BFF"/></linearGradient><linearGradient id="gZ" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#9BB0D3"/></linearGradient><linearGradient id="gW" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5B9BFF"/><stop offset="1" stop-color="#2A6BFF"/></linearGradient></defs></svg>');
+      add('<div id="bgA" style="position:absolute;left:0;top:0;width:1080px;height:1920px;background:radial-gradient(900px 800px at 50% 42%,rgba(61,123,255,0.24),transparent 70%),radial-gradient(700px 600px at 92% 4%,rgba(30,70,170,0.38),transparent 70%),radial-gradient(640px 520px at 4% 100%,rgba(40,30,110,0.38),transparent 70%)"></div><div style="position:absolute;left:0;top:0;width:1080px;height:1920px;background-image:radial-gradient(#7FB6FF 1.2px,transparent 1.6px);background-size:97px 83px;opacity:0.12"></div>');
+      tl.fromTo('#bgA', { scale: 1, x: 0 }, { scale: 1.14, x: -30, duration: TOTAL, ease: 'none', immediateRender: false }, 0);
+
+      // ============ S1  HOOK  "Think about it."  ============
+      add(`<div class="sc" id="s1">${MARK('h0', 'position:absolute;left:480px;top:330px;width:120px;height:122px;opacity:0')}<div id="h1" class="abs mono" style="left:60px;top:500px;width:900px;font-size:26px">Zenith Software</div>${HD('h2', 640, 210, 'THINK')}${HD('h3', 880, 118, 'ABOUT IT.', 'lb')}</div>`);
+      rays('r1_', 540, 960, 0.02, { n: 30, dur: 0.85 });
+      hookNow(tl, ['#h0', '#h1', '#h2', '#h3']);
+      out('#s1', W(2, 'potential') + 0.05, 0.3);
+
+      // ============ S2a  customers find you online  ============
+      const IX = [60, 385, 710];
+      add(`<div class="sc" id="s2">${HD('a1', 230, 104, 'POTENTIAL')}${HD('a2', 350, 104, 'CUSTOMERS', 'lb')}
+        ${IM('ai0', IX[0], 840, 250, 'app-instagram')}${IM('ai1', IX[1], 840, 250, 'app-facebook')}${IM('ai2', IX[2], 840, 250, 'app-tiktok')}
+        ${IM('amg', 80, 590, 170, 'ico-magnifying-glass', 'glow')}
+        ${[0, 1, 2].map((k) => `<div id="al${k}" style="position:absolute;left:${IX[k] + 124}px;top:1100px;width:2px;height:150px;background:linear-gradient(#7FB6FF,rgba(127,182,255,0.1));transform-origin:top;transform:scaleY(0);opacity:0"></div>`).join('')}
+        <div id="abz" class="chg" style="left:150px;top:1250px;width:720px;height:170px;font-size:38px"><img src="assets/img/ico-storefront.svg"><div>Your business<small>FOUND ONLINE</small></div></div></div>`);
+      mr('#a1', W(2, 'potential')); mr('#a2', W(2, 'customers'));
+      pop('#ai0', W(2, 'find'), { s: 0.4 }); pop('#ai1', W(2, 'your'), { s: 0.4 }); pop('#ai2', W(2, 'business'), { s: 0.4 });
+      pop('#amg', W(2, 'customers') + 0.2, { s: 0.3 });
+      tl.to('#amg', { x: 650, duration: W(2, 'online') - W(2, 'find') + 0.3, ease: 'power1.inOut' }, W(2, 'find') - 0.1);
+      tl.fromTo('#amg', { y: 0 }, { y: -18, duration: 0.5, ease: 'sine.inOut', yoyo: true, repeat: 5, immediateRender: false }, W(2, 'customers') + 0.8);
+      [0, 1, 2].forEach((k) => { tl.set('#al' + k, { opacity: 1 }, W(2, 'online') - 0.05 + k * 0.08); tl.fromTo('#al' + k, { scaleY: 0 }, { scaleY: 1, duration: 0.4, ease: 'power2.out', immediateRender: false }, W(2, 'online') - 0.05 + k * 0.08); });
+      pop('#abz', W(2, 'online'), { s: 0.8, y: 40 }); out('#amg', W(2, 'online') + 0.3, 0.3);
+      out('#s2', W(2, 'but') + 0.0, 0.3);
+
+      // ============ S2b  but where?  (phone profile + 3 questions)  ============
+      add(`<div class="sc" id="s3">${HD('b1', 180, 112, 'BUT WHERE?')}
+        <div id="ph" class="glass" style="left:70px;top:380px;width:460px;height:940px;border-radius:64px;border:6px solid rgba(140,175,255,0.45);overflow:hidden;opacity:0">
+          <div class="sk" style="left:160px;top:18px;width:140px;height:26px;border-radius:20px;background:rgba(4,10,24,0.9)"></div>
+          <div style="position:absolute;left:40px;top:90px;width:104px;height:104px;border-radius:50%;background:linear-gradient(135deg,#0F2A66,#3D7BFF);display:flex;align-items:center;justify-content:center">${MARK('pm', 'width:62px;height:63px')}</div>
+          <div class="sk b" style="left:170px;top:106px;width:200px;height:22px"></div><div class="sk" style="left:170px;top:146px;width:140px;height:16px"></div>
+          <div class="sk" style="left:40px;top:228px;width:360px;height:16px"></div><div class="sk" style="left:40px;top:262px;width:290px;height:16px"></div>
+          <div id="lk" style="position:absolute;left:40px;top:316px;width:380px;height:72px;border:3px dashed rgba(127,182,255,0.75);border-radius:18px;display:flex;align-items:center;justify-content:center;gap:14px"><img src="assets/img/glyphb-link.svg" style="width:36px;height:36px"><div class="sk" style="position:relative;width:190px;height:18px"></div></div>
+          ${[0, 1, 2, 3, 4, 5].map((k) => `<div class="sk" style="left:${28 + (k % 3) * 134}px;top:432px;margin-top:${Math.floor(k / 3) * 134}px;width:126px;height:126px;border-radius:12px;opacity:${0.9 - k * 0.1}"></div>`).join('')}
+        </div>
+        ${IM('qq', 390, 330, 150, 'ico-question', 'glow')}
+        ${CG('qc0', 560, 430, 400, 230, 'package', 'Explore<br>products', '', 34)}${CG('qc1', 560, 690, 400, 230, 'wrench', 'Discover<br>services', '', 34)}${CG('qc2', 560, 950, 400, 230, 'info', 'Learn more<br>about you', '', 34)}</div>`);
+      tl.set('.chg[id^="qc"]', { flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'center', gap: 16 }, 0);
+      mr('#b1', W(2, 'but'));
+      pop('#ph', W(2, 'where') - 0.1, { s: 0.85, y: 70 });
+      tl.fromTo('#lk', { boxShadow: '0 0 0 rgba(61,123,255,0)' }, { boxShadow: '0 0 36px rgba(61,123,255,0.9)', duration: 0.5, yoyo: true, repeat: 15, ease: 'sine.inOut', immediateRender: false }, W(2, 'where'));
+      pop('#qq', W(2, 'where') + 0.15, { s: 0.2 }); bob('#qq', W(2, 'where') + 0.8, W(2, 'offer'), 14, 1.6);
+      pop('#qc0', W(2, 'explore') - 0.05, { x: 80, y: 0, s: 0.85 }); pop('#qc1', W(2, 'discover') - 0.05, { x: 80, y: 0, s: 0.85 }); pop('#qc2', W(2, 'learn') - 0.05, { x: 80, y: 0, s: 0.85 });
+      out('#s3', LS(3) - 0.15, 0.3);
+
+      // ============ S3  your own website  ============
+      const SITE = (p, l, t, w, h) => `<div id="${p}" class="glass" style="left:${l}px;top:${t}px;width:${w}px;height:${h}px;border-radius:30px;overflow:hidden;opacity:0">
+          <div style="position:absolute;left:0;top:0;width:100%;height:62px;border-bottom:1.5px solid rgba(140,175,255,0.28);background:rgba(61,123,255,0.06)"></div>
+          ${[0, 1, 2].map((k) => `<div style="position:absolute;left:${26 + k * 26}px;top:22px;width:16px;height:16px;border-radius:50%;background:rgba(155,176,211,${0.55 - k * 0.12})"></div>`).join('')}
+          <div style="position:absolute;left:${w * 0.2}px;top:12px;width:${w * 0.6}px;height:38px;border-radius:19px;background:rgba(4,10,24,0.8);border:1.5px solid rgba(140,175,255,0.3);font-family:'JetBrains Mono',monospace;font-size:21px;color:#9BB0D3;display:flex;align-items:center;justify-content:center">yourbusiness.com</div>
+          <div id="${p}1" class="sk b" style="left:40px;top:96px;width:${w * 0.44}px;height:26px;opacity:0"></div><div id="${p}2" class="sk" style="left:40px;top:140px;width:${w * 0.36}px;height:20px;opacity:0"></div><div id="${p}3" class="sk" style="left:40px;top:176px;width:${w * 0.3}px;height:20px;opacity:0"></div>
+          <div id="${p}4" style="position:absolute;left:40px;top:226px;width:${w * 0.22}px;height:54px;border-radius:14px;background:linear-gradient(135deg,#5B9BFF,#2A6BFF);opacity:0"></div>
+          <div id="${p}5" style="position:absolute;right:40px;top:92px;width:${w * 0.34}px;height:${h * 0.42}px;border-radius:22px;background:linear-gradient(135deg,#143A94,#3D7BFF);display:flex;align-items:center;justify-content:center;opacity:0">${MARK(p + 'm', 'width:' + w * 0.12 + 'px;height:' + w * 0.123 + 'px')}</div>
+          ${[0, 1, 2].map((k) => `<div id="${p}c${k}" class="sk" style="left:${40 + k * ((w - 80 - 40) / 3 + 20)}px;bottom:36px;width:${(w - 80 - 40) / 3}px;height:${h * 0.22}px;border-radius:16px;background:rgba(127,182,255,0.16);border:1.5px solid rgba(140,175,255,0.28);opacity:0"></div>`).join('')}</div>`;
+      add(`<div class="sc" id="s4">${HD('c1', 190, 108, 'YOUR OWN')}${HD('c2', 320, 108, 'WEBSITE', 'lb')}${SITE('bw', 90, 480, 840, 520)}
+        ${CG('bf0', 80, 1050, 860, 130, 'identification-badge', 'Professional identity', '', 40)}${CG('bf1', 80, 1210, 860, 130, 'shield-check', 'Builds trust', '', 40)}${CG('bf2', 80, 1370, 860, 130, 'paper-plane-tilt', 'Easy to reach you', '', 40)}</div>`);
+      mr('#c1', W(3, 'your')); mr('#c2', W(3, 'website'));
+      pop('#bw', W(3, 'website') + 0.1, { s: 0.9, y: 60, d: 0.8 });
+      ['bw1', 'bw2', 'bw3', 'bw4', 'bw5', 'bwc0', 'bwc1', 'bwc2'].forEach((id, k) => tl.fromTo('#' + id, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out', immediateRender: false }, W(3, 'gives') + k * 0.3));
+      pop('#bf0', W(3, 'professional') - 0.1, { x: -60, y: 0, s: 0.9 }); pop('#bf1', W(3, 'trust') - 0.1, { x: -60, y: 0, s: 0.9 }); pop('#bf2', W(3, 'reach') - 0.3, { x: -60, y: 0, s: 0.9 });
+      out('#s4', LS(4) - 0.15, 0.3);
+
+      // ============ S4  Zenith builds it (miniature team, reference 2) + services  ============
+      const PERSON = (id, l, t, sc, body, pose) => { const arm = pose === 'up' ? '<path d="M12 30 L4 8" stroke="' + body + '" stroke-width="7" stroke-linecap="round" fill="none"/><path d="M28 32 L33 46" stroke="' + body + '" stroke-width="7" stroke-linecap="round" fill="none"/>' : pose === 'point' ? '<path d="M28 31 L47 22" stroke="' + body + '" stroke-width="7" stroke-linecap="round" fill="none"/><path d="M12 32 L8 48" stroke="' + body + '" stroke-width="7" stroke-linecap="round" fill="none"/>' : pose === 'carry' ? '<path d="M12 32 L24 44" stroke="' + body + '" stroke-width="7" stroke-linecap="round" fill="none"/><path d="M28 32 L26 44" stroke="' + body + '" stroke-width="7" stroke-linecap="round" fill="none"/><rect x="14" y="40" width="22" height="16" rx="3" fill="#5B9BFF"/>' : '<path d="M12 32 L7 50" stroke="' + body + '" stroke-width="7" stroke-linecap="round" fill="none"/><path d="M28 32 L33 50" stroke="' + body + '" stroke-width="7" stroke-linecap="round" fill="none"/>';
+        const legs = pose === 'sit' ? '<rect x="12" y="56" width="34" height="9" rx="4" fill="#0F2A66"/><rect x="38" y="56" width="9" height="26" rx="4" fill="#0F2A66"/>' : '<rect x="12" y="56" width="9" height="34" rx="4" fill="#0F2A66"/><rect x="25" y="56" width="9" height="34" rx="4" fill="#0F2A66"/>';
+        return `<svg id="${id}" viewBox="0 0 52 92" style="position:absolute;left:${l}px;top:${t}px;width:${52 * sc}px;height:${92 * sc}px;opacity:0;overflow:visible"><circle cx="20" cy="12" r="10" fill="#E8F0FF"/><rect x="9" y="24" width="22" height="34" rx="9" fill="${body}"/>${arm}${legs}</svg>`; };
+      add(`<div class="sc" id="s5">${MARK('z0', 'position:absolute;left:486px;top:150px;width:84px;height:86px;opacity:0')}<div id="z1" class="abs mono" style="left:60px;top:250px;width:900px;font-size:24px">Zenith Software</div>
+        ${SITE('mw', 90, 320, 840, 470)}
+        <div id="stk" style="position:absolute;left:470px;top:790px;width:80px;height:52px;background:linear-gradient(#16254d,#0b1630);opacity:0"></div>
+        <div id="kbd" style="position:absolute;left:70px;top:850px;width:880px;height:110px;opacity:0;background:repeating-linear-gradient(90deg,transparent 0 40px,rgba(127,182,255,0.22) 40px 42px),repeating-linear-gradient(0deg,transparent 0 24px,rgba(127,182,255,0.22) 24px 26px),linear-gradient(#0e1c40,#081230);border:1.5px solid rgba(140,175,255,0.28);border-radius:14px;transform:perspective(500px) rotateX(38deg);transform-origin:bottom"></div>
+        ${PERSON('pp0', 120, 790, 1.55, '#3D7BFF', 'point')}${PERSON('pp1', 300, 780, 1.6, '#E8F0FF', 'stand')}${PERSON('pp2', 600, 790, 1.55, '#5B9BFF', 'up')}${PERSON('pp3', 800, 784, 1.58, '#3D7BFF', 'stand')}${PERSON('pp4', 780, 236, 1.2, '#E8F0FF', 'sit')}${PERSON('pp5', 60, 800, 1.5, '#7FB6FF', 'carry')}
+        ${CG('sv0', 60, 1030, 430, 190, 'browser', 'Modern websites', '', 31)}${CG('sv1', 530, 1030, 430, 190, 'shopping-cart', 'E-commerce platforms', '', 31)}${CG('sv2', 60, 1250, 430, 190, 'calendar-check', 'Booking systems', '', 31)}${CG('sv3', 530, 1250, 430, 190, 'puzzle-piece', 'Custom digital solutions', '', 31)}</div>`);
+      pop('#z0', W(4, 'zenith') - 0.1, { s: 0.5, y: 20 }); pop('#z1', W(4, 'zenith') + 0.1, { s: 0.9, y: 14 });
+      pop('#mw', W(4, 'design') - 0.3, { s: 0.92, y: 50, d: 0.8 }); pop('#stk', W(4, 'design') - 0.1, { s: 1, y: 0, d: 0.5 }); pop('#kbd', W(4, 'design') - 0.2, { s: 1, y: 30, d: 0.7 });
+      ['mw1', 'mw2', 'mw3', 'mw4', 'mw5', 'mwc0', 'mwc1', 'mwc2'].forEach((id, k) => tl.fromTo('#' + id, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out', immediateRender: false }, W(4, 'design') + k * 0.45));
+      ['pp0', 'pp1', 'pp2', 'pp3', 'pp4', 'pp5'].forEach((id, k) => { pop('#' + id, W(4, 'zenith') + 0.5 + k * 0.12, { s: 0.7, y: 30, d: 0.6 }); bob('#' + id, W(4, 'zenith') + 1.3, LS(5), 5 + k % 3 * 2, 1.3 + k * 0.17); });
+      tl.to('#pp5', { x: 520, duration: W(4, 'modern') - W(4, 'develop'), ease: 'power1.inOut' }, W(4, 'develop'));
+      pop('#sv0', W(4, 'modern') - 0.1, { x: -40, y: 0, s: 0.9 }); pop('#sv1', W(4, 'ecom') - 0.1, { x: 40, y: 0, s: 0.9 }); pop('#sv2', W(4, 'booking') - 0.1, { x: -40, y: 0, s: 0.9 }); pop('#sv3', W(4, 'custom') - 0.1, { x: 40, y: 0, s: 0.9 });
+      out('#s5', LS(5) - 0.15, 0.3);
+
+      // ============ S5  Stop limiting your business to social media  ============
+      const APPS = ['instagram', 'facebook', 'tiktok', 'youtube', 'linkedin', 'whatsapp'];
+      add(`<div class="sc" id="s6">${HD('x1', 200, 230, 'STOP')}${HD('x2', 460, 128, 'LIMITING', 'lb')}
+        <div id="fr" style="position:absolute;left:110px;top:690px;width:800px;height:580px;border:3px solid rgba(127,182,255,0.85);border-radius:44px;background:rgba(9,20,46,0.55);box-shadow:0 0 60px rgba(61,123,255,0.25),inset 0 0 60px rgba(61,123,255,0.10);opacity:0"></div>
+        ${APPS.map((a, k) => IM('xa' + k, 215 + (k % 3) * 210, 760 + Math.floor(k / 3) * 230, 170, 'app-' + a)).join('')}${IM('xl', 800, 640, 120, 'ico-lock-key', 'glow')}</div>`);
+      mr('#x1', W(5, 'stop')); mr('#x2', W(5, 'limiting'));
+      pop('#fr', W(5, 'limiting') + 0.1, { s: 1.15, y: 0, d: 0.6 });
+      APPS.forEach((a, k) => pop('#xa' + k, k < 3 ? W(5, 'your') + k * 0.1 : W(5, 'social') + (k - 3) * 0.14, { s: 0.4, y: 20, d: 0.5 }));
+      pop('#xl', W(5, 'media') - 0.1, { s: 0.3, y: 0 });
+      tl.fromTo('#fr', { scale: 1 }, { scale: 0.95, duration: LS(6) - W(5, 'limiting') - 0.2, ease: 'power1.in', immediateRender: false }, W(5, 'limiting') + 0.7);
+      // break out
+      APPS.forEach((a, k) => tl.to('#xa' + k, { x: (k % 3 - 1) * 480 + (k % 3 - 1 === 0 ? 0 : 0), y: (k < 3 ? -1 : 1) * 700, scale: 1.6, opacity: 0, duration: 0.5, ease: 'power3.in' }, LS(6) - 0.12));
+      tl.to('#fr', { scale: 1.5, opacity: 0, duration: 0.45, ease: 'power3.in' }, LS(6) - 0.12); tl.to('#xl', { scale: 1.8, opacity: 0, duration: 0.4 }, LS(6) - 0.12);
+      out('#x1', LS(6) - 0.12, 0.25); out('#x2', LS(6) - 0.12, 0.25);
+      out('#s6', LS(6) + 0.45, 0.2);
+
+      // ============ S6  Build your digital presence  ============
+      add(`<div class="sc" id="s7">${HD('p1', 220, 190, 'BUILD')}${HD('p2', 440, 88, 'YOUR DIGITAL')}${HD('p3', 548, 130, 'PRESENCE', 'lb')}
+        ${[0, 1, 2].map((k) => `<div id="pr${k}" class="ring" style="left:${510 - (260 + k * 120)}px;top:${1090 - (260 + k * 120)}px;width:${520 + k * 240}px;height:${520 + k * 240}px"></div>`).join('')}
+        ${IM('pg', 340, 920, 340, 'ico-globe', 'glow')}
+        <div id="orb" style="position:absolute;left:210px;top:790px;width:600px;height:600px;opacity:0">${['browser', 'shopping-cart', 'calendar-check'].map((n, k) => `<div id="ob${k}" style="position:absolute;left:${300 + 300 * Math.cos(k * 2.0944 - 1.5708) - 62}px;top:${300 + 300 * Math.sin(k * 2.0944 - 1.5708) - 62}px;width:124px;height:124px"><img src="assets/img/ico-${n}.svg" style="width:100%;height:100%;filter:drop-shadow(0 12px 24px rgba(0,0,0,0.5))"></div>`).join('')}</div></div>`);
+      mr('#p1', W(6, 'build')); mr('#p2', W(6, 'your')); mr('#p3', W(6, 'presence') - 0.15);
+      pop('#pg', LS(6) + 0.05, { s: 0.2, y: 0, d: 0.8 });
+      [0, 1, 2].forEach((k) => ringBurst('#pr' + k, LS(6) + 0.25 + k * 0.22, 1.1, 0.5, 1.05));
+      tl.fromTo('#orb', { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, duration: 0.7, ease: 'expo.out', immediateRender: false }, W(6, 'digital') - 0.1);
+      tl.fromTo('#orb', { rotation: 0 }, { rotation: 140, duration: LS(7) - W(6, 'digital') + 0.3, ease: 'none', immediateRender: false }, W(6, 'digital') - 0.1);
+      [0, 1, 2].forEach((k) => tl.fromTo('#ob' + k, { rotation: 0 }, { rotation: -140, duration: LS(7) - W(6, 'digital') + 0.3, ease: 'none', immediateRender: false }, W(6, 'digital') - 0.1));
+      out('#s7', LS(7) - 0.05, 0.25);
+
+      // ============ S7  Expand your opportunities  ============
+      add(`<div class="sc" id="s8">${HD('e1', 220, 190, 'EXPAND')}${HD('e2', 440, 96, 'YOUR')}${HD('e3', 560, 78, 'OPPORTUNITIES', 'lb')}
+        ${[0, 1, 2].map((k) => `<div id="er${k}" class="ring" style="left:${510 - (200 + k * 130)}px;top:${1050 - (200 + k * 130)}px;width:${400 + k * 260}px;height:${400 + k * 260}px"></div>`).join('')}
+        ${IM('ec', 360, 900, 300, 'ico-chart-line-up', 'glow')}${IM('ef0', 150, 820, 140, 'ico-users-three')}${IM('ef1', 770, 820, 140, 'ico-target')}${IM('ef2', 150, 1240, 140, 'ico-storefront')}${IM('ef3', 770, 1240, 140, 'ico-rocket-launch')}</div>`);
+      mr('#e1', W(7, 'expand')); mr('#e2', W(7, 'your')); mr('#e3', W(7, 'opportunities') - 0.1);
+      pop('#ec', LS(7) + 0.05, { s: 0.3, y: 0, d: 0.8 });
+      [0, 1, 2].forEach((k) => ringBurst('#er' + k, LS(7) + 0.2 + k * 0.2, 1.1, 0.5, 1.05));
+      [['#ef0', 360, 1050], ['#ef1', 660, 1050], ['#ef2', 360, 1050], ['#ef3', 660, 1050]].forEach(([s, cx, cy], k) => tl.fromTo(s, { opacity: 0, x: cx - [150, 770, 150, 770][k] - 0, y: cy - [820, 820, 1240, 1240][k] - 0, scale: 0.3 }, { opacity: 1, x: 0, y: 0, scale: 1, duration: 0.7, ease: 'expo.out', immediateRender: false }, W(7, 'opportunities') - 0.45 + k * 0.1));
+      out('#s8', LS(8) - 0.35, 0.3);
+
+      // ============ S8  brand sting (reference 1)  ============
+      const T8 = LS(8);
+      add(`<div class="sc" id="s9"><div id="s9ring" class="ring" style="left:190px;top:310px;width:700px;height:700px"></div>
+        ${MARK('lg', 'position:absolute;left:300px;top:380px;width:480px;height:489px;opacity:0;filter:drop-shadow(0 0 80px rgba(61,123,255,0.6))')}
+        <div id="swp" style="position:absolute;top:340px;left:-300px;width:160px;height:600px;background:linear-gradient(100deg,transparent,rgba(255,255,255,0.55),transparent);transform:skewX(-18deg);opacity:0"></div>
+        <div id="zn" class="abs hd" style="left:0;top:940px;width:1080px;font-size:96px;letter-spacing:0.2em;text-indent:0.2em">ZENITH</div>
+        <div id="sw" class="abs mono" style="left:0;top:1070px;width:1080px;font-size:32px;letter-spacing:0.55em;text-indent:0.55em">Software</div>
+        <div id="tg1" class="abs hd" style="left:0;top:1190px;width:1080px;font-size:52px;font-weight:700">Your vision,</div><div id="tg2" class="abs hd lb" style="left:0;top:1262px;width:1080px;font-size:52px;font-weight:700">built digitally.</div>
+        <div id="dom" class="pill" style="left:230px;top:1420px;width:620px;height:88px;font-size:36px">zenith-software.tech</div></div>`);
+      rays('r9_', 540, 624, T8 - 0.85, { n: 44, inward: true, dur: 0.8, spread: 0.2 });
+      tl.set('#lg', { opacity: 0 }, 0);
+      tl.fromTo('#lg', { scale: 0.5, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.7, ease: 'expo.out', immediateRender: false }, T8 - 0.05);
+      ringBurst('#s9ring', T8, 1.3, 0.5, 1.7); ringBurst('#s9ring', T8 + 0.25, 1.3, 0.4, 1.9);
+      tl.fromTo('#swp', { x: 0, opacity: 0.9 }, { x: 1500, opacity: 0.9, duration: 0.9, ease: 'power2.inOut', immediateRender: false }, T8 + 0.3); tl.set('#swp', { opacity: 0 }, T8 + 1.3);
+      mr('#zn', T8 + 0.5);
+      tl.fromTo('#sw', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out', immediateRender: false }, T8 + 0.95);
+      mr('#tg1', W(9, 'your')); mr('#tg2', W(9, 'built'));
+      tl.fromTo('#dom', { opacity: 0, scale: 0.9, y: 24 }, { opacity: 1, scale: 1, y: 0, duration: 0.6, ease: 'expo.out', immediateRender: false }, W(9, 'digitally') - 0.1);
+      tl.fromTo('#lg', { y: 0 }, { y: -14, duration: 1.7, ease: 'sine.inOut', yoyo: true, repeat: 2 }, T8 + 0.9);
+      tl.fromTo('#dom', { boxShadow: '0 0 0 rgba(61,123,255,0)' }, { boxShadow: '0 0 50px rgba(61,123,255,0.6)', duration: 0.9, yoyo: true, repeat: 3, ease: 'sine.inOut' }, W(9, 'digitally') + 0.5);
+
+      // vertical balance: shift each scene so content is centred in the 1920 frame
+      [['#s1', 130], ['#s2', 120], ['#s3', 190], ['#s4', 90], ['#s5', 110], ['#s6', 190], ['#s7', 110], ['#s8', 110]].forEach(([sel, y]) => tl.set(sel, { y: y }, 0));

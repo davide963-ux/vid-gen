@@ -1,0 +1,177 @@
+[
+ {
+  "id": "whoosh-designed-generic-air",
+  "t": 0.02,
+  "vol": 0.6
+ },
+ {
+  "id": "whoosh-softs",
+  "t": 1.4,
+  "vol": 0.5
+ },
+ {
+  "id": "whoosh-designed-generic-air",
+  "t": 2.83,
+  "vol": 0.35
+ },
+ {
+  "id": "whoosh-designed-generic-air",
+  "t": 3.8,
+  "vol": 0.35
+ },
+ {
+  "id": "whoosh-designed-generic-air",
+  "t": 4.67,
+  "vol": 0.35
+ },
+ {
+  "id": "whoosh-designed-generic-air",
+  "t": 5.13,
+  "vol": 0.4
+ },
+ {
+  "id": "whoosh-mids",
+  "t": 5.58,
+  "vol": 0.55
+ },
+ {
+  "id": "whoosh-designed-generic-air",
+  "t": 6.21,
+  "vol": 0.45
+ },
+ {
+  "id": "whoosh-designed-generic-air",
+  "t": 6.49,
+  "vol": 0.42
+ },
+ {
+  "id": "whoosh-designed-generic-air",
+  "t": 9.79,
+  "vol": 0.42
+ },
+ {
+  "id": "whoosh-designed-generic-air",
+  "t": 11.8,
+  "vol": 0.42
+ },
+ {
+  "id": "whoosh-classic-airy",
+  "t": 13.82,
+  "vol": 0.6
+ },
+ {
+  "id": "whoosh-designed-generic-air",
+  "t": 14.61,
+  "vol": 0.4
+ },
+ {
+  "id": "whoosh-designed-generic-air",
+  "t": 15.95,
+  "vol": 0.45
+ },
+ {
+  "id": "whoosh-designed-generic-air",
+  "t": 18.19,
+  "vol": 0.45
+ },
+ {
+  "id": "whoosh-designed-generic-air",
+  "t": 20.78,
+  "vol": 0.45
+ },
+ {
+  "id": "whoosh-mids",
+  "t": 21.97,
+  "vol": 0.55
+ },
+ {
+  "id": "whoosh-softs",
+  "t": 22.85,
+  "vol": 0.35
+ },
+ {
+  "id": "whoosh-designed-generic-air",
+  "t": 24.73,
+  "vol": 0.45
+ },
+ {
+  "id": "whoosh-designed-generic-air",
+  "t": 26.08,
+  "vol": 0.45
+ },
+ {
+  "id": "whoosh-designed-generic-air",
+  "t": 27.48,
+  "vol": 0.45
+ },
+ {
+  "id": "whoosh-designed-generic-air",
+  "t": 28.97,
+  "vol": 0.45
+ },
+ {
+  "id": "whoosh-wind",
+  "t": 32.58,
+  "vol": 0.5
+ },
+ {
+  "id": "riser-transition-reverse-eerie-fast-short",
+  "t": 32.73,
+  "vol": 0.32
+ },
+ {
+  "id": "whoosh-designed-generic-air",
+  "t": 33.72,
+  "vol": 0.35
+ },
+ {
+  "id": "whoosh-designed-generic-air",
+  "t": 34.52,
+  "vol": 0.35
+ },
+ {
+  "id": "whoosh-designed-generic-air",
+  "t": 34.89,
+  "vol": 0.4
+ },
+ {
+  "id": "whoosh-classic-airy",
+  "t": 35.58,
+  "vol": 0.8
+ },
+ {
+  "id": "whoosh-designed-generic-air",
+  "t": 36.28,
+  "vol": 0.4
+ },
+ {
+  "id": "whoosh-mids",
+  "t": 37.58,
+  "vol": 0.6
+ },
+ {
+  "id": "whoosh-designed-generic-air",
+  "t": 38.2,
+  "vol": 0.4
+ },
+ {
+  "id": "riser-transition-whoosh-fast-short-01",
+  "t": 36.99,
+  "vol": 0.5
+ },
+ {
+  "id": "whoosh-classic-airy",
+  "t": 39.94,
+  "vol": 0.9
+ },
+ {
+  "id": "whoosh-softs",
+  "t": 40.49,
+  "vol": 0.4
+ },
+ {
+  "id": "whoosh-designed-generic-air",
+  "t": 42.93,
+  "vol": 0.5
+ }
+]

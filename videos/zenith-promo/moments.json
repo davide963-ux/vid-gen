@@ -1,0 +1,83 @@
+[
+ {
+  "t": 0,
+  "style": "intro",
+  "override": {
+   "bright": 0.6
+  }
+ },
+ {
+  "t": 5.6,
+  "style": "soft",
+  "override": {
+   "bright": 0.6,
+   "gain": 0.7
+  }
+ },
+ {
+  "t": 13.87,
+  "style": "groove",
+  "override": {
+   "bright": 0.6
+  }
+ },
+ {
+  "t": 15.95,
+  "style": "build",
+  "override": {
+   "bright": 0.6
+  }
+ },
+ {
+  "t": 22.02,
+  "style": "lift",
+  "override": {
+   "bright": 0.6
+  }
+ },
+ {
+  "t": 32.63,
+  "style": "soft",
+  "override": {
+   "bright": 0.6,
+   "gain": 0.5
+  }
+ },
+ {
+  "t": 35.63,
+  "style": "build",
+  "override": {
+   "bright": 0.6
+  }
+ },
+ {
+  "t": 37.63,
+  "style": "lift",
+  "override": {
+   "bright": 0.6
+  }
+ },
+ {
+  "t": 38.19,
+  "style": "swell",
+  "override": {
+   "bright": 0.6
+  }
+ },
+ {
+  "t": 39.99,
+  "style": "peak",
+  "override": {
+   "bright": 0.6,
+   "gain": 1.1
+  }
+ },
+ {
+  "t": 41.39,
+  "style": "cta",
+  "override": {
+   "bright": 0.6,
+   "gain": 0.9
+  }
+ }
+]

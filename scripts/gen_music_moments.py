@@ -67,7 +67,7 @@ M = sorted(json.load(open(mfile)), key=lambda m: m['t'])
 for m in M: m['t'] = round(m['t'] / beat) * beat
 for k, m in enumerate(M):
     t0 = m['t']; t1 = M[k + 1]['t'] if k + 1 < len(M) else dur + 1
-    st = S[m['style']]; prog = [CH[c] for c in st['p'].split()]; CUR[0] = st.get('gain', 1.0)
+    st = {**S[m['style']], **m.get('override', {})}; prog = [CH[c] for c in st['p'].split()]; CUR[0] = st.get('gain', 1.0)
     if st['impact']: add(impact(st['impact']), t0, 0, 0.9)
     if m['style'] == 'swell':  # riser + snare roll that accelerates into the next section
         add(riser(t1 - t0), t0, 0, 1.0)
