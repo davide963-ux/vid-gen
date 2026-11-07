@@ -1,0 +1,426 @@
+[
+ {
+  "id": "whoosh-designed-generic-air",
+  "t": 0.02,
+  "vol": 0.7
+ },
+ {
+  "id": "cartoon-pop-various",
+  "t": 1.14,
+  "vol": 0.6
+ },
+ {
+  "id": "cartoon-whistle-slip-trip-up",
+  "t": 3.41,
+  "vol": 0.7
+ },
+ {
+  "id": "whoosh-wind",
+  "t": 4.35,
+  "vol": 0.6
+ },
+ {
+  "id": "cartoon-pop-mouth-finger",
+  "t": 4.82,
+  "vol": 0.55
+ },
+ {
+  "id": "cartoon-pop-mouth-finger",
+  "t": 5.55,
+  "vol": 0.55
+ },
+ {
+  "id": "cartoon-pop-mouth-finger",
+  "t": 5.91,
+  "vol": 0.55
+ },
+ {
+  "id": "cartoon-pop-mouth-finger",
+  "t": 6.07,
+  "vol": 0.55
+ },
+ {
+  "id": "car-start-idle-external-rover",
+  "t": 5.92,
+  "vol": 0.4,
+  "trim": 1.8,
+  "fade": 0.5
+ },
+ {
+  "id": "riser-transition-whoosh-fast-short-01",
+  "t": 4.39,
+  "vol": 0.4
+ },
+ {
+  "id": "whoosh-mids",
+  "t": 6.97,
+  "vol": 0.8
+ },
+ {
+  "id": "cartoon-pop-mouth-finger",
+  "t": 8.16,
+  "vol": 0.6
+ },
+ {
+  "id": "cartoon-pop-pops-x6",
+  "t": 9.33,
+  "vol": 0.7
+ },
+ {
+  "id": "whoosh-softs",
+  "t": 10.31,
+  "vol": 0.55
+ },
+ {
+  "id": "cartoon-whistle-slip-trip-up",
+  "t": 11.95,
+  "vol": 0.6
+ },
+ {
+  "id": "cartoon-boing-jump",
+  "t": 12,
+  "vol": 0.45
+ },
+ {
+  "id": "whoosh-wind",
+  "t": 12.29,
+  "vol": 0.5
+ },
+ {
+  "id": "cartoon-pop-mouth-finger",
+  "t": 13.77,
+  "vol": 0.85
+ },
+ {
+  "id": "cartoon-pop-various",
+  "t": 15.54,
+  "vol": 0.85
+ },
+ {
+  "id": "cartoon-pop-mouth-finger",
+  "t": 17.66,
+  "vol": 0.85
+ },
+ {
+  "id": "cartoon-pop-pops-x6",
+  "t": 19.62,
+  "vol": 0.85
+ },
+ {
+  "id": "riser-transition-reverse-eerie-fast-short",
+  "t": 19.57,
+  "vol": 0.4
+ },
+ {
+  "id": "whoosh-mids",
+  "t": 22.05,
+  "vol": 0.8
+ },
+ {
+  "id": "cartoon-pop-mouth-finger",
+  "t": 23.68,
+  "vol": 0.7
+ },
+ {
+  "id": "cartoon-pop-various",
+  "t": 24.25,
+  "vol": 0.7
+ },
+ {
+  "id": "cartoon-pop-mouth-finger",
+  "t": 24.64,
+  "vol": 0.7
+ },
+ {
+  "id": "whoosh-softs",
+  "t": 25.49,
+  "vol": 0.5
+ },
+ {
+  "id": "cartoon-boing-jump",
+  "t": 26.28,
+  "vol": 0.7
+ },
+ {
+  "id": "cartoon-boing-action-jump-jaw-harp",
+  "t": 27.59,
+  "vol": 0.5
+ },
+ {
+  "id": "cartoon-pop-mouth-finger",
+  "t": 29.43,
+  "vol": 0.65
+ },
+ {
+  "id": "cartoon-pop-mouth-finger",
+  "t": 30.88,
+  "vol": 0.65
+ },
+ {
+  "id": "cartoon-pop-mouth-finger",
+  "t": 32.18,
+  "vol": 0.65
+ },
+ {
+  "id": "cartoon-pop-mouth-finger",
+  "t": 33.21,
+  "vol": 0.65
+ },
+ {
+  "id": "whoosh-softs",
+  "t": 34.61,
+  "vol": 0.5
+ },
+ {
+  "id": "cartoon-pop-pops-x6",
+  "t": 36.63,
+  "vol": 0.8
+ },
+ {
+  "id": "cartoon-pop-mouth-finger",
+  "t": 37.32,
+  "vol": 0.8
+ },
+ {
+  "id": "whoosh-designed-generic-air",
+  "t": 37.54,
+  "vol": 0.6
+ },
+ {
+  "id": "cartoon-pop-various",
+  "t": 38.67,
+  "vol": 0.7
+ },
+ {
+  "id": "riser-stutter-is-coming",
+  "t": 37.17,
+  "vol": 0.35
+ },
+ {
+  "id": "whoosh-classic-airy",
+  "t": 40.7,
+  "vol": 0.8
+ },
+ {
+  "id": "cartoon-pop-mouth-finger",
+  "t": 41.87,
+  "vol": 0.6
+ },
+ {
+  "id": "cartoon-pop-pops-x6",
+  "t": 43.08,
+  "vol": 0.75
+ },
+ {
+  "id": "whoosh-wind",
+  "t": 44.03,
+  "vol": 0.5
+ },
+ {
+  "id": "cartoon-pop-mouth-finger",
+  "t": 44.44,
+  "vol": 0.85
+ },
+ {
+  "id": "cartoon-pop-various",
+  "t": 45.33,
+  "vol": 0.85
+ },
+ {
+  "id": "cartoon-pop-mouth-finger",
+  "t": 46.15,
+  "vol": 0.85
+ },
+ {
+  "id": "cartoon-pop-pops-x6",
+  "t": 47.19,
+  "vol": 0.85
+ },
+ {
+  "id": "whoosh-softs",
+  "t": 48.04,
+  "vol": 0.5
+ },
+ {
+  "id": "cartoon-pop-mouth-finger",
+  "t": 49.33,
+  "vol": 0.7
+ },
+ {
+  "id": "cartoon-pop-various",
+  "t": 50.01,
+  "vol": 0.75
+ },
+ {
+  "id": "cartoon-trombone-vintage-failure-sad",
+  "t": 52.37,
+  "vol": 0.5,
+  "trim": 2.4,
+  "fade": 0.7
+ },
+ {
+  "id": "whoosh-wind",
+  "t": 53.6,
+  "vol": 0.5
+ },
+ {
+  "id": "cartoon-pop-mouth-finger",
+  "t": 53.72,
+  "vol": 0.75
+ },
+ {
+  "id": "cartoon-pop-pops-x6",
+  "t": 55.36,
+  "vol": 0.75
+ },
+ {
+  "id": "cartoon-pop-mouth-finger",
+  "t": 56.58,
+  "vol": 0.75
+ },
+ {
+  "id": "cartoon-pop-various",
+  "t": 57.47,
+  "vol": 0.7
+ },
+ {
+  "id": "riser-stutter-is-coming",
+  "t": 55.3,
+  "vol": 0.35
+ },
+ {
+  "id": "whoosh-classic-airy",
+  "t": 58.73,
+  "vol": 0.8
+ },
+ {
+  "id": "cartoon-pop-mouth-finger",
+  "t": 59.95,
+  "vol": 0.7
+ },
+ {
+  "id": "whoosh-softs",
+  "t": 60.87,
+  "vol": 0.5
+ },
+ {
+  "id": "cartoon-pop-pops-x6",
+  "t": 63.2,
+  "vol": 0.8
+ },
+ {
+  "id": "cartoon-pop-mouth-finger",
+  "t": 64.59,
+  "vol": 0.7
+ },
+ {
+  "id": "whoosh-wind",
+  "t": 65.85,
+  "vol": 0.45
+ },
+ {
+  "id": "cartoon-pop-mouth-finger",
+  "t": 66.3,
+  "vol": 0.7
+ },
+ {
+  "id": "cartoon-pop-mouth-finger",
+  "t": 66.64,
+  "vol": 0.7
+ },
+ {
+  "id": "cartoon-pop-mouth-finger",
+  "t": 67.2,
+  "vol": 0.7
+ },
+ {
+  "id": "cartoon-pop-mouth-finger",
+  "t": 67.55,
+  "vol": 0.7
+ },
+ {
+  "id": "cartoon-pop-pops-x6",
+  "t": 69.73,
+  "vol": 0.7
+ },
+ {
+  "id": "cartoon-musical-success-fanfare",
+  "t": 70.59,
+  "vol": 0.8
+ },
+ {
+  "id": "whoosh-wind",
+  "t": 72.28,
+  "vol": 0.5
+ },
+ {
+  "id": "cartoon-pop-various",
+  "t": 73.48,
+  "vol": 0.7
+ },
+ {
+  "id": "cartoon-making-fun-of-descending-02",
+  "t": 74.23,
+  "vol": 0.55
+ },
+ {
+  "id": "car-pass-by-fast",
+  "t": 75.26,
+  "vol": 0.5
+ },
+ {
+  "id": "whoosh-designed-generic-air",
+  "t": 75.28,
+  "vol": 0.55
+ },
+ {
+  "id": "cartoon-pop-mouth-finger",
+  "t": 75.43,
+  "vol": 0.75
+ },
+ {
+  "id": "whoosh-designed-generic-air",
+  "t": 76.13,
+  "vol": 0.55
+ },
+ {
+  "id": "cartoon-pop-pops-x6",
+  "t": 76.28,
+  "vol": 0.75
+ },
+ {
+  "id": "whoosh-designed-generic-air",
+  "t": 78.21,
+  "vol": 0.55
+ },
+ {
+  "id": "cartoon-pop-mouth-finger",
+  "t": 78.36,
+  "vol": 0.75
+ },
+ {
+  "id": "car-horn-beep-short-x3",
+  "t": 80.76,
+  "vol": 0.35
+ },
+ {
+  "id": "whoosh-mids",
+  "t": 80.84,
+  "vol": 0.7
+ },
+ {
+  "id": "cartoon-pop-pops-x6",
+  "t": 81.56,
+  "vol": 0.8
+ },
+ {
+  "id": "cartoon-pop-various",
+  "t": 83.03,
+  "vol": 0.6
+ },
+ {
+  "id": "cartoon-pop-mouth-finger",
+  "t": 84.33,
+  "vol": 0.7
+ }
+]

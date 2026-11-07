@@ -1,0 +1,28 @@
+:root { --bg: #1A0B3B; --ink: #FFFFFF; --accent: #FFD23F; --panel: #2A1466; --line: #5B3BD0; --muted: #CFC3FF; --good: #2EE59D; --bad: #FF3D6E; --on-accent: #1A0B3B; --dots: rgba(255,255,255,0.07); --glow: rgba(255,255,255,0.0); }
+.cg .pill { background: rgba(26,11,59,0.88) !important; border-color: rgba(255,255,255,0.35) !important; }
+#bgs, .bgl { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+.bgl { opacity: 0; }
+.deco { position: absolute; border-radius: 50%; opacity: 0.0; }
+.sc { z-index: 2; }
+.headline { font-weight: 700; font-size: 150px; line-height: 1.0; letter-spacing: -0.035em; text-align: center; color: #fff; text-shadow: 0 8px 0 rgba(0,0,0,0.22); white-space: nowrap; }
+.sub { font-weight: 600; font-size: 54px; letter-spacing: 0.02em; text-align: center; color: #fff; white-space: nowrap; text-shadow: 0 5px 0 rgba(0,0,0,0.2); }
+.badge { position: absolute; opacity: 0; display: flex; align-items: center; gap: 24px; padding: 16px 50px 16px 16px; border-radius: 110px; background: #fff; box-shadow: 0 14px 0 rgba(0,0,0,0.22); color: var(--bc); font-weight: 700; font-size: 66px; letter-spacing: 0.06em; white-space: nowrap; }
+.badge .n { width: 104px; height: 104px; border-radius: 50%; background: var(--bc); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 72px; letter-spacing: 0; }
+.cardx { position: absolute; opacity: 0; display: flex; align-items: center; gap: 30px; padding: 0 36px 0 30px; border-radius: 44px; background: #fff; color: #1A0B3B; box-shadow: 0 16px 0 rgba(0,0,0,0.2), 0 30px 60px rgba(0,0,0,0.25); font-weight: 700; font-size: 58px; line-height: 1.05; letter-spacing: -0.02em; }
+.cardx img { width: 130px; height: 130px; flex: none; }
+.cardx small { display: block; font-weight: 600; font-size: 34px; letter-spacing: 0; color: #6B5C99; margin-top: 8px; }
+.chipx { position: absolute; opacity: 0; display: flex; align-items: center; justify-content: center; gap: 18px; border-radius: 100px; font-weight: 700; font-size: 52px; letter-spacing: 0.02em; white-space: nowrap; color: #fff; box-shadow: 0 12px 0 rgba(0,0,0,0.22); }
+.chipx img { width: 76px; height: 76px; }
+.tilex { position: absolute; opacity: 0; }
+.tilex img { width: 100%; height: 100%; display: block; filter: drop-shadow(0 22px 0 rgba(0,0,0,0.22)); }
+.lbl { position: absolute; opacity: 0; font-weight: 700; font-size: 54px; color: #fff; text-align: center; text-shadow: 0 5px 0 rgba(0,0,0,0.25); white-space: nowrap; }
+.emo { position: absolute; opacity: 0; }
+.emo img { width: 100%; height: 100%; display: block; filter: drop-shadow(0 14px 0 rgba(0,0,0,0.2)); }
+.c3d { position: absolute; opacity: 0; perspective: 1400px; }
+.c3d-in { position: absolute; left: 0; top: 0; width: 100%; height: 100%; transform-style: preserve-3d; }
+.c3d-in .l { position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: url('assets/img/logo-canva.svg') center / 100% 100% no-repeat; }
+.bub { position: absolute; opacity: 0; padding: 34px 44px; border-radius: 50px; font-weight: 700; font-size: 54px; line-height: 1.12; letter-spacing: -0.01em; box-shadow: 0 14px 0 rgba(0,0,0,0.2); }
+.bub.me { background: #fff; color: #1A0B3B; border-bottom-left-radius: 14px; }
+.bub.you { background: #2EE59D; color: #07331F; border-bottom-right-radius: 14px; }
+.btn { position: absolute; opacity: 0; display: flex; align-items: center; justify-content: center; border-radius: 120px; background: linear-gradient(90deg, #FFD23F, #FF8A3D); color: #1A0B3B; font-weight: 700; letter-spacing: 0.02em; box-shadow: 0 18px 0 rgba(0,0,0,0.25), 0 0 80px rgba(255,210,63,0.55); white-space: nowrap; }
+.strikeR { position: absolute; height: 16px; border-radius: 10px; background: #FF3D6E; transform-origin: left center; transform: scaleX(0); box-shadow: 0 5px 0 rgba(0,0,0,0.25); }
