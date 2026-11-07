@@ -1,0 +1,351 @@
+{
+  "sounds": [
+    {
+      "id": "car-door-suv-close-external",
+      "file": "sound-effects/car/car-door-suv-close-external.mp3",
+      "category": "car",
+      "duration": 0.48,
+      "tags": [
+        "door",
+        "suv",
+        "close",
+        "external"
+      ],
+      "use": ""
+    },
+    {
+      "id": "car-horn-beep-short-x3",
+      "file": "sound-effects/car/car-horn-beep-short-x3.mp3",
+      "category": "car",
+      "duration": 0.86,
+      "tags": [
+        "horn",
+        "beep",
+        "short"
+      ],
+      "use": ""
+    },
+    {
+      "id": "car-tire-squeal-brake-skid-03",
+      "file": "sound-effects/car/car-tire-squeal-brake-skid-03.mp3",
+      "category": "car",
+      "duration": 1.92,
+      "tags": [
+        "tire",
+        "squeal",
+        "brake",
+        "skid"
+      ],
+      "use": ""
+    },
+    {
+      "id": "car-skid-to-stop-tire-squeal",
+      "file": "sound-effects/car/car-skid-to-stop-tire-squeal.mp3",
+      "category": "car",
+      "duration": 2.47,
+      "tags": [
+        "skid",
+        "stop",
+        "tire",
+        "squeal"
+      ],
+      "use": ""
+    },
+    {
+      "id": "car-tire-squeal-brake-skid",
+      "file": "sound-effects/car/car-tire-squeal-brake-skid.mp3",
+      "category": "car",
+      "duration": 2.52,
+      "tags": [
+        "tire",
+        "squeal",
+        "brake",
+        "skid"
+      ],
+      "use": ""
+    },
+    {
+      "id": "car-pass-by-fast",
+      "file": "sound-effects/car/car-pass-by-fast.mp3",
+      "category": "car",
+      "duration": 3.19,
+      "tags": [
+        "pass",
+        "by",
+        "fast"
+      ],
+      "use": ""
+    },
+    {
+      "id": "car-start-idle-external-rover",
+      "file": "sound-effects/car/car-start-idle-external-rover.mp3",
+      "category": "car",
+      "duration": 5.4,
+      "tags": [
+        "start",
+        "idle",
+        "external",
+        "rover"
+      ],
+      "use": ""
+    },
+    {
+      "id": "police-siren-close",
+      "file": "sound-effects/car/police-siren-close.mp3",
+      "category": "car",
+      "duration": 12.02,
+      "tags": [
+        "police",
+        "siren",
+        "close"
+      ],
+      "use": ""
+    },
+    {
+      "id": "cartoon-whistle-slip-trip-up",
+      "file": "sound-effects/cartoon/cartoon-whistle-slip-trip-up.mp3",
+      "category": "cartoon",
+      "duration": 0.36,
+      "tags": [
+        "whistle",
+        "slip",
+        "trip",
+        "up"
+      ],
+      "use": ""
+    },
+    {
+      "id": "cartoon-pop-mouth-finger",
+      "file": "sound-effects/cartoon/cartoon-pop-mouth-finger.mp3",
+      "category": "cartoon",
+      "duration": 0.43,
+      "tags": [
+        "pop",
+        "mouth",
+        "finger"
+      ],
+      "use": ""
+    },
+    {
+      "id": "cartoon-pop-pops-x6",
+      "file": "sound-effects/cartoon/cartoon-pop-pops-x6.mp3",
+      "category": "cartoon",
+      "duration": 0.98,
+      "tags": [
+        "pop",
+        "pops"
+      ],
+      "use": ""
+    },
+    {
+      "id": "cartoon-pop-various",
+      "file": "sound-effects/cartoon/cartoon-pop-various.mp3",
+      "category": "cartoon",
+      "duration": 1.82,
+      "tags": [
+        "pop",
+        "various"
+      ],
+      "use": ""
+    },
+    {
+      "id": "cartoon-boing-jump",
+      "file": "sound-effects/cartoon/cartoon-boing-jump.mp3",
+      "category": "cartoon",
+      "duration": 2.11,
+      "tags": [
+        "boing",
+        "jump"
+      ],
+      "use": ""
+    },
+    {
+      "id": "cartoon-making-fun-of-descending-02",
+      "file": "sound-effects/cartoon/cartoon-making-fun-of-descending-02.mp3",
+      "category": "cartoon",
+      "duration": 2.95,
+      "tags": [
+        "making",
+        "fun",
+        "descending"
+      ],
+      "use": ""
+    },
+    {
+      "id": "cartoon-boing-action-jump-jaw-harp",
+      "file": "sound-effects/cartoon/cartoon-boing-action-jump-jaw-harp.mp3",
+      "category": "cartoon",
+      "duration": 3.07,
+      "tags": [
+        "boing",
+        "action",
+        "jump",
+        "jaw",
+        "harp"
+      ],
+      "use": ""
+    },
+    {
+      "id": "cartoon-musical-success-fanfare",
+      "file": "sound-effects/cartoon/cartoon-musical-success-fanfare.mp3",
+      "category": "cartoon",
+      "duration": 3.5,
+      "tags": [
+        "musical",
+        "success",
+        "fanfare"
+      ],
+      "use": ""
+    },
+    {
+      "id": "cartoon-boing-comic-fly-crash-impact",
+      "file": "sound-effects/cartoon/cartoon-boing-comic-fly-crash-impact.mp3",
+      "category": "cartoon",
+      "duration": 4.03,
+      "tags": [
+        "boing",
+        "comic",
+        "fly",
+        "crash",
+        "impact"
+      ],
+      "use": ""
+    },
+    {
+      "id": "cartoon-trombone-vintage-failure-sad",
+      "file": "sound-effects/cartoon/cartoon-trombone-vintage-failure-sad.mp3",
+      "category": "cartoon",
+      "duration": 12.05,
+      "tags": [
+        "trombone",
+        "vintage",
+        "failure",
+        "sad"
+      ],
+      "use": ""
+    },
+    {
+      "id": "riser-transition-reverse-eerie-fast-short",
+      "file": "sound-effects/riser-designed/riser-transition-reverse-eerie-fast-short.mp3",
+      "category": "riser-designed",
+      "duration": 2.9,
+      "tags": [
+        "riser",
+        "transition",
+        "reverse",
+        "eerie",
+        "fast",
+        "short"
+      ],
+      "use": ""
+    },
+    {
+      "id": "riser-transition-whoosh-fast-short-01",
+      "file": "sound-effects/riser-designed/riser-transition-whoosh-fast-short-01.mp3",
+      "category": "riser-designed",
+      "duration": 3.05,
+      "tags": [
+        "riser",
+        "transition",
+        "whoosh",
+        "fast",
+        "short"
+      ],
+      "use": ""
+    },
+    {
+      "id": "riser-stutter-is-coming",
+      "file": "sound-effects/riser-designed/riser-stutter-is-coming.mp3",
+      "category": "riser-designed",
+      "duration": 3.79,
+      "tags": [
+        "riser",
+        "stutter",
+        "coming"
+      ],
+      "use": ""
+    },
+    {
+      "id": "riser-string",
+      "file": "sound-effects/riser-designed/riser-string.mp3",
+      "category": "riser-designed",
+      "duration": 6.84,
+      "tags": [
+        "riser",
+        "string"
+      ],
+      "use": ""
+    },
+    {
+      "id": "riser-reversed-no-hit",
+      "file": "sound-effects/riser-designed/riser-reversed-no-hit.mp3",
+      "category": "riser-designed",
+      "duration": 13.03,
+      "tags": [
+        "riser",
+        "reversed",
+        "no",
+        "hit"
+      ],
+      "use": ""
+    },
+    {
+      "id": "whoosh-designed-generic-air",
+      "file": "sound-effects/swooshes/whoosh-designed-generic-air.mp3",
+      "category": "swooshes",
+      "duration": 0.58,
+      "tags": [
+        "whoosh",
+        "designed",
+        "generic",
+        "air"
+      ],
+      "use": ""
+    },
+    {
+      "id": "whoosh-wind",
+      "file": "sound-effects/swooshes/whoosh-wind.mp3",
+      "category": "swooshes",
+      "duration": 1.68,
+      "tags": [
+        "whoosh",
+        "wind"
+      ],
+      "use": ""
+    },
+    {
+      "id": "whoosh-mids",
+      "file": "sound-effects/swooshes/whoosh-mids.mp3",
+      "category": "swooshes",
+      "duration": 1.78,
+      "tags": [
+        "whoosh",
+        "mids"
+      ],
+      "use": ""
+    },
+    {
+      "id": "whoosh-softs",
+      "file": "sound-effects/swooshes/whoosh-softs.mp3",
+      "category": "swooshes",
+      "duration": 2.52,
+      "tags": [
+        "whoosh",
+        "softs"
+      ],
+      "use": ""
+    },
+    {
+      "id": "whoosh-classic-airy",
+      "file": "sound-effects/swooshes/whoosh-classic-airy.mp3",
+      "category": "swooshes",
+      "duration": 3.55,
+      "tags": [
+        "whoosh",
+        "classic",
+        "airy"
+      ],
+      "use": ""
+    }
+  ]
+}

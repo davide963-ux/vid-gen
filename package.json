@@ -12,6 +12,7 @@
     "music:get": "node scripts/pipeline.mjs music-get",
     "mix": "node scripts/pipeline.mjs mix",
     "loudnorm": "node scripts/pipeline.mjs loudnorm",
-    "record": "node scripts/pipeline.mjs record"
+    "record": "node scripts/pipeline.mjs record",
+    "sfx:index": "node scripts/build-sound-index.mjs"
   }
 }
