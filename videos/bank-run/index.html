@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
+    <style>
+      @font-face { font-family: 'Space Grotesk'; font-weight: 500; src: url('assets/fonts/space-grotesk-latin-500-normal.woff2') format('woff2'); }
+      @font-face { font-family: 'Space Grotesk'; font-weight: 600; src: url('assets/fonts/space-grotesk-latin-600-normal.woff2') format('woff2'); }
+      @font-face { font-family: 'Space Grotesk'; font-weight: 700; src: url('assets/fonts/space-grotesk-latin-700-normal.woff2') format('woff2'); }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #0B1220; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background-color: #0B1220; background-image: radial-gradient(rgba(233,185,73,0.10) 2.5px, transparent 2.5px); background-size: 60px 60px; font-family: 'Space Grotesk', sans-serif; color: #F1F3F8; }
+      #stage { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; }
+      #glow { position: absolute; left: -200px; top: -300px; width: 1480px; height: 1100px; pointer-events: none; background: radial-gradient(closest-side, rgba(233,185,73,0.10), rgba(233,185,73,0)); }
+      .abs { position: absolute; opacity: 0; }
+      .lot { position: absolute; opacity: 0; }
+      .big { font-weight: 700; letter-spacing: -0.035em; line-height: 1.02; text-align: center; white-space: nowrap; }
+      .gd { color: #E9B949; } .rd { color: #F0616D; } .gn { color: #67E3AE; }
+      .tag { font-weight: 600; font-size: 32px; letter-spacing: 0.12em; text-transform: uppercase; color: #E9B949; text-align: center; white-space: nowrap; }
+      .chip { display: inline-block; padding: 12px 30px; border-radius: 100px; background: rgba(233,185,73,0.10); border: 1.5px solid rgba(233,185,73,0.45); color: #E9B949; font-weight: 600; font-size: 28px; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; }
+      .chip.red { background: rgba(240,97,109,0.12); border-color: rgba(240,97,109,0.6); color: #F0616D; }
+      .card { background: #131D33; border: 1.5px solid #2A3A5C; border-radius: 26px; box-shadow: 0 24px 60px rgba(0,0,0,0.45); }
+      .strike { position: absolute; height: 10px; border-radius: 6px; background: #F0616D; transform-origin: left center; transform: scaleX(0); }
+      .dot { position: absolute; width: 56px; height: 56px; border-radius: 50%; border: 4px solid #E9B949; color: #0B1220; text-align: center; line-height: 48px; font-weight: 700; font-size: 28px; opacity: 0; }
+      #prog { position: absolute; left: 0; bottom: 0; width: 1080px; height: 6px; background: #E9B949; transform-origin: left center; }
+      #caps { position: absolute; left: 0; top: 1392px; width: 1080px; height: 190px; }
+      .cg { position: absolute; left: 90px; top: 0; width: 900px; text-align: center; opacity: 0; }
+      .cg .pill { display: inline-block; padding: 14px 30px 16px; border-radius: 34px; background: #131D33; border: 1.5px solid #2A3A5C; box-shadow: 0 8px 30px rgba(0,0,0,0.5); font-weight: 600; font-size: 50px; line-height: 1.2; letter-spacing: -0.01em; color: #F1F3F8; }
+      .cw { display: inline-block; margin: 0 4px; padding: 0 10px; border-radius: 12px; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="74.73" data-width="1080" data-height="1920">
+      <div id="stage" class="clip" data-start="0" data-duration="74.73" data-track-index="0">
+        <div id="glow"></div>
+        <div id="dyn"></div>
+        <div id="arrow" class="lot" style="left:460px;top:690px;width:160px;height:90px;transform:rotate(90deg)"></div>
+        <div id="conf" class="lot" style="left:0;top:80px;width:1080px;height:1080px"></div>
+        <div id="caps"></div>
+        <div id="prog"></div>
+      </div>
+    </div>
+
+    <script>
+      const WORDS = [{"w":"You","s":0,"e":0.28,"line":1},{"w":"Didn't","s":0.28,"e":0.56,"line":1},{"w":"Know","s":0.56,"e":1,"line":1},{"w":"Banks","s":1,"e":1.54,"line":1},{"w":"Don't","s":1.54,"e":1.96,"line":1},{"w":"Keep","s":1.96,"e":2.18,"line":1},{"w":"Everyone's","s":2.18,"e":2.9,"line":1},{"w":"Deposits","s":2.9,"e":3.26,"line":1},{"w":"in","s":3.26,"e":3.56,"line":1},{"w":"Cash.","s":3.56,"e":3.96,"line":1},{"w":"What","s":4.8,"e":4.96,"line":2},{"w":"if","s":4.96,"e":5.1,"line":2},{"w":"I","s":5.1,"e":5.28,"line":2},{"w":"told","s":5.28,"e":5.58,"line":2},{"w":"you","s":5.58,"e":5.84,"line":2},{"w":"that","s":5.84,"e":6.02,"line":2},{"w":"your","s":6.02,"e":6.22,"line":2},{"w":"bank","s":6.22,"e":6.68,"line":2},{"w":"might","s":6.68,"e":7.04,"line":2},{"w":"not","s":7.04,"e":7.28,"line":2},{"w":"have","s":7.28,"e":7.52,"line":2},{"w":"enough","s":7.52,"e":7.76,"line":2},{"w":"cash","s":7.76,"e":8.16,"line":2},{"w":"to","s":8.16,"e":8.38,"line":2},{"w":"give","s":8.38,"e":8.56,"line":2},{"w":"everyone","s":8.56,"e":9.12,"line":2},{"w":"their","s":9.12,"e":9.34,"line":2},{"w":"money","s":9.34,"e":9.56,"line":2},{"w":"back","s":9.56,"e":9.84,"line":2},{"w":"at","s":9.84,"e":10,"line":2},{"w":"once?","s":10,"e":10.42,"line":2},{"w":"Sounds","s":11.7,"e":11.84,"line":3},{"w":"terrifying,","s":11.84,"e":12.56,"line":3},{"w":"right?","s":12.72,"e":12.98,"line":3},{"w":"But","s":14.52,"e":14.72,"line":4},{"w":"here's","s":14.72,"e":15.24,"line":4},{"w":"how","s":15.24,"e":15.4,"line":4},{"w":"it","s":15.4,"e":15.56,"line":4},{"w":"actually","s":15.56,"e":16,"line":4},{"w":"works.","s":16,"e":16.52,"line":4},{"w":"Imagine","s":17.2,"e":17.44,"line":5},{"w":"100","s":17.44,"e":18.14,"line":5},{"w":"people","s":18.14,"e":18.6,"line":5},{"w":"each","s":18.6,"e":19,"line":5},{"w":"deposit","s":19,"e":19.5,"line":5},{"w":"$1,000","s":19.5,"e":20.54,"line":5},{"w":"into","s":20.54,"e":21.1,"line":5},{"w":"the","s":21.1,"e":21.3,"line":5},{"w":"same","s":21.3,"e":21.62,"line":5},{"w":"bank.","s":21.62,"e":22.02,"line":5},{"w":"That's","s":22.44,"e":22.84,"line":6},{"w":"$100,000","s":22.84,"e":24.12,"line":6},{"w":"in","s":24.12,"e":24.64,"line":6},{"w":"total","s":24.64,"e":24.96,"line":6},{"w":"deposits.","s":24.96,"e":25.54,"line":6},{"w":"You","s":26.1,"e":26.34,"line":7},{"w":"might","s":26.34,"e":26.52,"line":7},{"w":"think","s":26.52,"e":26.8,"line":7},{"w":"the","s":26.8,"e":27.02,"line":7},{"w":"bank","s":27.02,"e":27.3,"line":7},{"w":"keeps","s":27.3,"e":27.6,"line":7},{"w":"all","s":27.6,"e":27.92,"line":7},{"w":"that","s":27.92,"e":28.22,"line":7},{"w":"cash","s":28.22,"e":28.64,"line":7},{"w":"locked","s":28.64,"e":29.06,"line":7},{"w":"inside","s":29.06,"e":29.46,"line":7},{"w":"a","s":29.46,"e":29.8,"line":7},{"w":"giant","s":29.8,"e":30.06,"line":7},{"w":"vault.","s":30.06,"e":30.46,"line":7},{"w":"But","s":31.3,"e":31.98,"line":8},{"w":"it","s":31.98,"e":32.14,"line":8},{"w":"doesn't.","s":32.14,"e":32.64,"line":8},{"w":"Banks","s":33.22,"e":33.36,"line":9},{"w":"use","s":33.36,"e":33.66,"line":9},{"w":"money","s":33.66,"e":34.04,"line":9},{"w":"to","s":34.04,"e":34.32,"line":9},{"w":"provide","s":34.32,"e":34.72,"line":9},{"w":"loans,","s":34.72,"e":35.28,"line":9},{"w":"make","s":35.58,"e":35.82,"line":9},{"w":"investments,","s":35.82,"e":36.38,"line":9},{"w":"and","s":36.74,"e":36.96,"line":9},{"w":"run","s":36.96,"e":37.16,"line":9},{"w":"their","s":37.16,"e":37.34,"line":9},{"w":"operations.","s":37.34,"e":37.92,"line":9},{"w":"They","s":38.66,"e":38.8,"line":10},{"w":"keep","s":38.8,"e":39.08,"line":10},{"w":"enough","s":39.08,"e":39.5,"line":10},{"w":"liquid","s":39.5,"e":39.9,"line":10},{"w":"funds","s":39.9,"e":40.3,"line":10},{"w":"to","s":40.3,"e":40.54,"line":10},{"w":"handle","s":40.54,"e":40.82,"line":10},{"w":"everyday","s":40.82,"e":41.38,"line":10},{"w":"withdrawals.","s":41.38,"e":41.98,"line":10},{"w":"But","s":42.62,"e":42.82,"line":11},{"w":"imagine","s":42.82,"e":43.24,"line":11},{"w":"all","s":43.24,"e":43.74,"line":11},{"w":"100","s":43.74,"e":44.34,"line":11},{"w":"customers","s":44.34,"e":44.94,"line":11},{"w":"suddenly","s":44.94,"e":45.42,"line":11},{"w":"demand","s":45.42,"e":45.92,"line":11},{"w":"their","s":45.92,"e":46.12,"line":11},{"w":"money","s":46.12,"e":46.36,"line":11},{"w":"back","s":46.36,"e":46.64,"line":11},{"w":"at","s":46.64,"e":46.8,"line":11},{"w":"the","s":46.8,"e":46.96,"line":11},{"w":"exact","s":46.96,"e":47.36,"line":11},{"w":"same","s":47.36,"e":47.72,"line":11},{"w":"time!","s":47.72,"e":48.26,"line":11},{"w":"The","s":49.22,"e":49.3,"line":12},{"w":"bank","s":49.3,"e":49.66,"line":12},{"w":"might","s":49.66,"e":49.9,"line":12},{"w":"not","s":49.9,"e":50.12,"line":12},{"w":"have","s":50.12,"e":50.34,"line":12},{"w":"enough","s":50.34,"e":50.58,"line":12},{"w":"cash","s":50.58,"e":50.94,"line":12},{"w":"immediately","s":50.94,"e":51.46,"line":12},{"w":"available.","s":51.46,"e":52.08,"line":12},{"w":"This","s":52.62,"e":52.98,"line":13},{"w":"is","s":52.98,"e":53.28,"line":13},{"w":"how","s":53.28,"e":53.46,"line":13},{"w":"a","s":53.46,"e":53.66,"line":13},{"w":"bank","s":53.66,"e":53.9,"line":13},{"w":"run","s":53.9,"e":54.12,"line":13},{"w":"can","s":54.12,"e":54.36,"line":13},{"w":"happen.","s":54.36,"e":54.78,"line":13},{"w":"And","s":54.78,"e":55.5,"line":14},{"w":"it's","s":55.5,"e":55.84,"line":14},{"w":"why","s":55.84,"e":56.1,"line":14},{"w":"banks","s":56.1,"e":56.4,"line":14},{"w":"are","s":56.4,"e":56.62,"line":14},{"w":"regulated","s":56.62,"e":57.1,"line":14},{"w":"and","s":57.6,"e":57.68,"line":14},{"w":"many","s":57.64,"e":57.88,"line":14},{"w":"countries","s":57.88,"e":58.28,"line":14},{"w":"have","s":58.28,"e":58.54,"line":14},{"w":"deposit","s":58.54,"e":59.02,"line":14},{"w":"insurance","s":59.02,"e":59.54,"line":14},{"w":"systems.","s":59.54,"e":60.06,"line":14},{"w":"So","s":60.78,"e":60.86,"line":15},{"w":"next","s":60.82,"e":61.2,"line":15},{"w":"time","s":61.2,"e":61.52,"line":15},{"w":"you","s":61.52,"e":61.72,"line":15},{"w":"check","s":61.72,"e":61.94,"line":15},{"w":"your","s":61.94,"e":62.14,"line":15},{"w":"bank","s":62.14,"e":62.42,"line":15},{"w":"balance,","s":62.42,"e":62.9,"line":15},{"w":"remember�","s":63.22,"e":63.48,"line":15},{"w":"Your","s":64.08,"e":64.34,"line":16},{"w":"money","s":64.34,"e":64.7,"line":16},{"w":"isn't","s":64.7,"e":65.22,"line":16},{"w":"necessarily","s":65.22,"e":65.76,"line":16},{"w":"sitting","s":65.76,"e":66.26,"line":16},{"w":"in","s":66.26,"e":66.48,"line":16},{"w":"a","s":66.48,"e":66.62,"line":16},{"w":"vault","s":66.62,"e":66.9,"line":16},{"w":"waiting","s":66.9,"e":67.26,"line":16},{"w":"for","s":67.26,"e":67.6,"line":16},{"w":"you.","s":67.6,"e":67.86,"line":16},{"w":"It's","s":68.18,"e":68.5,"line":17},{"w":"part","s":68.5,"e":68.7,"line":17},{"w":"of","s":68.7,"e":68.84,"line":17},{"w":"a","s":68.84,"e":68.98,"line":17},{"w":"much","s":68.98,"e":69.28,"line":17},{"w":"bigger","s":69.28,"e":69.84,"line":17},{"w":"financial","s":69.84,"e":70.26,"line":17},{"w":"system.","s":70.26,"e":70.86,"line":17},{"w":"You","s":71.34,"e":71.58,"line":18},{"w":"didn't","s":71.58,"e":71.92,"line":18},{"w":"know","s":71.92,"e":72.08,"line":18},{"w":"that","s":72.08,"e":72.34,"line":18},{"w":"about","s":72.34,"e":72.62,"line":18},{"w":"money.","s":72.62,"e":72.9,"line":18}];
+      window.__timelines = window.__timelines || {};
+      const hash = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+      const wd = (l, k) => WORDS.filter((w) => w.line === l)[k].s;
+      const tl = gsap.timeline({ paused: true });
+      const E = 'power3.out', IO = 'power2.inOut';
+      const $ = (s) => document.querySelector(s);
+      const R = (el, t, from, to) => tl.fromTo(el, Object.assign({ opacity: 0, y: 28 }, from || {}), Object.assign({ opacity: 1, y: 0, duration: 0.55, ease: E, immediateRender: false }, to || {}), t);
+      const X = (el, t, d) => tl.to(el, { opacity: 0, duration: d || 0.25, ease: 'none' }, t);
+      const POP = { scale: 0.6, y: 24 }, POPTO = { scale: 1, duration: 0.5 };
+      const STRIKE = (sel, t) => tl.fromTo(sel, { scaleX: 0 }, { scaleX: 1, duration: 0.3, ease: 'power2.out', immediateRender: false }, t);
+      const money = (v) => '$' + Math.round(v).toLocaleString('en-US');
+      const count = (sel, t, from, to, dur) => { const o = { v: from }; tl.to(o, { v: to, duration: dur, ease: 'power3.out', onUpdate() { $(sel).textContent = money(o.v); } }, t); };
+      const dyn = $('#dyn'); const add = (h) => dyn.insertAdjacentHTML('beforeend', h);
+      const hd = (id, tag, big, size, cls, top) => add(`<div id="${id}t" class="abs tag" style="left:0;top:${top || 215}px;width:1080px">${tag}</div><div id="${id}b" class="abs big ${cls || ''}" style="left:0;top:${(top || 215) + 52}px;width:1080px;font-size:${size}px">${big}</div>`);
+      const icon = (id, src, left, top, w) => add(`<img id="${id}" class="abs" src="assets/img/${src}.svg" style="left:${left}px;top:${top}px;width:${w}px" />`);
+      const ids = (p, n) => Array.from({ length: n }, (_, i) => '#' + p + i);
+
+      // ---- headers
+      hd('h2', 'What if your bank', 'MIGHT NOT HAVE ENOUGH CASH?', 66, 'gd');
+      hd('h4', "Here's how it", 'ACTUALLY WORKS', 118, '');
+      hd('h5', 'Imagine', '100 PEOPLE', 150, 'gd');
+      hd('h6', 'Total deposits', '$100,000', 190, 'gd');
+      hd('h7', 'You might think', 'IT ALL SITS IN A VAULT', 78, '');
+      hd('h9', 'Banks use your money to', 'LEND, INVEST, OPERATE', 84, 'gd');
+      hd('h10', 'They keep enough', 'LIQUID CASH', 140, 'gn');
+      hd('h11', 'Now imagine all 100', 'WANT IT AT ONCE', 108, 'rd');
+      hd('h12', 'The bank might not have', 'ENOUGH CASH', 140, 'rd');
+      hd('h14', "That's why there are", 'SAFEGUARDS', 140, 'gd');
+      hd('h15', 'Next time you check your', 'BANK BALANCE', 118, '');
+      hd('h16', "Your money isn't necessarily", 'IN A VAULT', 150, 'gd');
+      hd('h17', 'It is part of a much bigger', 'FINANCIAL SYSTEM', 118, 'gd');
+
+      // ---- L1 title
+      add('<div id="a0" class="abs" style="left:0;top:290px;width:1080px;text-align:center"><span class="chip">About money</span></div><div id="a1" class="abs big" style="left:0;top:380px;width:1080px;font-size:118px">YOU DIDN\'T KNOW</div><div id="a2" class="abs big gd" style="left:0;top:510px;width:1080px;font-size:104px">BANKS DON\'T KEEP</div><div id="a3" class="abs big" style="left:0;top:625px;width:1080px;font-size:96px">YOUR DEPOSITS</div><div id="a4" class="abs big rd" style="left:0;top:735px;width:1080px;font-size:150px">IN CASH.</div>');
+      icon('iBank1', 'gold-bank', 390, 960, 300);
+
+      // ---- L2 / L3 / L4 bits
+      add('<div id="c2" class="abs card" style="left:150px;top:620px;width:780px;height:340px;text-align:center"><div class="tag" style="margin-top:40px;font-size:28px">Cash on hand</div><div style="margin:44px 60px 0;height:80px;border-radius:20px;border:3px solid #2A3A5C;overflow:hidden;background:#0B1220"><div id="c2f" style="width:100%;height:100%;background:#E9B949"></div></div><div class="tag" style="margin-top:34px;font-size:26px;color:#8C97AD">vs. everyone\'s money</div></div>');
+      add('<div id="s3" class="abs big rd" style="left:0;top:560px;width:1080px;font-size:150px">SOUNDS</div><div id="s3b" class="abs big" style="left:0;top:710px;width:1080px;font-size:150px">TERRIFYING?</div>');
+      icon('iWarn', 'gold-warning', 410, 960, 260);
+      icon('iGear', 'gold-question', 410, 560, 240);
+
+      // ---- L5/L6 100 people grid
+      for (let i = 0; i < 100; i++) add(`<div id="d${i}" class="dot" style="left:${190 + (i % 10) * 70}px;top:${480 + Math.floor(i / 10) * 70}px">$</div>`);
+      add('<div id="p5" class="abs" style="left:0;top:1215px;width:1080px;text-align:center"><span class="chip">$1,000 each</span></div>');
+
+      // ---- L7/L8 vault
+      add(`<div id="vault" class="abs" style="left:230px;top:470px;width:620px;height:620px" data-layout-allow-overlap>
+        <div style="position:absolute;left:0;top:0;width:620px;height:620px;border-radius:44px;background:#1B2740;border:6px solid #3A4D75;box-shadow:0 40px 90px rgba(0,0,0,0.6)"></div>
+        <div id="vIn" style="position:absolute;left:70px;top:70px;width:480px;height:480px;border-radius:30px;background:#060A13;border:4px solid #2A3A5C;overflow:hidden;text-align:center"><img src="assets/img/gold-money.svg" style="width:110px;margin-top:340px;opacity:0.9" /></div>
+        <div id="vDoor" style="position:absolute;left:70px;top:70px;width:480px;height:480px;transform-origin:0% 50%" data-layout-allow-overlap>
+          <svg viewBox="0 0 480 480" width="480" height="480"><rect x="0" y="0" width="480" height="480" rx="30" fill="#2B3B5C" stroke="#4C6396" stroke-width="6"/><circle cx="240" cy="240" r="170" fill="#22304D" stroke="#4C6396" stroke-width="6"/>
+            <g id="vWheel"><circle cx="240" cy="240" r="110" fill="none" stroke="#E9B949" stroke-width="12"/><g stroke="#E9B949" stroke-width="12" stroke-linecap="round"><path d="M240 110 L240 370"/><path d="M127 175 L353 305"/><path d="M127 305 L353 175"/></g><circle cx="240" cy="240" r="34" fill="#E9B949"/></g>
+            <g fill="#4C6396"><circle cx="40" cy="40" r="12"/><circle cx="440" cy="40" r="12"/><circle cx="40" cy="440" r="12"/><circle cx="440" cy="440" r="12"/></g></svg></div></div>`);
+      add('<div id="v8" class="abs big rd" style="left:0;top:1180px;width:1080px;font-size:120px">BUT IT DOESN\'T.</div>');
+
+      // ---- L9 lend / invest / operate
+      add(`<div id="bk9" class="abs card" style="left:230px;top:430px;width:620px;height:250px;text-align:center"><img src="assets/img/gold-bank.svg" style="width:110px;margin-top:34px" /><div class="tag" style="margin-top:12px;font-size:30px">Your bank</div></div>`);
+      [['gold-hand-coins', 'Loans'], ['gold-chart-line-up', 'Investments'], ['gold-buildings', 'Operations']].forEach((c, i) => add(`<div id="u${i}" class="abs card" style="left:${40 + i * 335}px;top:860px;width:310px;height:290px;text-align:center"><img src="assets/img/${c[0]}.svg" style="width:112px;margin-top:44px" /><div class="tag" style="margin-top:24px;font-size:28px">${c[1]}</div></div>`));
+
+      // ---- L10 liquid cash bar
+      add(`<div id="lq" class="abs card" style="left:110px;top:520px;width:860px;height:330px;padding:34px 44px"><div class="tag" style="text-align:left;font-size:26px">All deposits</div><div style="margin-top:22px;display:flex;height:110px;border-radius:22px;overflow:hidden;border:2px solid #2A3A5C"><div id="lqc" style="width:0;background:#67E3AE;flex:none"></div><div style="flex:1;background:rgba(233,185,73,0.22)"></div></div><div style="display:flex;justify-content:space-between;margin-top:22px"><div class="tag" style="font-size:24px;color:#67E3AE">Liquid cash</div><div class="tag" style="font-size:24px;color:#8C97AD">Lent &amp; invested</div></div></div>`);
+      add('<div id="lq2" class="abs" style="left:0;top:920px;width:1080px;text-align:center"><span class="chip">Enough for everyday withdrawals</span></div>');
+
+      // ---- L11-L13 run on the bank (mini card)
+      add(`<div id="rb" class="abs card" style="left:220px;top:1210px;width:640px;height:150px;padding:22px 34px" data-layout-allow-overlap><div style="display:flex;align-items:center;gap:16px"><img src="assets/img/gold-bank.svg" style="width:44px" /><div class="tag" style="font-size:24px">Bank · cash on hand</div></div><div style="margin-top:16px;height:44px;border-radius:14px;border:3px solid #2A3A5C;overflow:hidden;background:#0B1220"><div id="rbf" style="width:14%;height:100%;background:#67E3AE"></div></div></div>`);
+      add('<div id="rbx" class="abs big rd" style="left:0;top:1000px;width:1080px;font-size:96px">$0 LEFT TO PAY</div>');
+      add('<div id="stamp" class="abs big rd" style="left:130px;top:1000px;width:820px;font-size:150px;line-height:170px;border:12px solid #F0616D;border-radius:28px;background:rgba(11,18,32,0.9);transform-origin:center" data-layout-allow-overlap>BANK RUN</div>');
+
+      // ---- L14 safeguards
+      add('<div id="g0" class="abs card" style="left:60px;top:560px;width:450px;height:330px;text-align:center"><img src="assets/img/gold-scales.svg" style="width:130px;margin-top:50px" /><div class="tag" style="margin-top:26px;font-size:32px">Regulation</div></div>');
+      add('<div id="g1" class="abs card" style="left:570px;top:560px;width:450px;height:330px;text-align:center"><img src="assets/img/gold-shield-check.svg" style="width:130px;margin-top:50px" /><div class="tag" style="margin-top:26px;font-size:32px">Deposit insurance</div></div>');
+      add('<div id="g2" class="abs" style="left:0;top:960px;width:1080px;text-align:center"><span class="chip">In many countries</span></div>');
+
+      // ---- L15/L16 balance card
+      add(`<div id="ac" class="abs card" style="left:130px;top:470px;width:820px;height:300px;padding:34px 50px" data-layout-allow-overlap><div style="display:flex;align-items:center;gap:18px"><img src="assets/img/gold-bank.svg" style="width:50px" /><div class="tag" style="font-size:28px">Your bank account</div></div><div class="tag" style="text-align:left;color:#8C97AD;margin-top:26px;font-size:24px" data-layout-allow-overlap>Balance</div><div class="big" style="text-align:left;font-size:120px;line-height:1.15;margin-top:2px">$1,000</div></div>`);
+      add(`<div id="vm" class="abs" style="left:350px;top:860px;width:380px;height:380px" data-layout-allow-overlap><svg viewBox="0 0 480 480" width="380" height="380"><rect x="0" y="0" width="480" height="480" rx="40" fill="#1B2740" stroke="#3A4D75" stroke-width="8"/><circle cx="240" cy="240" r="190" fill="#2B3B5C" stroke="#4C6396" stroke-width="8"/><circle cx="240" cy="240" r="120" fill="none" stroke="#E9B949" stroke-width="14"/><g stroke="#E9B949" stroke-width="14" stroke-linecap="round"><path d="M240 120 L240 360"/><path d="M136 180 L344 300"/><path d="M136 300 L344 180"/></g><circle cx="240" cy="240" r="36" fill="#E9B949"/></svg><div id="vms" class="strike" style="left:-20px;top:182px;width:420px"></div></div>`);
+
+      // ---- L17 network
+      add(`<svg id="net" class="abs" viewBox="0 0 1080 700" width="1080" height="700" style="left:0;top:470px"><g stroke="#3A4D75" stroke-width="6" stroke-linecap="round" fill="none"><path id="n0" d="M540 340 L250 130" stroke-dasharray="400" stroke-dashoffset="400"/><path id="n1" d="M540 340 L830 130" stroke-dasharray="400" stroke-dashoffset="400"/><path id="n2" d="M540 340 L250 570" stroke-dasharray="400" stroke-dashoffset="400"/><path id="n3" d="M540 340 L830 570" stroke-dasharray="400" stroke-dashoffset="400"/></g></svg>`);
+      add('<div id="nc" class="abs card" style="left:420px;top:690px;width:240px;height:240px;border-radius:50%;border-color:#E9B949;border-width:4px;text-align:center"><img src="assets/img/gold-bank.svg" style="width:120px;margin-top:62px" /></div>');
+      [['gold-hand-coins', 'Loans', 250, 600], ['gold-chart-line-up', 'Investments', 830, 600], ['gold-scales', 'Rules', 250, 1040], ['gold-users-three', 'People', 830, 1040]].forEach((n, i) => add(`<div id="nn${i}" class="abs card" style="left:${n[2] - 80}px;top:${n[3] - 80}px;width:160px;height:160px;border-radius:50%;text-align:center"><img src="assets/img/${n[0]}.svg" style="width:80px;margin-top:38px" /></div><div id="nl${i}" class="abs tag" style="left:${n[2] - 150}px;top:${n[3] + 92}px;width:300px;font-size:24px">${n[1]}</div>`));
+      for (let i = 0; i < 4; i++) add(`<div id="np${i}" class="abs" style="left:524px;top:804px;width:32px;height:32px;border-radius:50%;background:#E9B949" data-layout-allow-overlap></div>`);
+
+      // ---- L18 final
+      add('<div id="f1" class="abs big" style="left:0;top:330px;width:1080px;font-size:112px">YOU DIDN\'T KNOW</div><div id="f2" class="abs big gd" style="left:0;top:460px;width:1080px;font-size:100px">THAT ABOUT MONEY.</div>');
+
+      // ================= timeline =================
+      // L1 title (0 - 4)
+      R('#a0', 0.1, {}, { duration: 0.4 }); R('#a1', 0.05, {}, { duration: 0.5 }); R('#a2', wd(1, 3) - 0.15, {}, { duration: 0.5 }); R('#a3', wd(1, 6) - 0.15, {}, { duration: 0.5 }); R('#a4', wd(1, 8) - 0.2, { scale: 0.7, y: 40 }, { scale: 1, duration: 0.6 });
+      R('#iBank1', 0.5, { scale: 0.6, y: 60 }, { scale: 1, duration: 0.8 });
+      ['#a0', '#a1', '#a2', '#a3', '#a4', '#iBank1'].forEach((s) => X(s, 4.2, 0.3));
+      // L2 what if (4.8 - 10.4)
+      R('#h2t', 4.8, {}, { duration: 0.4 }); R('#h2b', wd(2, 6) - 0.1, { scale: 0.9 }, { scale: 1, duration: 0.6 });
+      R('#c2', wd(2, 8), POP, POPTO); tl.to('#c2f', { width: '12%', duration: 1.0, ease: IO }, wd(2, 11));
+      ['#h2t', '#h2b', '#c2'].forEach((s) => X(s, 10.6, 0.3));
+      // L3 sounds terrifying (11.7 - 13)
+      R('#s3', 11.7, { scale: 0.85 }, { scale: 1, duration: 0.5 }); R('#s3b', wd(3, 1), { scale: 0.85 }, { scale: 1, duration: 0.5 }); R('#iWarn', wd(3, 2) - 0.1, { scale: 0.5, y: 0 }, POPTO);
+      ['#s3', '#s3b', '#iWarn'].forEach((s) => X(s, 14.1, 0.3));
+      // L4 how it works (14.5 - 16.5)
+      R('#h4t', 14.55, {}, { duration: 0.4 }); R('#h4b', wd(4, 2) - 0.1, { scale: 0.9 }, { scale: 1, duration: 0.6 });
+      R('#iGear', wd(4, 4), { scale: 0.5, y: 0 }, POPTO);
+      ['#h4t', '#h4b', '#iGear'].forEach((s) => X(s, 17.0, 0.3));
+      // L5 100 people each $1,000 (17.2 - 22)
+      R('#h5t', 17.25, {}, { duration: 0.4 }); R('#h5b', wd(5, 1) - 0.15, { scale: 0.88 }, { scale: 1, duration: 0.6 });
+      for (let i = 0; i < 100; i++) { tl.fromTo('#d' + i, { opacity: 0, scale: 0.3, backgroundColor: 'rgba(233,185,73,0)' }, { opacity: 1, scale: 1, duration: 0.3, ease: E, immediateRender: false }, wd(5, 1) + 0.2 + i * 0.016); tl.to('#d' + i, { backgroundColor: '#E9B949', duration: 0.25, ease: 'none' }, wd(5, 5) + i * 0.012); }
+      R('#p5', wd(5, 5), {}, { duration: 0.4 }); X('#p5', 22.2, 0.25);
+      X('#h5t', 22.3, 0.25); X('#h5b', 22.3, 0.25);
+      // L6 total deposits (22.4 - 25.5)
+      R('#h6t', 22.45, {}, { duration: 0.4 }); R('#h6b', wd(6, 1) - 0.1, { scale: 0.8, y: 40 }, { scale: 1, duration: 0.6 }); count('#h6b', wd(6, 1), 0, 100000, 1.1);
+      for (let i = 0; i < 100; i++) tl.to('#d' + i, { y: -8, duration: 0.2, yoyo: true, repeat: 1, ease: 'sine.inOut' }, wd(6, 1) + hash(i) * 0.9);
+      ['#h6t', '#h6b'].forEach((s) => X(s, 26.0, 0.25)); for (let i = 0; i < 100; i++) X('#d' + i, 25.9 + hash(i + 3) * 0.3, 0.3);
+      // L7 vault (26.1 - 30.5)
+      R('#h7t', 26.15, {}, { duration: 0.4 }); R('#h7b', wd(7, 5) - 0.2, { scale: 0.9 }, { scale: 1, duration: 0.6 });
+      R('#vault', wd(7, 6), { scale: 0.85, y: 50 }, { scale: 1, duration: 0.7 }); tl.fromTo('#vWheel', { rotation: 0, svgOrigin: '240 240' }, { rotation: 300, svgOrigin: '240 240', duration: 2.0, ease: 'power2.out', immediateRender: false }, wd(7, 9));
+      X('#h7t', 31.1, 0.2); X('#h7b', 31.1, 0.2);
+      // L8 but it doesn't (31.3 - 32.6)
+      tl.to('#vWheel', { rotation: 420, svgOrigin: '240 240', duration: 0.5, ease: 'power2.inOut' }, 31.0); tl.to('#vDoor', { scaleX: 0.1, duration: 0.9, ease: IO }, wd(8, 2) - 0.1);
+      R('#v8', wd(8, 0), { scale: 0.8, y: 40 }, { scale: 1, duration: 0.6 });
+      ['#vault', '#v8'].forEach((s) => X(s, 33.0, 0.3));
+      // L9 lend invest operate (33.2 - 37.9)
+      R('#h9t', 33.25, {}, { duration: 0.4 }); R('#h9b', wd(9, 4) - 0.2, { scale: 0.9 }, { scale: 1, duration: 0.6 });
+      R('#bk9', wd(9, 2), { y: 40 }, { duration: 0.6 });
+      tl.fromTo('#arrow', { opacity: 0 }, { opacity: 1, duration: 0.01, immediateRender: false }, 33.3); tl.to('#arrow', { opacity: 0, duration: 0.01 }, 36.0);
+      R('#u0', wd(9, 5) - 0.2, POP, POPTO); R('#u1', wd(9, 7) - 0.2, POP, POPTO); R('#u2', wd(9, 11) - 0.2, POP, POPTO);
+      ['#h9t', '#h9b', '#bk9', '#u0', '#u1', '#u2'].forEach((s) => X(s, 38.4, 0.3));
+      // L10 liquid funds (38.66 - 42)
+      R('#h10t', 38.7, {}, { duration: 0.4 }); R('#h10b', wd(10, 3) - 0.1, { scale: 0.85 }, { scale: 1, duration: 0.6 });
+      R('#lq', wd(10, 2) - 0.2, { y: 40 }, { duration: 0.6 }); tl.to('#lqc', { width: 120, duration: 0.8, ease: IO }, wd(10, 3) + 0.2);
+      R('#lq2', wd(10, 7), {}, { duration: 0.5 });
+      ['#h10t', '#h10b', '#lq', '#lq2'].forEach((s) => X(s, 42.4, 0.25));
+      // L11 everyone at once (42.62 - 48.3)
+      R('#h11t', 42.65, {}, { duration: 0.4 }); R('#h11b', wd(11, 3) - 0.1, { scale: 0.9 }, { scale: 1, duration: 0.6 });
+      for (let i = 0; i < 100; i++) tl.fromTo('#d' + i, { opacity: 0, scale: 0.3, backgroundColor: '#F0616D', borderColor: '#F0616D', x: 0, y: 0 }, { opacity: 1, scale: 1, duration: 0.25, ease: E, immediateRender: false }, wd(11, 3) + 0.05 + i * 0.012);
+      R('#rb', wd(11, 4), { y: 40 }, { duration: 0.6 });
+      for (let i = 0; i < 100; i++) { const cx = 190 + (i % 10) * 70, cy = 480 + Math.floor(i / 10) * 70; tl.to('#d' + i, { x: 540 - 28 - cx, y: 1280 - 28 - cy, scale: 0.3, opacity: 0, duration: 0.6, ease: 'power2.in' }, wd(11, 6) + 0.1 + hash(i + 7) * 1.4); }
+      tl.to('#rbf', { width: '0%', duration: 1.6, ease: 'power1.in' }, wd(11, 6) + 0.3);
+      ['#h11t', '#h11b'].forEach((s) => X(s, 49.0, 0.25));
+      // L12 not enough cash (49.2 - 52)
+      R('#h12t', 49.25, {}, { duration: 0.4 }); R('#h12b', wd(12, 5) - 0.1, { scale: 0.85 }, { scale: 1, duration: 0.6 });
+      tl.to('#rb', { y: -560, scale: 1.4, duration: 0.8, ease: IO }, 49.25);
+      R('#rbx', wd(12, 7), { scale: 0.8, y: 40 }, { scale: 1, duration: 0.6 });
+      ['#h12t', '#h12b', '#rbx'].forEach((s) => X(s, 52.3, 0.25));
+      // L13 bank run (52.6 - 54.8)
+      tl.fromTo('#stamp', { opacity: 0, scale: 2.2, rotation: 0 }, { opacity: 1, scale: 1, rotation: -6, duration: 0.4, ease: E, immediateRender: false }, wd(13, 4));
+      ['#stamp', '#rb'].forEach((s) => X(s, 54.7, 0.3));
+      // L14 safeguards (54.8 - 60)
+      R('#h14t', 54.85, {}, { duration: 0.4 }); R('#h14b', wd(14, 5) - 0.2, { scale: 0.85 }, { scale: 1, duration: 0.6 });
+      R('#g0', wd(14, 5), POP, POPTO); R('#g2', wd(14, 7), {}, { duration: 0.5 }); R('#g1', wd(14, 10), POP, POPTO);
+      ['#h14t', '#h14b', '#g0', '#g1', '#g2'].forEach((s) => X(s, 60.3, 0.3));
+      // L15 / L16 balance, not in a vault (60.8 - 67.9)
+      R('#h15t', 60.85, {}, { duration: 0.4 }); R('#h15b', wd(15, 5) - 0.1, { scale: 0.88 }, { scale: 1, duration: 0.6 }); R('#ac', wd(15, 6), { y: 40 }, { duration: 0.6 });
+      X('#h15t', 63.9, 0.2); X('#h15b', 63.9, 0.2);
+      R('#h16t', 64.1, {}, { duration: 0.4 }); R('#h16b', wd(16, 6) - 0.1, { scale: 0.85 }, { scale: 1, duration: 0.6 });
+      R('#vm', wd(16, 6), POP, POPTO); STRIKE('#vms', wd(16, 7) + 0.1);
+      ['#h16t', '#h16b', '#vm', '#ac'].forEach((s) => X(s, 68.0, 0.25));
+      // L17 bigger system (68.2 - 70.9)
+      R('#h17t', 68.2, {}, { duration: 0.4 }); R('#h17b', wd(17, 5) - 0.2, { scale: 0.9 }, { scale: 1, duration: 0.6 });
+      tl.fromTo('#net', { opacity: 0 }, { opacity: 1, duration: 0.3, ease: 'none', immediateRender: false }, wd(17, 4)); R('#nc', wd(17, 4), { scale: 0.5, y: 0 }, POPTO);
+      [0, 1, 2, 3].forEach((i) => { const t0 = wd(17, 5) + i * 0.15; tl.to('#n' + i, { strokeDashoffset: 0, duration: 0.5, ease: 'none' }, t0); R('#nn' + i, t0 + 0.3, { scale: 0.5, y: 0 }, { scale: 1, duration: 0.45 }); R('#nl' + i, t0 + 0.4, {}, { duration: 0.4 }); });
+      const NP = [[250, 600], [830, 600], [250, 1040], [830, 1040]];
+      [0, 1, 2, 3].forEach((i) => { tl.fromTo('#np' + i, { opacity: 1, x: 0, y: 0 }, { x: NP[i][0] - 540, y: NP[i][1] - 820, duration: 0.5, ease: 'power1.inOut', immediateRender: false }, wd(17, 6) + 0.4 + i * 0.1); tl.to('#np' + i, { opacity: 0, duration: 0.1 }, wd(17, 6) + 0.95 + i * 0.1); });
+      ['#h17t', '#h17b', '#net', '#nc', '#nn0', '#nn1', '#nn2', '#nn3', '#nl0', '#nl1', '#nl2', '#nl3'].forEach((s) => X(s, 71.0, 0.25));
+      // L18 final (71.3 - 73)
+      R('#f1', 71.3, {}, { duration: 0.6 }); R('#f2', 71.95, { scale: 0.85, y: 40 }, { scale: 1, duration: 0.6 });
+
+      // ---- Lotties (time-shifted copies; see scripts/lottie_shift.mjs)
+      const mk = (id, path) => { const a = lottie.loadAnimation({ container: document.getElementById(id), renderer: 'svg', loop: false, autoplay: false, path, rendererSettings: { preserveAspectRatio: 'xMidYMid meet' } }); (window.__hfLottie = window.__hfLottie || []).push(a); return a; };
+      mk('arrow', 'assets/lottie/arrow-s.json'); mk('conf', 'assets/lottie/confetti-s.json');
+      tl.fromTo('#conf', { opacity: 0 }, { opacity: 1, duration: 0.01, immediateRender: false }, 71.4); tl.to('#conf', { opacity: 0, duration: 0.01 }, 74.0);
+      tl.fromTo('#root', { backgroundPosition: '0px 0px' }, { backgroundPosition: '-120px -240px', duration: 74.73, ease: 'none', immediateRender: false }, 0);
+
+      // ---------- captions ----------
+      const capsEl = $('#caps');
+      const groups = []; let cur = [];
+      WORDS.forEach((w, i) => { cur.push(w); const nx = WORDS[i + 1]; const endS = /[.!?…]$/.test(w.w); const endC = /,$/.test(w.w) && cur.length >= 3; if (!nx || endS || endC || cur.length >= 5 || (nx && nx.s - w.e > 0.5)) { groups.push(cur); cur = []; } });
+      groups.forEach((g, gi) => {
+        if (g[0].line === 18) return;
+        const d = document.createElement('div'); d.className = 'cg'; const pill = document.createElement('div'); pill.className = 'pill'; d.appendChild(pill);
+        g.forEach((w, wi) => { const s = document.createElement('span'); s.className = 'cw'; s.id = `cw${gi}_${wi}`; s.textContent = w.w; pill.appendChild(s); });
+        capsEl.appendChild(d);
+        const a = g[0].s - 0.03, nextS = groups[gi + 1] ? groups[gi + 1][0].s : 1e9, b = Math.min(g[g.length - 1].e + 0.25, nextS - 0.12);
+        tl.fromTo(d, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.12, ease: 'power2.out', immediateRender: false }, Math.max(0, a));
+        tl.to(d, { opacity: 0, duration: 0.08, ease: 'none' }, b);
+        g.forEach((w, wi) => { const sp = `#cw${gi}_${wi}`;
+          tl.fromTo(sp, { backgroundColor: 'rgba(233,185,73,0)', color: '#F1F3F8' }, { backgroundColor: '#E9B949', color: '#0B1220', duration: 0.07, ease: 'none', immediateRender: false }, w.s);
+          tl.to(sp, { backgroundColor: 'rgba(233,185,73,0)', color: '#F1F3F8', duration: 0.08, ease: 'none' }, Math.max(w.e, w.s + 0.12)); });
+      });
+      tl.fromTo('#prog', { scaleX: 0 }, { scaleX: 1, duration: 74.73, ease: 'none', immediateRender: false }, 0);
+      window.__timelines['main'] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,18 @@
+.env
+node_modules
+out
+
+# generated / heavy (Oct-Nov 2026)
+renders/
+snapshots/
+capture/
+*.mp4
+*.mov
+*.mp3
+*.wav
+*.pyc
+__pycache__/
+videos/_sheet*
+videos/*/qa/
+assets/rec/
+scratch_unused/

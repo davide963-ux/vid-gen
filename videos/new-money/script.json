@@ -1,0 +1,21 @@
+[
+ {"say":"You didn't know governments can literally create new money.","pause":0.5},
+ {"say":"What if I told you that money can be created out of thin air?","pause":0.5},
+ {"say":"No printing machine. No gold. Just numbers.","pause":0.5},
+ {"say":"Sounds like a magic trick, right?","pause":0.5},
+ {"say":"But this is how part of the modern financial system works.","pause":0.5},
+ {"say":"In many countries, central banks can create new money electronically.","pause":0.5},
+ {"say":"Imagine a central bank wants to put more money into the financial system.","pause":0.5},
+ {"say":"It can buy government bonds from banks or other investors.","pause":0.5},
+ {"say":"And how does it pay?","pause":0.45},
+ {"say":"By creating new electronic money.","pause":0.5},
+ {"say":"No trucks full of cash. No giant printing presses.","pause":0.5},
+ {"say":"Just new money added to the banking system.","pause":0.5},
+ {"say":"But here's the catch.","pause":0.5},
+ {"say":"Creating more money doesn't automatically make everyone richer.","pause":0.5},
+ {"say":"If spending grows faster than the economy can produce goods and services, prices can rise.","pause":0.5},
+ {"say":"And your money could end up buying less.","pause":0.5},
+ {"say":"So creating money is one thing.","pause":0.4},
+ {"say":"Creating real wealth is something completely different.","pause":0.55},
+ {"say":"You didn't know that about money.","pause":0.3,"tail":1.6}
+]

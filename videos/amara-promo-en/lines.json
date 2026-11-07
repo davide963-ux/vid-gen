@@ -1,0 +1,85 @@
+{
+  "total": 32.98,
+  "lines": [
+    {
+      "i": 1,
+      "file": "assets/voice/01.wav",
+      "text": "Dreaming of a holiday by the sea?",
+      "tts": "Dreaming of a holiday by the sea?",
+      "start": 0.3,
+      "dur": 2.069,
+      "end": 2.369,
+      "pause": 0.5
+    },
+    {
+      "i": 2,
+      "file": "assets/voice/02.wav",
+      "text": "Welcome to Amara Hotel & SPA, in Durrës.",
+      "tts": "Welcome to Amara Hotel and spa, in Durres.",
+      "start": 2.869,
+      "dur": 3.2,
+      "end": 6.069,
+      "pause": 0.5
+    },
+    {
+      "i": 3,
+      "file": "assets/voice/03.wav",
+      "text": "Elegant rooms, many with sea views, where every detail is designed for your comfort.",
+      "tts": "Elegant rooms, many with sea views, where every detail is designed for your comfort.",
+      "start": 6.569,
+      "dur": 5.589,
+      "end": 12.159,
+      "pause": 0.5
+    },
+    {
+      "i": 4,
+      "file": "assets/voice/04.wav",
+      "text": "Enjoy exquisite dishes at our restaurant by the sea.",
+      "tts": "Enjoy exquisite dishes at our restaurant by the sea.",
+      "start": 12.659,
+      "dur": 3.221,
+      "end": 15.88,
+      "pause": 0.5
+    },
+    {
+      "i": 5,
+      "file": "assets/voice/05.wav",
+      "text": "Relax by the outdoor pool, or at the private beach, with direct access.",
+      "tts": "Relax by the outdoor pool, or at the private beach, with direct access.",
+      "start": 16.38,
+      "dur": 4.715,
+      "end": 21.095,
+      "pause": 0.5
+    },
+    {
+      "i": 6,
+      "file": "assets/voice/06.wav",
+      "text": "And recharge at our Wellness Center and SPA.",
+      "tts": "And recharge at our wellness center and spa.",
+      "start": 21.595,
+      "dur": 3.136,
+      "end": 24.731,
+      "pause": 0.55
+    },
+    {
+      "i": 7,
+      "file": "assets/voice/07.wav",
+      "text": "Amara Hotel & SPA. Comfort, redefined.",
+      "tts": "Amara Hotel and spa. Comfort, redefined.",
+      "start": 25.281,
+      "dur": 3.584,
+      "end": 28.865,
+      "pause": 0.55
+    },
+    {
+      "i": 8,
+      "file": "assets/voice/08.wav",
+      "text": "Book your stay today.",
+      "tts": "Book your stay today.",
+      "start": 29.415,
+      "dur": 1.365,
+      "end": 30.78,
+      "pause": 0.3
+    }
+  ]
+}

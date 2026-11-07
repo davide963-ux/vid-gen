@@ -1,0 +1,195 @@
+{
+  "total": 70.51,
+  "lines": [
+    {
+      "i": 1,
+      "file": "assets/voice/01.wav",
+      "text": "You didn't know governments can literally create new money.",
+      "tts": "You didn't know governments can literally create new money.",
+      "start": 0.3,
+      "dur": 3.221,
+      "end": 3.521,
+      "pause": 0.5
+    },
+    {
+      "i": 2,
+      "file": "assets/voice/02.wav",
+      "text": "What if I told you that money can be created out of thin air?",
+      "tts": "What if I told you that money can be created out of thin air?",
+      "start": 4.021,
+      "dur": 3.755,
+      "end": 7.776,
+      "pause": 0.5
+    },
+    {
+      "i": 3,
+      "file": "assets/voice/03.wav",
+      "text": "No printing machine. No gold. Just numbers.",
+      "tts": "No printing machine. No gold. Just numbers.",
+      "start": 8.276,
+      "dur": 3.115,
+      "end": 11.391,
+      "pause": 0.5
+    },
+    {
+      "i": 4,
+      "file": "assets/voice/04.wav",
+      "text": "Sounds like a magic trick, right?",
+      "tts": "Sounds like a magic trick, right?",
+      "start": 11.891,
+      "dur": 2.048,
+      "end": 13.939,
+      "pause": 0.5
+    },
+    {
+      "i": 5,
+      "file": "assets/voice/05.wav",
+      "text": "But this is how part of the modern financial system works.",
+      "tts": "But this is how part of the modern financial system works.",
+      "start": 14.439,
+      "dur": 3.691,
+      "end": 18.129,
+      "pause": 0.5
+    },
+    {
+      "i": 6,
+      "file": "assets/voice/06.wav",
+      "text": "In many countries, central banks can create new money electronically.",
+      "tts": "In many countries, central banks can create new money electronically.",
+      "start": 18.629,
+      "dur": 4.395,
+      "end": 23.024,
+      "pause": 0.5
+    },
+    {
+      "i": 7,
+      "file": "assets/voice/07.wav",
+      "text": "Imagine a central bank wants to put more money into the financial system.",
+      "tts": "Imagine a central bank wants to put more money into the financial system.",
+      "start": 23.524,
+      "dur": 4.779,
+      "end": 28.303,
+      "pause": 0.5
+    },
+    {
+      "i": 8,
+      "file": "assets/voice/08.wav",
+      "text": "It can buy government bonds from banks or other investors.",
+      "tts": "It can buy government bonds from banks or other investors.",
+      "start": 28.803,
+      "dur": 3.755,
+      "end": 32.557,
+      "pause": 0.5
+    },
+    {
+      "i": 9,
+      "file": "assets/voice/09.wav",
+      "text": "And how does it pay?",
+      "tts": "And how does it pay?",
+      "start": 33.057,
+      "dur": 1.472,
+      "end": 34.529,
+      "pause": 0.45
+    },
+    {
+      "i": 10,
+      "file": "assets/voice/10.wav",
+      "text": "By creating new electronic money.",
+      "tts": "By creating new electronic money.",
+      "start": 34.979,
+      "dur": 2.261,
+      "end": 37.241,
+      "pause": 0.5
+    },
+    {
+      "i": 11,
+      "file": "assets/voice/11.wav",
+      "text": "No trucks full of cash. No giant printing presses.",
+      "tts": "No trucks full of cash. No giant printing presses.",
+      "start": 37.741,
+      "dur": 3.52,
+      "end": 41.261,
+      "pause": 0.5
+    },
+    {
+      "i": 12,
+      "file": "assets/voice/12.wav",
+      "text": "Just new money added to the banking system.",
+      "tts": "Just new money added to the banking system.",
+      "start": 41.761,
+      "dur": 2.667,
+      "end": 44.427,
+      "pause": 0.5
+    },
+    {
+      "i": 13,
+      "file": "assets/voice/13.wav",
+      "text": "But here's the catch.",
+      "tts": "But here's the catch.",
+      "start": 44.927,
+      "dur": 1.365,
+      "end": 46.293,
+      "pause": 0.5
+    },
+    {
+      "i": 14,
+      "file": "assets/voice/14.wav",
+      "text": "Creating more money doesn't automatically make everyone richer.",
+      "tts": "Creating more money doesn't automatically make everyone richer.",
+      "start": 46.793,
+      "dur": 3.947,
+      "end": 50.739,
+      "pause": 0.5
+    },
+    {
+      "i": 15,
+      "file": "assets/voice/15.wav",
+      "text": "If spending grows faster than the economy can produce goods and services, prices can rise.",
+      "tts": "If spending grows faster than the economy can produce goods and services, prices can rise.",
+      "start": 51.239,
+      "dur": 6.101,
+      "end": 57.341,
+      "pause": 0.5
+    },
+    {
+      "i": 16,
+      "file": "assets/voice/16.wav",
+      "text": "And your money could end up buying less.",
+      "tts": "And your money could end up buying less.",
+      "start": 57.841,
+      "dur": 2.261,
+      "end": 60.102,
+      "pause": 0.5
+    },
+    {
+      "i": 17,
+      "file": "assets/voice/17.wav",
+      "text": "So creating money is one thing.",
+      "tts": "So creating money is one thing.",
+      "start": 60.602,
+      "dur": 2.219,
+      "end": 62.821,
+      "pause": 0.4
+    },
+    {
+      "i": 18,
+      "file": "assets/voice/18.wav",
+      "text": "Creating real wealth is something completely different.",
+      "tts": "Creating real wealth is something completely different.",
+      "start": 63.221,
+      "dur": 3.349,
+      "end": 66.57,
+      "pause": 0.55
+    },
+    {
+      "i": 19,
+      "file": "assets/voice/19.wav",
+      "text": "You didn't know that about money.",
+      "tts": "You didn't know that about money.",
+      "start": 67.12,
+      "dur": 1.792,
+      "end": 68.912,
+      "pause": 0.3
+    }
+  ]
+}

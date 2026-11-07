@@ -1,0 +1,31 @@
+:root { --bg: #0a0a0a; --ink: #fffdf6; --accent: #e5ab33; --panel: #17130a; --line: #4a3607; --muted: #b5ac96; --good: #e5ab33; --bad: #e5ab33; --on-accent: #0a0a0a; --dots: rgba(229,171,51,0.06); --glow: rgba(229,171,51,0.10); }
+
+.uc { position: absolute; opacity: 0; background: #17130a; border: 2px solid #4a3607; border-radius: 36px; box-shadow: 0 26px 60px rgba(0,0,0,.55); color: #fffdf6; }
+.uc.gold { background: #e5ab33; border-color: #f3c866; color: #0a0a0a; }
+.uc img { position: absolute; }
+.lab { position: absolute; font-weight: 600; font-size: 30px; letter-spacing: .14em; text-transform: uppercase; color: #b5ac96; white-space: nowrap; }
+.gold .lab { color: #3b2a05; }
+.val { position: absolute; font-weight: 700; letter-spacing: -.03em; white-space: nowrap; line-height: 1; }
+.ccard { background: linear-gradient(135deg,#f6cf72,#d79a22 60%,#b57a12); border-radius: 46px; box-shadow: 0 30px 70px rgba(0,0,0,.6), inset 0 2px 0 rgba(255,255,255,.35); color: #0a0a0a; }
+.ccard .chipx { position: absolute; width: 112px; height: 84px; border-radius: 16px; background: linear-gradient(135deg,#fbe7a5,#c9921f); border: 2px solid rgba(0,0,0,.25); }
+.tagc { position: absolute; padding: 12px 30px; border-radius: 100px; font-weight: 700; font-size: 34px; letter-spacing: .06em; white-space: nowrap; background: rgba(229,171,51,.12); border: 2px solid rgba(229,171,51,.55); color: #e5ab33; }
+.tagc.fill { background: #e5ab33; color: #0a0a0a; border-color: #f3c866; }
+.photo { position: absolute; opacity: 0; border-radius: 22px; overflow: hidden; border: 3px solid #e5ab33; box-shadow: 0 30px 80px rgba(0,0,0,.65), 0 0 110px rgba(229,171,51,.28); background: #0a0a0a; }
+.photo img { position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; }
+.shine { position: absolute; top: -20%; left: 0; width: 38%; height: 140%; background: linear-gradient(100deg, transparent, rgba(255,246,214,.55), transparent); transform: skewX(-18deg); opacity: .8; }
+.frame { position: absolute; opacity: 0; border-radius: 28px; overflow: hidden; border: 3px solid #e5ab33; box-shadow: 0 30px 80px rgba(0,0,0,.65), 0 0 90px rgba(229,171,51,.22); background: #0a0a0a; }
+.frame img { position: absolute; left: 0; top: 0; width: 100%; }
+.rays { position: absolute; opacity: 0; border-radius: 50%; background: repeating-conic-gradient(from 0deg, rgba(229,171,51,.30) 0deg 9deg, rgba(229,171,51,0) 9deg 24deg); -webkit-mask-image: radial-gradient(closest-side, #000 25%, transparent 100%); mask-image: radial-gradient(closest-side, #000 25%, transparent 100%); }
+.dg { position: absolute; width: 56px; height: 84px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 54px; border: 3px solid #4a3607; background: #17130a; color: #fffdf6; }
+.dg.one { background: #e5ab33; border-color: #f3c866; color: #0a0a0a; }
+.loaf { position: absolute; opacity: 0; background: linear-gradient(180deg,#e9b650,#a86f12); border-radius: 130px 130px 70px 70px; box-shadow: 0 24px 50px rgba(0,0,0,.55), inset 0 -14px 0 rgba(0,0,0,.18); }
+.loaf i { position: absolute; top: 40px; width: 20px; height: 84px; border-radius: 12px; background: rgba(60,35,4,.45); transform: rotate(24deg); }
+.stamp { position: absolute; opacity: 0; border: 8px solid #e5ab33; border-radius: 22px; color: #e5ab33; font-weight: 700; letter-spacing: .06em; text-align: center; background: rgba(10,10,10,.72); white-space: nowrap; }
+.pt { position: absolute; border-radius: 50%; background: #e5ab33; }
+.ring2 { position: absolute; opacity: 0; border-radius: 50%; border: 6px solid #e5ab33; }
+#flash { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; pointer-events: none; opacity: 0; background: radial-gradient(closest-side at 50% 50%, rgba(255,226,140,.85), rgba(229,171,51,.25) 70%, rgba(229,171,51,0)); }
+
+#stage { isolation: isolate; }
+#gl { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; display: block; z-index: -1; }
+.win { position: absolute; opacity: 0; border-radius: 26px; border: 10px solid #4a3607; background: linear-gradient(180deg,#1a1408,#0e0a04); box-shadow: 0 26px 60px rgba(0,0,0,.55); }
+.win i { position: absolute; background: #4a3607; }

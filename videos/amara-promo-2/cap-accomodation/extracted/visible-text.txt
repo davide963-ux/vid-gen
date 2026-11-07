@@ -1,0 +1,101 @@
+[span] Rruga Pavaresia, Lagjja nr.13, Durrës
+[span] +355 67 70 78 000
+[span] Rruga Pavaresia, Lagjja nr.13 Durrës
+[span] Menu
+[span] +355 67 70 78 000
+[span] BOOK NOW
+[span] About Us
+[span] Accomodation
+[span] Restaurant
+[span] Wellness
+[a] Standard Double Room
+[p] 1 Double bed 0 Single bed
+[p] Standard Double Rooms are designed for maximum comfort like any other room in our hotel. At Amara’s you will find 10 Standard Double Rooms with sea view and 14 others with city view.
+[h2] Housekeeping
+[h2] High Speed WiFi
+[h2] Room Service 24/7
+[h2] Hot Shower
+[h2] Security 24/7
+[h2] Breakfast
+[span] See more
+[a] Twin Room
+[p] 0 Double bed 2 Single bed
+[p] This room is called “Lima” by its design. Our twin rooms come also with the “Jeans” design. At Amara Hotel & SPA you will find 13 Twin Rooms with sea view and 6 others with city view.
+[h2] Housekeeping
+[h2] High Speed WiFi
+[h2] Room Service 24/7
+[h2] Hot Shower
+[h2] Security 24/7
+[h2] Breakfast
+[span] See more
+[a] Family Room
+[p] 1 Double bed 2 Single bed
+[p] The family room consists of two separate rooms with a connecting door. Both rooms have their own toilet and balcony. At Amara Hotel & SPA you will find 4 Family Rooms and all of them are sea view.
+[h2] Housekeeping
+[h2] High Speed WiFi
+[h2] Room Service 24/7
+[h2] Hot Shower
+[h2] Security 24/7
+[h2] Breakfast
+[span] See more
+[a] Junior Suite
+[p] 2 Double bed 0 Single bed
+[p] Junior suite is composed by one living room and the sleeping room. The sofa placed in the living room can be turned into a double bed making the room suitable for 4 persons. There are two balconies where one has city view and the other sea view. At Amara’s Hotel & SPA you will find 2 Junior Suites.
+[h2] Housekeeping
+[h2] High Speed WiFi
+[h2] Room Service 24/7
+[h2] Hot Shower
+[h2] Security 24/7
+[h2] Breakfast
+[span] See more
+[a] Deluxe Suite
+[p] 1 Double bed 0 Single bed
+[p] Our Deluxe Suite ‘boasts’ a tastefully designed décor and modern guest equipment. It houses a marble bathroom with shower as well as an environment that can be consumed and breakfast in total privacy. The bathtub inside the room will give you another feeling of relaxation.
+[h2] Housekeeping
+[h2] High Speed WiFi
+[h2] Room Service 24/7
+[h2] Hot Shower
+[h2] Security 24/7
+[h2] Breakfast
+[span] See more
+[span] Sign in
+[label] Username or email
+[label] Password
+[button] Login
+[a] Lost your password?
+[span] About Us
+[span] Accomodation
+[span] Restaurant
+[span] Wellness
+[a] +(406) 555-0120
+[span] Book Your Stay
+[h2] Sign Up For Exclusive
+[h2] Offers From Us
+[label] Email
+[span] subscribe now
+[p] PAGES
+[span] Home
+[span] About Us
+[span] Accomodation
+[span] Restaurant
+[span] Wellness
+[span] Contact
+[p] contact
+[a] +355 67 70 78 000
+[a] info@amarahotel.al
+[a] Rruga Pavaresia, Lagjja nr.13, Durrës
+[p] follow us
+[p] PAGES
+[span] Home
+[span] About Us
+[span] Accomodation
+[span] Restaurant
+[span] Wellness
+[span] Contact
+[p] contact
+[a] +355 67 70 78 000
+[a] info@amarahotel.al
+[a] Rruga Pavaresia, Lagjja nr.13, Durrës
+[p] follow us
+[p] Copyright © 2025 Amara Hotel & SPA. All rights reserved
+[a] Developed by Alien Studio

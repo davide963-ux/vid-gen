@@ -1,0 +1,15 @@
+:root { --bg: #0a0a0a; --ink: #fffdf6; --accent: #e5ab33; --panel: #17130a; --line: #4a3607; --muted: #b5ac96; --good: #e5ab33; --bad: #e5ab33; --on-accent: #0a0a0a; --dots: rgba(229,171,51,0.06); --glow: rgba(229,171,51,0.10); }
+
+.uc { position: absolute; opacity: 0; background: #17130a; border: 2px solid #4a3607; border-radius: 36px; box-shadow: 0 26px 60px rgba(0,0,0,.55); color: #fffdf6; }
+.uc.gold { background: #e5ab33; border-color: #f3c866; color: #0a0a0a; }
+.uc img { position: absolute; }
+.lab { position: absolute; font-weight: 600; font-size: 30px; letter-spacing: .14em; text-transform: uppercase; color: #b5ac96; white-space: nowrap; }
+.gold .lab { color: #3b2a05; }
+.val { position: absolute; font-weight: 700; letter-spacing: -.03em; white-space: nowrap; line-height: 1; }
+.ccard { background: linear-gradient(135deg,#f6cf72,#d79a22 60%,#b57a12); border-radius: 46px; box-shadow: 0 30px 70px rgba(0,0,0,.6), inset 0 2px 0 rgba(255,255,255,.35); color: #0a0a0a; }
+.ccard .chipx { position: absolute; width: 112px; height: 84px; border-radius: 16px; background: linear-gradient(135deg,#fbe7a5,#c9921f); border: 2px solid rgba(0,0,0,.25); }
+.tagc { position: absolute; padding: 12px 30px; border-radius: 100px; font-weight: 700; font-size: 34px; letter-spacing: .06em; white-space: nowrap; background: rgba(229,171,51,.12); border: 2px solid rgba(229,171,51,.55); color: #e5ab33; }
+.tagc.fill { background: #e5ab33; color: #0a0a0a; border-color: #f3c866; }
+
+.bill { background: linear-gradient(135deg,#f6cf72,#d79a22 60%,#b57a12); border-radius: 30px; box-shadow: 0 30px 70px rgba(0,0,0,.6), inset 0 2px 0 rgba(255,255,255,.35); color: #0a0a0a; }
+.bill .ring { position: absolute; border-radius: 50%; border: 6px solid rgba(10,10,10,.55); display: flex; align-items: center; justify-content: center; font-weight: 700; }

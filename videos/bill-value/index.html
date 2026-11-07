@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
+    <style>
+      @font-face { font-family: 'Space Grotesk'; font-weight: 500; src: url('assets/fonts/space-grotesk-latin-500-normal.woff2') format('woff2'); }
+      @font-face { font-family: 'Space Grotesk'; font-weight: 600; src: url('assets/fonts/space-grotesk-latin-600-normal.woff2') format('woff2'); }
+      @font-face { font-family: 'Space Grotesk'; font-weight: 700; src: url('assets/fonts/space-grotesk-latin-700-normal.woff2') format('woff2'); }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #fdfae7; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background-color: #fdfae7; background-image: radial-gradient(rgba(30,43,250,0.10) 2.5px, transparent 2.5px); background-size: 60px 60px; font-family: 'Space Grotesk', sans-serif; color: #111; }
+      #stage { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; }
+      .abs { position: absolute; opacity: 0; }
+      .lot { position: absolute; opacity: 0; }
+      .big { font-weight: 700; letter-spacing: -0.035em; line-height: 1.02; text-align: center; white-space: nowrap; }
+      .bl { color: #1e2bfa; }
+      .tag { font-weight: 600; font-size: 34px; letter-spacing: 0.1em; text-transform: uppercase; color: #1e2bfa; text-align: center; white-space: nowrap; }
+      .chip { display: inline-block; padding: 12px 30px; border-radius: 100px; background: rgba(30,43,250,0.08); border: 1.5px solid rgba(30,43,250,0.22); color: #1e2bfa; font-weight: 600; font-size: 30px; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; }
+      .card { background: #fff; border: 1.5px solid rgba(30,43,250,0.22); border-radius: 26px; box-shadow: 0 16px 50px rgba(17,17,17,0.08); }
+      .strike { position: absolute; height: 10px; border-radius: 6px; background: #1e2bfa; transform-origin: left center; transform: scaleX(0); }
+      .ck { position: absolute; width: 60px; height: 60px; opacity: 0; }
+      .fxd { position: absolute; opacity: 0; }
+      #prog { position: absolute; left: 0; bottom: 0; width: 1080px; height: 6px; background: #1e2bfa; transform-origin: left center; }
+      #caps { position: absolute; left: 0; top: 1392px; width: 1080px; height: 190px; }
+      .cg { position: absolute; left: 90px; top: 0; width: 900px; text-align: center; opacity: 0; }
+      .cg .pill { display: inline-block; padding: 14px 30px 16px; border-radius: 34px; background: #fff; border: 1.5px solid rgba(30,43,250,0.22); box-shadow: 0 8px 30px rgba(17,17,17,0.06); font-weight: 600; font-size: 52px; line-height: 1.2; letter-spacing: -0.01em; color: #111; }
+      .cw { display: inline-block; margin: 0 4px; padding: 0 10px; border-radius: 12px; }
+      .spark { position: absolute; width: 90px; height: 90px; opacity: 0; -webkit-mask-size: contain; mask-size: contain; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-position: center; mask-position: center; -webkit-mask-image: url('assets/img/star.png'); mask-image: url('assets/img/star.png'); }
+      /* the illustrated banknote (generic design, no portrait) */
+      .bill { position: relative; width: 880px; height: 374px; border-radius: 20px; overflow: hidden; background: linear-gradient(135deg, #e6efd9 0%, #cfe0c0 55%, #dce9cd 100%); border: 4px solid #35563a; box-shadow: 0 34px 64px rgba(17,17,17,0.2); }
+      .bill .fine { position: absolute; inset: 0; background: repeating-linear-gradient(45deg, rgba(53,86,58,0.07) 0 3px, transparent 3px 9px); }
+      .bill .frame { position: absolute; inset: 16px; border: 3px solid rgba(53,86,58,0.75); border-radius: 12px; }
+      .bill .medal { position: absolute; left: 300px; top: 52px; width: 280px; height: 270px; border-radius: 135px / 135px; border: 4px solid #35563a; background: repeating-radial-gradient(circle at 50% 50%, rgba(53,86,58,0.42) 0 2px, transparent 2px 10px); }
+      .bill .plate { position: absolute; left: 270px; top: 122px; width: 340px; height: 130px; border-radius: 28px; background: #eef5e3; border: 4px solid #35563a; text-align: center; line-height: 122px; font-weight: 700; font-size: 100px; letter-spacing: -0.04em; color: #1f3a24; white-space: nowrap; }
+      .bill .bc { position: absolute; font-weight: 700; font-size: 56px; letter-spacing: -0.03em; color: #1f3a24; white-space: nowrap; }
+      .bill .thread { position: absolute; left: 196px; top: 0; width: 18px; height: 100%; background: linear-gradient(180deg, rgba(30,43,250,0.25), rgba(30,43,250,0.55), rgba(30,43,250,0.25)); }
+      .bill .seal { position: absolute; left: 676px; top: 214px; width: 96px; height: 96px; border-radius: 50%; border: 4px solid #35563a; background: repeating-radial-gradient(circle, rgba(53,86,58,0.5) 0 2px, transparent 2px 7px); }
+      .bill .wm { position: absolute; left: 640px; top: 56px; width: 170px; height: 124px; border-radius: 50%; background: rgba(53,86,58,0.13); }
+      .bill .scan { position: absolute; left: -40px; top: 0; width: 26px; height: 100%; background: linear-gradient(90deg, rgba(30,43,250,0), rgba(30,43,250,0.55), rgba(30,43,250,0)); opacity: 0; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="67.66" data-width="1080" data-height="1920">
+      <div id="stage" class="clip" data-start="0" data-duration="67.66" data-track-index="0">
+        <div id="fx"></div>
+
+        <!-- L1 hook -->
+        <div id="a0" class="abs" style="left:0;top:210px;width:1080px;text-align:center"><span class="chip">About money</span></div>
+        <div id="a1" class="abs big" style="left:0;top:320px;width:1080px;font-size:132px">YOU PROBABLY</div>
+        <div id="a2" class="abs big bl" style="left:0;top:460px;width:1080px;font-size:132px">DIDN'T KNOW</div>
+        <img id="eEx" class="abs" src="assets/img/emote_exclamation.png" style="left:790px;top:300px;width:160px" />
+
+        <!-- the two banknotes are built in script (#b1w, #b2w) -->
+        <div id="bills"></div>
+
+        <!-- L2 face value -->
+        <div id="h2t" class="abs tag" style="left:0;top:225px;width:1080px">Take a</div>
+        <div id="h2b" class="abs big" style="left:0;top:275px;width:1080px;font-size:140px">$100 BILL</div>
+        <div id="v0" class="abs tag" style="left:0;top:884px;width:1080px">It is worth</div>
+        <div id="v1" class="abs big bl" style="left:0;top:940px;width:1080px;font-size:220px">$0</div>
+
+        <!-- L3 cost -->
+        <div id="h3t" class="abs tag" style="left:0;top:225px;width:1080px">But making it costs</div>
+        <div id="h3b" class="abs big bl" style="left:0;top:275px;width:1080px;font-size:150px">FAR LESS</div>
+        <div id="vlab" class="abs tag" style="left:110px;top:880px;width:860px;text-align:left;font-size:28px">What it's worth</div>
+        <div id="vbar" class="abs" style="left:110px;top:928px;width:860px;height:96px;border-radius:20px;background:#1e2bfa;color:#fdfae7;font-weight:700;font-size:58px;line-height:96px;padding-left:34px;letter-spacing:-0.02em">$100</div>
+        <div id="clab" class="abs tag" style="left:110px;top:1070px;width:860px;text-align:left;font-size:28px">What it costs to make</div>
+        <div id="cbar" class="abs" style="left:110px;top:1118px;width:60px;height:96px;border-radius:20px;background:#111"></div>
+        <div id="ctxt" class="abs" style="left:196px;top:1118px;height:96px;line-height:96px;font-weight:700;font-size:52px;letter-spacing:-0.02em;white-space:nowrap">a tiny fraction</div>
+
+        <!-- L4 think -->
+        <img id="eId" class="abs" src="assets/img/emote_idea.png" style="left:830px;top:860px;width:150px" />
+        <div id="k1" class="abs big" style="left:0;top:900px;width:1080px;font-size:190px">THINK</div>
+        <div id="k2" class="abs big bl" style="left:0;top:1090px;width:1080px;font-size:190px">ABOUT IT.</div>
+
+        <!-- L5 material -->
+        <div id="h5t" class="abs tag" style="left:0;top:225px;width:1080px">What's physically inside</div>
+        <div id="h5b" class="abs big bl" style="left:0;top:275px;width:1080px;font-size:150px">NOT $100</div>
+        <div id="mat" class="abs card" style="left:110px;top:920px;width:860px;height:210px"><div class="big" style="font-size:72px;line-height:210px">$100 OF MATERIAL</div><div id="mstr" class="strike" style="left:70px;top:100px;width:720px"></div></div>
+
+        <!-- L6 how it's made -->
+        <div id="h6t" class="abs tag" style="left:0;top:225px;width:1080px">Just a specially designed</div>
+        <div id="h6b" class="abs big" style="left:0;top:275px;width:1080px;font-size:116px">PIECE OF PAPER</div>
+        <div id="r1" class="abs card" style="left:110px;top:880px;width:860px;height:120px;display:flex;align-items:center;gap:30px;padding-left:44px"><img src="assets/img/ph-drop-bold.svg" style="width:68px" /><div class="big" style="font-size:54px;white-space:nowrap">Ink</div></div>
+        <div id="r2" class="abs card" style="left:110px;top:1020px;width:860px;height:120px;display:flex;align-items:center;gap:30px;padding-left:44px"><img src="assets/img/ph-shield-check-bold.svg" style="width:68px" /><div class="big" style="font-size:54px;white-space:nowrap">Security features</div></div>
+        <div id="r3" class="abs card" style="left:110px;top:1160px;width:860px;height:120px;display:flex;align-items:center;gap:30px;padding-left:44px"><img src="assets/img/ph-printer-bold.svg" style="width:68px" /><div class="big" style="font-size:54px;white-space:nowrap">Advanced printing</div></div>
+
+        <!-- L7 not the material -->
+        <div id="h7t" class="abs tag" style="left:0;top:225px;width:1080px">What gives it its value</div>
+        <div id="h7b" class="abs big bl" style="left:0;top:275px;width:1080px;font-size:104px">ISN'T THE MATERIAL</div>
+        <div id="pa" class="abs card" style="left:110px;top:920px;width:400px;height:230px;text-align:center"><img src="assets/img/ph-note-bold.svg" style="width:100px;margin-top:34px" /><div class="tag" style="margin-top:14px;font-size:34px">Paper</div><div id="pastr" class="strike" style="left:40px;top:110px;width:320px"></div></div>
+        <div id="in" class="abs card" style="left:570px;top:920px;width:400px;height:230px;text-align:center"><img src="assets/img/ph-drop-bold.svg" style="width:100px;margin-top:34px" /><div class="tag" style="margin-top:14px;font-size:34px">Ink</div><div id="instr" class="strike" style="left:40px;top:110px;width:320px"></div></div>
+
+        <!-- L8 agreement -->
+        <div id="h8t" class="abs tag" style="left:0;top:225px;width:1080px">It's the agreement</div>
+        <div id="h8b" class="abs big bl" style="left:0;top:275px;width:1080px;font-size:118px">EVERYONE AGREES</div>
+        <div id="stamp8" class="abs big bl" style="left:240px;top:545px;width:600px;font-size:110px;line-height:130px;border:10px solid #1e2bfa;border-radius:24px;background:rgba(253,250,231,0.9);transform-origin:center" data-layout-allow-overlap>$100</div>
+
+        <!-- L9 / L10 the one-dollar bill -->
+        <div id="h9t" class="abs tag" style="left:0;top:225px;width:1080px">The same idea works</div>
+        <div id="h9b" class="abs big" style="left:0;top:275px;width:1080px;font-size:140px">WITH A <span class="bl">$1</span> BILL</div>
+        <div id="h10t" class="abs tag" style="left:0;top:225px;width:1080px">The paper itself has</div>
+        <div id="h10b" class="abs big bl" style="left:0;top:275px;width:1080px;font-size:132px">LITTLE VALUE</div>
+        <div id="paper" class="abs card" style="left:330px;top:920px;width:420px;height:230px;text-align:center"><img src="assets/img/ph-note-bold.svg" style="width:100px;margin-top:34px" /><div class="tag" style="margin-top:14px;font-size:34px">Just paper</div></div>
+
+        <!-- L11 numbers change what it buys -->
+        <div id="h11t" class="abs tag" style="left:0;top:225px;width:1080px">The printed number changes</div>
+        <div id="h11b" class="abs big" style="left:0;top:275px;width:1080px;font-size:106px">WHAT YOU CAN <span class="bl">BUY</span></div>
+        <div id="i1" class="abs card" style="left:60px;top:900px;width:300px;height:290px;text-align:center"><img src="assets/img/ph-coffee-bold.svg" style="width:112px;margin-top:40px" /><div class="big bl" style="font-size:62px;margin-top:24px">$5</div></div>
+        <div id="i2" class="abs card" style="left:390px;top:900px;width:300px;height:290px;text-align:center"><img src="assets/img/ph-pizza-bold.svg" style="width:112px;margin-top:40px" /><div class="big bl" style="font-size:62px;margin-top:24px">$20</div></div>
+        <div id="i3" class="abs card" style="left:720px;top:900px;width:300px;height:290px;text-align:center"><img src="assets/img/ph-device-mobile-bold.svg" style="width:112px;margin-top:40px" /><div class="big bl" style="font-size:62px;margin-top:24px">$100</div></div>
+
+        <!-- L12 holding -->
+        <div id="h12t" class="abs tag" style="left:0;top:225px;width:1080px">When you're holding a</div>
+        <div id="h12b" class="abs big" style="left:0;top:275px;width:1080px;font-size:160px">$100 BILL</div>
+
+        <!-- L13 not paper -->
+        <div id="h13t" class="abs tag" style="left:0;top:225px;width:1080px">You're not really holding</div>
+        <div id="h13b" class="abs big" style="left:0;top:275px;width:1080px;font-size:132px">$100 OF PAPER<div id="h13s" class="strike" style="left:70px;top:62px;width:940px"></div></div>
+
+        <!-- L14 society agreed -->
+        <div id="h14t" class="abs tag" style="left:0;top:225px;width:1080px">Something society agreed is</div>
+        <div id="h14b" class="abs big bl" style="left:0;top:275px;width:1080px;font-size:150px">WORTH $100</div>
+        <div id="stamp14" class="abs big bl" style="left:200px;top:545px;width:680px;font-size:130px;line-height:140px;border:10px solid #1e2bfa;border-radius:24px;background:rgba(253,250,231,0.9);transform-origin:center" data-layout-allow-overlap>AGREED</div>
+
+        <!-- L15 strange -->
+        <div id="s0" class="abs tag" style="left:0;top:240px;width:1080px">One of the</div>
+        <div id="s1" class="abs big bl" style="left:0;top:292px;width:1080px;font-size:176px">STRANGEST</div>
+        <div id="s2" class="abs big" style="left:0;top:510px;width:1080px;font-size:84px">THINGS ABOUT MONEY.</div>
+        <div id="money" class="lot" style="left:330px;top:720px;width:420px;height:330px"></div>
+
+        <!-- L16 final -->
+        <div id="f1" class="abs big" style="left:0;top:330px;width:1080px;font-size:112px">YOU DIDN'T KNOW</div>
+        <div id="f2" class="abs big bl" style="left:0;top:460px;width:1080px;font-size:100px">THAT ABOUT MONEY.</div>
+        <div id="conf" class="lot" style="left:0;top:80px;width:1080px;height:1080px"></div>
+
+        <div id="caps"></div>
+        <div id="prog"></div>
+      </div>
+    </div>
+
+    <script>
+      const WORDS = [{"w":"You","s":0.3,"e":0.54,"line":1},{"w":"probably","s":0.54,"e":0.92,"line":1},{"w":"didn't","s":0.92,"e":1.56,"line":1},{"w":"know","s":1.56,"e":1.7,"line":1},{"w":"this","s":1.7,"e":1.94,"line":1},{"w":"about","s":1.94,"e":2.24,"line":1},{"w":"money.","s":2.24,"e":2.52,"line":1},{"w":"A","s":3.246,"e":3.446,"line":2},{"w":"$100","s":3.446,"e":4.046,"line":2},{"w":"bill","s":4.046,"e":4.666,"line":2},{"w":"is","s":4.666,"e":5.166,"line":2},{"w":"worth","s":5.166,"e":5.386,"line":2},{"w":"$100…","s":5.386,"e":6.166,"line":2},{"w":"but","s":7.159,"e":7.279,"line":3},{"w":"it","s":7.279,"e":7.379,"line":3},{"w":"doesn't","s":7.379,"e":7.759,"line":3},{"w":"cost","s":7.759,"e":7.999,"line":3},{"w":"anywhere","s":7.999,"e":8.639,"line":3},{"w":"near","s":8.639,"e":8.879,"line":3},{"w":"$100","s":8.879,"e":9.539,"line":3},{"w":"to","s":9.539,"e":10.199,"line":3},{"w":"make.","s":10.199,"e":10.459,"line":3},{"w":"Think","s":11.157,"e":11.457,"line":4},{"w":"about","s":11.457,"e":11.777,"line":4},{"w":"it.","s":11.777,"e":11.997,"line":4},{"w":"The","s":12.831,"e":12.971,"line":5},{"w":"government","s":12.971,"e":13.311,"line":5},{"w":"isn't","s":13.311,"e":13.791,"line":5},{"w":"putting","s":13.791,"e":14.051,"line":5},{"w":"$100","s":14.051,"e":14.791,"line":5},{"w":"worth","s":14.791,"e":15.451,"line":5},{"w":"of","s":15.451,"e":15.691,"line":5},{"w":"material","s":15.691,"e":16.291,"line":5},{"w":"into","s":16.291,"e":16.911,"line":5},{"w":"every","s":16.911,"e":17.291,"line":5},{"w":"$100","s":17.291,"e":18.031,"line":5},{"w":"bill.","s":18.031,"e":18.651,"line":5},{"w":"It's","s":19.297,"e":19.557,"line":6},{"w":"basically","s":19.557,"e":20.077,"line":6},{"w":"a","s":20.077,"e":20.277,"line":6},{"w":"specially","s":20.277,"e":20.677,"line":6},{"w":"designed","s":20.677,"e":21.197,"line":6},{"w":"piece","s":21.197,"e":21.457,"line":6},{"w":"of","s":21.457,"e":21.677,"line":6},{"w":"paper","s":21.677,"e":21.957,"line":6},{"w":"with","s":21.957,"e":22.277,"line":6},{"w":"ink,","s":22.277,"e":22.637,"line":6},{"w":"security","s":23.117,"e":23.477,"line":6},{"w":"features,","s":23.477,"e":24.097,"line":6},{"w":"and","s":24.677,"e":24.777,"line":6},{"w":"advanced","s":24.737,"e":25.157,"line":6},{"w":"printing.","s":25.157,"e":25.537,"line":6},{"w":"What","s":26.346,"e":26.526,"line":7},{"w":"gives","s":26.526,"e":26.766,"line":7},{"w":"it","s":26.766,"e":26.946,"line":7},{"w":"its","s":26.946,"e":27.126,"line":7},{"w":"$100","s":27.126,"e":27.806,"line":7},{"w":"value","s":27.806,"e":28.666,"line":7},{"w":"isn't","s":28.666,"e":29.366,"line":7},{"w":"the","s":29.366,"e":29.466,"line":7},{"w":"material","s":29.466,"e":29.926,"line":7},{"w":"it's","s":29.926,"e":30.286,"line":7},{"w":"made","s":30.286,"e":30.506,"line":7},{"w":"from.","s":30.506,"e":30.846,"line":7},{"w":"It's","s":31.497,"e":31.677,"line":8},{"w":"the","s":31.677,"e":31.817,"line":8},{"w":"fact","s":31.817,"e":32.057,"line":8},{"w":"that","s":32.057,"e":32.357,"line":8},{"w":"people,","s":32.357,"e":32.777,"line":8},{"w":"businesses,","s":33.737,"e":33.837,"line":8},{"w":"banks,","s":34.037,"e":34.297,"line":8},{"w":"and","s":34.577,"e":34.677,"line":8},{"w":"governments","s":34.657,"e":35.097,"line":8},{"w":"agree","s":35.097,"e":35.517,"line":8},{"w":"to","s":35.517,"e":35.717,"line":8},{"w":"accept","s":35.717,"e":36.117,"line":8},{"w":"it","s":36.117,"e":36.297,"line":8},{"w":"as","s":36.297,"e":36.577,"line":8},{"w":"$100.","s":36.577,"e":37.237,"line":8},{"w":"The","s":38.532,"e":38.672,"line":9},{"w":"same","s":38.672,"e":38.932,"line":9},{"w":"idea","s":38.932,"e":39.432,"line":9},{"w":"works","s":39.432,"e":39.932,"line":9},{"w":"with","s":39.932,"e":40.172,"line":9},{"w":"a","s":40.172,"e":40.292,"line":9},{"w":"$1","s":40.292,"e":40.732,"line":9},{"w":"bill.","s":40.732,"e":41.112,"line":9},{"w":"The","s":41.769,"e":41.909,"line":10},{"w":"paper","s":41.909,"e":42.189,"line":10},{"w":"itself","s":42.189,"e":42.569,"line":10},{"w":"has","s":42.569,"e":43.009,"line":10},{"w":"very","s":43.009,"e":43.409,"line":10},{"w":"little","s":43.409,"e":43.669,"line":10},{"w":"value.","s":43.669,"e":44.069,"line":10},{"w":"But","s":44.793,"e":44.993,"line":11},{"w":"the","s":44.993,"e":45.133,"line":11},{"w":"number","s":45.133,"e":45.373,"line":11},{"w":"printed","s":45.373,"e":45.733,"line":11},{"w":"on","s":45.733,"e":46.013,"line":11},{"w":"it","s":46.013,"e":46.173,"line":11},{"w":"changes","s":46.173,"e":46.573,"line":11},{"w":"what","s":46.573,"e":46.993,"line":11},{"w":"you","s":46.993,"e":47.153,"line":11},{"w":"can","s":47.153,"e":47.333,"line":11},{"w":"buy","s":47.333,"e":47.613,"line":11},{"w":"with","s":47.613,"e":47.853,"line":11},{"w":"it.","s":47.853,"e":47.993,"line":11},{"w":"So","s":48.65,"e":48.85,"line":12},{"w":"when","s":48.85,"e":49.01,"line":12},{"w":"you're","s":49.01,"e":49.17,"line":12},{"w":"holding","s":49.17,"e":49.55,"line":12},{"w":"a","s":49.55,"e":49.85,"line":12},{"w":"$100","s":49.85,"e":50.43,"line":12},{"w":"bill…","s":50.43,"e":51.09,"line":12},{"w":"you're","s":51.638,"e":51.938,"line":13},{"w":"not","s":51.938,"e":52.058,"line":13},{"w":"really","s":52.058,"e":52.278,"line":13},{"w":"holding","s":52.278,"e":52.718,"line":13},{"w":"$100","s":52.718,"e":53.578,"line":13},{"w":"worth","s":53.578,"e":54.258,"line":13},{"w":"of","s":54.258,"e":54.518,"line":13},{"w":"paper.","s":54.518,"e":54.758,"line":13},{"w":"You're","s":55.573,"e":55.793,"line":14},{"w":"holding","s":55.793,"e":56.073,"line":14},{"w":"something","s":56.073,"e":56.513,"line":14},{"w":"that","s":56.513,"e":56.793,"line":14},{"w":"society","s":56.793,"e":57.293,"line":14},{"w":"has","s":57.293,"e":57.693,"line":14},{"w":"agreed","s":57.693,"e":58.153,"line":14},{"w":"is","s":58.153,"e":58.793,"line":14},{"w":"worth","s":58.793,"e":59.033,"line":14},{"w":"$100.","s":59.033,"e":59.793,"line":14},{"w":"And","s":61.029,"e":61.229,"line":15},{"w":"that's","s":61.229,"e":61.549,"line":15},{"w":"one","s":61.549,"e":61.669,"line":15},{"w":"of","s":61.669,"e":61.769,"line":15},{"w":"the","s":61.769,"e":61.889,"line":15},{"w":"strangest","s":61.889,"e":62.509,"line":15},{"w":"things","s":62.509,"e":62.809,"line":15},{"w":"about","s":62.809,"e":63.189,"line":15},{"w":"money.","s":63.189,"e":63.449,"line":15},{"w":"You","s":64.267,"e":64.467,"line":16},{"w":"didn't","s":64.467,"e":64.767,"line":16},{"w":"know","s":64.767,"e":64.947,"line":16},{"w":"that","s":64.947,"e":65.227,"line":16},{"w":"about","s":65.227,"e":65.487,"line":16},{"w":"money.","s":65.487,"e":65.787,"line":16}];
+      window.__timelines = window.__timelines || {};
+      const hash = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+      const wd = (l, k) => WORDS.filter((w) => w.line === l)[k].s;
+      const tl = gsap.timeline({ paused: true });
+      const E = 'power3.out', IO = 'power2.inOut';
+      const $ = (s) => document.querySelector(s);
+      const R = (el, t, from, to) => tl.fromTo(el, Object.assign({ opacity: 0, y: 28 }, from || {}), Object.assign({ opacity: 1, y: 0, duration: 0.55, ease: E, immediateRender: false }, to || {}), t);
+      const X = (el, t, d) => tl.to(el, { opacity: 0, duration: d || 0.25, ease: 'none' }, t);
+      const POP = { scale: 0.6, y: 24 }, POPTO = { scale: 1, duration: 0.5 };
+      const STRIKE = (sel, t) => tl.fromTo(sel, { scaleX: 0 }, { scaleX: 1, duration: 0.3, ease: 'power2.out', immediateRender: false }, t);
+      const hdr = (ids, a, b) => { ids.forEach((s) => X(s, b, 0.25)); };
+
+      // ---- build the two banknotes
+      const mkBill = (id, val) => `<div id="${id}w" class="abs" style="left:100px;top:450px;width:880px;height:374px" data-layout-allow-overlap><div id="${id}" class="bill" data-layout-allow-overlap><div class="fine"></div><div class="wm"></div><div class="thread"></div><div class="frame"></div><div class="medal"></div><div class="seal"></div><div class="plate bn">$${val}</div><div class="bc bn" style="left:40px;top:26px">${val}</div><div class="bc bn" style="right:40px;top:26px">${val}</div><div class="bc bn" style="left:40px;bottom:22px">${val}</div><div class="bc bn" style="right:40px;bottom:22px">${val}</div><div class="scan"></div></div></div>`;
+      $('#bills').innerHTML = mkBill('b1', '100') + mkBill('b2', '1');
+      const setNum = (bill, v) => { bill.querySelectorAll('.bn').forEach((n) => { n.textContent = (n.classList.contains('plate') ? '$' : '') + v; }); };
+
+      // ---- agreement cards (used twice)
+      const AG = [['ph-users-three-bold', 'People'], ['ph-storefront-bold', 'Businesses'], ['ph-bank-bold', 'Banks'], ['ph-buildings-bold', 'Governments']];
+      const agRow = (p) => AG.map((a, i) => `<div id="${p}${i}" class="abs card" style="left:${50 + i * 250}px;top:900px;width:230px;height:240px;text-align:center"><img src="assets/img/${a[0]}.svg" style="width:104px;margin-top:34px" /><div class="tag" style="margin-top:18px;font-size:24px;letter-spacing:0.06em">${a[1]}</div><img id="${p}c${i}" class="ck" src="assets/img/ph-check-circle-bold.svg" style="right:-14px;top:-18px" /></div>`).join('');
+      $('#fx').insertAdjacentHTML('beforebegin', agRow('g') + agRow('p'));
+
+      // ---- L1 hook (bill peeks in below)
+      R('#a0', 0.3); R('#a1', 0.3, {}, { duration: 0.6 }); R('#a2', 0.92, {}, { duration: 0.6 }); R('#eEx', 2.2, { scale: 0.3 }, POPTO);
+      ['#a0', '#a1', '#a2', '#eEx'].forEach((s) => X(s, 3.0));
+      tl.fromTo('#b1w', { opacity: 0, y: 520, rotation: -9, scale: 0.9 }, { opacity: 1, y: 420, rotation: -5, scale: 0.9, duration: 0.9, ease: E, immediateRender: false }, 1.0);
+      tl.to('#b1', { y: -10, duration: 2.4, yoyo: true, repeat: 13, ease: 'sine.inOut' }, 0);
+      // ---- L2 face value (3.25 - 6.8)
+      tl.to('#b1w', { y: 0, rotation: 0, scale: 1, duration: 0.9, ease: IO }, 3.2);
+      R('#h2t', 3.25, {}, { duration: 0.4 }); R('#h2b', wd(2, 1) - 0.15, { scale: 0.85 }, { scale: 1, duration: 0.6 });
+      R('#v0', wd(2, 3), {}, { duration: 0.4 }); R('#v1', wd(2, 4), { scale: 0.7, y: 40 }, { scale: 1, duration: 0.6 });
+      const V = { v: 0 }; tl.to(V, { v: 100, duration: 0.7, ease: 'power3.out', onUpdate() { $('#v1').textContent = '$' + Math.round(V.v); } }, wd(2, 4));
+      ['#h2t', '#h2b', '#v0', '#v1'].forEach((s) => X(s, 6.95, 0.25));
+      // ---- L3 cost (7.16 - 10.7)
+      R('#h3t', 7.16, {}, { duration: 0.4 }); R('#h3b', wd(3, 3) - 0.1, { scale: 0.85 }, { scale: 1, duration: 0.6 });
+      R('#vlab', 7.4, {}, { duration: 0.4 }); R('#vbar', 7.5, { y: 0, scaleX: 0, transformOrigin: 'left center' }, { scaleX: 1, duration: 0.8, ease: IO });
+      R('#clab', wd(3, 4), {}, { duration: 0.4 }); R('#cbar', wd(3, 5), { y: 0, scaleX: 0, transformOrigin: 'left center' }, { scaleX: 1, duration: 0.35 });
+      R('#ctxt', wd(3, 8), { x: -14, y: 0 }, { x: 0, duration: 0.45 });
+      ['#h3t', '#h3b', '#vlab', '#vbar', '#clab', '#cbar', '#ctxt'].forEach((s) => X(s, 10.9, 0.25));
+      // ---- L4 think about it (11.16 - 12.4)
+      R('#k1', 11.16, { scale: 0.85 }, { scale: 1, duration: 0.5 }); R('#k2', wd(4, 1), { scale: 0.85 }, { scale: 1, duration: 0.5 }); R('#eId', wd(4, 2), { scale: 0.3, y: 0 }, POPTO);
+      ['#k1', '#k2', '#eId'].forEach((s) => X(s, 12.55, 0.25));
+      // ---- L5 no $100 of material (12.83 - 18.85)
+      R('#h5t', 12.83, {}, { duration: 0.4 }); R('#h5b', wd(5, 2) - 0.1, { scale: 0.85 }, { scale: 1, duration: 0.6 });
+      R('#mat', wd(5, 4), POP, POPTO); STRIKE('#mstr', wd(5, 7) + 0.1);
+      tl.to('#b1w', { scale: 1.05, duration: 0.25, ease: E }, wd(5, 10)); tl.to('#b1w', { scale: 1, duration: 0.35, ease: IO }, wd(5, 10) + 0.25);
+      ['#h5t', '#h5b', '#mat'].forEach((s) => X(s, 18.95, 0.25));
+      // ---- L6 paper, ink, security, printing (19.3 - 25.85)
+      R('#h6t', 19.3, {}, { duration: 0.4 }); R('#h6b', wd(6, 5) - 0.3, { scale: 0.85 }, { scale: 1, duration: 0.6 });
+      R('#r1', wd(6, 9) - 0.2, { x: -40, y: 0 }, { x: 0, duration: 0.5 }); R('#r2', wd(6, 10) - 0.1, { x: -40, y: 0 }, { x: 0, duration: 0.5 }); R('#r3', wd(6, 13) - 0.1, { x: -40, y: 0 }, { x: 0, duration: 0.5 });
+      tl.fromTo('#b1 .scan', { opacity: 1, x: 0 }, { x: 960, duration: 0.9, ease: 'none', immediateRender: false }, wd(6, 9) - 0.2); tl.set('#b1 .scan', { opacity: 0 }, wd(6, 9) + 0.8);
+      tl.fromTo('#b1 .thread', { backgroundColor: 'rgba(30,43,250,0)' }, { backgroundColor: 'rgba(30,43,250,0.55)', duration: 0.3, yoyo: true, repeat: 3, immediateRender: false }, wd(6, 10));
+      tl.fromTo('#b1 .scan', { opacity: 1, x: 0 }, { x: 960, duration: 1.0, ease: 'none', immediateRender: false }, wd(6, 14) - 0.2); tl.set('#b1 .scan', { opacity: 0 }, wd(6, 14) + 0.9);
+      ['#h6t', '#h6b', '#r1', '#r2', '#r3'].forEach((s) => X(s, 26.1, 0.25));
+      // ---- L7 not the material (26.35 - 31)
+      R('#h7t', 26.35, {}, { duration: 0.4 }); R('#h7b', wd(7, 6) - 0.15, { scale: 0.85 }, { scale: 1, duration: 0.6 });
+      R('#pa', wd(7, 8) - 0.1, POP, POPTO); R('#in', wd(7, 8) + 0.1, POP, POPTO); STRIKE('#pastr', wd(7, 9) + 0.05); STRIKE('#instr', wd(7, 9) + 0.2);
+      ['#h7t', '#h7b', '#pa', '#in'].forEach((s) => X(s, 31.25, 0.25));
+      // ---- L8 everyone agrees (31.5 - 38)
+      R('#h8t', 31.5, {}, { duration: 0.4 }); R('#h8b', wd(8, 3), { scale: 0.85 }, { scale: 1, duration: 0.6 });
+      [4, 5, 6, 8].forEach((k, i) => R('#g' + i, wd(8, k) - 0.1, POP, POPTO));
+      [0, 1, 2, 3].forEach((i) => tl.fromTo('#gc' + i, { opacity: 0, scale: 0.2 }, { opacity: 1, scale: 1, duration: 0.35, ease: 'back.out(2)', immediateRender: false }, wd(8, 9) + 0.12 * i));
+      tl.fromTo('#stamp8', { opacity: 0, scale: 2, rotation: 0 }, { opacity: 1, scale: 1, rotation: -8, duration: 0.35, ease: E, immediateRender: false }, wd(8, 14));
+      ['#h8t', '#h8b', '#g0', '#g1', '#g2', '#g3', '#stamp8'].forEach((s) => X(s, 38.3, 0.25));
+      // ---- L9 the $1 bill (38.53 - 41.4)
+      R('#h9t', 38.53, {}, { duration: 0.4 }); R('#h9b', 39.3, { scale: 0.85 }, { scale: 1, duration: 0.6 });
+      tl.to('#b1w', { y: -92, scale: 0.62, duration: 0.7, ease: IO }, 38.6);
+      tl.fromTo('#b2w', { opacity: 0, y: 330, scale: 0.62 }, { opacity: 1, y: 180, scale: 0.62, duration: 0.6, ease: E, immediateRender: false }, wd(9, 6) - 0.1);
+      tl.to('#b2', { y: -8, duration: 2.2, yoyo: true, repeat: 12, ease: 'sine.inOut' }, 38);
+      ['#h9t', '#h9b'].forEach((s) => X(s, 41.55, 0.25));
+      // ---- L10 little value (41.77 - 44.4)
+      X('#b1w', 41.75, 0.35);
+      tl.to('#b2w', { y: 0, scale: 1, duration: 0.8, ease: IO }, 41.75);
+      R('#h10t', 41.77, {}, { duration: 0.4 }); R('#h10b', wd(10, 4) - 0.2, { scale: 0.85 }, { scale: 1, duration: 0.6 }); R('#paper', wd(10, 2), POP, POPTO);
+      ['#h10t', '#h10b', '#paper'].forEach((s) => X(s, 44.6, 0.25));
+      // ---- L11 the number changes what you can buy (44.79 - 48.1)
+      R('#h11t', 44.79, {}, { duration: 0.4 }); R('#h11b', wd(11, 2) - 0.1, { scale: 0.85 }, { scale: 1, duration: 0.6 });
+      const NUM = [[wd(11, 3), '5'], [wd(11, 6), '20'], [wd(11, 8), '100']];
+      const T = { t: 0 }; let lastNum = '';
+      tl.to(T, { t: 1, duration: 3.6, ease: 'none', onUpdate() { const now = 44.9 + T.t * 3.6; let v = '1'; NUM.forEach(([ts, n]) => { if (now >= ts) v = n; }); if (v !== lastNum) { setNum($('#b2'), v); lastNum = v; } } }, 44.9);
+      NUM.forEach(([ts]) => { tl.to('#b2w', { scale: 1.07, duration: 0.14, ease: E }, ts); tl.to('#b2w', { scale: 1, duration: 0.3, ease: IO }, ts + 0.14); });
+      R('#i1', NUM[0][0] + 0.1, POP, POPTO); R('#i2', NUM[1][0] + 0.1, POP, POPTO); R('#i3', wd(11, 10), POP, POPTO);
+      ['#h11t', '#h11b', '#i1', '#i2', '#i3'].forEach((s) => X(s, 48.4, 0.25));
+      // ---- L12 holding a $100 bill (48.65 - 51.4)
+      R('#h12t', 48.65, {}, { duration: 0.4 }); R('#h12b', wd(12, 5) - 0.15, { scale: 0.8 }, { scale: 1, duration: 0.6 });
+      tl.to('#b2w', { scale: 1.06, rotation: -2, duration: 0.5, ease: E }, wd(12, 5)); tl.to('#b2w', { scale: 1, rotation: 0, duration: 0.6, ease: IO }, wd(12, 5) + 0.5);
+      ['#h12t', '#h12b'].forEach((s) => X(s, 51.45, 0.2));
+      // ---- L13 not $100 worth of paper (51.64 - 55)
+      R('#h13t', 51.64, {}, { duration: 0.4 }); R('#h13b', wd(13, 4) - 0.1, { scale: 0.85 }, { scale: 1, duration: 0.6 }); STRIKE('#h13s', wd(13, 7) - 0.1);
+      tl.fromTo('#paper', { opacity: 0, scale: 0.6, y: 24 }, { opacity: 0.55, scale: 1, y: 0, duration: 0.5, ease: E, immediateRender: false }, wd(13, 7) - 0.1);
+      ['#h13t', '#h13b', '#paper'].forEach((s) => X(s, 55.35, 0.2));
+      // ---- L14 society agreed (55.57 - 60.5)
+      R('#h14t', 55.57, {}, { duration: 0.4 });
+      [0, 1, 2, 3].forEach((i) => R('#p' + i, wd(14, 4) - 0.1 + i * 0.16, POP, POPTO));
+      [0, 1, 2, 3].forEach((i) => tl.fromTo('#pc' + i, { opacity: 0, scale: 0.2 }, { opacity: 1, scale: 1, duration: 0.35, ease: 'back.out(2)', immediateRender: false }, wd(14, 6) + 0.1 * i));
+      tl.fromTo('#stamp14', { opacity: 0, scale: 2, rotation: 0 }, { opacity: 1, scale: 1, rotation: -8, duration: 0.35, ease: E, immediateRender: false }, wd(14, 6) + 0.2);
+      R('#h14b', wd(14, 8) - 0.2, { scale: 0.8 }, { scale: 1, duration: 0.6 });
+      ['#h14t', '#h14b', '#p0', '#p1', '#p2', '#p3', '#stamp14'].forEach((s) => X(s, 60.8, 0.25));
+      X('#b2w', 60.8, 0.3);
+      // ---- L15 strangest (61.03 - 63.8)
+      R('#s0', 61.03, {}, { duration: 0.4 }); R('#s1', wd(15, 5) - 0.3, { scale: 0.8, y: 40 }, { scale: 1, duration: 0.6 }); R('#s2', wd(15, 6) - 0.1, {}, { duration: 0.5 });
+      ['#s0', '#s1', '#s2'].forEach((s) => X(s, 64.0, 0.25));
+      // ---- L16 final (64.27 - 66)
+      R('#f1', 64.27, {}, { duration: 0.6 }); R('#f2', 64.95, { scale: 0.85, y: 40 }, { scale: 1, duration: 0.6 });
+
+      // ---- Lotties (time-shifted copies; see scripts/lottie_shift.mjs)
+      const mk = (id, path) => { const a = lottie.loadAnimation({ container: document.getElementById(id), renderer: 'svg', loop: false, autoplay: false, path, rendererSettings: { preserveAspectRatio: 'xMidYMid meet' } }); (window.__hfLottie = window.__hfLottie || []).push(a); return a; };
+      mk('money', 'assets/lottie/money-s.json'); mk('conf', 'assets/lottie/confetti-s.json');
+      [['#money', 61.5, 64.0], ['#conf', 65.3, 67.5]].forEach(([sel, a, b]) => { tl.fromTo(sel, { opacity: 0 }, { opacity: 1, duration: 0.01, immediateRender: false }, a); tl.to(sel, { opacity: 0, duration: 0.01 }, b); });
+      // sparkles on the success moments
+      [[5.45, 540, 1020], [36.7, 540, 640], [59.0, 540, 640], [65.35, 540, 420]].forEach(([t0, cx, cy]) => { for (let i = 0; i < 6; i++) { const a = i / 6 * 6.283, s = document.createElement('div'); s.className = 'spark'; s.style.left = (cx - 45 + Math.cos(a) * 300) + 'px'; s.style.top = (cy - 45 + Math.sin(a) * 140) + 'px'; s.style.backgroundColor = i % 2 ? '#1e2bfa' : '#f6b73c'; $('#stage').appendChild(s);
+        tl.fromTo(s, { opacity: 0, scale: 0.2, rotation: -40 }, { opacity: 1, scale: 0.6 + (i % 3) * 0.2, rotation: 20, duration: 0.4, ease: E, immediateRender: false }, t0 + i * 0.05); tl.to(s, { opacity: 0, scale: 0.1, duration: 0.5, ease: 'power2.in' }, t0 + 0.9 + i * 0.04); } });
+      // slow drift of the dotted background
+      tl.fromTo('#root', { backgroundPosition: '0px 0px' }, { backgroundPosition: '-120px -240px', duration: 67.66, ease: 'none', immediateRender: false }, 0);
+
+      // ---------- captions ----------
+      const capsEl = $('#caps');
+      const groups = []; let cur = [];
+      WORDS.forEach((w, i) => { cur.push(w); const nx = WORDS[i + 1]; const endS = /[.!?…]$/.test(w.w); const endC = /,$/.test(w.w) && cur.length >= 3; if (!nx || endS || endC || cur.length >= 5 || (nx && nx.s - w.e > 0.5)) { groups.push(cur); cur = []; } });
+      groups.forEach((g, gi) => {
+        if (g[0].line === 16) return;
+        const d = document.createElement('div'); d.className = 'cg'; const pill = document.createElement('div'); pill.className = 'pill'; d.appendChild(pill);
+        g.forEach((w, wi) => { const s = document.createElement('span'); s.className = 'cw'; s.id = `cw${gi}_${wi}`; s.textContent = w.w; pill.appendChild(s); });
+        capsEl.appendChild(d);
+        const a = g[0].s - 0.03, nextS = groups[gi + 1] ? groups[gi + 1][0].s : 1e9, b = Math.min(g[g.length - 1].e + 0.25, nextS - 0.12);
+        tl.fromTo(d, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.12, ease: 'power2.out', immediateRender: false }, a);
+        tl.to(d, { opacity: 0, duration: 0.08, ease: 'none' }, b);
+        g.forEach((w, wi) => { const sp = `#cw${gi}_${wi}`;
+          tl.fromTo(sp, { backgroundColor: 'rgba(30,43,250,0)', color: '#111' }, { backgroundColor: '#1e2bfa', color: '#fdfae7', duration: 0.07, ease: 'none', immediateRender: false }, w.s);
+          tl.to(sp, { backgroundColor: 'rgba(30,43,250,0)', color: '#111', duration: 0.08, ease: 'none' }, Math.max(w.e, w.s + 0.12)); });
+      });
+      tl.fromTo('#prog', { scaleX: 0 }, { scaleX: 1, duration: 67.66, ease: 'none', immediateRender: false }, 0);
+      window.__timelines['main'] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

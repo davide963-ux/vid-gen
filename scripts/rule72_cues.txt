@@ -1,0 +1,10 @@
+// hook
+stampHit(0.12); ping(0.14, 440, 0.8, 0.09, 0.3); pop(0.2, 700, 0.1); bell(0.5, 0.12);
+// rule
+swoosh(1.85, 0.4, 0.07); pop(at(2, 1), 640, 0.12); pop(at(2, 2), 520, 0.08); pop(at(2, 4), 560, 0.08); click(at(2, 5), 0.2);
+// 6% and 12
+pop(at(3, 1), 800, 0.14); ping(at(3, 1), 1175, 0.4, 0.08, 0.3); stampHit(at(3, 3) - 0.05); bell(at(3, 3), 0.16); sparkle(at(3, 3) + 0.05, 6, 0.04); swoosh(at(3, 4), 0.5, 0.07);
+// ending
+swoosh(6.6, 0.4, 0.07); stampHit(6.72); ping(6.74, 523, 1.2, 0.1, 0.2); stampHit(at(4, 3) - 0.05); ping(at(4, 3), 659, 1.2, 0.1, 0.2); ping(at(4, 3) + 0.1, 784, 1.0, 0.08, 0.2);
+{ const n = Math.floor(0.3 * SR); const e = env(n, 0.001, 0.08); add(7.85, lp(noise(n), 5000).map((v, i) => v * e[i]), 0.45); } sparkle(7.9, 12, 0.05);
+

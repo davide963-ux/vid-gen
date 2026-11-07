@@ -1,0 +1,91 @@
+<template>
+  <style>
+    @font-face { font-family: 'Space Grotesk'; font-weight: 500; font-style: normal; src: url('assets/fonts/space-grotesk-latin-500-normal.woff2') format('woff2'); }
+    @font-face { font-family: 'Space Grotesk'; font-weight: 600; font-style: normal; src: url('assets/fonts/space-grotesk-latin-600-normal.woff2') format('woff2'); }
+    @font-face { font-family: 'Space Grotesk'; font-weight: 700; font-style: normal; src: url('assets/fonts/space-grotesk-latin-700-normal.woff2') format('woff2'); }
+    #root { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; font-family: 'Space Grotesk', 'Inter', sans-serif; color: #111111; }
+    .f02-bg { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; background: #fdfae7; }
+    .f02-layer { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+    #f02-dots { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+    #f02-eyebrow { position: absolute; left: 0; top: 190px; width: 1080px; text-align: center; font-size: 36px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #1e2bfa; }
+    #f02-num { position: absolute; left: 0; top: 370px; width: 1080px; text-align: center; font-size: 250px; font-weight: 700; letter-spacing: -0.03em; line-height: 1; color: #1e2bfa; }
+    #f02-mark { position: absolute; left: 130px; top: 640px; width: 820px; height: 16px; border-radius: 8px; background: rgba(30, 43, 250, 0.18); transform-origin: left center; }
+    #f02-vault { position: absolute; left: 300px; top: 800px; width: 480px; height: 480px; }
+    #f02-path { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+    #f02-chip { position: absolute; left: 0; top: 0; width: 72px; height: 72px; border-radius: 50%; background: #1e2bfa; color: #fdfae7; font-size: 42px; font-weight: 700; line-height: 72px; text-align: center; }
+    #f02-label { position: absolute; left: 0; top: 1510px; width: 1080px; text-align: center; font-size: 46px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: #6b6b6b; }
+    #f02-label span { position: relative; display: inline-block; }
+    #f02-strike { position: absolute; left: -12px; right: -12px; top: 50%; height: 6px; margin-top: -3px; border-radius: 3px; background: #1e2bfa; transform-origin: left center; }
+    .f02-d { fill: none; stroke: #1e2bfa; stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; }
+  </style>
+
+  <div data-hf-id="hf-ldnv" id="root" data-composition-id="02-vault-myth" data-start="0" data-duration="8.628" data-width="1080" data-height="1920">
+    <div data-hf-id="hf-4qom" id="f02-bg" class="clip f02-bg" data-start="0" data-duration="8.628" data-track-index="0"></div>
+    <div data-hf-id="hf-18rp" id="f02-layer" class="clip f02-layer" data-start="0" data-duration="8.628" data-track-index="1">
+      <div data-hf-id="hf-pxbm" id="f02-eyebrow">The deposit</div>
+      <div data-hf-id="hf-3zhz" id="f02-mark"></div>
+      <div data-hf-id="hf-yib4" id="f02-num">$0</div>
+
+      <svg data-hf-id="hf-75c7" id="f02-vault" viewBox="0 0 480 480" width="480" height="480">
+        <rect data-hf-id="hf-9puc" id="f02-door-fill" x="20" y="20" width="440" height="440" rx="40" fill="rgba(30,43,250,0.04)" opacity="0" />
+        <rect data-hf-id="hf-nnch" class="f02-d" id="f02-door" x="20" y="20" width="440" height="440" rx="40" pathLength="1" />
+        <rect data-hf-id="hf-njfv" class="f02-d" id="f02-inner" x="70" y="70" width="340" height="340" rx="24" pathLength="1" />
+        <circle data-hf-id="hf-f4eg" class="f02-d" id="f02-dial" cx="240" cy="240" r="84" pathLength="1" />
+        <path data-hf-id="hf-tmi7" class="f02-d f02-spoke" d="M240 156 L240 114" pathLength="1" />
+        <path data-hf-id="hf-ckc5" class="f02-d f02-spoke" d="M324 240 L366 240" pathLength="1" />
+        <path data-hf-id="hf-lcat" class="f02-d f02-spoke" d="M240 324 L240 366" pathLength="1" />
+        <path data-hf-id="hf-qryn" class="f02-d f02-spoke" d="M156 240 L114 240" pathLength="1" />
+        <circle data-hf-id="hf-rzfl" class="f02-d f02-spoke" cx="240" cy="240" r="18" pathLength="1" />
+      </svg>
+
+      <svg data-hf-id="hf-y5v8" id="f02-path" viewBox="0 0 1080 1920" width="1080" height="1920">
+        <path data-hf-id="hf-y0n5" id="f02-track" d="M 900 720 C 1070 760 1070 1130 870 1310 C 770 1400 620 1450 540 1480" fill="none" stroke="#1e2bfa" stroke-width="5" stroke-dasharray="16 14" stroke-linecap="round" opacity="0" />
+      </svg>
+      <div data-hf-id="hf-0txe" id="f02-chip">$</div>
+      <div data-hf-id="hf-veba" id="f02-label"><span data-hf-id="hf-6ahc">Waiting for you<div data-hf-id="hf-89pe" id="f02-strike"></div></span></div>
+    </div>
+  </div>
+
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    const ease = 'power3.out';
+    tl.fromTo('#f02-eyebrow', { opacity: 0, y: -14 }, { opacity: 1, y: 0, duration: 0.4, ease }, 0);
+
+    // "$1,000" counts up on the word "deposit $1,000"
+    const num = document.getElementById('f02-num');
+    const counter = { v: 0 };
+    tl.fromTo('#f02-num', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.4, ease }, 0.1);
+    tl.fromTo(counter, { v: 0 }, {
+      v: 1000, duration: 1.5, ease: 'power3.out',
+      onUpdate() { num.textContent = '$' + Math.round(counter.v).toLocaleString('en-US'); }
+    }, 0.45);
+
+    // second "$1,000": marker underline, vault door draws itself
+    tl.fromTo('#f02-mark', { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease }, 3.7);
+    tl.fromTo('#f02-door-fill', { opacity: 0 }, { opacity: 1, duration: 0.8, ease }, 3.9);
+    tl.fromTo('#f02-door', { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.8, ease }, 3.46);
+    tl.fromTo('#f02-inner', { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.7, ease }, 3.8);
+    tl.fromTo('#f02-dial', { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.6, ease }, 4.1);
+    tl.fromTo('.f02-spoke', { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.5, ease, stagger: 0.08 }, 4.45);
+
+    // "doesn't just sit inside a vault": the dollar chip bypasses the vault
+    const track = document.getElementById('f02-track');
+    const total = track.getTotalLength();
+    const chip = document.getElementById('f02-chip');
+    const place = (p) => {
+      const pt = track.getPointAtLength(total * p);
+      chip.style.left = (pt.x - 36) + 'px';
+      chip.style.top = (pt.y - 36) + 'px';
+    };
+    place(0);
+    const prog = { p: 0 };
+    tl.fromTo('#f02-track', { opacity: 0 }, { opacity: 0.55, duration: 0.4, ease }, 5.38);
+    tl.fromTo('#f02-chip', { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.35, ease }, 5.38);
+    tl.fromTo(prog, { p: 0 }, { p: 1, duration: 1.7, ease: 'power2.inOut', immediateRender: false, onUpdate() { place(prog.p); } }, 5.55);
+
+    // "waiting for you": label, struck through
+    tl.fromTo('#f02-label', { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.4, ease }, 7.06);
+    tl.fromTo('#f02-strike', { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease }, 7.5);
+    window.__timelines['02-vault-myth'] = tl;
+  </script>
+</template>

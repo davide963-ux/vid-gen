@@ -1,0 +1,627 @@
+[span] ICHI
+[b] ALGO
+[a] Dashboard
+[a] Backtest
+[a] Calculator
+[span] MARKET DATA ONLINE
+[h1] Backtest
+[p] The EMA
+[p] touch strategy replayed over real OANDA candles — entry at the EMA, stop
+[p] 1.5
+[p] × ATR beyond it, target
+[p] Dec 3, 2025 – Sep 23, 2026, 1H.
+[h2] Settings
+[span] Same detector and same ticket levels the live page uses — there is no backtest-only version of the rules.
+[legend] Pairs
+[label] EUR/USD
+[label] GBP/USD
+[label] USD/JPY
+[label] AUD/USD
+[label] USD/CAD
+[label] GBP/JPY
+[legend] Ichimoku agreement
+[label] any
+[label] ≥ 2/5
+[label] ≥ 3/5
+[label] ≥ 4/5
+[label] ≥ 5/5
+[span] Live default is
+[legend] Cost per trade
+[label] none
+[label] 0.5 pips
+[label] 1 pip
+[label] 2 pips
+[label] 3 pips
+[span] Spread, charged against the risk. The stop is ~10 pips, so a pip is ~0.1R off every trade.
+[legend] Direction
+[label] Skip touches against the EMA trend
+[p] No measurable edge. At +0.00R a trade the 95% interval runs −0.09R to +0.09R — it spans zero, so the sign is noise.
+[p] 1017
+[p] trades from
+[p] 4353
+[p] touches —
+[p] filtered out,
+[p] 452
+[p] never reached the entry, and a touch arriving while a position was already open is skipped. Win rate
+[p] 35.1%
+[p] against the
+[p] 35.0%
+[p] this payoff needs to break even.
+[div] Trades
+[div] 1017
+[div] 357W / 660L
+[div] Average
+[div] +0.00R
+[div] 95% CI −0.09R … +0.09R
+[div] Total
+[div] +2.2R
+[div] sum of every closed trade
+[div] Profit factor
+[div] 1.00
+[div] gross won ÷ gross lost
+[div] Max drawdown
+[div] −77.9R
+[div] deepest fall from a peak
+[h2] Equity curve
+[span] Cumulative R, trade by trade, pairs merged and ordered by exit. In R rather than money, so the shape does not depend on a position-sizing choice.
+[text] +2.2R
+[figcaption] Hover the line to see each trade. The dashed line is break-even.
+[h2] By pair
+[span] A strategy that only works on one pair has found that pair's last nine months, not an edge.
+[th] PAIR
+[th] TOUCHES
+[th] NO FILL
+[th] TRADES
+[th] WIN
+[th] AVERAGE
+[th] TOTAL
+[td] EUR/USD
+[td] 698
+[td] 167
+[td] 38.3%
+[td] +0.09R
+[td] +14.9R
+[td] 1.14
+[td] GBP/USD
+[td] 785
+[td] 169
+[td] 34.3%
+[td] −0.02R
+[td] −2.7R
+[td] 0.98
+[td] USD/JPY
+[td] 706
+[td] 172
+[td] 29.1%
+[td] −0.17R
+[td] −29.1R
+[td] 0.77
+[td] AUD/USD
+[td] 709
+[td] 108
+[td] 196
+[td] 33.7%
+[td] −0.06R
+[td] −11.1R
+[td] 0.92
+[td] USD/CAD
+[td] 683
+[td] 152
+[td] 44.7%
+[td] +0.28R
+[td] +42.8R
+[td] 1.48
+[td] GBP/JPY
+[td] 772
+[td] 161
+[td] 31.7%
+[td] −0.08R
+[td] −12.6R
+[td] 0.89
+[h2] Every trade
+[span] Oldest first, by the time the trade closed.
+[button] Show all 1018
+[th] ENTERED
+[th] PAIR
+[th] SIDE
+[th] ENTRY
+[th] STOP
+[th] TARGET
+[th] ICHI
+[th] BARS
+[th] EXIT
+[td] Dec 5, 06:00 AM
+[td] EUR/USD
+[span] SHORT
+[td] 1.16584
+[td] 1.16701
+[td] 1.16350
+[td] −1.09R
+[td] Dec 5, 09:00 AM
+[td] EUR/USD
+[span] LONG
+[td] 1.16584
+[td] 1.16459
+[td] 1.16834
+[td] −1.08R
+[td] Dec 5, 05:00 AM
+[td] GBP/JPY
+[span] SHORT
+[td] 206.74300
+[td] 207.06000
+[td] 206.10900
+[td] −1.03R
+[td] Dec 5, 03:00 PM
+[td] EUR/USD
+[span] SHORT
+[td] 1.16568
+[td] 1.16705
+[td] 1.16294
+[td] +1.93R
+[td] Dec 5, 11:00 AM
+[td] USD/JPY
+[span] SHORT
+[td] 155.10500
+[td] 155.43000
+[td] 154.45500
+[td] −1.03R
+[td] Dec 8, 01:00 AM
+[td] USD/JPY
+[span] LONG
+[td] 155.16600
+[td] 154.90500
+[td] 155.68800
+[td] −1.04R
+[td] Dec 8, 05:00 AM
+[td] EUR/USD
+[span] SHORT
+[td] 1.16526
+[td] 1.16652
+[td] 1.16274
+[td] −1.08R
+[td] Dec 8, 06:00 AM
+[td] USD/JPY
+[span] SHORT
+[td] 155.14800
+[td] 155.40200
+[td] 154.64000
+[td] −1.04R
+[td] Dec 8, 09:00 AM
+[td] EUR/USD
+[span] LONG
+[td] 1.16533
+[td] 1.16393
+[td] 1.16813
+[td] 2/5
+[td] −1.07R
+[td] Dec 7, 11:00 PM
+[td] GBP/JPY
+[span] LONG
+[td] 206.84600
+[td] 206.53700
+[td] 207.46400
+[td] +1.97R
+[td] Dec 8, 03:00 PM
+[td] EUR/USD
+[span] SHORT
+[td] 1.16523
+[td] 1.16668
+[td] 1.16233
+[td] 4/5
+[td] +1.93R
+[td] Dec 5, 05:00 PM
+[td] GBP/USD
+[span] LONG
+[td] 1.33305
+[td] 1.33089
+[td] 1.33737
+[td] −1.05R
+[td] Dec 8, 06:00 PM
+[td] AUD/USD
+[span] SHORT
+[span] COUNTER
+[td] 0.66281
+[td] 0.66403
+[td] 0.66037
+[td] 3/5
+[td] −1.08R
+[td] Dec 8, 07:00 PM
+[td] GBP/USD
+[span] SHORT
+[td] 1.33279
+[td] 1.33480
+[td] 1.32877
+[td] 3/5
+[td] −1.05R
+[td] Dec 9, 12:00 PM
+[td] GBP/USD
+[span] LONG
+[td] 1.33294
+[td] 1.33113
+[td] 1.33656
+[td] 3/5
+[td] −1.06R
+[td] Dec 9, 02:00 AM
+[td] EUR/USD
+[span] SHORT
+[td] 1.16470
+[td] 1.16605
+[td] 1.16200
+[td] 3/5
+[td] +1.93R
+[td] Dec 10, 08:00 AM
+[td] EUR/USD
+[span] SHORT
+[td] 1.16376
+[td] 1.16498
+[td] 1.16132
+[td] 3/5
+[td] −1.08R
+[td] Dec 10, 08:00 AM
+[td] GBP/USD
+[span] SHORT
+[td] 1.33166
+[td] 1.33323
+[td] 1.32852
+[td] 4/5
+[td] −1.06R
+[td] Dec 10, 10:00 AM
+[td] EUR/USD
+[span] LONG
+[span] COUNTER
+[td] 1.16381
+[td] 1.16243
+[td] 1.16657
+[td] 2/5
+[td] +1.93R
+[td] Dec 10, 04:00 PM
+[td] GBP/USD
+[span] LONG
+[td] 1.33173
+[td] 1.32985
+[td] 1.33549
+[td] 1/5
+[td] +1.95R
+[td] Dec 10, 04:00 PM
+[td] USD/JPY
+[span] LONG
+[td] 156.35600
+[td] 156.13700
+[td] 156.79400
+[td] 2/5
+[td] −1.05R
+[td] Dec 10, 02:00 AM
+[td] AUD/USD
+[span] LONG
+[td] 0.66350
+[td] 0.66224
+[td] 0.66602
+[td] 4/5
+[td] +1.92R
+[td] Dec 9, 06:00 PM
+[td] USD/CAD
+[span] SHORT
+[td] 1.38554
+[td] 1.38735
+[td] 1.38192
+[td] 2/5
+[td] +1.94R
+[td] Dec 10, 08:00 PM
+[td] USD/JPY
+[span] LONG
+[td] 156.35300
+[td] 156.08200
+[td] 156.89500
+[td] 1/5
+[td] −1.04R
+[td] Dec 10, 08:00 PM
+[td] AUD/USD
+[span] LONG
+[td] 0.66403
+[td] 0.66256
+[td] 0.66697
+[td] 4/5
+[td] +1.93R
+[td] Dec 11, 04:00 AM
+[td] AUD/USD
+[span] LONG
+[td] 0.66468
+[td] 0.66288
+[td] 0.66828
+[td] 2/5
+[td] −1.06R
+[td] Dec 11, 08:00 AM
+[td] AUD/USD
+[span] SHORT
+[span] COUNTER
+[td] 0.66454
+[td] 0.66627
+[td] 0.66108
+[td] 1/5
+[td] −1.06R
+[td] Dec 11, 01:00 AM
+[td] GBP/JPY
+[span] LONG
+[td] 208.35100
+[td] 207.99900
+[td] 209.05500
+[td] 3/5
+[td] −1.03R
+[td] Dec 12, 07:00 AM
+[td] USD/JPY
+[span] SHORT
+[td] 155.81300
+[td] 156.08000
+[td] 155.27900
+[td] 2/5
+[td] −1.04R
+[td] Dec 12, 08:00 AM
+[td] GBP/USD
+[span] LONG
+[td] 1.33750
+[td] 1.33572
+[td] 1.34106
+[td] 3/5
+[td] −1.06R
+[td] Dec 12, 04:00 PM
+[td] AUD/USD
+[span] LONG
+[td] 0.66589
+[td] 0.66446
+[td] 0.66875
+[td] 1/5
+[td] −1.07R
+[td] Dec 12, 01:00 PM
+[td] USD/JPY
+[span] LONG
+[td] 155.82700
+[td] 155.55300
+[td] 156.37500
+[td] 2/5
+[td] −1.04R
+[td] Dec 11, 04:00 PM
+[td] GBP/JPY
+[span] SHORT
+[td] 208.35800
+[td] 208.76300
+[td] 207.54800
+[td] 3/5
+[td] +1.98R
+[td] Dec 12, 05:00 PM
+[td] USD/CAD
+[span] SHORT
+[td] 1.37884
+[td] 1.38049
+[td] 1.37554
+[td] 3/5
+[td] +1.94R
+[td] Dec 12, 06:00 PM
+[td] GBP/USD
+[span] SHORT
+[td] 1.33732
+[td] 1.33951
+[td] 1.33294
+[td] 2/5
+[td] −1.05R
+[td] Dec 12, 07:00 PM
+[td] AUD/USD
+[span] SHORT
+[td] 0.66578
+[td] 0.66728
+[td] 0.66278
+[td] 4/5
+[td] +1.93R
+[td] Dec 15, 05:00 PM
+[td] GBP/USD
+[span] LONG
+[td] 1.33747
+[td] 1.33537
+[td] 1.34167
+[td] 4/5
+[td] +1.95R
+[td] Dec 16, 02:00 PM
+[td] AUD/USD
+[span] SHORT
+[td] 0.66437
+[td] 0.66576
+[td] 0.66159
+[td] 3/5
+[td] −1.07R
+[td] Dec 15, 05:00 PM
+[td] USD/CAD
+[span] SHORT
+[td] 1.37740
+[td] 1.37914
+[td] 1.37392
+[td] 4/5
+[td] +1.94R
+[td] Dec 16, 10:00 AM
+[td] GBP/JPY
+[span] SHORT
+[td] 207.65400
+[td] 208.00400
+[td] 206.95400
+[td] 3/5
+[td] −1.03R
+[td] Dec 16, 03:00 PM
+[td] AUD/USD
+[span] LONG
+[span] COUNTER
+[td] 0.66441
+[td] 0.66293
+[td] 0.66737
+[td] 4/5
+[td] −1.07R
+[td] Dec 16, 04:00 PM
+[td] GBP/JPY
+[span] LONG
+[span] COUNTER
+[td] 207.68300
+[td] 207.24500
+[td] 208.55900
+[td] 1/5
+[td] −1.02R
+[td] Dec 16, 04:00 PM
+[td] AUD/USD
+[span] LONG
+[span] COUNTER
+[td] 0.66439
+[td] 0.66273
+[td] 0.66771
+[td] 2/5
+[td] −1.06R
+[td] Dec 16, 07:00 PM
+[td] EUR/USD
+[span] LONG
+[td] 1.17505
+[td] 1.17275
+[td] 1.17965
+[td] 3/5
+[td] −1.04R
+[td] Dec 17, 05:00 AM
+[td] GBP/USD
+[span] LONG
+[td] 1.33995
+[td] 1.33774
+[td] 1.34437
+[td] 4/5
+[td] −1.05R
+[td] Dec 17, 03:00 AM
+[td] USD/JPY
+[span] SHORT
+[td] 155.00300
+[td] 155.32700
+[td] 154.35500
+[td] 2/5
+[td] −1.03R
+[td] Dec 17, 03:00 AM
+[td] USD/CAD
+[span] SHORT
+[td] 1.37645
+[td] 1.37817
+[td] 1.37301
+[td] 3/5
+[td] −1.06R
+[td] Dec 16, 06:00 PM
+[td] GBP/JPY
+[span] LONG
+[td] 207.68800
+[td] 207.24500
+[td] 208.57400
+[td] 1/5
+[td] −1.02R
+[td] Dec 17, 08:00 AM
+[td] GBP/JPY
+[span] LONG
+[td] 207.68000
+[td] 207.22600
+[td] 208.58800
+[td] 2/5
+[td] −1.02R
+[td] Dec 17, 02:00 PM
+[td] GBP/JPY
+[span] SHORT
+[td] 207.61600
+[td] 208.00600
+[td] 206.83600
+[td] 3/5
+[td] −1.03R
+[td] Dec 17, 03:00 PM
+[td] EUR/USD
+[span] SHORT
+[td] 1.17401
+[td] 1.17603
+[td] 1.16997
+[td] 3/5
+[td] −1.05R
+[td] Dec 18, 02:00 PM
+[td] EUR/USD
+[span] SHORT
+[td] 1.17382
+[td] 1.17570
+[td] 1.17006
+[td] 2/5
+[td] −1.05R
+[td] Dec 17, 04:00 PM
+[td] GBP/USD
+[span] SHORT
+[td] 1.33825
+[td] 1.34124
+[td] 1.33227
+[td] 3/5
+[td] −1.03R
+[td] Dec 18, 02:00 PM
+[td] AUD/USD
+[span] SHORT
+[td] 0.66163
+[td] 0.66296
+[td] 0.65897
+[td] 3/5
+[td] −1.08R
+[td] Dec 18, 01:00 PM
+[td] GBP/JPY
+[span] LONG
+[td] 207.98200
+[td] 207.59600
+[td] 208.75400
+[td] 5/5
+[td] +1.97R
+[td] Dec 18, 03:00 PM
+[td] EUR/USD
+[span] LONG
+[span] COUNTER
+[td] 1.17381
+[td] 1.17181
+[td] 1.17781
+[td] 2/5
+[td] −1.05R
+[td] Dec 18, 02:00 PM
+[td] USD/JPY
+[span] LONG
+[td] 155.50400
+[td] 155.24000
+[td] 156.03200
+[td] 3/5
+[td] +1.96R
+[td] Dec 18, 11:00 PM
+[td] GBP/JPY
+[span] LONG
+[td] 208.08900
+[td] 207.71900
+[td] 208.82900
+[td] 3/5
+[td] +1.97R
+[td] Dec 18, 04:00 PM
+[td] AUD/USD
+[span] LONG
+[span] COUNTER
+[td] 0.66165
+[td] 0.66020
+[td] 0.66455
+[td] 2/5
+[td] −1.07R
+[td] Dec 19, 03:00 PM
+[td] AUD/USD
+[span] SHORT
+[td] 0.66128
+[td] 0.66245
+[td] 0.65894
+[td] 3/5
+[td] −1.09R
+[h2] What this does not prove
+[strong] One period.
+[li] Dec 3, 2025 – Sep 23, 2026
+[li] is about nine months. A rule can fit nine months of one regime and fail the next.
+[strong] The pairs are correlated.
+[li] EUR/USD, GBP/USD and AUD/USD are largely the same dollar trade, so
+[li] 1017
+[li] trades are worth fewer than
+[li] 1017
+[li] independent observations — the interval above is narrower than it should be.
+[strong] It is all in-sample.
+[li] Every setting on this page was chosen after seeing these candles. Trying filters until one looks good is how noise gets promoted to a strategy.
+[strong] Costs are a flat estimate.
+[li] Real spreads widen at the open, on news and overnight, exactly when the EMA tends to get touched. Swap on positions held overnight is not modelled at all.
+[span] Ichialgo: live Forex market data + EMA50 touch strategy.
+[span] Twelve Data
+[span] . Charts by TradingView Lightweight Charts.

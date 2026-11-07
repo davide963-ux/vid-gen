@@ -1,0 +1,65 @@
+[span] Rruga Pavaresia, Lagjja nr.13, Durrës
+[span] +355 67 70 78 000
+[span] Rruga Pavaresia, Lagjja nr.13 Durrës
+[span] Menu
+[span] +355 67 70 78 000
+[span] BOOK NOW
+[span] About Us
+[span] Accomodation
+[span] Restaurant
+[span] Wellness
+[h2] The Wellness Experience
+[p] Welcome to the heart of tranquility at Amara Hotel & SPA, where wellness is not just a service but a philosophy. Our wellness sanctuary is a serene retreat, carefully crafted to help you escape the demands of daily life and rediscover inner harmony. With a perfect blend of modern amenities and time-honored practices, we offer an immersive experience that rejuvenates your body, soothes your mind, and uplifts your spirit. From the invigorating warmth of the sauna to the gentle embrace of our relaxation beds, every detail is designed to cater to your comfort and well-being. Whether you seek to unwind after a busy day, reconnect with yourself, or simply indulge in moments of pure bliss, our wellness facilities provide the perfect haven for your journey to relaxation and renewal. Allow yourself to slow down, breathe deeply, and let go, as our dedicated team ensures every moment is one of absolute serenity. At Amara Hotel & SPA, your wellness is our priority, and your peace of mind is our greatest reward
+[span] Jacuzzi
+[p] Indulge in the soothing embrace of our luxurious jacuzzi. Perfect for easing tension and rejuvenating your muscles, it’s a haven for relaxation
+[span] Sauna
+[p] Detoxify your body and mind in the comforting warmth of our sauna. A calming environment that leaves you feeling refreshed
+[span] Hammam
+[p] Step into the timeless tradition of our hammam, a Turkish bath experience that combines gentle steam, cleansing rituals, and pure serenity.
+[span] Massage Room
+[p] Experience ultimate relaxation in our massage rooms, where skilled therapists use customized techniques to melt away stress and revitalize your body.
+[span] Relaxation Beds
+[p] Unwind in our cozy relaxation area, equipped with plush beds designed to let you drift into total peace after your wellness treatments
+[span] Rain Shower
+[p] Relax under the soothing cascade of our rain showers, designed to refresh your body and calm your mind with every drop.
+[span] Sign in
+[label] Username or email
+[label] Password
+[button] Login
+[a] Lost your password?
+[span] About Us
+[span] Accomodation
+[span] Restaurant
+[span] Wellness
+[a] +(406) 555-0120
+[span] Book Your Stay
+[h2] Sign Up For Exclusive
+[h2] Offers From Us
+[label] Email
+[span] subscribe now
+[p] PAGES
+[span] Home
+[span] About Us
+[span] Accomodation
+[span] Restaurant
+[span] Wellness
+[span] Contact
+[p] contact
+[a] +355 67 70 78 000
+[a] info@amarahotel.al
+[a] Rruga Pavaresia, Lagjja nr.13, Durrës
+[p] follow us
+[p] PAGES
+[span] Home
+[span] About Us
+[span] Accomodation
+[span] Restaurant
+[span] Wellness
+[span] Contact
+[p] contact
+[a] +355 67 70 78 000
+[a] info@amarahotel.al
+[a] Rruga Pavaresia, Lagjja nr.13, Durrës
+[p] follow us
+[p] Copyright © 2025 Amara Hotel & SPA. All rights reserved
+[a] Developed by Alien Studio

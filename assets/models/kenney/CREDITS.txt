@@ -1,0 +1,4 @@
+Kenney (kenney.nl) - CC0 1.0 (public domain). Credit is not required, but appreciated:
+  Blocky Characters 2.0, City Kit (Commercial) 2.1, City Kit (Suburban) 2.0
+  Furniture Kit, Nature Kit, Food Kit, Car Kit (3D); Particle Pack, Emotes Pack (2D, in assets/illustrations/kenney)
+Icons (assets/illustrations/icons): Lucide (MIT), Phosphor (MIT), Tabler Icons (MIT), Fluent Emoji Flat (MIT), via api.iconify.design

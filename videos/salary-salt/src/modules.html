@@ -1,0 +1,126 @@
+    <script type="importmap">
+      { "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.181.2/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.181.2/examples/jsm/"
+      } }
+    </script>
+    <script type="module">
+      import * as THREE from 'three';
+      const W = 1080, H = 1920;
+      const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+      const sm = (x) => x * x * (3 - 2 * x);
+      const win = (t, a, b) => sm(clamp((t - a) / (b - a)));
+      const hh = (i) => { const x = Math.sin(i * 91.7 + 17.3) * 43758.5453; return x - Math.floor(x); };
+      const lerp = (a, b, k) => a + (b - a) * k;
+      // visibility with fade in/out for a list of [a,b] windows
+      const vis = (t, wins, f = 0.5) => { let s = 0; for (const [a, b] of wins) s = Math.max(s, win(t, a, a + f) * (1 - win(t, b - f, b))); return s; };
+      async function build() {
+        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('gl'), antialias: true, alpha: true });
+        renderer.setPixelRatio(1); renderer.setSize(W, H, false); renderer.outputColorSpace = THREE.SRGBColorSpace; renderer.setClearColor(0x000000, 0);
+        const scene = new THREE.Scene(); scene.fog = new THREE.Fog(0x0a0a0a, 6.5, 13);
+        const camera = new THREE.PerspectiveCamera(40, W / H, 0.1, 60);
+        scene.add(new THREE.AmbientLight(0xfff1d0, 1.0));
+        const key = new THREE.DirectionalLight(0xfff4dc, 2.6); key.position.set(-3, 5, 7); scene.add(key);
+        const rim = new THREE.PointLight(0xe5ab33, 16, 14); rim.position.set(3, -2, 3); scene.add(rim);
+        const texL = new THREE.TextureLoader(); const load = (u) => new Promise((res, rej) => texL.load(u, res, undefined, rej));
+        const denTex = await load('assets/img/denarius-sq.jpg'); denTex.colorSpace = THREE.SRGBColorSpace; denTex.anisotropy = 4;
+
+        // ---------- materials ----------
+        const saltM = new THREE.MeshStandardMaterial({ color: 0xfffdf6, roughness: 0.3, metalness: 0.05, emissive: 0x2a2418 });
+        const goldM = new THREE.MeshStandardMaterial({ color: 0xe5ab33, roughness: 0.3, metalness: 0.75, emissive: 0x2a1c04 });
+        const marbleM = new THREE.MeshStandardMaterial({ color: 0xe9dfc3, roughness: 0.55, metalness: 0.05, emissive: 0x211b0c });
+        const darkGoldM = new THREE.MeshStandardMaterial({ color: 0xb98a24, roughness: 0.4, metalness: 0.6 });
+
+        // ---------- hero 1: salt lattice 3x3x3 ----------
+        const lattice = new THREE.Group(); scene.add(lattice); const cubes = [];
+        const cm = [];
+        for (let x = -1; x <= 1; x++) for (let y = -1; y <= 1; y++) for (let z = -1; z <= 1; z++) {
+          const m = new THREE.Mesh(new THREE.BoxGeometry(0.34, 0.34, 0.34), saltM.clone()); lattice.add(m);
+          cubes.push({ m, x, y, z, i: cubes.length });
+        }
+        // ---------- hero 2: temple ----------
+        const temple = new THREE.Group(); scene.add(temple);
+        const box = (w, h, d, mat, x, y, z) => { const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat); m.position.set(x, y, z); temple.add(m); return m; };
+        box(2.3, 0.1, 0.9, marbleM, 0, -0.62, 0); box(2.1, 0.1, 0.8, marbleM, 0, -0.52, 0); box(1.9, 0.1, 0.7, marbleM, 0, -0.42, 0);
+        for (let i = 0; i < 6; i++) { const c = new THREE.Mesh(new THREE.CylinderGeometry(0.075, 0.085, 0.8, 18), marbleM); c.position.set(-0.78 + i * 0.312, 0.03, 0.2); temple.add(c); box(0.2, 0.05, 0.2, marbleM, -0.78 + i * 0.312, 0.45, 0.2); box(0.2, 0.05, 0.2, marbleM, -0.78 + i * 0.312, -0.38, 0.2); }
+        box(1.95, 0.14, 0.6, marbleM, 0, 0.52, 0.12); box(2.0, 0.04, 0.64, goldM, 0, 0.6, 0.12);
+        const tri = new THREE.Shape(); tri.moveTo(-1.0, 0); tri.lineTo(1.0, 0); tri.lineTo(0, 0.5); tri.lineTo(-1.0, 0);
+        const ped = new THREE.Mesh(new THREE.ExtrudeGeometry(tri, { depth: 0.5, bevelEnabled: false }), marbleM); ped.position.set(0, 0.62, -0.13); temple.add(ped);
+        const inner = new THREE.Shape(); inner.moveTo(-0.8, 0); inner.lineTo(0.8, 0); inner.lineTo(0, 0.38); inner.lineTo(-0.8, 0);
+        const pedIn = new THREE.Mesh(new THREE.ExtrudeGeometry(inner, { depth: 0.04, bevelEnabled: false }), darkGoldM); pedIn.position.set(0, 0.65, 0.38); temple.add(pedIn);
+        // ---------- hero 3: denarius coin ----------
+        const coin = new THREE.Group(); scene.add(coin);
+        const cg = new THREE.CylinderGeometry(1, 1, 0.12, 64); cg.rotateX(Math.PI / 2);
+        const cv = document.createElement('canvas'); cv.width = cv.height = 512; const cx = cv.getContext('2d');
+        const gr = cx.createRadialGradient(200, 190, 40, 256, 256, 260); gr.addColorStop(0, '#f6cf72'); gr.addColorStop(0.65, '#d79a22'); gr.addColorStop(1, '#a86f12'); cx.fillStyle = gr; cx.fillRect(0, 0, 512, 512);
+        cx.strokeStyle = 'rgba(60,35,4,.6)'; cx.lineWidth = 14; cx.beginPath(); cx.arc(256, 256, 226, 0, Math.PI * 2); cx.stroke();
+        cx.fillStyle = '#3b2a05'; cx.font = 'bold 62px sans-serif'; cx.textAlign = 'center'; cx.textBaseline = 'middle'; cx.fillText('SALARIUM', 256, 262);
+        const backTex = new THREE.CanvasTexture(cv); backTex.colorSpace = THREE.SRGBColorSpace; [backTex, denTex].forEach((t) => { t.center.set(0.5, 0.5); t.rotation = Math.PI / 2; });
+        const frontM = new THREE.MeshStandardMaterial({ map: denTex, roughness: 0.5, metalness: 0.3 });
+        const backM = new THREE.MeshStandardMaterial({ map: backTex, roughness: 0.4, metalness: 0.5 });
+        const edgeM = new THREE.MeshStandardMaterial({ color: 0xc9c3b0, roughness: 0.4, metalness: 0.7 });
+        const coinMesh = new THREE.Mesh(cg, [edgeM, frontM, backM]); coin.add(coinMesh);
+        // ---------- hero 4: balance scale ----------
+        const bal = new THREE.Group(); scene.add(bal);
+        const post = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.07, 1.5, 14), darkGoldM); post.position.y = -0.1; bal.add(post);
+        const base = new THREE.Mesh(new THREE.CylinderGeometry(0.4, 0.46, 0.08, 28), darkGoldM); base.position.y = -0.88; bal.add(base);
+        const beamG = new THREE.Group(); beamG.position.y = 0.62; bal.add(beamG);
+        const beam = new THREE.Mesh(new THREE.BoxGeometry(2.0, 0.07, 0.07), goldM); beamG.add(beam);
+        const knob = new THREE.Mesh(new THREE.SphereGeometry(0.1, 16, 12), goldM); knob.position.y = 0.06; beamG.add(knob);
+        const mkPan = (sx) => { const g = new THREE.Group(); g.position.set(sx, 0, 0); beamG.add(g);
+          [-0.35, 0.35].forEach((dx) => { const ch = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.012, 0.8, 6), darkGoldM); ch.position.set(dx * 0.6, -0.4, 0); ch.rotation.z = -dx * 0.5; g.add(ch); });
+          const pan = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.42, 0.07, 32), goldM); pan.position.y = -0.82; g.add(pan); return g; };
+        const panL = mkPan(-0.95), panR = mkPan(0.95);
+        for (let i = 0; i < 4; i++) { const m = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.24, 0.24), saltM); m.position.set(-0.2 + (i % 2) * 0.28, -0.66 + Math.floor(i / 2) * 0.26, (i % 2) * 0.1 - 0.05); m.rotation.y = 0.3 * i; panL.add(m); }
+        for (let i = 0; i < 4; i++) { const m = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.2, 0.05, 28), goldM); m.position.set(-0.18 + (i % 2) * 0.3, -0.76 + Math.floor(i / 2) * 0.07, 0); panR.add(m); }
+        // ---------- background pattern: dim salt cubes ----------
+        const bgG = new THREE.Group(); scene.add(bgG); const bgc = [];
+        const bgM = new THREE.MeshStandardMaterial({ color: 0x6e6a5e, roughness: 0.5, metalness: 0.15 }), bgG2 = new THREE.MeshStandardMaterial({ color: 0x735718, roughness: 0.5, metalness: 0.45 });
+        for (let i = 0; i < 20; i++) {
+          const s = 0.18 + hh(i + 1) * 0.28; const m = new THREE.Mesh(new THREE.BoxGeometry(s, s, s), i % 4 === 0 ? bgG2 : bgM); bgG.add(m);
+          bgc.push({ m, x: (hh(i + 5) - 0.5) * 8.4, y0: hh(i + 9) * 14, z: -3.6 - hh(i + 13) * 5, sp: 0.16 + hh(i + 17) * 0.26, rx: hh(i + 21) * 6, rs: 0.3 + hh(i + 25) * 0.7 });
+        }
+        const WINS = { lat: [[-1, 19.0], [51.0, 54.9], [58.2, 64.5]], tem: [[26.2, 33.9]], coin: [[33.6, 39.0], [51.0, 54.9], [58.2, 68]], bal: [[38.7, 51.1]] };
+        const PULSE = [7.66, 8.56]; // "Salt." + flash
+        function renderAt(t) {
+          camera.position.set(Math.sin(t * 0.35) * 0.14, Math.sin(t * 0.27) * 0.08, 6.2); camera.lookAt(0, -0.05, 0);
+          bgc.forEach((c) => { const span = 14; const y = ((c.y0 - t * c.sp) % span + span) % span - span / 2; c.m.position.set(c.x, y, c.z); c.m.rotation.set(c.rx + t * c.rs, t * c.rs * 0.7, 0); });
+          // ----- lattice -----
+          const sl = vis(t, WINS.lat); lattice.visible = sl > 0.002;
+          if (lattice.visible) {
+            const top2 = t > 57 ? 1 : 0, small = (t > 50 && !top2) ? 1 : 0;
+            const gold = Math.max(win(t, 14.9, 15.9), small, top2);
+            const pulse = Math.max(0, 1 - Math.abs(t - 7.78) / 0.5) * (t < 10 ? 1 : 0);
+            const sc = (small ? 0.3 : top2 ? 0.3 : 0.8) * (0.2 + 0.8 * sl) * (1 + 0.12 * pulse);
+            lattice.scale.setScalar(sc);
+            lattice.position.set(small ? -0.62 : 0, small ? -0.1 : top2 ? -0.5 : -0.05, 0);
+            lattice.rotation.set(0.5 + Math.sin(t * 0.5) * 0.1, 0.8 + Math.sin(t * 0.55) * 0.35, 0.1);
+            cubes.forEach((c) => { const spread = 0.4 + 0.12 * pulse + 0.18 * win(t, 3.0, 5.0) * (t < 7 ? 1 : 0); const j = (hh(c.i + 3) - 0.5);
+              c.m.position.set(c.x * spread, c.y * spread, c.z * spread); c.m.rotation.set(j * 0.5 * pulse, j * 0.4 * pulse, 0);
+              c.m.material.color.setHex(0xfffdf6).lerp(new THREE.Color(0xe5ab33), gold); c.m.material.metalness = 0.05 + 0.7 * gold; c.m.material.emissive.setHex(0x2a2418).lerp(new THREE.Color(0x2a1c04), gold); });
+          }
+          // ----- temple -----
+          const st = vis(t, WINS.tem); temple.visible = st > 0.002;
+          if (temple.visible) { temple.scale.setScalar(0.78 * (0.3 + 0.7 * st)); temple.position.set(0, -0.1, 0); temple.rotation.set(0.1, Math.sin(t * 0.5) * 0.55, 0); }
+          // ----- coin -----
+          const sc2 = vis(t, WINS.coin); coin.visible = sc2 > 0.002;
+          if (coin.visible) {
+            let px = 0, py = -0.1, s = 0.8;
+            if (t > 50 && t < 55.5) { px = 0.62; s = 0.42; } else if (t > 57 && t < 64.9) { py = 0.65; s = 0.42; } else if (t >= 64.9) { py = 1.1; s = 0.55; }
+            coin.scale.setScalar(s * (0.2 + 0.8 * sc2)); coin.position.set(px, py, 0);
+            coin.rotation.set(Math.sin(t * 0.6) * 0.15, t * 0.9, 0);
+          }
+          // ----- balance scale -----
+          const sb = vis(t, WINS.bal); bal.visible = sb > 0.002;
+          if (bal.visible) {
+            bal.scale.setScalar(0.78 * (0.3 + 0.7 * sb)); bal.position.set(0, -0.05, 0); bal.rotation.set(0.08, Math.sin(t * 0.45) * 0.3, 0);
+            // salt side heavier at first, then level (no solid evidence)
+            const tilt = lerp(0.22 * Math.sin(t * 1.4), 0.0, win(t, 46.5, 47.5)) + 0.12 * (1 - win(t, 40.5, 42.5)) * 1; beamG.rotation.z = tilt; panL.rotation.z = -tilt; panR.rotation.z = -tilt;
+          }
+          renderer.render(scene, camera);
+        }
+        window.addEventListener('hf-seek', (e) => renderAt(e.detail.time));
+        renderAt(window.__hfThreeTime || 0);
+      }
+      window.__hf = window.__hf || {}; window.__hf.buildReady = window.__hf.buildReady || {}; window.__hf.buildReady['salt'] = build();
+    </script>

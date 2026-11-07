@@ -1,0 +1,55 @@
+{
+  "total": 12.66,
+  "lines": [
+    {
+      "i": 1,
+      "file": "assets/voice/01.wav",
+      "text": "What is compound interest?",
+      "tts": "What is compound interest?",
+      "start": 0.3,
+      "dur": 1.685,
+      "end": 1.985,
+      "pause": 0.3
+    },
+    {
+      "i": 2,
+      "file": "assets/voice/02.wav",
+      "text": "First, you earn interest on your deposit.",
+      "tts": "First, you earn interest on your deposit.",
+      "start": 2.285,
+      "dur": 2.304,
+      "end": 4.589,
+      "pause": 0.3
+    },
+    {
+      "i": 3,
+      "file": "assets/voice/03.wav",
+      "text": "Then, you earn interest on that interest.",
+      "tts": "Then, you earn interest on that interest.",
+      "start": 4.889,
+      "dur": 2.347,
+      "end": 7.236,
+      "pause": 0.3
+    },
+    {
+      "i": 4,
+      "file": "assets/voice/04.wav",
+      "text": "Over time, it snowballs.",
+      "tts": "Over time, it snowballs.",
+      "start": 7.536,
+      "dur": 1.771,
+      "end": 9.307,
+      "pause": 0.3
+    },
+    {
+      "i": 5,
+      "file": "assets/voice/05.wav",
+      "text": "You didn't know that about money.",
+      "tts": "You didn't know that about money.",
+      "start": 9.607,
+      "dur": 1.749,
+      "end": 11.356,
+      "pause": 0.3
+    }
+  ]
+}

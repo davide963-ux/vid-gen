@@ -1,0 +1,165 @@
+{
+  "total": 60.47,
+  "lines": [
+    {
+      "i": 1,
+      "file": "assets/voice/01.wav",
+      "text": "You probably didn't know this about money.",
+      "tts": "You probably didn't know this about money.",
+      "start": 0.3,
+      "dur": 2.496,
+      "end": 2.796,
+      "pause": 0.45
+    },
+    {
+      "i": 2,
+      "file": "assets/voice/02.wav",
+      "text": "Most money today is not actually cash.",
+      "tts": "Most money today is not actually cash.",
+      "start": 3.246,
+      "dur": 2.688,
+      "end": 5.934,
+      "pause": 0.4
+    },
+    {
+      "i": 3,
+      "file": "assets/voice/03.wav",
+      "text": "It's not sitting somewhere as paper bills or coins.",
+      "tts": "It's not sitting somewhere as paper bills or coins.",
+      "start": 6.334,
+      "dur": 3.115,
+      "end": 9.449,
+      "pause": 0.4
+    },
+    {
+      "i": 4,
+      "file": "assets/voice/04.wav",
+      "text": "Most of it exists digitally.",
+      "tts": "Most of it exists digitally.",
+      "start": 9.849,
+      "dur": 1.92,
+      "end": 11.769,
+      "pause": 0.5
+    },
+    {
+      "i": 5,
+      "file": "assets/voice/05.wav",
+      "text": "Think about your bank account.",
+      "tts": "Think about your bank account.",
+      "start": 12.269,
+      "dur": 1.877,
+      "end": 14.146,
+      "pause": 0.4
+    },
+    {
+      "i": 6,
+      "file": "assets/voice/06.wav",
+      "text": "If your balance says 2,000$, that doesn't mean the bank has a box with 2,000$ in cash with your name on it.",
+      "tts": "If your balance says two thousand dollars, that doesn't mean the bank has a box with two thousand dollars in cash with your name on it.",
+      "start": 14.546,
+      "dur": 7.851,
+      "end": 22.397,
+      "pause": 0.4
+    },
+    {
+      "i": 7,
+      "file": "assets/voice/07.wav",
+      "text": "It simply means their system records that you have 2,000$ available.",
+      "tts": "It simply means their system records that you have two thousand dollars available.",
+      "start": 22.797,
+      "dur": 5.141,
+      "end": 27.938,
+      "pause": 0.5
+    },
+    {
+      "i": 8,
+      "file": "assets/voice/08.wav",
+      "text": "When someone sends you money, cash usually doesn't physically move anywhere.",
+      "tts": "When someone sends you money, cash usually doesn't physically move anywhere.",
+      "start": 28.438,
+      "dur": 4.331,
+      "end": 32.769,
+      "pause": 0.45
+    },
+    {
+      "i": 9,
+      "file": "assets/voice/09.wav",
+      "text": "One account goes down.",
+      "tts": "One account goes down.",
+      "start": 33.219,
+      "dur": 1.621,
+      "end": 34.84,
+      "pause": 0.4
+    },
+    {
+      "i": 10,
+      "file": "assets/voice/10.wav",
+      "text": "Another account goes up.",
+      "tts": "Another account goes up.",
+      "start": 35.24,
+      "dur": 1.664,
+      "end": 36.904,
+      "pause": 0.45
+    },
+    {
+      "i": 11,
+      "file": "assets/voice/11.wav",
+      "text": "That's it.",
+      "tts": "That's it.",
+      "start": 37.354,
+      "dur": 0.917,
+      "end": 38.271,
+      "pause": 0.55
+    },
+    {
+      "i": 12,
+      "file": "assets/voice/12.wav",
+      "text": "The same thing happens when you use your card, pay online, or receive your salary.",
+      "tts": "The same thing happens when you use your card, pay online, or receive your salary.",
+      "start": 38.821,
+      "dur": 5.419,
+      "end": 44.24,
+      "pause": 0.45
+    },
+    {
+      "i": 13,
+      "file": "assets/voice/13.wav",
+      "text": "So most of the money we use every day is really just numbers stored in banking systems.",
+      "tts": "So most of the money we use every day is really just numbers stored in banking systems.",
+      "start": 44.69,
+      "dur": 5.589,
+      "end": 50.279,
+      "pause": 0.45
+    },
+    {
+      "i": 14,
+      "file": "assets/voice/14.wav",
+      "text": "Physical cash is only a small part of it.",
+      "tts": "Physical cash is only a small part of it.",
+      "start": 50.729,
+      "dur": 2.901,
+      "end": 53.631,
+      "pause": 0.45
+    },
+    {
+      "i": 15,
+      "file": "assets/voice/15.wav",
+      "text": "Money today is mostly digital information.",
+      "tts": "Money today is mostly digital information.",
+      "start": 54.081,
+      "dur": 3.093,
+      "end": 57.174,
+      "pause": 0.5
+    },
+    {
+      "i": 16,
+      "file": "assets/voice/16.wav",
+      "text": "You didn't know that about money.",
+      "tts": "You didn't know that about money.",
+      "start": 57.674,
+      "dur": 1.792,
+      "end": 59.466,
+      "pause": 0.4
+    }
+  ]
+}

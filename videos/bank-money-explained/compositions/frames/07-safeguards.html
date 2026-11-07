@@ -1,0 +1,54 @@
+<template>
+  <style>
+    @font-face { font-family: 'Space Grotesk'; font-weight: 500; font-style: normal; src: url('assets/fonts/space-grotesk-latin-500-normal.woff2') format('woff2'); }
+    @font-face { font-family: 'Space Grotesk'; font-weight: 600; font-style: normal; src: url('assets/fonts/space-grotesk-latin-600-normal.woff2') format('woff2'); }
+    @font-face { font-family: 'Space Grotesk'; font-weight: 700; font-style: normal; src: url('assets/fonts/space-grotesk-latin-700-normal.woff2') format('woff2'); }
+    #root { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; font-family: 'Space Grotesk', 'Inter', sans-serif; color: #111111; }
+    .f07-bg { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; background: #fdfae7; }
+    .f07-layer { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+    #f07-eyebrow { position: absolute; left: 0; top: 190px; width: 1080px; text-align: center; font-size: 36px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #1e2bfa; }
+    #f07-shield { position: absolute; left: 290px; top: 260px; width: 500px; height: 540px; }
+    .f07-d { fill: none; stroke: #1e2bfa; stroke-width: 9; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; }
+    .f07-card { position: absolute; left: 90px; width: 900px; height: 160px; border-radius: 14px; background: rgba(30, 43, 250, 0.04); border: 1.5px solid rgba(30, 43, 250, 0.2); }
+    .f07-n { position: absolute; left: 36px; top: 42px; width: 76px; height: 76px; border-radius: 50%; background: #1e2bfa; color: #fdfae7; font-size: 40px; font-weight: 700; line-height: 76px; text-align: center; }
+    .f07-t { position: absolute; left: 144px; top: 0; height: 160px; width: 740px; font-size: 56px; font-weight: 600; letter-spacing: -0.02em; line-height: 160px; white-space: nowrap; color: #111111; }
+    #f07-c1 { top: 850px; } #f07-c2 { top: 1040px; } #f07-c3 { top: 1230px; } #f07-c4 { top: 1420px; }
+  </style>
+
+  <div data-hf-id="hf-sigz" id="root" data-composition-id="07-safeguards" data-start="0" data-duration="12.02" data-width="1080" data-height="1920">
+    <div data-hf-id="hf-2v4j" id="f07-bg" class="clip f07-bg" data-start="0" data-duration="12.02" data-track-index="0"></div>
+    <div data-hf-id="hf-0pcs" id="f07-layer" class="clip f07-layer" data-start="0" data-duration="12.02" data-track-index="1">
+      <div data-hf-id="hf-jjki" id="f07-eyebrow">The safeguards</div>
+      <svg data-hf-id="hf-vzrd" id="f07-shield" viewBox="0 0 500 540" width="500" height="540">
+        <path data-hf-id="hf-ms52" id="f07-sfill" d="M250 24 L456 96 V270 C456 388 370 470 250 516 C130 470 44 388 44 270 V96 Z" fill="rgba(30,43,250,0.10)" opacity="0" />
+        <path data-hf-id="hf-7mh0" class="f07-d" id="f07-sline" d="M250 24 L456 96 V270 C456 388 370 470 250 516 C130 470 44 388 44 270 V96 Z" pathLength="1" />
+        <path data-hf-id="hf-jhzk" class="f07-d" id="f07-stick" d="M160 270 L224 334 L344 200" pathLength="1" />
+      </svg>
+
+      <div data-hf-id="hf-830c" id="f07-c1" class="f07-card"><div data-hf-id="hf-tnnz" class="f07-n">1</div><div data-hf-id="hf-i4aa" class="f07-t">Liquidity requirements</div></div>
+      <div data-hf-id="hf-gqw7" id="f07-c2" class="f07-card"><div data-hf-id="hf-t9cy" class="f07-n">2</div><div data-hf-id="hf-89vh" class="f07-t">Capital rules</div></div>
+      <div data-hf-id="hf-css6" id="f07-c3" class="f07-card"><div data-hf-id="hf-sv1x" class="f07-n">3</div><div data-hf-id="hf-hpje" class="f07-t">Central-bank access</div></div>
+      <div data-hf-id="hf-no9t" id="f07-c4" class="f07-card"><div data-hf-id="hf-vn74" class="f07-n">4</div><div data-hf-id="hf-3u4j" class="f07-t">Deposit protection</div></div>
+    </div>
+  </div>
+
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    const ease = 'power3.out';
+    tl.fromTo('#f07-eyebrow', { opacity: 0, y: -14 }, { opacity: 1, y: 0, duration: 0.4, ease }, 0);
+    // "Modern banks operate with": the shield draws itself
+    tl.fromTo('#f07-sline', { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 1.3, ease: 'power2.inOut' }, 0.1);
+
+    // each safeguard lands on its spoken cue
+    const rise = (id, at) => tl.fromTo(id, { opacity: 0, y: 44 }, { opacity: 1, y: 0, duration: 0.55, ease }, at);
+    rise('#f07-c1', 1.5);
+    rise('#f07-c2', 3.25);
+    rise('#f07-c3', 4.85);
+    rise('#f07-c4', 6.5);
+
+    // "designed to prevent exactly that situation": shield fills and ticks
+    tl.fromTo('#f07-sfill', { opacity: 0 }, { opacity: 1, duration: 0.9, ease }, 8.3);
+    tl.fromTo('#f07-stick', { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.6, ease }, 9.4);
+    window.__timelines['07-safeguards'] = tl;
+  </script>
+</template>

@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
+    <style>
+      /* THEME: change these six values to restyle the whole video */
+      :root { --bg: #0B1220; --ink: #F1F3F8; --accent: #E9B949; --panel: #131D33; --line: #2A3A5C; --muted: #8C97AD; --good: #67E3AE; --bad: #F0616D; --on-accent: #0B1220; --dots: rgba(233,185,73,0.10); --glow: rgba(233,185,73,0.12); }
+      :root { --bg: #0a0a0a; --ink: #fffdf6; --accent: #e5ab33; --panel: #17130a; --line: #4a3607; --muted: #b5ac96; --good: #e5ab33; --bad: #e5ab33; --on-accent: #0a0a0a; --dots: rgba(229,171,51,0.06); --glow: rgba(229,171,51,0.10); }
+
+.uc { position: absolute; opacity: 0; background: #17130a; border: 2px solid #4a3607; border-radius: 36px; box-shadow: 0 26px 60px rgba(0,0,0,.55); color: #fffdf6; }
+.uc.gold { background: #e5ab33; border-color: #f3c866; color: #0a0a0a; }
+.uc img { position: absolute; }
+.lab { position: absolute; font-weight: 600; font-size: 30px; letter-spacing: .14em; text-transform: uppercase; color: #b5ac96; white-space: nowrap; }
+.gold .lab { color: #3b2a05; }
+.val { position: absolute; font-weight: 700; letter-spacing: -.03em; white-space: nowrap; line-height: 1; }
+.ccard { background: linear-gradient(135deg,#f6cf72,#d79a22 60%,#b57a12); border-radius: 46px; box-shadow: 0 30px 70px rgba(0,0,0,.6), inset 0 2px 0 rgba(255,255,255,.35); color: #0a0a0a; }
+.ccard .chipx { position: absolute; width: 112px; height: 84px; border-radius: 16px; background: linear-gradient(135deg,#fbe7a5,#c9921f); border: 2px solid rgba(0,0,0,.25); }
+.tagc { position: absolute; padding: 12px 30px; border-radius: 100px; font-weight: 700; font-size: 34px; letter-spacing: .06em; white-space: nowrap; background: rgba(229,171,51,.12); border: 2px solid rgba(229,171,51,.55); color: #e5ab33; }
+.tagc.fill { background: #e5ab33; color: #0a0a0a; border-color: #f3c866; }
+.photo { position: absolute; opacity: 0; border-radius: 22px; overflow: hidden; border: 3px solid #e5ab33; box-shadow: 0 30px 80px rgba(0,0,0,.65), 0 0 110px rgba(229,171,51,.28); background: #0a0a0a; }
+.photo img { position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; }
+.shine { position: absolute; top: -20%; left: 0; width: 38%; height: 140%; background: linear-gradient(100deg, transparent, rgba(255,246,214,.55), transparent); transform: skewX(-18deg); opacity: .8; }
+.frame { position: absolute; opacity: 0; border-radius: 28px; overflow: hidden; border: 3px solid #e5ab33; box-shadow: 0 30px 80px rgba(0,0,0,.65), 0 0 90px rgba(229,171,51,.22); background: #0a0a0a; }
+.frame img { position: absolute; left: 0; top: 0; width: 100%; }
+.rays { position: absolute; opacity: 0; border-radius: 50%; background: repeating-conic-gradient(from 0deg, rgba(229,171,51,.30) 0deg 9deg, rgba(229,171,51,0) 9deg 24deg); -webkit-mask-image: radial-gradient(closest-side, #000 25%, transparent 100%); mask-image: radial-gradient(closest-side, #000 25%, transparent 100%); }
+.dg { position: absolute; width: 56px; height: 84px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 54px; border: 3px solid #4a3607; background: #17130a; color: #fffdf6; }
+.dg.one { background: #e5ab33; border-color: #f3c866; color: #0a0a0a; }
+.loaf { position: absolute; opacity: 0; background: linear-gradient(180deg,#e9b650,#a86f12); border-radius: 130px 130px 70px 70px; box-shadow: 0 24px 50px rgba(0,0,0,.55), inset 0 -14px 0 rgba(0,0,0,.18); }
+.loaf i { position: absolute; top: 40px; width: 20px; height: 84px; border-radius: 12px; background: rgba(60,35,4,.45); transform: rotate(24deg); }
+.stamp { position: absolute; opacity: 0; border: 8px solid #e5ab33; border-radius: 22px; color: #e5ab33; font-weight: 700; letter-spacing: .06em; text-align: center; background: rgba(10,10,10,.72); white-space: nowrap; }
+.pt { position: absolute; border-radius: 50%; background: #e5ab33; }
+.ring2 { position: absolute; opacity: 0; border-radius: 50%; border: 6px solid #e5ab33; }
+#flash { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; pointer-events: none; opacity: 0; background: radial-gradient(closest-side at 50% 50%, rgba(255,226,140,.85), rgba(229,171,51,.25) 70%, rgba(229,171,51,0)); }
+
+#stage { isolation: isolate; }
+#gl { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; display: block; z-index: -1; }
+.stamp { position: absolute; opacity: 0; border: 8px solid #e5ab33; border-radius: 22px; color: #e5ab33; font-weight: 700; letter-spacing: .06em; text-align: center; background: rgba(10,10,10,.78); white-space: nowrap; }
+.fridge { position: absolute; opacity: 0; border-radius: 34px; background: linear-gradient(160deg,#241a07,#17130a); border: 4px solid #4a3607; box-shadow: 0 26px 60px rgba(0,0,0,.55); }
+
+      @font-face { font-family: 'Space Grotesk'; font-weight: 500; src: url('assets/fonts/space-grotesk-latin-500-normal.woff2') format('woff2'); }
+      @font-face { font-family: 'Space Grotesk'; font-weight: 600; src: url('assets/fonts/space-grotesk-latin-600-normal.woff2') format('woff2'); }
+      @font-face { font-family: 'Space Grotesk'; font-weight: 700; src: url('assets/fonts/space-grotesk-latin-700-normal.woff2') format('woff2'); }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background-color: var(--bg); background-image: radial-gradient(var(--dots) 2.5px, transparent 2.5px); background-size: 60px 60px; font-family: 'Space Grotesk', sans-serif; color: var(--ink); }
+      #stage { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; }
+      #glow { position: absolute; left: -200px; top: -300px; width: 1480px; height: 1100px; pointer-events: none; background: radial-gradient(closest-side, var(--glow), transparent); }
+      /* SAFE AREA (1080x1920): keep content at x 60..960 and y 120..1600. Right ~120px and bottom ~320px belong to TikTok's UI. */
+      .abs { position: absolute; opacity: 0; }
+      .sc { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; }
+      .sp { position: absolute; opacity: 0; will-change: transform; }
+      .lot { position: absolute; opacity: 0; }
+      .big { font-weight: 700; letter-spacing: -0.035em; line-height: 1.02; text-align: center; white-space: nowrap; }
+      .ac { color: var(--accent); } .gn { color: var(--good); } .rd { color: var(--bad); }
+      .tag { font-weight: 600; font-size: 30px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); text-align: center; white-space: nowrap; }
+      .chip { display: inline-block; padding: 12px 30px; border-radius: 100px; background: rgba(233,185,73,0.10); border: 1.5px solid rgba(233,185,73,0.45); color: var(--accent); font-weight: 600; font-size: 28px; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; }
+      .card { background: var(--panel); border: 1.5px solid var(--line); border-radius: 28px; box-shadow: 0 24px 60px rgba(0,0,0,0.45); }
+      .strike { position: absolute; height: 10px; border-radius: 6px; background: var(--bad); transform-origin: left center; transform: scaleX(0); }
+      .mw { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: 0.14em; margin-bottom: -0.14em; }
+      .mi { display: inline-block; will-change: transform; }
+      #prog { position: absolute; left: 0; bottom: 0; width: 1080px; height: 6px; background: var(--accent); transform-origin: left center; }
+      #caps { position: absolute; left: 0; top: 1392px; width: 1080px; height: 190px; }
+      .cg { position: absolute; left: 90px; top: 0; width: 900px; text-align: center; opacity: 0; }
+      .cg .pill { display: inline-block; padding: 14px 30px 16px; border-radius: 34px; background: var(--panel); border: 1.5px solid var(--line); box-shadow: 0 8px 30px rgba(0,0,0,0.5); font-weight: 600; font-size: 50px; line-height: 1.2; letter-spacing: -0.01em; color: var(--ink); }
+      .cw { display: inline-block; margin: 0 4px; padding: 0 10px; border-radius: 12px; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="67.77" data-width="1080" data-height="1920">
+      <div id="stage" class="clip" data-start="0" data-duration="67.77" data-track-index="0">
+        <div id="glow"></div>
+        <div id="dyn"></div>
+        <canvas id="gl" width="1080" height="1920"></canvas>
+
+        <div id="caps"></div>
+        <div id="prog"></div>
+      </div>
+    </div>
+
+    <script>
+      const WORDS = [{"w":"What","s":0,"e":0.32,"line":1},{"w":"if","s":0.32,"e":0.48,"line":1},{"w":"I","s":0.48,"e":0.66,"line":1},{"w":"told","s":0.66,"e":1,"line":1},{"w":"you","s":1,"e":1.3,"line":1},{"w":"that","s":1.3,"e":1.5,"line":1},{"w":"the","s":1.5,"e":1.62,"line":1},{"w":"word","s":1.62,"e":1.9,"line":1},{"w":"\"salary\"","s":1.9,"e":2.58,"line":1},{"w":"is","s":2.58,"e":3.08,"line":1},{"w":"connected","s":3.08,"e":3.46,"line":1},{"w":"to","s":3.46,"e":3.8,"line":1},{"w":"something","s":3.8,"e":4.18,"line":1},{"w":"sitting","s":4.18,"e":4.52,"line":1},{"w":"in","s":4.52,"e":4.8,"line":1},{"w":"your","s":4.8,"e":4.96,"line":1},{"w":"kitchen","s":4.96,"e":5.42,"line":1},{"w":"right","s":5.42,"e":5.76,"line":1},{"w":"now?","s":5.76,"e":6.34,"line":1},{"w":"Salt.","s":7.66,"e":7.74,"line":2},{"w":"Yes,","s":8.56,"e":8.92,"line":3},{"w":"the","s":9.32,"e":9.56,"line":3},{"w":"same","s":9.56,"e":9.94,"line":3},{"w":"salt","s":9.94,"e":10.28,"line":3},{"w":"you","s":10.28,"e":10.54,"line":3},{"w":"put","s":10.54,"e":10.72,"line":3},{"w":"on","s":10.72,"e":10.9,"line":3},{"w":"your","s":10.9,"e":11.08,"line":3},{"w":"food.","s":11.08,"e":11.44,"line":3},{"w":"But","s":11.94,"e":12.08,"line":4},{"w":"thousands","s":12.08,"e":12.54,"line":4},{"w":"of","s":12.54,"e":12.9,"line":4},{"w":"years","s":12.9,"e":13.12,"line":4},{"w":"ago,","s":13.12,"e":13.56,"line":4},{"w":"salt","s":14.02,"e":14.2,"line":4},{"w":"was","s":14.2,"e":14.46,"line":4},{"w":"much","s":14.46,"e":14.88,"line":4},{"w":"more","s":14.88,"e":15.18,"line":4},{"w":"valuable","s":15.18,"e":15.76,"line":4},{"w":"than","s":15.76,"e":17.08,"line":4},{"w":"it","s":17.08,"e":17.24,"line":4},{"w":"is","s":17.24,"e":17.46,"line":4},{"w":"today.","s":17.46,"e":17.94,"line":4},{"w":"Why?","s":18.6,"e":18.9,"line":5},{"w":"Because","s":19.44,"e":19.78,"line":6},{"w":"refrigerators","s":19.78,"e":20.72,"line":6},{"w":"didn't","s":20.72,"e":21.1,"line":6},{"w":"exist.","s":21.1,"e":21.58,"line":6},{"w":"People","s":22.26,"e":22.5,"line":7},{"w":"needed","s":22.5,"e":22.86,"line":7},{"w":"salt","s":22.86,"e":23.3,"line":7},{"w":"to","s":23.3,"e":23.54,"line":7},{"w":"preserve","s":23.54,"e":23.88,"line":7},{"w":"meat","s":23.88,"e":24.28,"line":7},{"w":"and","s":24.28,"e":24.5,"line":7},{"w":"other","s":24.5,"e":24.7,"line":7},{"w":"foods","s":24.7,"e":25.12,"line":7},{"w":"so","s":25.12,"e":25.48,"line":7},{"w":"they","s":25.48,"e":25.6,"line":7},{"w":"wouldn't","s":25.6,"e":25.9,"line":7},{"w":"spoil.","s":25.9,"e":26.3,"line":7},{"w":"And","s":26.3,"e":26.94,"line":8},{"w":"in","s":26.94,"e":27.1,"line":8},{"w":"ancient","s":27.1,"e":27.5,"line":8},{"w":"Rome,","s":27.5,"e":28,"line":8},{"w":"salt","s":28.5,"e":28.58,"line":8},{"w":"was","s":28.56,"e":28.82,"line":8},{"w":"so","s":28.82,"e":29.14,"line":8},{"w":"important","s":29.14,"e":29.64,"line":8},{"w":"that","s":29.64,"e":30.12,"line":8},{"w":"it","s":30.12,"e":30.22,"line":8},{"w":"became","s":30.22,"e":30.54,"line":8},{"w":"connected","s":30.54,"e":31.06,"line":8},{"w":"to","s":31.06,"e":31.28,"line":8},{"w":"the","s":31.28,"e":31.4,"line":8},{"w":"way","s":31.4,"e":31.56,"line":8},{"w":"people","s":31.56,"e":31.9,"line":8},{"w":"talked","s":31.9,"e":32.28,"line":8},{"w":"about","s":32.28,"e":32.58,"line":8},{"w":"payment.","s":32.58,"e":32.98,"line":8},{"w":"The","s":33.7,"e":33.78,"line":9},{"w":"Latin","s":33.72,"e":33.96,"line":9},{"w":"word","s":33.96,"e":34.42,"line":9},{"w":"\"salarium\"","s":34.42,"e":35.2,"line":9},{"w":"eventually","s":35.2,"e":35.88,"line":9},{"w":"gave","s":35.88,"e":36.38,"line":9},{"w":"us","s":36.38,"e":36.56,"line":9},{"w":"the","s":36.56,"e":36.76,"line":9},{"w":"English","s":36.76,"e":37.06,"line":9},{"w":"word","s":37.06,"e":37.52,"line":9},{"w":"\"salary.\"","s":37.52,"e":38.1,"line":9},{"w":"There's","s":38.74,"e":38.92,"line":10},{"w":"even","s":38.92,"e":39.24,"line":10},{"w":"a","s":39.24,"e":39.4,"line":10},{"w":"famous","s":39.4,"e":39.74,"line":10},{"w":"story","s":39.74,"e":40.2,"line":10},{"w":"that","s":40.2,"e":40.44,"line":10},{"w":"Roman","s":40.44,"e":40.82,"line":10},{"w":"soldiers","s":40.82,"e":41.3,"line":10},{"w":"were","s":41.3,"e":41.68,"line":10},{"w":"paid","s":41.68,"e":42.04,"line":10},{"w":"in","s":42.04,"e":42.26,"line":10},{"w":"salt.","s":42.26,"e":42.66,"line":10},{"w":"But","s":44.64,"e":44.76,"line":11},{"w":"historians","s":44.76,"e":45.52,"line":11},{"w":"haven't","s":45.52,"e":46.04,"line":11},{"w":"found","s":46.04,"e":46.32,"line":11},{"w":"solid","s":46.32,"e":46.78,"line":11},{"w":"evidence","s":46.78,"e":47.26,"line":11},{"w":"that","s":47.26,"e":47.58,"line":11},{"w":"soldiers","s":47.58,"e":47.96,"line":11},{"w":"actually","s":47.96,"e":48.64,"line":11},{"w":"received","s":48.64,"e":49.18,"line":11},{"w":"salt","s":49.18,"e":49.58,"line":11},{"w":"instead","s":49.58,"e":49.96,"line":11},{"w":"of","s":49.96,"e":50.14,"line":11},{"w":"money.","s":50.14,"e":50.44,"line":11},{"w":"Still,","s":51.02,"e":51.26,"line":12},{"w":"the","s":51.72,"e":51.92,"line":12},{"w":"connection","s":51.92,"e":52.3,"line":12},{"w":"between","s":52.3,"e":52.78,"line":12},{"w":"salt","s":52.78,"e":53.24,"line":12},{"w":"and","s":53.24,"e":53.46,"line":12},{"w":"salary","s":53.46,"e":54,"line":12},{"w":"is","s":54,"e":54.44,"line":12},{"w":"real.","s":54.44,"e":54.82,"line":12},{"w":"So","s":54.82,"e":55.38,"line":13},{"w":"next","s":55.38,"e":55.66,"line":13},{"w":"time","s":55.66,"e":55.98,"line":13},{"w":"your","s":55.98,"e":56.14,"line":13},{"w":"paycheck","s":56.14,"e":56.56,"line":13},{"w":"arrives,","s":56.56,"e":57.16,"line":13},{"w":"remember","s":57.58,"e":57.78,"line":13},{"w":"A","s":58.22,"e":58.38,"line":14},{"w":"word","s":58.38,"e":58.6,"line":14},{"w":"we","s":58.6,"e":58.84,"line":14},{"w":"use","s":58.84,"e":59.1,"line":14},{"w":"for","s":59.1,"e":59.34,"line":14},{"w":"earning","s":59.34,"e":59.62,"line":14},{"w":"money","s":59.62,"e":59.88,"line":14},{"w":"today","s":59.88,"e":60.38,"line":14},{"w":"has","s":60.38,"e":60.76,"line":14},{"w":"its","s":60.76,"e":60.98,"line":14},{"w":"roots","s":60.98,"e":61.26,"line":14},{"w":"in","s":61.26,"e":61.52,"line":14},{"w":"an","s":61.52,"e":61.7,"line":14},{"w":"ancient","s":61.7,"e":62.16,"line":14},{"w":"everyday","s":62.3,"e":62.76,"line":14},{"w":"ingredient.","s":62.76,"e":63.34,"line":14},{"w":"You","s":64.38,"e":64.62,"line":15},{"w":"didn't","s":64.62,"e":64.88,"line":15},{"w":"know","s":64.88,"e":65.06,"line":15},{"w":"that","s":65.06,"e":65.34,"line":15},{"w":"about","s":65.34,"e":65.64,"line":15},{"w":"money!","s":65.64,"e":65.94,"line":15}];
+      window.__timelines = window.__timelines || {};
+      const wd = (l, k) => WORDS.filter((w) => w.line === l)[k].s;     // start time of word k in script line l
+      const tl = gsap.timeline({ paused: true });
+      const E = 'power3.out', IO = 'power2.inOut';
+      const $ = (s) => document.querySelector(s);
+      const R = (el, t, from, to) => tl.fromTo(el, Object.assign({ opacity: 0, y: 30 }, from || {}), Object.assign({ opacity: 1, y: 0, duration: 0.5, ease: E, immediateRender: false }, to || {}), t);
+      const X = (el, t, d) => tl.to(el, { opacity: 0, duration: d || 0.25, ease: 'none' }, t);
+      const POP = { scale: 0.6, y: 24 }, POPTO = { scale: 1, duration: 0.5 };
+      const STRIKE = (sel, t) => tl.fromTo(sel, { scaleX: 0 }, { scaleX: 1, duration: 0.3, ease: 'power2.out', immediateRender: false }, t);
+      const add = (h) => $('#dyn').insertAdjacentHTML('beforeend', h);
+      const money = (v) => '$' + Math.round(v).toLocaleString('en-US');
+      const count = (sel, t, from, to, dur) => { const o = { v: from }; tl.to(o, { v: to, duration: dur, ease: 'power3.out', onUpdate() { $(sel).textContent = money(o.v); } }, t); };
+      // Paste-in helpers for HyperFrames templates (classic <script>, GSAP timeline `tl`, `$` = querySelector).
+// Ideas adapted (rewritten for our stack) from the MIT-licensed iart-ai/tiktok-video-skills + kinetic-typography-skills.
+// Everything is seek-safe: tweens only, no timers, no randomness except the seeded hash().
+//
+// Needs this CSS in the template:
+//   .mw { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: 0.14em; margin-bottom: -0.14em; }
+//   .mi { display: inline-block; will-change: transform; }
+
+const SAFE = { left: 60, right: 960, top: 120, bottom: 1600 };   // 1080x1920: keep text/cards inside; TikTok UI sits outside (right ~120px, bottom ~320px)
+
+const hashH = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+
+// Split a PLAIN-TEXT element into masked words (screen-reader label kept). Returns the inner word nodes.
+const splitWords = (sel) => {
+  const el = document.querySelector(sel); const txt = el.textContent.trim();
+  el.setAttribute('aria-label', txt);
+  el.innerHTML = txt.split(/\s+/).map((w) => `<span class="mw"><span class="mi">${w}</span></span>`).join(' ');
+  return el.querySelectorAll('.mi');
+};
+
+// 1) Mask reveal: each word rises out of a clipped line. ~0.6s per word, 60ms stagger, expo ease (keep the whole reveal under ~0.8-1.0s).
+//    Use for headlines that appear mid-video (NOT the hook; see hookNow).
+const maskReveal = (tl, sel, t, o = {}) => {
+  const items = splitWords(sel);
+  tl.set(sel, { opacity: 1 }, t);
+  tl.fromTo(items, { yPercent: 115 }, { yPercent: 0, duration: o.dur || 0.6, ease: 'expo.out', stagger: o.stagger || 0.06, immediateRender: false }, t);
+  return items.length;
+};
+// matching exit: words drop back down (use instead of a plain fade when a headline leaves)
+const maskHide = (tl, sel, t, o = {}) => {
+  const items = document.querySelectorAll(sel + ' .mi');
+  tl.to(items, { yPercent: -115, duration: o.dur || 0.35, ease: 'power3.in', stagger: o.stagger || 0.03 }, t);
+  tl.set(sel, { opacity: 0 }, t + (o.dur || 0.35) + 0.03 * items.length);
+};
+
+// 2) Hook on frame 1: the hook text is fully visible at t=0 (no fade-up, no fade from black); only a tiny settle motion.
+const hookNow = (tl, sels) => { sels.forEach((s) => { tl.set(s, { opacity: 1 }, 0); tl.fromTo(s, { scale: 1.05 }, { scale: 1, duration: 0.6, ease: 'power3.out', immediateRender: false }, 0); }); };
+
+// 3) Pattern interrupt: a quick punch-in pulse on an element (use on long holds).
+const punch = (tl, sel, t, o = {}) => {
+  tl.fromTo(sel, { scale: 1 }, { scale: o.scale || 1.07, duration: o.dur || 0.18, ease: 'power2.out', immediateRender: false }, t);
+  tl.to(sel, { scale: 1, duration: 0.45, ease: 'power2.inOut' }, t + (o.dur || 0.18));
+};
+// Pulse an element every ~3s (uneven: 2.2s-3.8s gaps) between `from` and `to`. Never use a metronome gap.
+const heartbeat = (tl, sel, from, to, o = {}) => { let t = from + 1.2; let i = 0; while (t < to - 0.8) { punch(tl, sel, t, o); t += 2.2 + hashH(i++ + (o.seed || 0)) * 1.6; } };
+
+// 4) Optional seamless loop: end on the same first-frame look. Fade the final card out to the hook's background in the last 0.5s
+//    and make the last spoken line read as the lead-in to the first line ("...and that is why" -> hook).
+
+// 5) Scene wipe: each scene is a full-frame container (.sc, own background colour). The next one slides/zooms in over the previous.
+//    Initial offsets: tl.set('#sc2', { x: 1080 }, 0)  or { y: 1920 } / { x: -1080 } / { scale: 1.5, opacity: 0 } (zoom-in). Example: sceneCut(tl, '#sc1', '#sc2', 2.45, { x: 1080 });
+//    CSS: .sc { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:hidden; }
+const sceneCut = (tl, prev, next, t, from, d = 0.5) => {
+  tl.fromTo(next, from, { x: 0, y: 0, scale: 1, opacity: 1, duration: d, ease: 'power4.out', immediateRender: false }, t);
+  tl.to(prev, { x: from.x ? -from.x * 0.25 : 0, y: from.y ? -from.y * 0.2 : 0, duration: d, ease: 'power4.out' }, t);
+  tl.set(prev, { opacity: 0 }, t + d + 0.05);
+};
+// 6) Slow push-in on a scene container (camera feel): pushIn(tl, '#sc2', 2.5, 5.5)
+const pushIn = (tl, sel, a, b, s = 1.05) => tl.fromTo(sel, { scale: 1 }, { scale: s, duration: b - a, ease: 'none', immediateRender: false }, a + 0.01);
+
+
+      // ================= SCENES (src/scenes.js) =================
+      // Explainer-UI style (like inflation / bill-value): eyebrow + big headline + drawn UI cards with Phosphor icons, black and gold. No emoji, no characters.
+      const NO_CAPTION_LINES = [15];
+      const W = '#fffdf6', G = '#e5ab33', K = '#0a0a0a';
+      const dyn = document.getElementById('dyn');
+      let U = 0;
+      const IMG = (n, x, y, s) => `<img src="assets/img/${n}.svg" style="left:${x}px;top:${y}px;width:${s}px;height:${s}px" />`;
+      const LAB = (s, x, y) => `<div class="lab" style="left:${x}px;top:${y}px">${s}</div>`;
+      const VAL = (s, x, y, size, c) => `<div class="val" style="left:${x}px;top:${y}px;font-size:${size}px;${c ? 'color:' + c : ''}">${s}</div>`;
+      function beat(n, t0, t1, o) {
+        const out = t1 - 0.22;
+        const P = {
+          el(cls, l, t, w, h, html, at, style = '') {
+            at = Math.min(at, Math.max(0, out - 0.4));                       // never schedule an entrance after the scene's own exit (would leave it stuck on screen)
+            const id = `u${U++}`;
+            dyn.insertAdjacentHTML('beforeend', `<div id="${id}" class="${cls}" style="left:${l}px;top:${t}px;width:${w}px;height:${h}px;${style}">${html}</div>`);
+            if (at === 0) tl.set('#' + id, { opacity: 1 }, 0); else tl.fromTo('#' + id, { opacity: 0, y: 70, scale: 0.9 }, { opacity: 1, y: 0, scale: 1, duration: 0.55, ease: 'back.out(1.5)', immediateRender: false }, at);
+            tl.to('#' + id, { opacity: 0, y: -30, duration: 0.2, ease: 'power2.in' }, out);
+            return '#' + id;
+          },
+          grow(sel, at, d = 0.9) { tl.fromTo(sel, { scaleX: 0 }, { scaleX: 1, duration: d, ease: 'power3.out', immediateRender: false }, at); },
+          pulse(sel, at) { punch(tl, sel, at, { scale: 1.06 }); },
+        };
+        if (o.eyebrow) {
+          const id = `e${n}`;
+          dyn.insertAdjacentHTML('beforeend', `<div id="${id}" class="abs tag" style="left:0;top:150px;width:1080px">${o.eyebrow}</div>`);
+          if (n === 1) hookNow(tl, ['#' + id]); else tl.fromTo('#' + id, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.4, immediateRender: false }, t0);
+          tl.to('#' + id, { opacity: 0, duration: 0.2 }, out);
+        }
+        let y = o.top || 215;
+        (o.rows || []).forEach(([s, c, sz], i) => {
+          const id = `h${n}_${i}`;
+          dyn.insertAdjacentHTML('beforeend', `<div id="${id}" class="abs big" style="left:0;top:${y}px;width:1080px;font-size:${sz}px;color:${c}">${s}</div>`);
+          y += sz * 1.08;
+          if (n === 1) hookNow(tl, ['#' + id]); else maskReveal(tl, '#' + id, t0 + 0.05 + i * 0.15);
+          tl.to('#' + id, { opacity: 0, y: -40, duration: 0.2, ease: 'power2.in' }, out);
+        });
+        return P;
+      }
+      const creditCard = (P, l, t, w, at) => {
+        const h = Math.round(w * 0.62), k = w / 780;
+        return P.el('ccard abs', l, t, w, h, `<div class="chipx" style="left:${60 * k}px;top:${120 * k}px;transform:scale(${k});transform-origin:left top"></div><div class="val" style="left:${60 * k}px;top:${h - 160 * k}px;font-size:${52 * k}px">•••• •••• •••• 4821</div><div class="lab" style="left:${60 * k}px;top:${h - 90 * k}px;color:#3b2a05;font-size:${28 * k}px">CREDIT CARD</div>`, at);
+      };
+      const chip = (P, txt, l, t, at, cls = 'tagc') => P.el(cls + ' abs', l, t, 'auto', 'auto', txt, at);
+
+      // ---------- ambient layer: gold dust + flash (3D salt cubes / lattice / temple / scale / coin live in src/modules.html, canvas #gl) ----------
+      const TOTAL = 67.77;
+      for (let i = 0; i < 16; i++) {
+        const sz = 4 + hashH(i + 3) * 7, x = 20 + hashH(i + 11) * 1040, sp = 70 + hashH(i + 5) * 90, y0 = hashH(i + 7) * 1900;
+        dyn.insertAdjacentHTML('beforeend', `<div id="pt${i}" class="pt" style="left:${x}px;top:0;width:${sz}px;height:${sz}px;opacity:${(0.14 + hashH(i + 9) * 0.22).toFixed(2)}"></div>`);
+        const first = (y0 + 80) / sp, cyc = 2000 / sp;
+        tl.fromTo('#pt' + i, { y: y0 }, { y: -80, duration: first, ease: 'none' }, 0);
+        tl.fromTo('#pt' + i, { y: 1960 }, { y: -80, duration: cyc, ease: 'none', repeat: Math.ceil((TOTAL - first) / cyc), immediateRender: false }, first);
+      }
+      dyn.insertAdjacentHTML('beforeend', '<div id="flash"></div>');
+      const flash = (t, a = 0.5) => tl.fromTo('#flash', { opacity: a }, { opacity: 0, duration: 0.5, ease: 'power2.out', immediateRender: false }, t);
+      const START = [0, 7.66, 8.56, 11.94, 18.6, 19.44, 22.26, 26.3, 33.7, 38.74, 44.64, 51.02, 54.82, 58.22, 64.38];
+      const B = (n, o, t1, t0) => { const i = parseInt(n, 10); return beat(n, t0 !== undefined ? t0 : i === 1 ? 0 : START[i - 1] - 0.1, t1 || (i === 15 ? 67.4 : START[i] - 0.1), o); };
+
+      // 1 hook: 3D salt lattice
+      { B(1, { eyebrow: 'WHAT IF I TOLD YOU THE WORD', rows: [['“SALARY”', G, 170], ['IS CONNECTED TO YOUR KITCHEN', W, 54]] }); }
+      // 2 SALT.
+      { B(2, { rows: [['SALT.', G, 300]], top: 300 }); flash(7.7, 0.5); }
+      // 3 same salt on your food
+      { B(3, { eyebrow: 'YES, THE SAME SALT', rows: [['YOU PUT ON', W, 120], ['YOUR FOOD', G, 130]] }); }
+      // 4 more valuable thousands of years ago (lattice turns gold)
+      { const P = B(4, { eyebrow: 'THOUSANDS OF YEARS AGO', rows: [['SALT WAS MORE', W, 110], ['VALUABLE', G, 150]] });
+        chip(P, 'THAN IT IS TODAY', 330, 1318, wd(4, 11) - 0.1, 'tagc fill'); flash(wd(4, 9), 0.25); }
+      // 5 why
+      { B(5, { rows: [['WHY?', G, 330]], top: 300 }); }
+      // 6 no refrigerators
+      { const P = B(6, { eyebrow: 'BECAUSE THERE WERE', rows: [['NO', G, 150], ['REFRIGERATORS', W, 100]] });
+        P.el('fridge abs', 340, 650, 400, 600, '<div style="position:absolute;left:0;right:0;top:230px;height:6px;background:#4a3607"></div><div style="position:absolute;right:34px;top:70px;width:12px;height:110px;border-radius:6px;background:#e5ab33"></div><div style="position:absolute;right:34px;top:300px;width:12px;height:160px;border-radius:6px;background:#e5ab33"></div><div class="lab" style="left:0;width:400px;text-align:center;top:520px">FRIDGE</div>', 19.6);
+        const x1 = P.el('abs', 300, 940, 500, 18, '<div style="width:100%;height:100%;border-radius:9px;background:#e5ab33;transform:rotate(45deg) scaleX(1.25)"></div>', wd(6, 1) + 0.1, 'transform-origin:center'), x2 = P.el('abs', 300, 940, 500, 18, '<div style="width:100%;height:100%;border-radius:9px;background:#e5ab33;transform:rotate(-45deg) scaleX(1.25)"></div>', wd(6, 1) + 0.3, 'transform-origin:center');
+        flash(wd(6, 1) + 0.12, 0.25); }
+      // 7 salt preserves food
+      { const P = B(7, { eyebrow: 'PEOPLE NEEDED SALT TO', rows: [['PRESERVE FOOD', G, 120]] });
+        P.el('uc abs', 120, 600, 840, 640, `${IMG('fork-knife', 40, 40, 100)}${LAB('WITHOUT SALT', 170, 50)}<div style="position:absolute;left:170px;top:100px;width:620px;height:44px;border-radius:14px;background:#4a3607"></div>${IMG('fork-knife', 40, 340, 100)}${LAB('WITH SALT', 170, 350)}<div style="position:absolute;left:170px;top:400px;width:620px;height:44px;border-radius:14px;background:#4a3607"></div>`, 22.7);
+        const b1 = P.el('abs', 290, 700, 620, 44, '<div style="width:100%;height:100%;border-radius:14px;background:#e5ab33"></div>', 23.0, 'transform-origin:left center');
+        const b2 = P.el('abs', 290, 1000, 620, 44, '<div style="width:100%;height:100%;border-radius:14px;background:#e5ab33"></div>', 23.2, 'transform-origin:left center');
+        tl.to(b1, { scaleX: 0.06, duration: 1.8, ease: 'power2.in' }, wd(7, 9));
+        chip(P, '✕ SPOILS', 640, 758, wd(7, 11) + 0.5, 'tagc'); chip(P, '✓ PRESERVED', 560, 1060, wd(7, 5) + 0.6, 'tagc fill'); }
+      // 8 ancient Rome (3D temple)
+      { const P = B(8, { eyebrow: 'IN ANCIENT ROME', rows: [['SALT WAS SO', W, 110], ['IMPORTANT', G, 140]] });
+        chip(P, 'LINKED TO PAYMENT', 330, 1290, wd(8, 14), 'tagc fill'); }
+      // 9 salarium -> salary (3D denarius)
+      { B(9, { eyebrow: 'THE LATIN WORD', rows: [['“SALARIUM”', W, 110]] });
+        const P2 = B('9b', { rows: [['“SALARY”', G, 125]], top: 355 }, undefined, wd(9, 10) - 0.1); flash(wd(9, 10), 0.35); }
+      // 10 paid in salt? (3D balance scale)
+      { B(10, { eyebrow: 'THERE’S A FAMOUS STORY', rows: [['ROMAN SOLDIERS', W, 110], ['PAID IN SALT?', G, 120]] }); }
+      // 11 no solid evidence
+      { const P = B(11, { eyebrow: 'BUT HISTORIANS HAVEN’T FOUND', rows: [['SOLID EVIDENCE', G, 125]], top: 260 });
+        const s = P.el('stamp abs', 190, 1000, 700, 170, '<div style="font-size:100px;line-height:150px">NOT PROVEN</div>', wd(11, 5) + 0.2, 'rotate:-8deg'); flash(wd(11, 5) + 0.22, 0.3);
+        chip(P, 'SOLDIERS PAID IN SALT', 290, 1290, wd(11, 8), 'tagc'); }
+      // 12 connection is real (3D salt + coin linked)
+      { const P = B(12, { eyebrow: 'STILL', rows: [['THE CONNECTION', W, 105], ['IS REAL', G, 150]] });
+        chip(P, 'SALT → SALARIUM → SALARY', 230, 1290, 52.4, 'tagc fill'); }
+      // 13 paycheck
+      { const P = B(13, { eyebrow: 'NEXT TIME YOUR PAYCHECK ARRIVES', rows: [['REMEMBER…', G, 140]], top: 300 });
+        P.el('uc abs', 100, 700, 880, 440, `${LAB('PAYCHECK', 50, 40)}${VAL('SALARY', 50, 110, 130, G)}<div style="position:absolute;left:50px;top:290px;width:520px;height:5px;background:#4a3607"></div><div style="position:absolute;left:50px;top:340px;width:340px;height:5px;background:#4a3607"></div><svg viewBox="0 0 200 80" style="position:absolute;right:50px;bottom:40px;width:240px;height:96px"><path id="sigP" d="M10 55 C 30 10, 50 10, 60 50 S 90 70, 100 30 S 140 10, 190 45" fill="none" stroke="#e5ab33" stroke-width="6" stroke-linecap="round"/></svg>`, 55.9);
+        const sg = document.getElementById('sigP'), SL = sg.getTotalLength(); sg.style.strokeDasharray = SL; sg.style.strokeDashoffset = SL;
+        tl.fromTo('#sigP', { strokeDashoffset: SL }, { strokeDashoffset: 0, duration: 1.2, ease: 'power1.inOut', immediateRender: false }, 56.9); }
+      // 14 roots in an ancient everyday ingredient (3D coin + salt)
+      { const P = B(14, { eyebrow: 'A WORD FOR EARNING MONEY', rows: [['HAS ITS ROOTS IN', W, 100], ['AN ANCIENT INGREDIENT', G, 72]] }); }
+      // 15 end
+      { const P = B(15, { rows: [['YOU DIDN’T KNOW', W, 104], ['THAT ABOUT MONEY!', G, 104]], top: 960 }); flash(64.6, 0.3); }
+
+
+      // ================= captions (word-timed karaoke) =================
+      const css = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+      const hexA = (h, a) => { const n = parseInt(h.replace('#', ''), 16); return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${a})`; };
+      const ACC = css('--accent'), INK = css('--ink'), ONACC = css('--on-accent');
+      const capsEl = $('#caps');
+      const groups = []; let cur = [];
+      WORDS.forEach((w, i) => { cur.push(w); const nx = WORDS[i + 1]; const endS = /[.!?]$/.test(w.w); const endC = /,$/.test(w.w) && cur.length >= 2; if (!nx || endS || endC || cur.length >= 4 || (nx && nx.s - w.e > 0.5)) { groups.push(cur); cur = []; } });
+      groups.forEach((g, gi) => {
+        if (typeof NO_CAPTION_LINES !== 'undefined' && NO_CAPTION_LINES.includes(g[0].line)) return;
+        const d = document.createElement('div'); d.className = 'cg'; const pill = document.createElement('div'); pill.className = 'pill'; d.appendChild(pill);
+        g.forEach((w, wi) => { const s = document.createElement('span'); s.className = 'cw'; s.id = `cw${gi}_${wi}`; s.textContent = w.w; pill.appendChild(s); });
+        capsEl.appendChild(d);
+        const a0 = g[0].s - 0.03, nextS = groups[gi + 1] ? groups[gi + 1][0].s : 1e9, b = Math.min(g[g.length - 1].e + 0.2, nextS - 0.08);
+        tl.fromTo(d, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.1, ease: 'power2.out', immediateRender: false }, Math.max(0, a0));
+        tl.to(d, { opacity: 0, duration: 0.06, ease: 'none' }, b);
+        g.forEach((w, wi) => { const sp = `#cw${gi}_${wi}`;
+          tl.fromTo(sp, { backgroundColor: hexA(ACC, 0), color: INK }, { backgroundColor: ACC, color: ONACC, duration: 0.06, ease: 'none', immediateRender: false }, w.s);
+          tl.to(sp, { backgroundColor: hexA(ACC, 0), color: INK, duration: 0.06, ease: 'none' }, Math.max(w.e, w.s + 0.1)); });
+      });
+      tl.fromTo('#prog', { scaleX: 0 }, { scaleX: 1, duration: 67.77, ease: 'none', immediateRender: false }, 0);
+      window.__timelines['main'] = tl;
+      tl.seek(0);
+    </script>
+    <script type="importmap">
+      { "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.181.2/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.181.2/examples/jsm/"
+      } }
+    </script>
+    <script type="module">
+      import * as THREE from 'three';
+      const W = 1080, H = 1920;
+      const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+      const sm = (x) => x * x * (3 - 2 * x);
+      const win = (t, a, b) => sm(clamp((t - a) / (b - a)));
+      const hh = (i) => { const x = Math.sin(i * 91.7 + 17.3) * 43758.5453; return x - Math.floor(x); };
+      const lerp = (a, b, k) => a + (b - a) * k;
+      // visibility with fade in/out for a list of [a,b] windows
+      const vis = (t, wins, f = 0.5) => { let s = 0; for (const [a, b] of wins) s = Math.max(s, win(t, a, a + f) * (1 - win(t, b - f, b))); return s; };
+      async function build() {
+        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('gl'), antialias: true, alpha: true });
+        renderer.setPixelRatio(1); renderer.setSize(W, H, false); renderer.outputColorSpace = THREE.SRGBColorSpace; renderer.setClearColor(0x000000, 0);
+        const scene = new THREE.Scene(); scene.fog = new THREE.Fog(0x0a0a0a, 6.5, 13);
+        const camera = new THREE.PerspectiveCamera(40, W / H, 0.1, 60);
+        scene.add(new THREE.AmbientLight(0xfff1d0, 1.0));
+        const key = new THREE.DirectionalLight(0xfff4dc, 2.6); key.position.set(-3, 5, 7); scene.add(key);
+        const rim = new THREE.PointLight(0xe5ab33, 16, 14); rim.position.set(3, -2, 3); scene.add(rim);
+        const texL = new THREE.TextureLoader(); const load = (u) => new Promise((res, rej) => texL.load(u, res, undefined, rej));
+        const denTex = await load('assets/img/denarius-sq.jpg'); denTex.colorSpace = THREE.SRGBColorSpace; denTex.anisotropy = 4;
+
+        // ---------- materials ----------
+        const saltM = new THREE.MeshStandardMaterial({ color: 0xfffdf6, roughness: 0.3, metalness: 0.05, emissive: 0x2a2418 });
+        const goldM = new THREE.MeshStandardMaterial({ color: 0xe5ab33, roughness: 0.3, metalness: 0.75, emissive: 0x2a1c04 });
+        const marbleM = new THREE.MeshStandardMaterial({ color: 0xe9dfc3, roughness: 0.55, metalness: 0.05, emissive: 0x211b0c });
+        const darkGoldM = new THREE.MeshStandardMaterial({ color: 0xb98a24, roughness: 0.4, metalness: 0.6 });
+
+        // ---------- hero 1: salt lattice 3x3x3 ----------
+        const lattice = new THREE.Group(); scene.add(lattice); const cubes = [];
+        const cm = [];
+        for (let x = -1; x <= 1; x++) for (let y = -1; y <= 1; y++) for (let z = -1; z <= 1; z++) {
+          const m = new THREE.Mesh(new THREE.BoxGeometry(0.34, 0.34, 0.34), saltM.clone()); lattice.add(m);
+          cubes.push({ m, x, y, z, i: cubes.length });
+        }
+        // ---------- hero 2: temple ----------
+        const temple = new THREE.Group(); scene.add(temple);
+        const box = (w, h, d, mat, x, y, z) => { const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat); m.position.set(x, y, z); temple.add(m); return m; };
+        box(2.3, 0.1, 0.9, marbleM, 0, -0.62, 0); box(2.1, 0.1, 0.8, marbleM, 0, -0.52, 0); box(1.9, 0.1, 0.7, marbleM, 0, -0.42, 0);
+        for (let i = 0; i < 6; i++) { const c = new THREE.Mesh(new THREE.CylinderGeometry(0.075, 0.085, 0.8, 18), marbleM); c.position.set(-0.78 + i * 0.312, 0.03, 0.2); temple.add(c); box(0.2, 0.05, 0.2, marbleM, -0.78 + i * 0.312, 0.45, 0.2); box(0.2, 0.05, 0.2, marbleM, -0.78 + i * 0.312, -0.38, 0.2); }
+        box(1.95, 0.14, 0.6, marbleM, 0, 0.52, 0.12); box(2.0, 0.04, 0.64, goldM, 0, 0.6, 0.12);
+        const tri = new THREE.Shape(); tri.moveTo(-1.0, 0); tri.lineTo(1.0, 0); tri.lineTo(0, 0.5); tri.lineTo(-1.0, 0);
+        const ped = new THREE.Mesh(new THREE.ExtrudeGeometry(tri, { depth: 0.5, bevelEnabled: false }), marbleM); ped.position.set(0, 0.62, -0.13); temple.add(ped);
+        const inner = new THREE.Shape(); inner.moveTo(-0.8, 0); inner.lineTo(0.8, 0); inner.lineTo(0, 0.38); inner.lineTo(-0.8, 0);
+        const pedIn = new THREE.Mesh(new THREE.ExtrudeGeometry(inner, { depth: 0.04, bevelEnabled: false }), darkGoldM); pedIn.position.set(0, 0.65, 0.38); temple.add(pedIn);
+        // ---------- hero 3: denarius coin ----------
+        const coin = new THREE.Group(); scene.add(coin);
+        const cg = new THREE.CylinderGeometry(1, 1, 0.12, 64); cg.rotateX(Math.PI / 2);
+        const cv = document.createElement('canvas'); cv.width = cv.height = 512; const cx = cv.getContext('2d');
+        const gr = cx.createRadialGradient(200, 190, 40, 256, 256, 260); gr.addColorStop(0, '#f6cf72'); gr.addColorStop(0.65, '#d79a22'); gr.addColorStop(1, '#a86f12'); cx.fillStyle = gr; cx.fillRect(0, 0, 512, 512);
+        cx.strokeStyle = 'rgba(60,35,4,.6)'; cx.lineWidth = 14; cx.beginPath(); cx.arc(256, 256, 226, 0, Math.PI * 2); cx.stroke();
+        cx.fillStyle = '#3b2a05'; cx.font = 'bold 62px sans-serif'; cx.textAlign = 'center'; cx.textBaseline = 'middle'; cx.fillText('SALARIUM', 256, 262);
+        const backTex = new THREE.CanvasTexture(cv); backTex.colorSpace = THREE.SRGBColorSpace; [backTex, denTex].forEach((t) => { t.center.set(0.5, 0.5); t.rotation = Math.PI / 2; });
+        const frontM = new THREE.MeshStandardMaterial({ map: denTex, roughness: 0.5, metalness: 0.3 });
+        const backM = new THREE.MeshStandardMaterial({ map: backTex, roughness: 0.4, metalness: 0.5 });
+        const edgeM = new THREE.MeshStandardMaterial({ color: 0xc9c3b0, roughness: 0.4, metalness: 0.7 });
+        const coinMesh = new THREE.Mesh(cg, [edgeM, frontM, backM]); coin.add(coinMesh);
+        // ---------- hero 4: balance scale ----------
+        const bal = new THREE.Group(); scene.add(bal);
+        const post = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.07, 1.5, 14), darkGoldM); post.position.y = -0.1; bal.add(post);
+        const base = new THREE.Mesh(new THREE.CylinderGeometry(0.4, 0.46, 0.08, 28), darkGoldM); base.position.y = -0.88; bal.add(base);
+        const beamG = new THREE.Group(); beamG.position.y = 0.62; bal.add(beamG);
+        const beam = new THREE.Mesh(new THREE.BoxGeometry(2.0, 0.07, 0.07), goldM); beamG.add(beam);
+        const knob = new THREE.Mesh(new THREE.SphereGeometry(0.1, 16, 12), goldM); knob.position.y = 0.06; beamG.add(knob);
+        const mkPan = (sx) => { const g = new THREE.Group(); g.position.set(sx, 0, 0); beamG.add(g);
+          [-0.35, 0.35].forEach((dx) => { const ch = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.012, 0.8, 6), darkGoldM); ch.position.set(dx * 0.6, -0.4, 0); ch.rotation.z = -dx * 0.5; g.add(ch); });
+          const pan = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.42, 0.07, 32), goldM); pan.position.y = -0.82; g.add(pan); return g; };
+        const panL = mkPan(-0.95), panR = mkPan(0.95);
+        for (let i = 0; i < 4; i++) { const m = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.24, 0.24), saltM); m.position.set(-0.2 + (i % 2) * 0.28, -0.66 + Math.floor(i / 2) * 0.26, (i % 2) * 0.1 - 0.05); m.rotation.y = 0.3 * i; panL.add(m); }
+        for (let i = 0; i < 4; i++) { const m = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.2, 0.05, 28), goldM); m.position.set(-0.18 + (i % 2) * 0.3, -0.76 + Math.floor(i / 2) * 0.07, 0); panR.add(m); }
+        // ---------- background pattern: dim salt cubes ----------
+        const bgG = new THREE.Group(); scene.add(bgG); const bgc = [];
+        const bgM = new THREE.MeshStandardMaterial({ color: 0x6e6a5e, roughness: 0.5, metalness: 0.15 }), bgG2 = new THREE.MeshStandardMaterial({ color: 0x735718, roughness: 0.5, metalness: 0.45 });
+        for (let i = 0; i < 20; i++) {
+          const s = 0.18 + hh(i + 1) * 0.28; const m = new THREE.Mesh(new THREE.BoxGeometry(s, s, s), i % 4 === 0 ? bgG2 : bgM); bgG.add(m);
+          bgc.push({ m, x: (hh(i + 5) - 0.5) * 8.4, y0: hh(i + 9) * 14, z: -3.6 - hh(i + 13) * 5, sp: 0.16 + hh(i + 17) * 0.26, rx: hh(i + 21) * 6, rs: 0.3 + hh(i + 25) * 0.7 });
+        }
+        const WINS = { lat: [[-1, 19.0], [51.0, 54.9], [58.2, 64.5]], tem: [[26.2, 33.9]], coin: [[33.6, 39.0], [51.0, 54.9], [58.2, 68]], bal: [[38.7, 51.1]] };
+        const PULSE = [7.66, 8.56]; // "Salt." + flash
+        function renderAt(t) {
+          camera.position.set(Math.sin(t * 0.35) * 0.14, Math.sin(t * 0.27) * 0.08, 6.2); camera.lookAt(0, -0.05, 0);
+          bgc.forEach((c) => { const span = 14; const y = ((c.y0 - t * c.sp) % span + span) % span - span / 2; c.m.position.set(c.x, y, c.z); c.m.rotation.set(c.rx + t * c.rs, t * c.rs * 0.7, 0); });
+          // ----- lattice -----
+          const sl = vis(t, WINS.lat); lattice.visible = sl > 0.002;
+          if (lattice.visible) {
+            const top2 = t > 57 ? 1 : 0, small = (t > 50 && !top2) ? 1 : 0;
+            const gold = Math.max(win(t, 14.9, 15.9), small, top2);
+            const pulse = Math.max(0, 1 - Math.abs(t - 7.78) / 0.5) * (t < 10 ? 1 : 0);
+            const sc = (small ? 0.3 : top2 ? 0.3 : 0.8) * (0.2 + 0.8 * sl) * (1 + 0.12 * pulse);
+            lattice.scale.setScalar(sc);
+            lattice.position.set(small ? -0.62 : 0, small ? -0.1 : top2 ? -0.5 : -0.05, 0);
+            lattice.rotation.set(0.5 + Math.sin(t * 0.5) * 0.1, 0.8 + Math.sin(t * 0.55) * 0.35, 0.1);
+            cubes.forEach((c) => { const spread = 0.4 + 0.12 * pulse + 0.18 * win(t, 3.0, 5.0) * (t < 7 ? 1 : 0); const j = (hh(c.i + 3) - 0.5);
+              c.m.position.set(c.x * spread, c.y * spread, c.z * spread); c.m.rotation.set(j * 0.5 * pulse, j * 0.4 * pulse, 0);
+              c.m.material.color.setHex(0xfffdf6).lerp(new THREE.Color(0xe5ab33), gold); c.m.material.metalness = 0.05 + 0.7 * gold; c.m.material.emissive.setHex(0x2a2418).lerp(new THREE.Color(0x2a1c04), gold); });
+          }
+          // ----- temple -----
+          const st = vis(t, WINS.tem); temple.visible = st > 0.002;
+          if (temple.visible) { temple.scale.setScalar(0.78 * (0.3 + 0.7 * st)); temple.position.set(0, -0.1, 0); temple.rotation.set(0.1, Math.sin(t * 0.5) * 0.55, 0); }
+          // ----- coin -----
+          const sc2 = vis(t, WINS.coin); coin.visible = sc2 > 0.002;
+          if (coin.visible) {
+            let px = 0, py = -0.1, s = 0.8;
+            if (t > 50 && t < 55.5) { px = 0.62; s = 0.42; } else if (t > 57 && t < 64.9) { py = 0.65; s = 0.42; } else if (t >= 64.9) { py = 1.1; s = 0.55; }
+            coin.scale.setScalar(s * (0.2 + 0.8 * sc2)); coin.position.set(px, py, 0);
+            coin.rotation.set(Math.sin(t * 0.6) * 0.15, t * 0.9, 0);
+          }
+          // ----- balance scale -----
+          const sb = vis(t, WINS.bal); bal.visible = sb > 0.002;
+          if (bal.visible) {
+            bal.scale.setScalar(0.78 * (0.3 + 0.7 * sb)); bal.position.set(0, -0.05, 0); bal.rotation.set(0.08, Math.sin(t * 0.45) * 0.3, 0);
+            // salt side heavier at first, then level (no solid evidence)
+            const tilt = lerp(0.22 * Math.sin(t * 1.4), 0.0, win(t, 46.5, 47.5)) + 0.12 * (1 - win(t, 40.5, 42.5)) * 1; beamG.rotation.z = tilt; panL.rotation.z = -tilt; panR.rotation.z = -tilt;
+          }
+          renderer.render(scene, camera);
+        }
+        window.addEventListener('hf-seek', (e) => renderAt(e.detail.time));
+        renderAt(window.__hfThreeTime || 0);
+      }
+      window.__hf = window.__hf || {}; window.__hf.buildReady = window.__hf.buildReady || {}; window.__hf.buildReady['salt'] = build();
+    </script>
+
+  </body>
+</html>

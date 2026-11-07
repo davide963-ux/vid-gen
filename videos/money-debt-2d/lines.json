@@ -1,0 +1,185 @@
+{
+  "total": 73.34,
+  "lines": [
+    {
+      "i": 1,
+      "file": "assets/voice/01.wav",
+      "text": "You probably didn't know this about money.",
+      "tts": "You probably didn't know this about money.",
+      "start": 0.4,
+      "dur": 2.624,
+      "end": 3.024,
+      "pause": 0.55
+    },
+    {
+      "i": 2,
+      "file": "assets/voice/02.wav",
+      "text": "When a bank approves a loan, something strange happens.",
+      "tts": "When a bank approves a loan, something strange happens.",
+      "start": 3.574,
+      "dur": 3.52,
+      "end": 7.094,
+      "pause": 0.55
+    },
+    {
+      "i": 3,
+      "file": "assets/voice/03.wav",
+      "text": "Imagine you borrow ten thousand dollars.",
+      "tts": "Imagine you borrow ten thousand dollars.",
+      "start": 7.644,
+      "dur": 2.581,
+      "end": 10.225,
+      "pause": 0.45
+    },
+    {
+      "i": 4,
+      "file": "assets/voice/04.wav",
+      "text": "The bank doesn't necessarily take ten thousand dollars from someone else's account and hand it to you.",
+      "tts": "The bank doesn't necessarily take ten thousand dollars from someone else's account and hand it to you.",
+      "start": 10.675,
+      "dur": 6.101,
+      "end": 16.777,
+      "pause": 0.5
+    },
+    {
+      "i": 5,
+      "file": "assets/voice/05.wav",
+      "text": "Instead, it can create a new bank deposit.",
+      "tts": "Instead, it can create a new bank deposit.",
+      "start": 17.277,
+      "dur": 2.795,
+      "end": 20.071,
+      "pause": 0.5
+    },
+    {
+      "i": 6,
+      "file": "assets/voice/06.wav",
+      "text": "Your account suddenly says...",
+      "tts": "Your account suddenly says...",
+      "start": 20.571,
+      "dur": 1.92,
+      "end": 22.491,
+      "pause": 0.9
+    },
+    {
+      "i": 7,
+      "file": "assets/voice/07.wav",
+      "text": "10,000$.",
+      "tts": "Ten thousand dollars.",
+      "start": 23.391,
+      "dur": 1.579,
+      "end": 24.97,
+      "pause": 0.6
+    },
+    {
+      "i": 8,
+      "file": "assets/voice/08.wav",
+      "text": "That money can now be spent in the real economy.",
+      "tts": "That money can now be spent in the real economy.",
+      "start": 25.57,
+      "dur": 3.029,
+      "end": 28.599,
+      "pause": 0.45
+    },
+    {
+      "i": 9,
+      "file": "assets/voice/09.wav",
+      "text": "So in a very real sense, commercial banks help create new money when they issue loans.",
+      "tts": "So in a very real sense, commercial banks help create new money when they issue loans.",
+      "start": 29.049,
+      "dur": 5.589,
+      "end": 34.639,
+      "pause": 0.6
+    },
+    {
+      "i": 10,
+      "file": "assets/voice/10.wav",
+      "text": "But no...",
+      "tts": "But no...",
+      "start": 35.239,
+      "dur": 1.088,
+      "end": 36.327,
+      "pause": 0.7
+    },
+    {
+      "i": 11,
+      "file": "assets/voice/11.wav",
+      "text": "they can't just type unlimited zeros into everyone's accounts.",
+      "tts": "they can't just type unlimited zeros into everyone's accounts.",
+      "start": 37.027,
+      "dur": 4.053,
+      "end": 41.08,
+      "pause": 0.5
+    },
+    {
+      "i": 12,
+      "file": "assets/voice/12.wav",
+      "text": "Banks are restricted by capital requirements, liquidity rules, regulation, risk, and their ability to find borrowers who can repay.",
+      "tts": "Banks are restricted by capital requirements, liquidity rules, regulation, risk, and their ability to find borrowers who can repay.",
+      "start": 41.58,
+      "dur": 9.579,
+      "end": 51.159,
+      "pause": 0.6
+    },
+    {
+      "i": 13,
+      "file": "assets/voice/13.wav",
+      "text": "And here's the weirdest part.",
+      "tts": "And here's the weirdest part.",
+      "start": 51.759,
+      "dur": 1.835,
+      "end": 53.593,
+      "pause": 0.8
+    },
+    {
+      "i": 14,
+      "file": "assets/voice/14.wav",
+      "text": "When that loan principal is repaid...",
+      "tts": "When that loan principal is repaid...",
+      "start": 54.393,
+      "dur": 2.261,
+      "end": 56.655,
+      "pause": 0.8
+    },
+    {
+      "i": 15,
+      "file": "assets/voice/15.wav",
+      "text": "the money created by the loan is effectively removed from the banking system.",
+      "tts": "the money created by the loan is effectively removed from the banking system.",
+      "start": 57.455,
+      "dur": 4.928,
+      "end": 62.383,
+      "pause": 0.6
+    },
+    {
+      "i": 16,
+      "file": "assets/voice/16.wav",
+      "text": "So a huge amount of the money circulating around us...",
+      "tts": "So a huge amount of the money circulating around us...",
+      "start": 62.983,
+      "dur": 3.648,
+      "end": 66.631,
+      "pause": 0.9
+    },
+    {
+      "i": 17,
+      "file": "assets/voice/17.wav",
+      "text": "started its life as debt.",
+      "tts": "started its life as debt.",
+      "start": 67.531,
+      "dur": 1.749,
+      "end": 69.28,
+      "pause": 0.8
+    },
+    {
+      "i": 18,
+      "file": "assets/voice/18.wav",
+      "text": "You didn't know that about money.",
+      "tts": "You didn't know that about money.",
+      "start": 70.08,
+      "dur": 1.856,
+      "end": 71.936,
+      "pause": 0.6
+    }
+  ]
+}

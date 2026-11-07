@@ -1,0 +1,74 @@
+# Asset Descriptions
+
+⚠️  No vision credentials — descriptions below are catalog-derived (alt text, headings, section context, filename) instead of Vision-generated. To get richer Vision descriptions on the next capture, set GEMINI_API_KEY (or GOOGLE_API_KEY), or HYPERFRAMES_VERTEX_PROJECT_ID plus HYPERFRAMES_VERTEX_SERVICE_ACCOUNT for Vertex service-account auth, and re-run.
+
+The `logo-<hash>.svg` filename prefix is a structural hint (DOM said this SVG was inside a `<header>`, home-link `<a>`, or had an aria-label matching the page brand). To pick the actual brand logo without Vision, open the `logo-*` candidates in a previewer or rasterize them with `sharp` before referencing — composing a fake logo ships off-brand in the final video.
+
+- als-4741-1-1024x684.jpg — 105KB, als 4741 1 1024x684
+- als-4741-1-1536x1025.jpg — 219KB, als 4741 1 1536x1025
+- als-4741-1-2048x1367.jpg — 362KB, als 4741 1 2048x1367
+- als-4741-1-300x200.jpg — 11KB, als 4741 1 300x200
+- als-4741-1-768x513.jpg — 61KB, als 4741 1 768x513
+- als-4766-1024x684.jpg — 68KB, als 4766 1024x684
+- als-4766-1536x1025.jpg — 131KB, als 4766 1536x1025
+- als-4766-2048x1367.jpg — 207KB, als 4766 2048x1367
+- als-4766-300x200.jpg — 10KB, als 4766 300x200
+- als-4766-768x513.jpg — 43KB, als 4766 768x513
+- als-4782-1024x684.jpg — 73KB, als 4782 1024x684
+- als-4782-1536x1025.jpg — 140KB, als 4782 1536x1025
+- als-4782-2048x1367.jpg — 224KB, als 4782 2048x1367
+- als-4782-300x200.jpg — 10KB, als 4782 300x200
+- als-4782-768x513.jpg — 46KB, als 4782 768x513
+- als-4790-1024x684.jpg — 102KB, als 4790 1024x684
+- als-4790-1536x1025.jpg — 219KB, als 4790 1536x1025
+- als-4790-2048x1367.jpg — 378KB, als 4790 2048x1367
+- als-4790-300x200.jpg — 10KB, als 4790 300x200
+- als-4790-768x513.jpg — 58KB, als 4790 768x513
+- als-4811-1024x684.jpg — 90KB, als 4811 1024x684
+- als-4811-1536x1025.jpg — 180KB, als 4811 1536x1025
+- als-4811-2048x1367.jpg — 294KB, als 4811 2048x1367
+- als-4811-300x200.jpg — 11KB, als 4811 300x200
+- als-4811-768x513.jpg — 55KB, als 4811 768x513
+- favicon.svg — 105KB, favicon
+- icon-apple-touch-icon-unsized.svg — 105KB, icon apple touch icon unsized
+- icon-icon-192x192.svg — 105KB, icon icon 192x192
+- icon-icon-32x32.svg — 105KB, icon icon 32x32
+- image-26.jpg — 161KB, image 26
+- logo-0747c7b7.svg — 115KB, logo 0747c7b7
+- svgs/logo-05191ae9-2.svg — logo 05191ae9 2
+- svgs/logo-05191ae9.svg — logo 05191ae9
+- svgs/logo-2c436cb6-2.svg — logo 2c436cb6 2
+- svgs/logo-2c436cb6.svg — logo 2c436cb6
+- svgs/logo-b29c3088.svg — logo b29c3088
+- svgs/logo-f2569871-2.svg — logo f2569871 2
+- svgs/logo-f2569871.svg — logo f2569871
+- fonts/ACaslonPro-Regular.otf — font file
+- fonts/AmericanaBTWXXBold-Bold.ttf — font file
+- fonts/AmericanaBTWXXBold-Bold.woff — font file
+- fonts/AmericanaBTWXXBold-Bold.woff2 — font file
+- fonts/Casta-Thin.otf — font file
+- fonts/Casta-ThinSlanted.otf — font file
+- fonts/Chistodella-Regular.otf — font file
+- fonts/Chistodella-Regular.ttf — font file
+- fonts/Chistodella-Regular.woff — font file
+- fonts/Chistodella-Regular.woff2 — font file
+- fonts/fa-brands-400.ttf — font file
+- fonts/fa-brands-400.woff — font file
+- fonts/fa-brands-400.woff2 — font file
+- fonts/fa-regular-400.ttf — font file
+- fonts/fa-regular-400.woff — font file
+- fonts/fa-regular-400.woff2 — font file
+- fonts/fa-solid-900.ttf — font file
+- fonts/fa-solid-900.woff — font file
+- fonts/fa-solid-900.woff2 — font file
+- fonts/GraphikMedium.otf — font file
+- fonts/GraphikMediumItalic.otf — font file
+- fonts/GraphikRegular.otf — font file
+- fonts/GraphikRegularItalic.otf — font file
+- fonts/GraphikSemibold.otf — font file
+- fonts/GraphikSemiboldItalic.otf — font file
+- fonts/Seasona-Book.woff — font file
+- fonts/Seasona-Book.woff2 — font file
+- fonts/Seasona-Medium.ttf — font file
+- fonts/Seasona-Medium.woff — font file
+- fonts/Seasona-Medium.woff2 — font file

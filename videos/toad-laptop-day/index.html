@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: 'Anton'; font-weight: 400; src: url('assets/fonts/anton-latin-400-normal.woff2') format('woff2'); }
+      @font-face { font-family: 'DM Sans'; font-weight: 400; src: url('assets/fonts/dm-sans-latin-400-normal.woff2') format('woff2'); }
+      @font-face { font-family: 'DM Sans'; font-weight: 700; src: url('assets/fonts/dm-sans-latin-700-normal.woff2') format('woff2'); }
+      @font-face { font-family: 'Caveat'; font-weight: 700; src: url('assets/fonts/caveat-latin-700-normal.woff2') format('woff2'); }
+      @font-face { font-family: 'IBM Plex Mono'; font-weight: 500; src: url('assets/fonts/ibm-plex-mono-latin-500-normal.woff2') format('woff2'); }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #F9F1D7; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: 'DM Sans', sans-serif; color: #144137; }
+      .scene { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; }
+      .abs { position: absolute; }
+
+      /* ---------- desk scene ---------- */
+      #desk { background: #F9F1D7; }
+      #deskCam { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; transform-origin: 540px 700px; }
+      #light { position: absolute; left: 0; top: 0; width: 1080px; height: 1500px; background: radial-gradient(ellipse at 50% 28%, rgba(255,252,232,0.95) 0%, rgba(249,241,215,0) 62%); }
+      #blob { left: 200px; top: 250px; width: 680px; height: 680px; border-radius: 50%; background: #B5DB3A; opacity: 0.32; }
+      #deskTop { left: 0; top: 1322px; width: 1080px; height: 590px; background: linear-gradient(180deg, #E6DAAE 0%, #EFE5BE 100%); border-top: 5px solid rgba(20,65,55,0.22); }
+      #toadHero { left: 160px; top: 250px; width: 760px; height: 1013px; transform-origin: 50% 62%; display: block; }
+      #base { left: 70px; top: 1270px; width: 940px; height: 54px; border-radius: 0 0 34px 34px; background: #1d5646; }
+      #base::after { content: ''; position: absolute; left: 50%; top: 0; margin-left: -80px; width: 160px; height: 14px; border-radius: 0 0 14px 14px; background: #144137; }
+      #lid { left: 150px; top: 830px; width: 780px; height: 440px; border-radius: 28px 28px 0 0; background: #144137; transform-origin: 50% 100%; }
+      #screen { position: absolute; left: 22px; top: 22px; width: 736px; height: 396px; border-radius: 10px; background: #FFFBEA; overflow: hidden; }
+      #bar { position: absolute; left: 0; top: 0; width: 736px; height: 50px; background: rgba(20,65,55,0.07); font-family: 'IBM Plex Mono', monospace; font-weight: 500; font-size: 20px; letter-spacing: 0.08em; color: #144137; line-height: 50px; padding-left: 22px; }
+      #bar i { position: absolute; right: 20px; top: 17px; width: 16px; height: 16px; border-radius: 50%; background: #E02B2F; opacity: 0; font-style: normal; }
+      #viewA { position: absolute; left: 0; top: 50px; width: 736px; height: 346px; }
+      #inv { position: absolute; left: 70px; top: 62px; width: 596px; height: 196px; border-radius: 16px; background: #F6BE2D; padding: 24px 34px; }
+      #inv .l { font-family: 'IBM Plex Mono', monospace; font-weight: 500; font-size: 22px; letter-spacing: 0.08em; }
+      #inv .t { font-family: 'Anton', sans-serif; font-size: 72px; line-height: 1.1; margin-top: 14px; text-transform: uppercase; }
+      #inv .b { position: absolute; right: -14px; top: -14px; width: 48px; height: 48px; border-radius: 50%; background: #E02B2F; color: #FFFBEA; font-weight: 700; font-size: 28px; line-height: 48px; text-align: center; }
+      #viewB { position: absolute; left: 0; top: 50px; width: 736px; height: 346px; opacity: 0; }
+      .ev { position: absolute; width: 346px; height: 58px; border-radius: 10px; padding: 5px 14px; opacity: 0; }
+      .ev .tm { font-family: 'IBM Plex Mono', monospace; font-weight: 500; font-size: 15px; letter-spacing: 0.06em; opacity: 0.95; }
+      .ev .nm { font-weight: 700; font-size: 24px; line-height: 1.1; }
+
+      .chip { position: absolute; left: 0; width: 1080px; text-align: center; opacity: 0; }
+      .chip span { display: inline-block; max-width: 920px; padding: 20px 40px 16px; border-radius: 20px; background: #F6BE2D; color: #144137; font-family: 'Anton', sans-serif; font-size: 82px; line-height: 1.12; text-transform: uppercase; transform: rotate(-1.5deg); }
+
+      /* ---------- stool scene ---------- */
+      #stool { background: #fae9cc; opacity: 0; }
+      #stoolCam { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; transform-origin: 540px 590px; }
+      #stoolWrap { position: absolute; left: 40px; top: 250px; width: 1000px; height: 1250px; overflow: hidden; -webkit-mask-image: linear-gradient(to right, transparent 0, #000 16%, #000 84%, transparent 100%), linear-gradient(to bottom, transparent 0, #000 13%, #000 87%, transparent 100%); -webkit-mask-composite: source-in; mask-image: linear-gradient(to right, transparent 0, #000 16%, #000 84%, transparent 100%), linear-gradient(to bottom, transparent 0, #000 13%, #000 87%, transparent 100%); mask-composite: intersect; }
+      #stoolImg { position: absolute; left: 0; top: 0; width: 1000px; height: 1250px; display: block; }
+      #mug { left: 706px; top: 840px; width: 200px; height: 240px; }
+      .steam { fill: none; stroke: #144137; stroke-width: 6; stroke-linecap: round; opacity: 0; }
+
+      /* ---------- smile scene ---------- */
+      #smile { background: #4bce90; opacity: 0; }
+      #smileCam { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; transform-origin: 540px 1440px; }
+      #portWrap { position: absolute; left: 0; top: 840px; width: 1080px; height: 1080px; overflow: hidden; -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 90px); mask-image: linear-gradient(to bottom, transparent 0, #000 90px); }
+      #portImg { position: absolute; left: 0; top: 0; width: 1080px; height: 1080px; display: block; }
+      #note { left: 0; top: 270px; width: 1080px; text-align: center; font-family: 'Caveat', cursive; font-weight: 700; font-size: 128px; line-height: 0.98; color: #144137; transform: rotate(-3deg); opacity: 0; }
+      #heart { left: 830px; top: 270px; width: 110px; height: 110px; opacity: 0; }
+      #swash { left: 300px; top: 560px; width: 420px; height: 16px; border-radius: 8px; background: #F6BE2D; transform-origin: left center; transform: rotate(-2deg); }
+      #fan { left: 0; top: 170px; width: 1080px; text-align: center; font-family: 'IBM Plex Mono', monospace; font-weight: 500; font-size: 24px; letter-spacing: 0.08em; color: #144137; opacity: 0; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="15" data-width="1080" data-height="1920">
+      <div id="stage" class="clip" data-start="0" data-duration="15" data-track-index="0">
+
+        <!-- SHOTS 1-2: desk -->
+        <div id="desk" class="scene">
+          <div id="deskCam">
+            <div id="light"></div>
+            <div id="blob" class="abs"></div>
+            <div id="deskTop" class="abs"></div>
+            <img id="toadHero" class="abs" src="assets/toad/hero.png" alt="" />
+            <div id="base" class="abs"></div>
+            <div id="lid" class="abs">
+              <div id="screen">
+                <div id="bar">TODAY<i id="dot"></i></div>
+                <div id="viewA">
+                  <div id="inv"><div class="b">1</div><div class="l">NEW INVITE · 10:00</div><div class="t">Quick sync</div></div>
+                </div>
+                <div id="viewB"></div>
+              </div>
+            </div>
+          </div>
+          <div id="cap1" class="chip" style="top:1450px"><span>Just one quick thing.</span></div>
+          <div id="cap2" class="chip" style="top:1420px"><span>This feels like a tomorrow problem.</span></div>
+        </div>
+
+        <!-- SHOT 3: coffee -->
+        <div id="stool" class="scene">
+          <div id="stoolCam">
+            <div id="stoolWrap"><img id="stoolImg" src="assets/toad/off-duty.png" alt="" /></div>
+            <svg id="mug" class="abs" viewBox="0 0 200 240" width="200" height="240">
+              <path id="st1" class="steam" d="M70 70 C 55 50, 85 40, 70 18" />
+              <path id="st2" class="steam" d="M100 74 C 85 52, 115 40, 100 14" />
+              <path id="st3" class="steam" d="M130 70 C 115 50, 145 40, 130 18" />
+              <path d="M168 110 C 205 106 205 172 164 170" fill="none" stroke="#144137" stroke-width="12" stroke-linecap="round"/>
+              <rect x="34" y="88" width="136" height="136" rx="22" fill="#F6BE2D" stroke="#144137" stroke-width="8"/>
+              <ellipse cx="102" cy="92" rx="66" ry="14" fill="#6a3f24" stroke="#144137" stroke-width="6"/>
+              <path d="M50 130 L50 190" stroke="#FFFBEA" stroke-width="8" stroke-linecap="round" opacity="0.7"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- SHOT 4: smile -->
+        <div id="smile" class="scene">
+          <div id="smileCam">
+            <div id="portWrap"><img id="portImg" src="assets/toad/portrait.png" alt="" /></div>
+          </div>
+          <div id="note" class="abs">Same Toad.<br/>Different days.</div>
+          <div id="swash" class="abs"></div>
+          <svg id="heart" class="abs" viewBox="0 0 100 100" width="110" height="110"><path d="M50 88 C 8 56 6 24 28 16 C 40 12 48 20 50 28 C 52 20 60 12 72 16 C 94 24 92 56 50 88 Z" fill="#E02B2F" stroke="#144137" stroke-width="5" stroke-linejoin="round"/></svg>
+          <div id="fan" class="abs">FAN-MADE · COMMUNITY CONTENT · NOT OFFICIAL</div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const E = 'power3.out', IO = 'power2.inOut';
+      const tl = gsap.timeline({ paused: true });
+
+      // calendar blocks (view B)
+      const EV = [
+        ['9:00', 'Quick thing', '#F6BE2D'], ['9:30', 'Sync', '#B5DB3A'], ['10:00', 'Standup', '#35D391'], ['10:30', 'Quick call', '#F6BE2D'], ['11:00', 'Sync (again)', '#B5DB3A'],
+        ['11:30', 'Review', '#35D391'], ['12:00', 'Catch-up', '#F6BE2D'], ['12:30', 'Prep for sync', '#B5DB3A'], ['1:00', 'Quick sync', '#35D391'], ['1:30', 'Wrap-up sync', '#E02B2F']
+      ];
+      const vb = document.getElementById('viewB');
+      EV.forEach(([tm, nm, bg], i) => {
+        const d = document.createElement('div'); d.className = 'ev'; d.id = 'ev' + i;
+        const col = i % 2, row = (i / 2) | 0;
+        d.style.left = (18 + col * 354) + 'px'; d.style.top = (8 + row * 66) + 'px'; d.style.background = bg;
+        d.style.color = bg === '#E02B2F' ? '#FFFFFF' : '#144137';
+        d.innerHTML = '<div class="tm">' + tm + '</div><div class="nm">' + nm + '</div>';
+        vb.appendChild(d);
+      });
+
+      // ---------- SHOT 1 (0-3s): opens the laptop ----------
+      tl.fromTo('#lid', { scaleY: 0.07 }, { scaleY: 1, duration: 0.8, ease: E }, 0.5);
+      tl.fromTo('#screen', { opacity: 0 }, { opacity: 1, duration: 0.3, ease: 'none' }, 1.1);
+      tl.fromTo('#toadHero', { rotation: 0 }, { rotation: 3, duration: 0.5, ease: IO }, 1.3);
+      tl.to('#toadHero', { rotation: 0, duration: 0.6, ease: IO }, 2.2);
+      tl.fromTo('#cap1', { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.45, ease: E }, 0.9);
+      tl.fromTo('#inv', { opacity: 0, y: 30, scale: 0.94 }, { opacity: 1, y: 0, scale: 1, duration: 0.45, ease: E }, 1.8);
+      tl.fromTo('#dot', { opacity: 0 }, { opacity: 1, duration: 0.2, ease: 'none' }, 1.9);
+      tl.to('#cap1', { opacity: 0, y: -14, duration: 0.3, ease: 'power1.in' }, 2.75);
+
+      // ---------- SHOT 2 (3-8s): the calendar fills up, Toad looks at us ----------
+      tl.to('#viewA', { opacity: 0, duration: 0.25, ease: 'none' }, 2.9);
+      tl.fromTo('#viewB', { opacity: 0 }, { opacity: 1, duration: 0.2, ease: 'none', immediateRender: false }, 3.0);
+      EV.forEach((e, i) => tl.fromTo('#ev' + i, { opacity: 0, y: 14, scale: 0.96 }, { opacity: 1, y: 0, scale: 1, duration: 0.32, ease: E, immediateRender: false }, 3.05 + i * 0.28));
+      tl.to('#toadHero', { scale: 1.09, rotation: -5, y: -12, duration: 2.8, ease: IO }, 4.2);
+      tl.to('#deskCam', { scale: 1.06, duration: 3.4, ease: 'power1.inOut' }, 4.2);
+      tl.fromTo('#cap2', { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.45, ease: E }, 5.0);
+      tl.to('#cap2', { opacity: 0, y: -14, duration: 0.3, ease: 'power1.in' }, 7.45);
+
+      // ---------- SHOT 3 (8-12s): closes the laptop, picks up coffee ----------
+      tl.to('#lid', { scaleY: 0.07, duration: 0.5, ease: 'power3.in' }, 7.6);
+      tl.fromTo('#stool', { opacity: 0 }, { opacity: 1, duration: 0.4, ease: 'none', immediateRender: false }, 8.2);
+      tl.fromTo('#mug', { y: 340, opacity: 0, rotation: -8 }, { y: 0, opacity: 1, rotation: 0, duration: 0.8, ease: E, immediateRender: false }, 9.0);
+      ['#st1', '#st2', '#st3'].forEach((s, i) => {
+        tl.fromTo(s, { opacity: 0, strokeDasharray: 60, strokeDashoffset: 60 }, { opacity: 0.55, strokeDashoffset: 0, duration: 0.9, ease: 'power1.out', immediateRender: false }, 9.9 + i * 0.18);
+      });
+      tl.fromTo('#stoolCam', { scale: 1 }, { scale: 1.24, duration: 3.0, ease: 'power1.inOut', immediateRender: false }, 9.3);
+
+      // ---------- SHOT 4 (12-15s): the crooked smile ----------
+      tl.fromTo('#smile', { opacity: 0 }, { opacity: 1, duration: 0.4, ease: 'none', immediateRender: false }, 12.0);
+      tl.fromTo('#smileCam', { scale: 1 }, { scale: 1.13, duration: 3.0, ease: 'power1.out', immediateRender: false }, 12.0);
+      tl.fromTo('#note', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.55, ease: E, immediateRender: false }, 12.6);
+      tl.fromTo('#swash', { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: E, immediateRender: false }, 13.3);
+      tl.fromTo('#heart', { opacity: 0, scale: 0.3, rotation: -12 }, { opacity: 1, scale: 1, rotation: 8, duration: 0.5, ease: E, immediateRender: false }, 13.7);
+      tl.fromTo('#fan', { opacity: 0 }, { opacity: 0.8, duration: 0.5, ease: 'none', immediateRender: false }, 13.9);
+
+      tl.to('#desk', { opacity: 0, duration: 0.01, ease: 'none' }, 8.7);
+      tl.to('#stool', { opacity: 0, duration: 0.01, ease: 'none' }, 12.5);
+      window.__timelines['main'] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,52 @@
+<template>
+  <style>
+    @font-face { font-family: 'Space Grotesk'; font-weight: 500; font-style: normal; src: url('assets/fonts/space-grotesk-latin-500-normal.woff2') format('woff2'); }
+    @font-face { font-family: 'Space Grotesk'; font-weight: 600; font-style: normal; src: url('assets/fonts/space-grotesk-latin-600-normal.woff2') format('woff2'); }
+    @font-face { font-family: 'Space Grotesk'; font-weight: 700; font-style: normal; src: url('assets/fonts/space-grotesk-latin-700-normal.woff2') format('woff2'); }
+    #root { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; font-family: 'Space Grotesk', 'Inter', sans-serif; color: #111111; }
+    .f06-bg { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; background: #fdfae7; }
+    .f06-layer { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+    #f06-eyebrow { position: absolute; left: 0; top: 400px; width: 1080px; text-align: center; font-size: 40px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #1e2bfa; }
+    #f06-line { position: absolute; left: 510px; top: 470px; width: 60px; height: 4px; border-radius: 2px; background: #1e2bfa; transform-origin: left center; }
+    #f06-a { position: absolute; left: 0; top: 520px; width: 1080px; text-align: center; font-size: 130px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; white-space: nowrap; }
+    #f06-b { position: absolute; left: 0; top: 700px; width: 1080px; text-align: center; font-size: 84px; font-weight: 500; letter-spacing: -0.02em; line-height: 1.1; color: #9a9a9a; }
+    #f06-c { position: absolute; left: 0; top: 830px; width: 1080px; text-align: center; font-size: 250px; font-weight: 700; letter-spacing: -0.04em; line-height: 1.05; white-space: nowrap; }
+    #f06-c span { position: relative; display: inline-block; }
+    #f06-strike { position: absolute; left: -16px; right: -16px; top: 52%; height: 22px; margin-top: -11px; border-radius: 11px; background: #1e2bfa; transform-origin: left center; }
+    #f06-d { position: absolute; left: 0; top: 1200px; width: 1080px; text-align: center; font-size: 120px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; white-space: nowrap; }
+    #f06-check { position: absolute; left: 440px; top: 1380px; width: 200px; height: 200px; }
+    .f06-d { fill: none; stroke: #1e2bfa; stroke-width: 9; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; }
+  </style>
+
+  <div data-hf-id="hf-1z6k" id="root" data-composition-id="06-not-stealing" data-start="0" data-duration="3.721" data-width="1080" data-height="1920">
+    <div data-hf-id="hf-gxgl" id="f06-bg" class="clip f06-bg" data-start="0" data-duration="3.721" data-track-index="0"></div>
+    <div data-hf-id="hf-ejd8" id="f06-layer" class="clip f06-layer" data-start="0" data-duration="3.721" data-track-index="1">
+      <div data-hf-id="hf-jj80" id="f06-eyebrow">But</div>
+      <div data-hf-id="hf-eoum" id="f06-line"></div>
+      <div data-hf-id="hf-voaq" id="f06-a">doesn't mean</div>
+      <div data-hf-id="hf-48lt" id="f06-b">secretly</div>
+      <div data-hf-id="hf-r5cb" id="f06-c"><span data-hf-id="hf-9jsc">stealing<div data-hf-id="hf-mj5y" id="f06-strike"></div></span></div>
+      <div data-hf-id="hf-ni7f" id="f06-d">your money.</div>
+      <svg data-hf-id="hf-g6n4" id="f06-check" viewBox="0 0 200 200">
+        <circle data-hf-id="hf-6tmu" class="f06-d" id="f06-ring" cx="100" cy="100" r="88" pathLength="1" />
+        <path data-hf-id="hf-kl72" class="f06-d" id="f06-tick" d="M56 104 L88 136 L146 70" pathLength="1" />
+      </svg>
+    </div>
+  </div>
+
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    const ease = 'power3.out';
+    tl.fromTo('#f06-eyebrow', { opacity: 0, y: -12 }, { opacity: 1, y: 0, duration: 0.3, ease }, 0);
+    tl.fromTo('#f06-line', { scaleX: 0 }, { scaleX: 1, duration: 0.3, ease }, 0.04);
+    tl.fromTo('#f06-a', { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.4, ease }, 0.2);
+    tl.fromTo('#f06-b', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.35, ease }, 1.4);
+    tl.fromTo('#f06-c', { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.4, ease }, 1.8);
+    tl.fromTo('#f06-strike', { scaleX: 0 }, { scaleX: 1, duration: 0.35, ease }, 2.2);
+    tl.to('#f06-c', { color: '#9a9a9a', duration: 0.35, ease: 'none' }, 2.2);
+    tl.fromTo('#f06-d', { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.4, ease }, 2.65);
+    tl.fromTo('#f06-ring', { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.45, ease }, 2.7);
+    tl.fromTo('#f06-tick', { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.3, ease }, 2.95);
+    window.__timelines['06-not-stealing'] = tl;
+  </script>
+</template>

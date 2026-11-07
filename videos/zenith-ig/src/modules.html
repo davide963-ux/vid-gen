@@ -1,0 +1,98 @@
+    <script type="importmap">
+      { "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.181.2/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.181.2/examples/jsm/"
+      } }
+    </script>
+    <script type="module">
+      import * as THREE from 'three';
+      const W = 1080, H = 1920;
+      const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+      const sm = (x) => x * x * (3 - 2 * x);
+      const win = (t, a, b) => sm(clamp((t - a) / (b - a)));
+      const hh = (i) => { const x = Math.sin(i * 91.7 + 17.3) * 43758.5453; return x - Math.floor(x); };
+      const lerp = (a, b, k) => a + (b - a) * k;
+      const vis = (t, wins, f = 0.5) => { let s = 0; for (const [a, b] of wins) s = Math.max(s, win(t, a, a + f) * (1 - win(t, b - f, b))); return s; };
+      const backOut = (x) => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
+      const TAU = Math.PI * 2;
+      async function build() {
+        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('gl'), antialias: true, alpha: true });
+        renderer.setPixelRatio(1); renderer.setSize(W, H, false); renderer.outputColorSpace = THREE.SRGBColorSpace; renderer.setClearColor(0x000000, 0);
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(40, W / H, 0.1, 80);
+        scene.add(new THREE.AmbientLight(0x9bb0d3, 1.1));
+        const key = new THREE.DirectionalLight(0xdbe8ff, 2.6); key.position.set(-3, 5, 7); scene.add(key);
+        const rim = new THREE.PointLight(0x3d7bff, 30, 18); rim.position.set(3, -1, 3); scene.add(rim);
+        const rim2 = new THREE.PointLight(0x7fb6ff, 14, 14); rim2.position.set(-3, 2, 4); scene.add(rim2);
+        const texL = new THREE.TextureLoader(); const load = (u) => new Promise((res, rej) => texL.load(u, (t) => { t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4; res(t); }, undefined, rej));
+        const TX = { pipe: await load('assets/img/pipe.png'), blue: await load('assets/img/ui-blue.png'), xing: await load('assets/img/ui-xing.png'), phone: await load('assets/img/ui-phone.png'), term: await load('assets/img/ui-term.png') };
+
+        // ---------- stars ----------
+        const N = 520, pos = new Float32Array(N * 3);
+        for (let i = 0; i < N; i++) { pos[i * 3] = (hh(i + 1) - 0.5) * 12; pos[i * 3 + 1] = (hh(i + 2) - 0.5) * 16; pos[i * 3 + 2] = -3 - hh(i + 3) * 6; }
+        const starG = new THREE.BufferGeometry(); starG.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+        const starM = new THREE.PointsMaterial({ color: 0xcfe0ff, size: 0.03, transparent: true, opacity: 0.8 }); const stars = new THREE.Points(starG, starM); scene.add(stars);
+
+        // ---------- Zenith logo (extruded from the site's own SVG polygons) ----------
+        const logo = new THREE.Group(); scene.add(logo);
+        const poly = (pts) => { const s = new THREE.Shape(); pts.forEach(([x, y], i) => { const X = (x - 630) / 250, Y = -(y - 465) / 250; i ? s.lineTo(X, Y) : s.moveTo(X, Y); }); s.closePath(); return s; };
+        const ex = (pts, mat, z) => { const m = new THREE.Mesh(new THREE.ExtrudeGeometry(poly(pts), { depth: 0.14, bevelEnabled: true, bevelThickness: 0.02, bevelSize: 0.015, bevelSegments: 2 }), mat); m.position.z = z; logo.add(m); return m; };
+        const silver = new THREE.MeshStandardMaterial({ color: 0xe8f0ff, roughness: 0.25, metalness: 0.55, emissive: 0x34476f });
+        const blueA = new THREE.MeshStandardMaterial({ color: 0x3d7bff, roughness: 0.3, metalness: 0.4, emissive: 0x0c2d80 });
+        const blueB = new THREE.MeshStandardMaterial({ color: 0x5b9bff, roughness: 0.25, metalness: 0.4, emissive: 0x123a96 });
+        ex([[630, 226], [742, 350], [630, 280], [520, 350]], blueA, 0.12);
+        ex([[462, 361], [815, 361], [484, 700], [398, 700], [652, 425], [418, 425]], silver, 0);
+        ex([[676, 573], [856, 573], [738, 700], [484, 700]], blueB, 0.02);
+
+        // ---------- orbiting site panels ----------
+        const panels = new THREE.Group(); scene.add(panels); const pl = [];
+        const mkP = (tex, w, h, i) => { const mat = new THREE.MeshBasicMaterial({ map: tex, transparent: true, opacity: 1, side: THREE.DoubleSide }); const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), mat);
+          const border = new THREE.Mesh(new THREE.PlaneGeometry(w + 0.04, h + 0.04), new THREE.MeshBasicMaterial({ color: 0x5b8fff, transparent: true, opacity: 0.9, side: THREE.DoubleSide })); border.position.z = -0.003; const g = new THREE.Group(); g.add(border); g.add(m); panels.add(g); pl.push({ g, m, border, i }); };
+        mkP(TX.pipe, 1.2, 0.8, 0); mkP(TX.blue, 0.86, 0.71, 1); mkP(TX.xing, 0.9, 0.61, 2); mkP(TX.phone, 0.42, 0.84, 3); mkP(TX.term, 0.98, 0.59, 4);
+        const orbit = new THREE.Mesh(new THREE.TorusGeometry(1.5, 0.006, 8, 160), new THREE.MeshBasicMaterial({ color: 0x7fb6ff, transparent: true, opacity: 0.55 })); orbit.rotation.x = 1.2; panels.add(orbit);
+        const sun = new THREE.Mesh(new THREE.SphereGeometry(0.06, 16, 12), new THREE.MeshBasicMaterial({ color: 0xffb93d })); panels.add(sun);
+
+        // ---------- torus knot + wire sphere ----------
+        const knotG = new THREE.Group(); scene.add(knotG);
+        const knot = new THREE.Mesh(new THREE.TorusKnotGeometry(0.5, 0.17, 220, 28, 2, 3), new THREE.MeshPhysicalMaterial({ color: 0x2a6bff, metalness: 0.2, roughness: 0.12, clearcoat: 1, clearcoatRoughness: 0.1, emissive: 0x0a2a80 })); knotG.add(knot);
+        const wire = new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.IcosahedronGeometry(0.95, 1)), new THREE.LineBasicMaterial({ color: 0x6fa0ff, transparent: true, opacity: 0.7 })); knotG.add(wire);
+
+        const edge = new THREE.Group(); scene.add(edge);
+        for (let i = 0; i < 9; i++) { const g = i % 3 === 2 ? new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.IcosahedronGeometry(0.22, 0)), new THREE.LineBasicMaterial({ color: 0x6fa0ff, transparent: true, opacity: 0.7 })) : new THREE.Mesh(new THREE.BoxGeometry(0.2, 0.2, 0.2), new THREE.MeshStandardMaterial({ color: i % 2 ? 0x2a6bff : 0x7fb6ff, metalness: 0.3, roughness: 0.25, emissive: 0x0a2a70, transparent: true, opacity: 0.85 })); edge.add(g); }
+        const WINS = { logo: [[2.6, 4.05], [16.6, 22]], knot: [[4.0, 8.05]], panels: [[-1, 2.5]], cubes: [[3.9, 16.8]] };
+        function renderAt(t) {
+          camera.position.set(Math.sin(t * 0.4) * 0.1, Math.sin(t * 0.3) * 0.06, 6.2); camera.lookAt(0, -0.05, 0);
+          stars.rotation.y = t * 0.02; stars.position.y = (t * 0.03) % 2; starM.opacity = 0.65 + 0.2 * Math.sin(t * 1.3);
+          // ----- logo -----
+          const sl = vis(t, WINS.logo, 0.45); logo.visible = sl > 0.002;
+          if (logo.visible) {
+            const end = t > 16.4 ? 1 : 0; const pop = backOut(clamp((t - 2.62) / 0.7));
+            const s = (end ? 0.62 : 0.92) * (end ? sl : (0.35 + 0.65 * sl) * (0.5 + 0.5 * pop));
+            logo.scale.setScalar(Math.max(0.001, s)); logo.position.set(0, end ? 0.75 : -0.05, 0);
+            logo.rotation.set(Math.sin(t * 0.7) * 0.1, Math.sin(t * 0.55) * 0.5 + (t < 3.4 ? (1 - win(t, 2.62, 3.4)) * 0.9 : 0), Math.sin(t * 0.45) * 0.04);
+          }
+          // ----- knot -----
+          const sk = vis(t, WINS.knot, 0.4); knotG.visible = sk > 0.002;
+          if (knotG.visible) { knotG.scale.setScalar(1.05 * (0.2 + 0.8 * sk)); knotG.position.set(0, -0.15, 0); knot.rotation.set(t * 0.5, t * 0.8, 0); wire.rotation.set(t * 0.2, -t * 0.25, 0); }
+          // ----- panels (hook only) -----
+          const sp = vis(t, WINS.panels, 0.45); panels.visible = sp > 0.002;
+          if (panels.visible) {
+            panels.scale.setScalar(0.86); panels.position.set(0, -0.62 - (1 - sp) * 0.35, 0); panels.rotation.set(0, 0, 0);
+            pl.forEach(({ g, m, border, i }) => {
+              const a = t * 0.7 + i * TAU / 5; const rx = 1.45, rz = 0.9;
+              g.position.set(Math.cos(a) * rx, Math.sin(a) * 0.48, Math.sin(a) * rz - 0.4);
+              g.lookAt(camera.position.x, camera.position.y, camera.position.z + 4); g.rotation.y += Math.cos(a) * 0.35; g.rotation.z += Math.sin(a * 2) * 0.05;
+              m.material.opacity = sp; border.material.opacity = 0.9 * sp;
+            });
+            orbit.material.opacity = 0.55 * sp; const sa = t * 0.9; sun.position.set(Math.cos(sa) * 1.5, Math.sin(sa) * 0.75, Math.sin(sa) * 0.5 - 0.2); orbit.rotation.set(1.25, 0, 0);
+          }
+          // ----- drifting edge cubes / wire shapes (2D-heavy scenes) -----
+          const sc = vis(t, WINS.cubes, 0.6); edge.visible = sc > 0.002;
+          if (edge.visible) { edge.children.forEach((c, i) => { const side = i % 2 ? 1 : -1; const y = ((hh(i + 4) * 12 - t * (0.12 + hh(i + 6) * 0.1)) % 6 + 6) % 6 - 3; c.position.set(side * (1.72 + hh(i + 9) * 0.3), y, -2.2 - hh(i + 12)); c.rotation.set(t * (0.3 + hh(i) * 0.5), t * (0.4 + hh(i + 3) * 0.4), 0); c.scale.setScalar(sc * (0.7 + hh(i + 15) * 0.7)); }); }
+          renderer.render(scene, camera);
+        }
+        window.addEventListener('hf-seek', (e) => renderAt(e.detail.time));
+        renderAt(window.__hfThreeTime || 0);
+      }
+      window.__hf = window.__hf || {}; window.__hf.buildReady = window.__hf.buildReady || {}; window.__hf.buildReady['zenith'] = build();
+    </script>

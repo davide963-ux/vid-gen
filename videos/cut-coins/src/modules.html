@@ -1,0 +1,81 @@
+    <script type="importmap">
+      { "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.181.2/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.181.2/examples/jsm/"
+      } }
+    </script>
+    <script type="module">
+      import * as THREE from 'three';
+      const W = 1080, H = 1920;
+      const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+      const sm = (x) => x * x * (3 - 2 * x);
+      const win = (t, a, b) => sm(clamp((t - a) / (b - a)));
+      const hh = (i) => { const x = Math.sin(i * 91.7 + 17.3) * 43758.5453; return x - Math.floor(x); };
+      const backOut = (x) => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
+      async function build() {
+        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('gl'), antialias: true, alpha: true });
+        renderer.setPixelRatio(1); renderer.setSize(W, H, false); renderer.outputColorSpace = THREE.SRGBColorSpace; renderer.setClearColor(0x000000, 0);
+        const scene = new THREE.Scene(); scene.fog = new THREE.Fog(0x0a0a0a, 6.5, 13);
+        const camera = new THREE.PerspectiveCamera(40, W / H, 0.1, 60);
+        scene.add(new THREE.AmbientLight(0xfff1d0, 0.9));
+        const key = new THREE.DirectionalLight(0xfff4dc, 2.4); key.position.set(-3, 5, 7); scene.add(key);
+        const rim = new THREE.PointLight(0xe5ab33, 14, 14); rim.position.set(3, -2, 3); scene.add(rim);
+        const texL = new THREE.TextureLoader(); const load = (u) => new Promise((res, rej) => texL.load(u, res, undefined, rej));
+        const fTex = await load('assets/img/coin-front.png'), bTex = await load('assets/img/coin-back.jpg');
+        [fTex, bTex].forEach((t) => { t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4; });
+        fTex.repeat.set(0.5, 0.5); fTex.offset.set(0.5, 0.5);
+        bTex.repeat.set(-0.5, 0.5); bTex.offset.set(0.5, 0.5);
+        const capF = new THREE.MeshStandardMaterial({ map: fTex, roughness: 0.55, metalness: 0.25 });
+        const capB = new THREE.MeshStandardMaterial({ map: bTex, roughness: 0.55, metalness: 0.25, side: THREE.FrontSide });
+        const edgeM = new THREE.MeshStandardMaterial({ color: 0xb9b2a0, roughness: 0.4, metalness: 0.7 });
+
+        // ---------- hero coin: 8 wedges (textured front + back) ----------
+        const hero = new THREE.Group(); scene.add(hero);
+        const DEPTH = 0.1, wedges = [];
+        for (let k = 0; k < 8; k++) {
+          const a0 = k * Math.PI / 4, a1 = (k + 1) * Math.PI / 4;
+          const shp = new THREE.Shape(); shp.moveTo(0, 0); shp.lineTo(Math.cos(a0), Math.sin(a0)); shp.absarc(0, 0, 1, a0, a1, false); shp.lineTo(0, 0);
+          const g = new THREE.ExtrudeGeometry(shp, { depth: DEPTH, bevelEnabled: false, curveSegments: 14 });
+          const m = new THREE.Mesh(g, [capF, edgeM]); m.position.z = -DEPTH / 2;
+          const backG = new THREE.ShapeGeometry(shp, 14); const back = new THREE.Mesh(backG, capB); back.rotation.y = Math.PI; back.position.z = -DEPTH / 2 - 0.004;
+          const wg = new THREE.Group(); wg.add(m); wg.add(back); hero.add(wg);
+          wedges.push({ g: wg, mid: (a0 + a1) / 2, k });
+        }
+        // ---------- background pattern: drifting silver/gold coins ----------
+        const bg = new THREE.Group(); scene.add(bg); const bgc = [];
+        const silverM = new THREE.MeshStandardMaterial({ color: 0x7d7869, roughness: 0.5, metalness: 0.55 }), goldM = new THREE.MeshStandardMaterial({ color: 0x9a6f1c, roughness: 0.5, metalness: 0.55 });
+        for (let i = 0; i < 34; i++) {
+          const r = 0.16 + hh(i + 1) * 0.34; const m = new THREE.Mesh(new THREE.CylinderGeometry(r, r, r * 0.16, 28), i % 3 === 0 ? goldM : silverM);
+          bg.add(m); bgc.push({ m, x: (hh(i + 5) - 0.5) * 7.2, y0: hh(i + 9) * 12, z: -3.4 - hh(i + 13) * 5, sp: 0.18 + hh(i + 17) * 0.3, rx: hh(i + 21) * 6, rs: 0.4 + hh(i + 25) * 0.9 });
+        }
+        const CUT1 = (typeof WORDS !== 'undefined') ? WORDS.filter((w) => w.line === 2)[8].s : 6.9;
+        const CUT2 = (typeof WORDS !== 'undefined') ? WORDS.filter((w) => w.line === 9)[10].s : 33.9;
+        const SHOW = [[0, 11.7], [30.3, 36.3], [69.7, 73]];
+        function renderAt(t) {
+          camera.position.set(Math.sin(t * 0.35) * 0.18, Math.sin(t * 0.27) * 0.1, 6.2); camera.lookAt(0, -0.05, 0);
+          // background coins: slow rise + tumble
+          bgc.forEach((c) => { const span = 12; const y = ((c.y0 - t * c.sp) % span + span) % span - span / 2; c.m.position.set(c.x, y, c.z); c.m.rotation.set(c.rx + t * c.rs, t * c.rs * 0.6, 0); });
+          // hero visibility (scale in/out)
+          let s = 0; for (const [a, b] of SHOW) { const v = a === 0 ? 1 - win(t, b - 0.6, b) : win(t, a, a + 0.7) * (1 - win(t, b - 0.5, b)); s = Math.max(s, v); }
+          hero.visible = s > 0.002; if (!hero.visible) { renderer.render(scene, camera); return; }
+          const u = (a, b) => win(t, a, b);
+          // explode amount: coin 1 (cut at CUT1, gather before scene 3 ends), coin 2 (cut at CUT2)
+          const ex = Math.max(backOut(clamp((t - CUT1) / 0.9)) * (1 - u(10.9, 11.6)) * (t > CUT1 ? 1 : 0), backOut(clamp((t - CUT2) / 0.9)) * (1 - u(35.6, 36.2)) * (t > CUT2 ? 1 : 0));
+          const spin = t * 0.7, face = Math.sin(t * 0.8) * 0.18;
+          const yaw = (1 - clamp(ex)) * spin + clamp(ex) * face;
+          const endCoin = t > 69 ? 1 : 0;
+          hero.rotation.set(-0.28 * (1 - clamp(ex)) + Math.sin(t * 0.6) * 0.06, yaw, Math.sin(t * 0.5) * 0.06);
+          const base = endCoin ? 0.52 : 0.86; hero.scale.setScalar(base * (0.2 + 0.8 * s));
+          hero.position.set(0, endCoin ? 1.55 : -0.05 + Math.sin(t * 1.1) * 0.03, 0);
+          wedges.forEach((w) => {
+            const d = ex * (0.34 + 0.06 * hh(w.k + 3)), jit = ex * (hh(w.k + 7) - 0.5);
+            w.g.position.set(Math.cos(w.mid) * d, Math.sin(w.mid) * d, ex * 0.12 * Math.sin(w.k * 1.7 + t * 2.0));
+            w.g.rotation.set(jit * 0.5, jit * 0.4, jit * 0.35 + ex * 0.04 * Math.sin(t * 2 + w.k));
+          });
+          renderer.render(scene, camera);
+        }
+        window.addEventListener('hf-seek', (e) => renderAt(e.detail.time));
+        renderAt(window.__hfThreeTime || 0);
+      }
+      window.__hf = window.__hf || {}; window.__hf.buildReady = window.__hf.buildReady || {}; window.__hf.buildReady['coins'] = build();
+    </script>

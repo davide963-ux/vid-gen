@@ -1,0 +1,91 @@
+{
+  "summary": {
+    "webAnimations": 2,
+    "cssDeclarations": 87,
+    "scrollTargets": 2,
+    "cdpAnimations": 13,
+    "canvases": 0
+  },
+  "namedAnimations": [],
+  "scrollTriggeredElements": 2,
+  "representativeAnimations": [
+    {
+      "type": "CSSTransition",
+      "playState": "running",
+      "animationName": null,
+      "targetSelector": "div.elementor-container.elementor-column-gap-no",
+      "targetRect": {
+        "x": 390,
+        "y": 148,
+        "width": 1140,
+        "height": 60,
+        "top": 148,
+        "right": 1530,
+        "bottom": 208,
+        "left": 390
+      },
+      "keyframes": [
+        {
+          "offset": 0,
+          "easing": "linear",
+          "composite": "auto",
+          "minHeight": "36px",
+          "computedOffset": 0
+        },
+        {
+          "offset": 1,
+          "easing": "linear",
+          "composite": "auto",
+          "minHeight": "60px",
+          "computedOffset": 1
+        }
+      ],
+      "timing": {
+        "duration": 450,
+        "delay": 0,
+        "iterations": 1,
+        "easing": "cubic-bezier(0.4, 0, 0.2, 1)",
+        "direction": "normal"
+      }
+    },
+    {
+      "type": "CSSTransition",
+      "playState": "running",
+      "animationName": null,
+      "targetSelector": "div.elementor-element.elementor-element-54ff9e8.elementor-widget__width-auto",
+      "targetRect": {
+        "x": 568.71875,
+        "y": 154.015625,
+        "width": 37.53125,
+        "height": 47.953125,
+        "top": 154.015625,
+        "right": 606.25,
+        "bottom": 201.96875,
+        "left": 568.71875
+      },
+      "keyframes": [
+        {
+          "offset": 0,
+          "easing": "linear",
+          "composite": "auto",
+          "maxWidth": "625px",
+          "computedOffset": 0
+        },
+        {
+          "offset": 1,
+          "easing": "linear",
+          "composite": "auto",
+          "maxWidth": "0px",
+          "computedOffset": 1
+        }
+      ],
+      "timing": {
+        "duration": 450,
+        "delay": 0,
+        "iterations": 1,
+        "easing": "cubic-bezier(0.4, 0, 0.2, 1)",
+        "direction": "normal"
+      }
+    }
+  ]
+}

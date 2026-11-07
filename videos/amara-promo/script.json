@@ -1,0 +1,10 @@
+[
+ {"say":"A keni ëndërruar një pushim buzë detit?","pause":0.5},
+ {"say":"Mirë se vini në Amara Hotel dhe Spa, në Durrës.","show":"Mirë se vini në Amara Hotel & SPA, në Durrës.","pause":0.5},
+ {"say":"Dhoma elegante, shumë prej tyre me pamje nga deti, ku çdo detaj është menduar për rehatinë tuaj.","pause":0.5},
+ {"say":"Shijoni gatime të shkëlqyera në restorantin tonë buzë detit.","pause":0.5},
+ {"say":"Çlodhuni në pishinën e jashtme, ose në plazhin privat, me akses të drejtpërdrejtë.","pause":0.5},
+ {"say":"Dhe rimbushni energjitë në qendrën tonë të wellness dhe spa.","show":"Dhe rimbushni energjitë në qendrën tonë të wellness dhe SPA.","pause":0.55},
+ {"say":"Amara Hotel dhe Spa. Rehatia, në një kuptim të ri.","show":"Amara Hotel & SPA. Rehatia, në një kuptim të ri.","pause":0.55},
+ {"say":"Rezervoni qëndrimin tuaj sot.","pause":0.3,"tail":2.2}
+]

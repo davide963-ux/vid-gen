@@ -1,0 +1,32 @@
+<template>
+  <style>
+    @font-face { font-family: 'Space Grotesk'; font-weight: 500; font-style: normal; src: url('assets/fonts/space-grotesk-latin-500-normal.woff2') format('woff2'); }
+    @font-face { font-family: 'Space Grotesk'; font-weight: 600; font-style: normal; src: url('assets/fonts/space-grotesk-latin-600-normal.woff2') format('woff2'); }
+    @font-face { font-family: 'Space Grotesk'; font-weight: 700; font-style: normal; src: url('assets/fonts/space-grotesk-latin-700-normal.woff2') format('woff2'); }
+    #root { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; font-family: 'Space Grotesk', 'Inter', sans-serif; color: #111111; }
+    .f05-bg { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; background: #fdfae7; }
+    .f05-layer { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+    #f05-line { position: absolute; left: 510px; top: 620px; width: 60px; height: 4px; border-radius: 2px; background: #1e2bfa; transform-origin: left center; }
+    #f05-eyebrow { position: absolute; left: 0; top: 670px; width: 1080px; text-align: center; font-size: 40px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #1e2bfa; }
+    #f05-term { position: absolute; left: 0; top: 760px; width: 1080px; text-align: center; font-size: 220px; font-weight: 700; letter-spacing: -0.04em; line-height: 1.05; color: #111111; white-space: nowrap; }
+  </style>
+
+  <div data-hf-id="hf-ukap" id="root" data-composition-id="05-bank-run" data-start="0" data-duration="2.633" data-width="1080" data-height="1920">
+    <div data-hf-id="hf-dyc0" id="f05-bg" class="clip f05-bg" data-start="0" data-duration="2.633" data-track-index="0"></div>
+    <div data-hf-id="hf-ab0p" id="f05-layer" class="clip f05-layer" data-start="0" data-duration="2.633" data-track-index="1">
+      <div data-hf-id="hf-ie83" id="f05-line"></div>
+      <div data-hf-id="hf-7tyb" id="f05-eyebrow">Definition</div>
+      <div data-hf-id="hf-3jw4" id="f05-term">Bank run</div>
+    </div>
+  </div>
+
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    const ease = 'power3.out';
+    tl.fromTo('#f05-line', { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease }, 0);
+    tl.fromTo('#f05-eyebrow', { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.4, ease }, 0.05);
+    // "a bank run": the one restrained move, a slide-up crossfade, then a still hold
+    tl.fromTo('#f05-term', { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.6, ease }, 0.9);
+    window.__timelines['05-bank-run'] = tl;
+  </script>
+</template>

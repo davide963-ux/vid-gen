@@ -1,0 +1,168 @@
+    <script type="importmap">
+      { "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.181.2/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.181.2/examples/jsm/"
+      } }
+    </script>
+    <script type="module">
+      import * as THREE from 'three';
+      const W = 1080, H = 1920;
+      const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+      const sm = (x) => x * x * (3 - 2 * x);
+      const win = (t, a, b) => sm(clamp((t - a) / (b - a)));
+      const hh = (i) => { const x = Math.sin(i * 91.7 + 17.3) * 43758.5453; return x - Math.floor(x); };
+      const lerp = (a, b, k) => a + (b - a) * k;
+      const vis = (t, wins, f = 0.5) => { let s = 0; for (const [a, b] of wins) s = Math.max(s, win(t, a, a + f) * (1 - win(t, b - f, b))); return s; };
+      const backOut = (x) => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
+      const TAU = Math.PI * 2;
+      async function build() {
+        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('gl'), antialias: true, alpha: true });
+        renderer.setPixelRatio(1); renderer.setSize(W, H, false); renderer.outputColorSpace = THREE.SRGBColorSpace; renderer.setClearColor(0x000000, 0);
+        const scene = new THREE.Scene(); scene.fog = new THREE.Fog(0x0a0a0a, 7, 15);
+        const camera = new THREE.PerspectiveCamera(40, W / H, 0.1, 60);
+        scene.add(new THREE.AmbientLight(0xfff1d0, 1.05));
+        const key = new THREE.DirectionalLight(0xfff4dc, 2.5); key.position.set(-3, 5, 7); scene.add(key);
+        const rim = new THREE.PointLight(0xe5ab33, 14, 14); rim.position.set(3, -2, 3); scene.add(rim);
+        const font = (px) => `700 ${px}px "Space Grotesk", "Helvetica Neue", Arial, sans-serif`;
+        const canvasTex = (w, h, draw) => { const c = document.createElement('canvas'); c.width = w; c.height = h; draw(c.getContext('2d'), w, h); const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4; return t; };
+        const std = (o) => new THREE.MeshStandardMaterial(o);
+        const GOLD = std({ color: 0xe5ab33, roughness: 0.3, metalness: 0.75, emissive: 0x2a1c04 }), DGOLD = std({ color: 0xb98a24, roughness: 0.4, metalness: 0.6 });
+        const CREAM = std({ color: 0xfffdf6, roughness: 0.4, metalness: 0.05, emissive: 0x241f12 }), BLACK = std({ color: 0x1a140a, roughness: 0.45, metalness: 0.3, emissive: 0x0d0a04 });
+        const heroes = {};
+        const addHero = (name, g) => { scene.add(g); heroes[name] = g; return g; };
+
+        // ===== roulette wheel =====
+        const wheel = addHero('wheel', new THREE.Group()); const wheelSpin = new THREE.Group(); wheel.add(wheelSpin);
+        const NSEG = 24;
+        for (let k = 0; k < NSEG; k++) { const m = new THREE.Mesh(new THREE.CylinderGeometry(0.92, 0.92, 0.12, 2, 1, false, k * TAU / NSEG, TAU / NSEG), k % 2 ? GOLD : BLACK); wheelSpin.add(m); }
+        const rimT = new THREE.Mesh(new THREE.TorusGeometry(0.97, 0.07, 14, 72), DGOLD); rimT.rotation.x = Math.PI / 2; rimT.position.y = 0.04; wheel.add(rimT);
+        const hub = new THREE.Mesh(new THREE.CylinderGeometry(0.46, 0.5, 0.16, 40), DGOLD); hub.position.y = 0.06; wheelSpin.add(hub);
+        const cone = new THREE.Mesh(new THREE.ConeGeometry(0.2, 0.3, 24), GOLD); cone.position.y = 0.22; wheelSpin.add(cone);
+        for (let i = 0; i < 4; i++) { const sp = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.04, 0.05), CREAM); sp.position.y = 0.17; sp.rotation.y = i * Math.PI / 4; wheelSpin.add(sp); }
+        const ball = new THREE.Mesh(new THREE.SphereGeometry(0.055, 16, 12), CREAM); wheel.add(ball);
+
+        // ===== slot machine =====
+        const slot = addHero('slot', new THREE.Group());
+        const body = new THREE.Mesh(new THREE.BoxGeometry(1.5, 2.1, 0.7), DGOLD); slot.add(body);
+        const top = new THREE.Mesh(new THREE.BoxGeometry(1.7, 0.28, 0.8), GOLD); top.position.y = 1.12; slot.add(top);
+        const base = new THREE.Mesh(new THREE.BoxGeometry(1.7, 0.3, 0.84), GOLD); base.position.y = -1.12; slot.add(base);
+        const win_ = new THREE.Mesh(new THREE.BoxGeometry(1.36, 0.66, 0.12), BLACK); win_.position.set(0, 0.35, 0.36); slot.add(win_);
+        const tray = new THREE.Mesh(new THREE.BoxGeometry(1.0, 0.22, 0.14), BLACK); tray.position.set(0, -0.7, 0.38); slot.add(tray);
+        const panelTex = canvasTex(512, 112, (g, w, h) => { g.fillStyle = '#fffdf6'; g.fillRect(0, 0, w, h); g.fillStyle = '#b57a12'; g.font = font(74); g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('JACKPOT', w / 2, h / 2 + 4); });
+        const panel = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.26, 0.05), [CREAM, CREAM, CREAM, CREAM, std({ map: panelTex, roughness: 0.4 }), CREAM]); panel.position.set(0, -0.28, 0.37); slot.add(panel);
+        const SYMS = ['7', '$', 'BAR', '7', '$', 'BAR', '7', '$'];
+        const reelTex = canvasTex(1024, 128, (g, w, h) => { g.fillStyle = '#fffdf6'; g.fillRect(0, 0, w, h); SYMS.forEach((s, i) => { g.save(); g.translate(i * 128 + 64, 64); g.rotate(Math.PI / 2); g.fillStyle = s === '7' ? '#b57a12' : '#0a0a0a'; g.font = font(s === 'BAR' ? 54 : 92); g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(s, 0, 4); g.restore(); g.fillStyle = '#4a3607'; g.fillRect(i * 128, 0, 3, h); }); });
+        const reels = [];
+        for (let i = 0; i < 3; i++) { const geo = new THREE.CylinderGeometry(0.3, 0.3, 0.38, 32); geo.rotateZ(Math.PI / 2); const m = new THREE.Mesh(geo, [std({ map: reelTex, roughness: 0.4 }), DGOLD, DGOLD]); m.position.set(-0.43 + i * 0.43, 0.35, 0.42); slot.add(m); reels.push(m); }
+        const lever = new THREE.Group(); lever.position.set(0.9, 0.2, 0); slot.add(lever);
+        const arm = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.035, 0.9, 10), CREAM); arm.position.y = 0.45; lever.add(arm);
+        const knob = new THREE.Mesh(new THREE.SphereGeometry(0.1, 16, 12), GOLD); knob.position.y = 0.92; lever.add(knob);
+        const topBulbs = []; for (let i = 0; i < 7; i++) { const b = new THREE.Mesh(new THREE.SphereGeometry(0.045, 12, 10), new THREE.MeshBasicMaterial({ color: 0xffd36a })); b.position.set(-0.6 + i * 0.2, 1.12, 0.42); slot.add(b); topBulbs.push(b); }
+
+        // ===== wall clock =====
+        const clock = addHero('clock', new THREE.Group());
+        const face = new THREE.Mesh(new THREE.CylinderGeometry(0.9, 0.9, 0.08, 64), CREAM); face.rotation.x = Math.PI / 2; clock.add(face);
+        const crim = new THREE.Mesh(new THREE.TorusGeometry(0.92, 0.08, 14, 72), GOLD); clock.add(crim);
+        for (let i = 0; i < 12; i++) { const tk = new THREE.Mesh(new THREE.BoxGeometry(i % 3 === 0 ? 0.07 : 0.04, i % 3 === 0 ? 0.2 : 0.12, 0.03), BLACK); const a = i * TAU / 12; tk.position.set(Math.sin(a) * 0.74, Math.cos(a) * 0.74, 0.05); tk.rotation.z = -a; clock.add(tk); }
+        const mkHand = (len, w) => { const g = new THREE.Group(); const m = new THREE.Mesh(new THREE.BoxGeometry(w, len, 0.03), BLACK); m.position.y = len / 2 - 0.05; g.add(m); g.position.z = 0.07; clock.add(g); return g; };
+        const hHand = mkHand(0.48, 0.07), mHand = mkHand(0.7, 0.045);
+        const pin = new THREE.Mesh(new THREE.SphereGeometry(0.06, 12, 10), GOLD); pin.position.z = 0.09; clock.add(pin);
+
+        // ===== casino chips =====
+        const chipSide = canvasTex(512, 64, (g, w, h) => { for (let i = 0; i < 16; i++) { g.fillStyle = i % 2 ? '#fffdf6' : '#e5ab33'; g.fillRect(i * 32, 0, 32, h); } });
+        const chipTop = (txt) => canvasTex(256, 256, (g, w, h) => { g.fillStyle = '#0a0a0a'; g.fillRect(0, 0, w, h); g.beginPath(); g.arc(128, 128, 122, 0, TAU); g.fillStyle = '#e5ab33'; g.fill(); g.beginPath(); g.arc(128, 128, 96, 0, TAU); g.lineWidth = 8; g.setLineDash([22, 14]); g.strokeStyle = '#fffdf6'; g.stroke(); g.setLineDash([]); g.beginPath(); g.arc(128, 128, 78, 0, TAU); g.fillStyle = '#0a0a0a'; g.fill(); g.fillStyle = '#e5ab33'; g.font = font(txt.length > 3 ? 54 : 76); g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(txt, 128, 134); });
+        const T100 = chipTop('$100'); T100.center.set(0.5, 0.5); T100.rotation = Math.PI / 2;
+        const mkChip = () => { const geo = new THREE.CylinderGeometry(0.55, 0.55, 0.12, 48); geo.rotateX(Math.PI / 2); return new THREE.Mesh(geo, [std({ map: chipSide, roughness: 0.45 }), std({ map: T100, roughness: 0.4, metalness: 0.15 }), std({ map: T100, roughness: 0.4, metalness: 0.15 })]); };
+        const stack = addHero('stack', new THREE.Group()); const stackChips = [];
+        for (let i = 0; i < 7; i++) { const c = mkChip(); c.rotation.set(-Math.PI / 2, 0, Math.PI); stack.add(c); stackChips.push(c); }
+        const soloChip = addHero('chip', mkChip());
+        const endChip = addHero('endchip', mkChip());
+        // bill (plane)
+        const billTex = canvasTex(512, 240, (g, w, h) => { const gr = g.createLinearGradient(0, 0, w, h); gr.addColorStop(0, '#f6cf72'); gr.addColorStop(0.6, '#d79a22'); gr.addColorStop(1, '#b57a12'); g.fillStyle = gr; g.fillRect(0, 0, w, h); g.strokeStyle = 'rgba(60,35,4,.5)'; g.lineWidth = 8; g.strokeRect(14, 14, w - 28, h - 28); g.beginPath(); g.arc(w / 2, h / 2, 78, 0, TAU); g.lineWidth = 8; g.stroke(); g.fillStyle = '#3b2a05'; g.font = font(72); g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('$100', w / 2, h / 2 + 4); g.font = font(44); g.textAlign = 'left'; g.fillText('100', 34, 62); g.textAlign = 'right'; g.fillText('100', w - 34, h - 50); });
+        const bill = addHero('bill', new THREE.Mesh(new THREE.PlaneGeometry(1.3, 0.61), new THREE.MeshStandardMaterial({ map: billTex, roughness: 0.5, metalness: 0.2, side: THREE.DoubleSide })));
+
+        // ===== balance scale =====
+        const bal = addHero('scale', new THREE.Group());
+        const post = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.07, 1.5, 14), DGOLD); post.position.y = -0.1; bal.add(post);
+        const bbase = new THREE.Mesh(new THREE.CylinderGeometry(0.4, 0.46, 0.08, 28), DGOLD); bbase.position.y = -0.88; bal.add(bbase);
+        const beamG = new THREE.Group(); beamG.position.y = 0.62; bal.add(beamG);
+        beamG.add(new THREE.Mesh(new THREE.BoxGeometry(2.0, 0.07, 0.07), GOLD)); const bknob = new THREE.Mesh(new THREE.SphereGeometry(0.1, 16, 12), GOLD); bknob.position.y = 0.06; beamG.add(bknob);
+        const mkPan = (sx, nChips) => { const g = new THREE.Group(); g.position.set(sx, 0, 0); beamG.add(g);
+          [-0.35, 0.35].forEach((dx) => { const ch = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.012, 0.8, 6), DGOLD); ch.position.set(dx * 0.6, -0.4, 0); ch.rotation.z = -dx * 0.5; g.add(ch); });
+          const pan = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.42, 0.07, 32), GOLD); pan.position.y = -0.82; g.add(pan);
+          for (let i = 0; i < nChips; i++) { const c = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.2, 0.06, 24), i % 2 ? CREAM : GOLD); c.position.set(((i % 2) - 0.5) * 0.12, -0.75 + i * 0.07, 0); g.add(c); }
+          return g; };
+        const panL = mkPan(-0.95, 2), panR = mkPan(0.95, 8);
+
+        // ===== dice =====
+        const pips = { 1: [[0.5, 0.5]], 2: [[0.28, 0.28], [0.72, 0.72]], 3: [[0.26, 0.26], [0.5, 0.5], [0.74, 0.74]], 4: [[0.28, 0.28], [0.72, 0.28], [0.28, 0.72], [0.72, 0.72]], 5: [[0.28, 0.28], [0.72, 0.28], [0.5, 0.5], [0.28, 0.72], [0.72, 0.72]], 6: [[0.3, 0.26], [0.7, 0.26], [0.3, 0.5], [0.7, 0.5], [0.3, 0.74], [0.7, 0.74]] };
+        const dieFace = (n) => std({ map: canvasTex(128, 128, (g, w, h) => { g.fillStyle = '#fffdf6'; g.fillRect(0, 0, w, h); g.strokeStyle = '#e5ab33'; g.lineWidth = 8; g.strokeRect(4, 4, w - 8, h - 8); g.fillStyle = '#0a0a0a'; pips[n].forEach(([x, y]) => { g.beginPath(); g.arc(x * w, y * h, 12, 0, TAU); g.fill(); }); }), roughness: 0.35 });
+        const diceG = addHero('dice', new THREE.Group()); const dice = [];
+        [0, 1].forEach((k) => { const m = new THREE.Mesh(new THREE.BoxGeometry(0.7, 0.7, 0.7), [dieFace(1 + k * 3), dieFace(6 - k), dieFace(2 + k), dieFace(5 - k), dieFace(3 + k * 2), dieFace(4 - k)]); diceG.add(m); dice.push(m); });
+
+        // ===== marquee bulbs (always) + dim drifting chips =====
+        const bulbs = []; const bulbG = new THREE.Group(); scene.add(bulbG);
+        for (let s = 0; s < 2; s++) for (let i = 0; i < 20; i++) { const b = new THREE.Mesh(new THREE.SphereGeometry(0.035, 10, 8), new THREE.MeshBasicMaterial({ color: 0x4a3607 })); b.position.set(s ? 1.17 : -1.17, -2.05 + i * 0.215, 0); bulbG.add(b); bulbs.push({ b, i, s }); }
+        const bgG = new THREE.Group(); scene.add(bgG); const bgc = [];
+        const dimM = std({ color: 0x7a5d1a, roughness: 0.5, metalness: 0.5 }), dimS = std({ color: 0x6e6a5e, roughness: 0.5, metalness: 0.5 });
+        for (let i = 0; i < 16; i++) { const r = 0.16 + hh(i + 1) * 0.26; const m = new THREE.Mesh(new THREE.CylinderGeometry(r, r, r * 0.22, 28), i % 3 === 0 ? dimS : dimM); bgG.add(m);
+          bgc.push({ m, x: (hh(i + 5) - 0.5) * 8.4, y0: hh(i + 9) * 14, z: -3.6 - hh(i + 13) * 5, sp: 0.16 + hh(i + 17) * 0.26, rx: hh(i + 21) * 6, rs: 0.3 + hh(i + 25) * 0.7 }); }
+
+        const WINS = { wheel: [[-1, 9.3], [27.3, 32.6], [65.5, 70.0]], slot: [[9.4, 17.9]], clock: [[20.3, 23.0]], stack: [[34.4, 40.4]], pair: [[40.5, 50.1]], scale: [[52.3, 60.4]], dice: [[60.5, 65.5]], endchip: [[70.0, 75]] };
+        const setVis = (g, s) => { g.visible = s > 0.002; return g.visible; };
+        function renderAt(t) {
+          camera.position.set(Math.sin(t * 0.35) * 0.12, Math.sin(t * 0.27) * 0.07, 6.2); camera.lookAt(0, -0.05, 0);
+          bgc.forEach((c) => { const span = 14; const y = ((c.y0 - t * c.sp) % span + span) % span - span / 2; c.m.position.set(c.x, y, c.z); c.m.rotation.set(c.rx + t * c.rs, t * c.rs * 0.6, 0); });
+          // marquee chase: brighter in the "bright lights" scene
+          const bright = 0.35 + 0.65 * (win(t, 12.9, 13.4) * (1 - win(t, 17.5, 18.0))) + 0.4 * win(t, 65.5, 66);
+          bulbs.forEach(({ b, i, s }) => { const ph = ((i - t * 7) % 6 + 6) % 6; const on = ph < 1.6 ? 1 : 0.15; const k = clamp(on * bright); b.material.color.setRGB(lerp(0.29, 1.0, k), lerp(0.21, 0.83, k), lerp(0.03, 0.42, k)); });
+          // ----- wheel -----
+          const sw = vis(t, WINS.wheel); if (setVis(wheel, sw)) {
+            const wsc = t < 12 ? 0.95 : t < 40 ? 0.78 : 0.84; wheel.scale.setScalar(wsc * (0.2 + 0.8 * sw)); wheel.position.set(0, t < 12 ? -0.12 : 0.1, 0); wheel.rotation.set(1.05, 0, 0.0);
+            wheelSpin.rotation.y = -t * (0.9 + 0.5 * win(t, 5.5, 6.5)); const a = t * 5.2; const r = lerp(0.8, 0.62, win(t, 3, 9));
+            ball.position.set(Math.cos(a) * r, 0.14, Math.sin(a) * r);
+          }
+          // ----- slot -----
+          const ss = vis(t, WINS.slot); if (setVis(slot, ss)) {
+            slot.scale.setScalar(0.66 * (0.2 + 0.8 * ss)); slot.position.set(0, -0.04, 0); slot.rotation.set(0.04, Math.sin(t * 0.7) * 0.22, 0);
+            const stops = [15.2, 15.9, 16.6], step = TAU / 8;
+            reels.forEach((r, i) => { const sp = 9 + i * 1.5; const end = Math.round(sp * stops[i] / step) * step + 0.0; const raw = sp * t; r.rotation.x = t < stops[i] - 0.5 ? raw : t < stops[i] ? lerp(sp * (stops[i] - 0.5), end, win(t, stops[i] - 0.5, stops[i])) : end; if (t < 13.4) r.rotation.x = end; });
+            lever.rotation.x = -0.9 * (win(t, 13.4, 13.8) - win(t, 13.8, 14.4));
+            topBulbs.forEach((b, i) => { const on = (((i - t * 9) % 7) + 7) % 7 < 2 ? 1 : 0.2; b.material.color.setRGB(lerp(0.29, 1, on), lerp(0.21, 0.83, on), lerp(0.03, 0.42, on)); });
+          }
+          // ----- clock -----
+          const sc = vis(t, WINS.clock, 0.35); if (setVis(clock, sc)) {
+            const gone = win(t, 21.7, 22.4); clock.scale.setScalar(0.85 * (0.2 + 0.8 * sc) * (1 - 0.9 * gone)); clock.position.set(0, -0.05 - gone * 0.3, 0); clock.rotation.set(0.04, Math.sin(t * 0.8) * 0.25, Math.sin(t * 0.6) * 0.04 + gone * 0.8);
+            mHand.rotation.z = -t * 9; hHand.rotation.z = -t * 0.75;
+          }
+          // ----- chip stack -----
+          const sk = vis(t, WINS.stack); if (setVis(stack, sk)) {
+            stack.scale.setScalar(1.05 * (0.2 + 0.8 * sk)); stack.position.set(0, 0.28, 0); stack.rotation.set(0.35, t * 0.6, 0);
+            stackChips.forEach((c, i) => { const at = 36.9 + i * 0.35; const k = clamp((t - at) / 0.45); const y = -0.55 + i * 0.145 + (1 - backOut(k)) * 1.6 * (k < 1 ? 1 : 0); c.visible = t >= at; c.position.set(0, y, 0); });
+          }
+          // ----- chip + bill pair -----
+          const sp = vis(t, WINS.pair); const pv = setVis(soloChip, sp); setVis(bill, sp);
+          if (pv) {
+            const sc2 = 0.72 * (0.2 + 0.8 * sp); const hi = win(t, 44.6, 45.4) * (1 - win(t, 46.2, 46.6));
+            soloChip.scale.setScalar(sc2 * (1 - 0.0)); soloChip.position.set(-0.52, -0.05, 0); soloChip.rotation.set(0.3, t * 1.0, 0);
+            bill.scale.setScalar(sc2 * 1.0); bill.position.set(0.52, -0.05 + Math.sin(t * 1.5) * 0.03, 0); bill.rotation.set(0.15 + Math.sin(t * 0.9) * 0.1, Math.sin(t * 0.8) * 0.35, Math.sin(t * 0.6) * 0.06);
+          }
+          // ----- scale -----
+          const sb = vis(t, WINS.scale); if (setVis(bal, sb)) {
+            bal.scale.setScalar(0.68 * (0.3 + 0.7 * sb)); bal.position.set(0, -0.05, 0); bal.rotation.set(0.08, Math.sin(t * 0.45) * 0.2, 0);
+            const tilt = -0.24 * win(t, 55.0, 56.0) + 0.04 * Math.sin(t * 1.3) * (1 - win(t, 55.0, 56.0)); beamG.rotation.z = tilt; panL.rotation.z = -tilt; panR.rotation.z = -tilt;
+          }
+          // ----- dice -----
+          const sd = vis(t, WINS.dice); if (setVis(diceG, sd)) {
+            diceG.scale.setScalar(0.86 * (0.2 + 0.8 * sd)); diceG.position.set(0, -0.05, 0);
+            dice.forEach((d, i) => { const tt = t * (1.2 + i * 0.3); d.position.set(-0.5 + i * 1.0, Math.abs(Math.sin(tt * 1.6 + i)) * 0.35 - 0.1, 0); d.rotation.set(tt * 1.3 + i, tt * 0.9, tt * 0.5); });
+          }
+          // ----- end chip -----
+          const se = vis(t, WINS.endchip); if (setVis(endChip, se)) { endChip.scale.setScalar(0.6 * (0.2 + 0.8 * se)); endChip.position.set(0, 1.15, 0); endChip.rotation.set(0.25, t * 1.1, 0); }
+          renderer.render(scene, camera);
+        }
+        window.addEventListener('hf-seek', (e) => renderAt(e.detail.time));
+        renderAt(window.__hfThreeTime || 0);
+      }
+      window.__hf = window.__hf || {}; window.__hf.buildReady = window.__hf.buildReady || {}; window.__hf.buildReady['casino'] = build();
+    </script>

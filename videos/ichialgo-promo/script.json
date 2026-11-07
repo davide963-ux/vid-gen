@@ -1,0 +1,13 @@
+[
+ {"say":"The forex market never sleeps. But you do.","pause":0.45},
+ {"say":"Meet Ichialgo.","pause":0.4},
+ {"say":"It scans seven major forex pairs, around the clock, five days a week.","pause":0.45},
+ {"say":"It watches for two things. Price touching the E M A fifty. Or the Ichimoku cloud conditions lining up.","show":"It watches for two things. Price touching the EMA 50. Or the Ichimoku cloud conditions lining up.","pause":0.45},
+ {"say":"The moment a setup appears, it prints a signal. Long, or short.","pause":0.45},
+ {"say":"Every signal shows its Ichimoku score, so you can see how many conditions agree.","pause":0.45},
+ {"say":"Need to size the trade? There's a built-in position calculator.","pause":0.4},
+ {"say":"And you can backtest the rules on real candles, yourself.","pause":0.5},
+ {"say":"Stop staring at charts all day.","pause":0.4},
+ {"say":"Ichialgo. Your forex scanner, always on.","pause":0.5},
+ {"say":"Trading involves risk. This is not financial advice.","pause":0.3,"tail":1.1}
+]

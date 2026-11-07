@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080, height=1920" />
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+<style>
+@font-face { font-family: 'Space Grotesk'; font-weight: 700; src: url('assets/fonts/space-grotesk-latin-700-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Space Grotesk'; font-weight: 600; src: url('assets/fonts/space-grotesk-latin-600-normal.woff2') format('woff2'); }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 1080px; height: 1920px; overflow: hidden; background: #0a0a0a; }
+#root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: radial-gradient(closest-side at 50% 42%, #2b1f07, #0a0a0a 85%); font-family: 'Space Grotesk', sans-serif; color: #fffdf6; }
+#stage { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+.t { position: absolute; left: 0; width: 1080px; text-align: center; font-weight: 700; letter-spacing: -0.035em; line-height: 1; white-space: nowrap; }
+.card { position: absolute; left: 120px; top: 930px; width: 840px; height: 500px; border-radius: 50px; background: linear-gradient(135deg,#f6cf72,#d79a22 60%,#b57a12); box-shadow: 0 40px 90px rgba(0,0,0,.7), 0 0 120px rgba(229,171,51,.25), inset 0 2px 0 rgba(255,255,255,.35); transform: rotate(-6deg); }
+.rays { position:absolute; left:-160px; top:760px; width:1400px; height:1400px; border-radius:50%; background: repeating-conic-gradient(from 0deg, rgba(229,171,51,.22) 0deg 9deg, rgba(229,171,51,0) 9deg 24deg); -webkit-mask-image: radial-gradient(closest-side,#000 25%,transparent 100%); }
+.string { position:absolute; left:538px; top:760px; width:6px; height:140px; background:#b98a24; }
+.tag { position:absolute; left:330px; top:880px; width:420px; height:520px; background:#fffdf6; clip-path: polygon(14% 0, 86% 0, 100% 14%, 100% 100%, 0 100%, 0 14%); transform: rotate(-6deg); box-shadow:0 40px 90px rgba(0,0,0,.7); text-align:center; color:#0a0a0a; font-weight:700; filter: drop-shadow(0 0 60px rgba(229,171,51,.45)); }
+.tag .hole { position:absolute; left:50%; top:38px; width:44px; height:44px; margin-left:-22px; border-radius:50%; background:#0a0a0a; }
+.tag .lab2 { position:absolute; left:0; right:0; top:130px; font-size:44px; letter-spacing:.14em; color:#b57a12; }
+.tag .pv { position:absolute; left:0; right:0; top:200px; font-size:150px; letter-spacing:-.04em; }
+.tag .pv b { color:#b57a12; }
+.tag .bar { position:absolute; left:60px; right:60px; top:410px; height:12px; background:#b57a12; }
+.cent { position:absolute; left:700px; top:1290px; width:210px; height:210px; border-radius:50%; background: radial-gradient(circle at 35% 30%,#f6cf72,#d79a22 65%,#a86f12); border:10px solid #a86f12; box-shadow:0 30px 60px rgba(0,0,0,.7), 0 0 60px rgba(229,171,51,.4); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:98px; color:#3b2a05; letter-spacing:-.04em; transform: rotate(10deg); }
+.chipx { position: absolute; left: 64px; top: 130px; width: 120px; height: 90px; border-radius: 18px; background: linear-gradient(135deg,#fbe7a5,#c9921f); border: 2px solid rgba(0,0,0,.25); }
+.num { position: absolute; left: 64px; bottom: 120px; font-weight: 700; font-size: 56px; color: #0a0a0a; letter-spacing: -.02em; }
+.lab { position: absolute; left: 64px; bottom: 56px; font-weight: 600; font-size: 30px; letter-spacing: .14em; color: #3b2a05; }
+.coin { position: absolute; left: 700px; top: 640px; width: 260px; height: 260px; }
+.pill { position: absolute; left: 150px; top: 1610px; width: 780px; padding: 26px 0; border-radius: 100px; background: #e5ab33; color: #0a0a0a; font-weight: 700; font-size: 50px; letter-spacing: .02em; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,.5); }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="1" data-width="1080" data-height="1920">
+  <div id="stage" class="clip" data-start="0" data-duration="1" data-track-index="0">
+    <div class="t" style="top:266px;font-size:92px">YOU DIDN’T KNOW</div>
+    <div class="t" style="top:366px;font-size:72px">WHY ALMOST EVERYTHING</div>
+    <div class="t" style="top:446px;font-size:140px;color:#e5ab33">COSTS $9.99</div>
+    <div class="t" style="top:600px;font-size:96px">INSTEAD OF $10</div>
+    <div class="rays"></div>
+    <div class="string"></div>
+    <div class="tag"><div class="hole"></div><div class="lab2">ONLY</div><div class="pv">$9<b>.99</b></div><div class="bar"></div></div>
+    <div class="cent">1¢</div>
+    <div class="pill">THE ONE-CENT TRICK</div>
+  </div>
+</div>
+<script>
+  window.__timelines = window.__timelines || {};
+  window.__timelines['main'] = gsap.timeline({ paused: true });
+</script>
+</body>
+</html>

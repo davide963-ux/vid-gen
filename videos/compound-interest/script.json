@@ -1,0 +1,7 @@
+[
+ {"say":"What is compound interest?","pause":0.3},
+ {"say":"First, you earn interest on your deposit.","pause":0.3},
+ {"say":"Then, you earn interest on that interest.","pause":0.3},
+ {"say":"Over time, it snowballs.","pause":0.3},
+ {"say":"You didn't know that about money.","pause":0.3,"tail":1.3}
+]

@@ -1,0 +1,18 @@
+[
+ {"say":"You probably didn't know this about money.","pause":0.45},
+ {"say":"A one hundred dollar bill is worth one hundred dollars…","show":"A $100 bill is worth $100…","pause":0.35},
+ {"say":"but it doesn't cost anywhere near one hundred dollars to make.","show":"but it doesn't cost anywhere near $100 to make.","pause":0.5},
+ {"say":"Think about it.","pause":0.5},
+ {"say":"The government isn't putting one hundred dollars worth of material into every one hundred dollar bill.","show":"The government isn't putting $100 worth of material into every $100 bill.","pause":0.45},
+ {"say":"It's basically a specially designed piece of paper with ink, security features, and advanced printing.","pause":0.5},
+ {"say":"What gives it its one hundred dollar value isn't the material it's made from.","show":"What gives it its $100 value isn't the material it's made from.","pause":0.5},
+ {"say":"It's the fact that people, businesses, banks, and governments agree to accept it as one hundred dollars.","show":"It's the fact that people, businesses, banks, and governments agree to accept it as $100.","pause":0.55},
+ {"say":"The same idea works with a one dollar bill.","show":"The same idea works with a $1 bill.","pause":0.4},
+ {"say":"The paper itself has very little value.","pause":0.4},
+ {"say":"But the number printed on it changes what you can buy with it.","pause":0.55},
+ {"say":"So when you're holding a one hundred dollar bill…","show":"So when you're holding a $100 bill…","pause":0.3},
+ {"say":"you're not really holding one hundred dollars worth of paper.","show":"you're not really holding $100 worth of paper.","pause":0.5},
+ {"say":"You're holding something that society has agreed is worth one hundred dollars.","show":"You're holding something that society has agreed is worth $100.","pause":0.55},
+ {"say":"And that's one of the strangest things about money.","pause":0.55},
+ {"say":"You didn't know that about money.","pause":0.3,"tail":1.6}
+]

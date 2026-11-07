@@ -1,0 +1,65 @@
+{
+  "total": 20.0,
+  "lines": [
+    {
+      "i": 1,
+      "file": "assets/voice/01.wav",
+      "text": "Why does a bank pay you interest?",
+      "tts": "Why does a bank pay you interest?",
+      "start": 0.3,
+      "dur": 1.941,
+      "end": 2.241,
+      "pause": 0.45
+    },
+    {
+      "i": 2,
+      "file": "assets/voice/02.wav",
+      "text": "Because your deposit isn't just sitting there.",
+      "tts": "Because your deposit isn't just sitting there.",
+      "start": 2.691,
+      "dur": 2.453,
+      "end": 5.145,
+      "pause": 0.45
+    },
+    {
+      "i": 3,
+      "file": "assets/voice/03.wav",
+      "text": "The bank lends it to other people and businesses.",
+      "tts": "The bank lends it to other people and businesses.",
+      "start": 5.595,
+      "dur": 2.731,
+      "end": 8.325,
+      "pause": 0.45
+    },
+    {
+      "i": 4,
+      "file": "assets/voice/04.wav",
+      "text": "They pay the bank interest on that loan.",
+      "tts": "They pay the bank interest on that loan.",
+      "start": 8.775,
+      "dur": 2.432,
+      "end": 11.207,
+      "pause": 0.45
+    },
+    {
+      "i": 5,
+      "file": "assets/voice/05.wav",
+      "text": "The bank keeps the difference, and shares a part with you.",
+      "tts": "The bank keeps the difference, and shares a part with you.",
+      "start": 11.657,
+      "dur": 3.093,
+      "end": 14.751,
+      "pause": 0.5
+    },
+    {
+      "i": 6,
+      "file": "assets/voice/06.wav",
+      "text": "You didn't know that about money.",
+      "tts": "You didn't know that about money.",
+      "start": 15.251,
+      "dur": 1.792,
+      "end": 17.043,
+      "pause": 0.3
+    }
+  ]
+}

@@ -1,0 +1,513 @@
+{
+  "files": [
+    {
+      "file": "ACaslonPro-Regular.otf",
+      "family": "Adobe Caslon Pro",
+      "rawFamily": "Adobe Caslon Pro",
+      "subfamily": "Regular",
+      "postscript": "ACaslonPro-Regular",
+      "weight": 400,
+      "style": "normal",
+      "variationAxes": [],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "AmericanaBTWXXBold-Bold.ttf",
+      "family": "AmericanaBTWXX-Bold",
+      "rawFamily": "AmericanaBTWXX-Bold",
+      "subfamily": "Bold",
+      "postscript": "AmericanaBTWXXBold-Bold",
+      "weight": 700,
+      "style": "normal",
+      "variationAxes": [],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "AmericanaBTWXXBold-Bold.woff",
+      "family": "AmericanaBTWXX-Bold",
+      "rawFamily": "AmericanaBTWXX-Bold",
+      "subfamily": "Bold",
+      "postscript": "AmericanaBTWXXBold-Bold",
+      "weight": 700,
+      "style": "normal",
+      "variationAxes": [],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "AmericanaBTWXXBold-Bold.woff2",
+      "family": "AmericanaBTWXX-Bold",
+      "rawFamily": "AmericanaBTWXX-Bold",
+      "subfamily": "Bold",
+      "postscript": "AmericanaBTWXXBold-Bold",
+      "weight": 700,
+      "style": "normal",
+      "variationAxes": [],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "Casta-Thin.otf",
+      "family": "Casta",
+      "rawFamily": "Casta Thin",
+      "subfamily": "Regular",
+      "postscript": "Casta-Thin",
+      "weight": 100,
+      "style": "normal",
+      "variationAxes": [],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "Casta-ThinSlanted.otf",
+      "family": "Casta Thin Slant",
+      "rawFamily": "Casta Thin Slant",
+      "subfamily": "Regular",
+      "postscript": "Casta-ThinSlanted",
+      "weight": 100,
+      "style": "normal",
+      "variationAxes": [],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "Chistodella-Regular.otf",
+      "family": "Chistodella",
+      "rawFamily": "Chistodella",
+      "subfamily": "Regular",
+      "postscript": "Chistodella-Regular",
+      "weight": 400,
+      "style": "normal",
+      "variationAxes": [],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "Chistodella-Regular.ttf",
+      "family": "Chistodella",
+      "rawFamily": "Chistodella",
+      "subfamily": "Regular",
+      "postscript": "Chistodella-Regular",
+      "weight": 400,
+      "style": "normal",
+      "variationAxes": [],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "Chistodella-Regular.woff",
+      "family": "Chistodella",
+      "rawFamily": "Chistodella",
+      "subfamily": "Regular",
+      "postscript": "Chistodella-Regular",
+      "weight": 400,
+      "style": "normal",
+      "variationAxes": [],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "Chistodella-Regular.woff2",
+      "family": "Chistodella",
+      "rawFamily": "Chistodella",
+      "subfamily": "Regular",
+      "postscript": "Chistodella-Regular",
+      "weight": 400,
+      "style": "normal",
+      "variationAxes": [],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "fa-brands-400.ttf",
+      "family": "fa-brands-400",
+      "rawFamily": "fa-brands-400",
+      "subfamily": "Regular",
+      "postscript": "fa-brands-400",
+      "weight": 400,
+      "style": "normal",
+      "variationAxes": [],
+      "identified": true,
+      "isIcon": true
+    },
+    {
+      "file": "fa-brands-400.woff",
+      "family": "fa-brands-400",
+      "rawFamily": "fa-brands-400",
+      "subfamily": "Regular",
+      "postscript": "fa-brands-400",
+      "weight": 400,
+      "style": "normal",
+      "variationAxes": [],
+      "identified": true,
+      "isIcon": true
+    },
+    {
+      "file": "fa-brands-400.woff2",
+      "family": "fa-brands-400",
+      "rawFamily": "fa-brands-400",
+      "subfamily": "Regular",
+      "postscript": "fa-brands-400",
+      "weight": 400,
+      "style": "normal",
+      "variationAxes": [],
+      "identified": true,
+      "isIcon": true
+    },
+    {
+      "file": "fa-regular-400.ttf",
+      "family": "Font Awesome 5 Free",
+      "rawFamily": "Font Awesome 5 Free Regular",
+      "subfamily": "Regular",
+      "postscript": "FontAwesome5Free-Regular",
+      "weight": 400,
+      "style": "normal",
+      "variationAxes": [],
+      "identified": true,
+      "isIcon": true
+    },
+    {
+      "file": "fa-regular-400.woff",
+      "family": "Font Awesome 5 Free",
+      "rawFamily": "Font Awesome 5 Free Regular",
+      "subfamily": "Regular",
+      "postscript": "FontAwesome5Free-Regular",
+      "weight": 400,
+      "style": "normal",
+      "variationAxes": [],
+      "identified": true,
+      "isIcon": true
+    },
+    {
+      "file": "fa-regular-400.woff2",
+      "family": "Font Awesome 5 Free",
+      "rawFamily": "Font Awesome 5 Free Regular",
+      "subfamily": "Regular",
+      "postscript": "FontAwesome5Free-Regular",
+      "weight": 400,
+      "style": "normal",
+      "variationAxes": [],
+      "identified": true,
+      "isIcon": true
+    },
+    {
+      "file": "fa-solid-900.ttf",
+      "family": "Font Awesome 5 Free Solid",
+      "rawFamily": "Font Awesome 5 Free Solid",
+      "subfamily": "Solid",
+      "postscript": "FontAwesome5Free-Solid",
+      "weight": 900,
+      "style": "normal",
+      "variationAxes": [],
+      "identified": true,
+      "isIcon": true
+    },
+    {
+      "file": "fa-solid-900.woff",
+      "family": "Font Awesome 5 Free Solid",
+      "rawFamily": "Font Awesome 5 Free Solid",
+      "subfamily": "Solid",
+      "postscript": "FontAwesome5Free-Solid",
+      "weight": 900,
+      "style": "normal",
+      "variationAxes": [],
+      "identified": true,
+      "isIcon": true
+    },
+    {
+      "file": "fa-solid-900.woff2",
+      "family": "Font Awesome 5 Free Solid",
+      "rawFamily": "Font Awesome 5 Free Solid",
+      "subfamily": "Solid",
+      "postscript": "FontAwesome5Free-Solid",
+      "weight": 900,
+      "style": "normal",
+      "variationAxes": [],
+      "identified": true,
+      "isIcon": true
+    },
+    {
+      "file": "GraphikMedium.otf",
+      "family": "Graphik",
+      "rawFamily": "Graphik Medium",
+      "subfamily": "Regular",
+      "postscript": "Graphik-Medium",
+      "weight": 500,
+      "style": "normal",
+      "variationAxes": [],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "GraphikMediumItalic.otf",
+      "family": "Graphik",
+      "rawFamily": "Graphik Medium",
+      "subfamily": "Italic",
+      "postscript": "Graphik-MediumItalic",
+      "weight": 500,
+      "style": "italic",
+      "variationAxes": [],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "GraphikRegular.otf",
+      "family": "Graphik",
+      "rawFamily": "Graphik Regular",
+      "subfamily": "Regular",
+      "postscript": "Graphik-Regular",
+      "weight": 400,
+      "style": "normal",
+      "variationAxes": [],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "GraphikRegularItalic.otf",
+      "family": "Graphik",
+      "rawFamily": "Graphik Regular",
+      "subfamily": "Italic",
+      "postscript": "Graphik-RegularItalic",
+      "weight": 400,
+      "style": "italic",
+      "variationAxes": [],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "GraphikSemibold.otf",
+      "family": "Graphik",
+      "rawFamily": "Graphik Semibold",
+      "subfamily": "Regular",
+      "postscript": "Graphik-Semibold",
+      "weight": 600,
+      "style": "normal",
+      "variationAxes": [],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "GraphikSemiboldItalic.otf",
+      "family": "Graphik",
+      "rawFamily": "Graphik Semibold",
+      "subfamily": "Italic",
+      "postscript": "Graphik-SemiboldItalic",
+      "weight": 600,
+      "style": "italic",
+      "variationAxes": [],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "Seasona-Book.woff",
+      "family": "Futura Bk BT",
+      "rawFamily": "Futura Bk BT",
+      "subfamily": "Book",
+      "postscript": "FuturaBT-Book",
+      "weight": 400,
+      "style": "normal",
+      "variationAxes": [],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "Seasona-Book.woff2",
+      "family": "Futura Bk BT",
+      "rawFamily": "Futura Bk BT",
+      "subfamily": "Book",
+      "postscript": "FuturaBT-Book",
+      "weight": 400,
+      "style": "normal",
+      "variationAxes": [],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "Seasona-Medium.ttf",
+      "family": "Futura Md BT",
+      "rawFamily": "Futura Md BT",
+      "subfamily": "Medium",
+      "postscript": "FuturaBT-Medium",
+      "weight": 400,
+      "style": "normal",
+      "variationAxes": [],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "Seasona-Medium.woff",
+      "family": "Futura Md BT",
+      "rawFamily": "Futura Md BT",
+      "subfamily": "Medium",
+      "postscript": "FuturaBT-Medium",
+      "weight": 400,
+      "style": "normal",
+      "variationAxes": [],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "Seasona-Medium.woff2",
+      "family": "Futura Md BT",
+      "rawFamily": "Futura Md BT",
+      "subfamily": "Medium",
+      "postscript": "FuturaBT-Medium",
+      "weight": 400,
+      "style": "normal",
+      "variationAxes": [],
+      "identified": true,
+      "isIcon": false
+    }
+  ],
+  "families": [
+    {
+      "family": "Adobe Caslon Pro",
+      "weights": [
+        400
+      ],
+      "variable": false,
+      "fileCount": 1,
+      "files": [
+        "ACaslonPro-Regular.otf"
+      ]
+    },
+    {
+      "family": "AmericanaBTWXX-Bold",
+      "weights": [
+        700
+      ],
+      "variable": false,
+      "fileCount": 3,
+      "files": [
+        "AmericanaBTWXXBold-Bold.ttf",
+        "AmericanaBTWXXBold-Bold.woff",
+        "AmericanaBTWXXBold-Bold.woff2"
+      ]
+    },
+    {
+      "family": "Casta",
+      "weights": [
+        100
+      ],
+      "variable": false,
+      "fileCount": 1,
+      "files": [
+        "Casta-Thin.otf"
+      ]
+    },
+    {
+      "family": "Casta Thin Slant",
+      "weights": [
+        100
+      ],
+      "variable": false,
+      "fileCount": 1,
+      "files": [
+        "Casta-ThinSlanted.otf"
+      ]
+    },
+    {
+      "family": "Chistodella",
+      "weights": [
+        400
+      ],
+      "variable": false,
+      "fileCount": 4,
+      "files": [
+        "Chistodella-Regular.otf",
+        "Chistodella-Regular.ttf",
+        "Chistodella-Regular.woff",
+        "Chistodella-Regular.woff2"
+      ]
+    },
+    {
+      "family": "fa-brands-400",
+      "weights": [
+        400
+      ],
+      "variable": false,
+      "fileCount": 3,
+      "files": [
+        "fa-brands-400.ttf",
+        "fa-brands-400.woff",
+        "fa-brands-400.woff2"
+      ]
+    },
+    {
+      "family": "Font Awesome 5 Free",
+      "weights": [
+        400
+      ],
+      "variable": false,
+      "fileCount": 3,
+      "files": [
+        "fa-regular-400.ttf",
+        "fa-regular-400.woff",
+        "fa-regular-400.woff2"
+      ]
+    },
+    {
+      "family": "Font Awesome 5 Free Solid",
+      "weights": [
+        900
+      ],
+      "variable": false,
+      "fileCount": 3,
+      "files": [
+        "fa-solid-900.ttf",
+        "fa-solid-900.woff",
+        "fa-solid-900.woff2"
+      ]
+    },
+    {
+      "family": "Futura Bk BT",
+      "weights": [
+        400
+      ],
+      "variable": false,
+      "fileCount": 2,
+      "files": [
+        "Seasona-Book.woff",
+        "Seasona-Book.woff2"
+      ]
+    },
+    {
+      "family": "Futura Md BT",
+      "weights": [
+        400
+      ],
+      "variable": false,
+      "fileCount": 3,
+      "files": [
+        "Seasona-Medium.ttf",
+        "Seasona-Medium.woff",
+        "Seasona-Medium.woff2"
+      ]
+    },
+    {
+      "family": "Graphik",
+      "weights": [
+        400,
+        500,
+        600
+      ],
+      "variable": false,
+      "fileCount": 6,
+      "files": [
+        "GraphikMedium.otf",
+        "GraphikMediumItalic.otf",
+        "GraphikRegular.otf",
+        "GraphikRegularItalic.otf",
+        "GraphikSemibold.otf",
+        "GraphikSemiboldItalic.otf"
+      ]
+    }
+  ],
+  "unidentified": [],
+  "meta": {
+    "generatedAt": "2026-10-08T21:46:34.010Z",
+    "tool": "fontkit"
+  }
+}

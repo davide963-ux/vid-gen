@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: #0a0a0f; }
+      #root { position: relative; width: 1920px; height: 1080px; font-family: Inter, ui-sans-serif, system-ui, sans-serif; color: #f4f4f5; overflow: hidden;
+        background: radial-gradient(circle at 30% 30%, #1d1b4b 0%, #0a0a0f 60%); }
+      .orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.55; }
+      #orb1 { width: 700px; height: 700px; background: #6366f1; left: -150px; top: -100px; }
+      #orb2 { width: 600px; height: 600px; background: #ec4899; right: -100px; bottom: -150px; }
+      .scene { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+      .big { font-size: 150px; font-weight: 800; letter-spacing: -0.04em; line-height: 1; }
+      .mid { font-size: 84px; font-weight: 700; letter-spacing: -0.03em; }
+      .sub { font-size: 40px; font-weight: 400; color: #a1a1aa; margin-top: 32px; letter-spacing: 0.02em; }
+      .grad { background: linear-gradient(90deg, #818cf8, #f472b6); -webkit-background-clip: text; background-clip: text; color: transparent; }
+      #bar { position: absolute; left: 0; bottom: 0; height: 8px; width: 1920px; background: linear-gradient(90deg, #818cf8, #f472b6); transform-origin: left; }
+      .word { display: inline-block; margin: 0 18px; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="15" data-width="1920" data-height="1080">
+      <div id="orb1" class="orb"></div>
+      <div id="orb2" class="orb"></div>
+
+      <div id="s1" class="scene clip" data-start="0" data-duration="5" data-track-index="1">
+        <div class="big grad" id="t1">Hello, world.</div>
+        <div class="sub" id="u1">A test intro made with Hyperframes</div>
+      </div>
+
+      <div id="s2" class="scene clip" data-start="5" data-duration="5" data-track-index="1">
+        <div class="mid"><span class="word">Record.</span><span class="word">Edit.</span><span class="word grad">Ship.</span></div>
+        <div class="sub" id="u2">Tella · ffmpeg · Hyperframes · Epidemic Sound</div>
+      </div>
+
+      <div id="s3" class="scene clip" data-start="10" data-duration="5" data-track-index="1">
+        <div class="big" id="t3">Let's make <span class="grad">something.</span></div>
+      </div>
+
+      <div id="bar"></div>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo("#orb1", { x: 0, y: 0 }, { x: 300, y: 200, duration: 15, ease: "none" }, 0);
+      tl.fromTo("#orb2", { x: 0, y: 0 }, { x: -300, y: -150, duration: 15, ease: "none" }, 0);
+      tl.fromTo("#bar", { scaleX: 0 }, { scaleX: 1, duration: 15, ease: "none" }, 0);
+
+      // Scene 1
+      tl.fromTo("#t1", { opacity: 0, y: 60, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.9, ease: "power3.out" }, 0.3);
+      tl.fromTo("#u1", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.7, ease: "power2.out" }, 1.2);
+      tl.to("#s1", { opacity: 0, duration: 0.5, ease: "power1.in" }, 4.5);
+
+      // Scene 2
+      tl.fromTo("#s2", { opacity: 0 }, { opacity: 1, duration: 0.01 }, 5);
+      tl.fromTo("#s2 .word", { opacity: 0, y: 80 }, { opacity: 1, y: 0, duration: 0.7, stagger: 0.45, ease: "back.out(1.6)" }, 5.3);
+      tl.fromTo("#u2", { opacity: 0 }, { opacity: 1, duration: 0.8 }, 7.2);
+      tl.to("#s2", { opacity: 0, duration: 0.5, ease: "power1.in" }, 9.5);
+
+      // Scene 3
+      tl.fromTo("#s3", { opacity: 0 }, { opacity: 1, duration: 0.01 }, 10);
+      tl.fromTo("#t3", { opacity: 0, scale: 1.12 }, { opacity: 1, scale: 1, duration: 1.1, ease: "power3.out" }, 10.3);
+      tl.to("#s3", { opacity: 0, duration: 0.8, ease: "power1.in" }, 14.2);
+
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

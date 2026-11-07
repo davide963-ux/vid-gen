@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
+    <style>
+      /* THEME: change these six values to restyle the whole video */
+      :root { --bg: #0B1220; --ink: #F1F3F8; --accent: #E9B949; --panel: #131D33; --line: #2A3A5C; --muted: #8C97AD; --good: #67E3AE; --bad: #F0616D; --on-accent: #0B1220; --dots: rgba(233,185,73,0.10); --glow: rgba(233,185,73,0.12); }
+      :root { --bg: #0a0a0a; --ink: #fffdf6; --accent: #e5ab33; --panel: #17130a; --line: #4a3607; --muted: #b5ac96; --good: #e5ab33; --bad: #e5ab33; --on-accent: #0a0a0a; --dots: rgba(229,171,51,0.06); --glow: rgba(229,171,51,0.10); }
+
+.uc { position: absolute; opacity: 0; background: #17130a; border: 2px solid #4a3607; border-radius: 36px; box-shadow: 0 26px 60px rgba(0,0,0,.55); color: #fffdf6; }
+.uc.gold { background: #e5ab33; border-color: #f3c866; color: #0a0a0a; }
+.uc img { position: absolute; }
+.lab { position: absolute; font-weight: 600; font-size: 30px; letter-spacing: .14em; text-transform: uppercase; color: #b5ac96; white-space: nowrap; }
+.gold .lab { color: #3b2a05; }
+.val { position: absolute; font-weight: 700; letter-spacing: -.03em; white-space: nowrap; line-height: 1; }
+.ccard { background: linear-gradient(135deg,#f6cf72,#d79a22 60%,#b57a12); border-radius: 46px; box-shadow: 0 30px 70px rgba(0,0,0,.6), inset 0 2px 0 rgba(255,255,255,.35); color: #0a0a0a; }
+.ccard .chipx { position: absolute; width: 112px; height: 84px; border-radius: 16px; background: linear-gradient(135deg,#fbe7a5,#c9921f); border: 2px solid rgba(0,0,0,.25); }
+.tagc { position: absolute; padding: 12px 30px; border-radius: 100px; font-weight: 700; font-size: 34px; letter-spacing: .06em; white-space: nowrap; background: rgba(229,171,51,.12); border: 2px solid rgba(229,171,51,.55); color: #e5ab33; }
+.tagc.fill { background: #e5ab33; color: #0a0a0a; border-color: #f3c866; }
+.photo { position: absolute; opacity: 0; border-radius: 22px; overflow: hidden; border: 3px solid #e5ab33; box-shadow: 0 30px 80px rgba(0,0,0,.65), 0 0 110px rgba(229,171,51,.28); background: #0a0a0a; }
+.photo img { position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; }
+.shine { position: absolute; top: -20%; left: 0; width: 38%; height: 140%; background: linear-gradient(100deg, transparent, rgba(255,246,214,.55), transparent); transform: skewX(-18deg); opacity: .8; }
+.frame { position: absolute; opacity: 0; border-radius: 28px; overflow: hidden; border: 3px solid #e5ab33; box-shadow: 0 30px 80px rgba(0,0,0,.65), 0 0 90px rgba(229,171,51,.22); background: #0a0a0a; }
+.frame img { position: absolute; left: 0; top: 0; width: 100%; }
+.rays { position: absolute; opacity: 0; border-radius: 50%; background: repeating-conic-gradient(from 0deg, rgba(229,171,51,.30) 0deg 9deg, rgba(229,171,51,0) 9deg 24deg); -webkit-mask-image: radial-gradient(closest-side, #000 25%, transparent 100%); mask-image: radial-gradient(closest-side, #000 25%, transparent 100%); }
+.dg { position: absolute; width: 56px; height: 84px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 54px; border: 3px solid #4a3607; background: #17130a; color: #fffdf6; }
+.dg.one { background: #e5ab33; border-color: #f3c866; color: #0a0a0a; }
+.loaf { position: absolute; opacity: 0; background: linear-gradient(180deg,#e9b650,#a86f12); border-radius: 130px 130px 70px 70px; box-shadow: 0 24px 50px rgba(0,0,0,.55), inset 0 -14px 0 rgba(0,0,0,.18); }
+.loaf i { position: absolute; top: 40px; width: 20px; height: 84px; border-radius: 12px; background: rgba(60,35,4,.45); transform: rotate(24deg); }
+.stamp { position: absolute; opacity: 0; border: 8px solid #e5ab33; border-radius: 22px; color: #e5ab33; font-weight: 700; letter-spacing: .06em; text-align: center; background: rgba(10,10,10,.72); white-space: nowrap; }
+.pt { position: absolute; border-radius: 50%; background: #e5ab33; }
+.ring2 { position: absolute; opacity: 0; border-radius: 50%; border: 6px solid #e5ab33; }
+#flash { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; pointer-events: none; opacity: 0; background: radial-gradient(closest-side at 50% 50%, rgba(255,226,140,.85), rgba(229,171,51,.25) 70%, rgba(229,171,51,0)); }
+
+#stage { isolation: isolate; }
+#gl { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; display: block; z-index: -1; }
+.ptag { position: absolute; opacity: 0; width: 260px; height: 330px; background: #fffdf6; clip-path: polygon(14% 0, 86% 0, 100% 14%, 100% 100%, 0 100%, 0 14%); box-shadow: 0 20px 40px rgba(0,0,0,.5); color: #0a0a0a; font-weight: 700; text-align: center; }
+.ptag .hole { position: absolute; left: 50%; top: 22px; width: 30px; height: 30px; margin-left: -15px; border-radius: 50%; background: #0a0a0a; }
+.ptag .pv { position: absolute; left: 0; right: 0; top: 130px; font-size: 62px; letter-spacing: -.03em; }
+.ptag .pv b { color: #b57a12; }
+
+      @font-face { font-family: 'Space Grotesk'; font-weight: 500; src: url('assets/fonts/space-grotesk-latin-500-normal.woff2') format('woff2'); }
+      @font-face { font-family: 'Space Grotesk'; font-weight: 600; src: url('assets/fonts/space-grotesk-latin-600-normal.woff2') format('woff2'); }
+      @font-face { font-family: 'Space Grotesk'; font-weight: 700; src: url('assets/fonts/space-grotesk-latin-700-normal.woff2') format('woff2'); }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background-color: var(--bg); background-image: radial-gradient(var(--dots) 2.5px, transparent 2.5px); background-size: 60px 60px; font-family: 'Space Grotesk', sans-serif; color: var(--ink); }
+      #stage { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; }
+      #glow { position: absolute; left: -200px; top: -300px; width: 1480px; height: 1100px; pointer-events: none; background: radial-gradient(closest-side, var(--glow), transparent); }
+      /* SAFE AREA (1080x1920): keep content at x 60..960 and y 120..1600. Right ~120px and bottom ~320px belong to TikTok's UI. */
+      .abs { position: absolute; opacity: 0; }
+      .sc { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; }
+      .sp { position: absolute; opacity: 0; will-change: transform; }
+      .lot { position: absolute; opacity: 0; }
+      .big { font-weight: 700; letter-spacing: -0.035em; line-height: 1.02; text-align: center; white-space: nowrap; }
+      .ac { color: var(--accent); } .gn { color: var(--good); } .rd { color: var(--bad); }
+      .tag { font-weight: 600; font-size: 30px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); text-align: center; white-space: nowrap; }
+      .chip { display: inline-block; padding: 12px 30px; border-radius: 100px; background: rgba(233,185,73,0.10); border: 1.5px solid rgba(233,185,73,0.45); color: var(--accent); font-weight: 600; font-size: 28px; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; }
+      .card { background: var(--panel); border: 1.5px solid var(--line); border-radius: 28px; box-shadow: 0 24px 60px rgba(0,0,0,0.45); }
+      .strike { position: absolute; height: 10px; border-radius: 6px; background: var(--bad); transform-origin: left center; transform: scaleX(0); }
+      .mw { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: 0.14em; margin-bottom: -0.14em; }
+      .mi { display: inline-block; will-change: transform; }
+      #prog { position: absolute; left: 0; bottom: 0; width: 1080px; height: 6px; background: var(--accent); transform-origin: left center; }
+      #caps { position: absolute; left: 0; top: 1392px; width: 1080px; height: 190px; }
+      .cg { position: absolute; left: 90px; top: 0; width: 900px; text-align: center; opacity: 0; }
+      .cg .pill { display: inline-block; padding: 14px 30px 16px; border-radius: 34px; background: var(--panel); border: 1.5px solid var(--line); box-shadow: 0 8px 30px rgba(0,0,0,0.5); font-weight: 600; font-size: 50px; line-height: 1.2; letter-spacing: -0.01em; color: var(--ink); }
+      .cw { display: inline-block; margin: 0 4px; padding: 0 10px; border-radius: 12px; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="72.58" data-width="1080" data-height="1920">
+      <div id="stage" class="clip" data-start="0" data-duration="72.58" data-track-index="0">
+        <div id="glow"></div>
+        <div id="dyn"></div>
+        <canvas id="gl" width="1080" height="1920"></canvas>
+
+        <div id="caps"></div>
+        <div id="prog"></div>
+      </div>
+    </div>
+
+    <script>
+      const WORDS = [{"w":"What","s":0,"e":0.28,"line":1},{"w":"if","s":0.28,"e":0.44,"line":1},{"w":"I","s":0.44,"e":0.62,"line":1},{"w":"told","s":0.62,"e":0.94,"line":1},{"w":"you","s":0.94,"e":1.28,"line":1},{"w":"that","s":1.28,"e":1.5,"line":1},{"w":"stores","s":1.5,"e":1.98,"line":1},{"w":"can","s":1.98,"e":2.34,"line":1},{"w":"trick","s":2.34,"e":2.66,"line":1},{"w":"your","s":2.66,"e":2.92,"line":1},{"w":"brain","s":2.92,"e":3.32,"line":1},{"w":"with","s":3.32,"e":3.58,"line":1},{"w":"just","s":3.58,"e":3.98,"line":1},{"w":"one","s":3.98,"e":4.44,"line":1},{"w":"cent?","s":4.44,"e":4.96,"line":1},{"w":"Sounds","s":6.4,"e":6.48,"line":2},{"w":"ridiculous,","s":6.4,"e":6.98,"line":2},{"w":"right?","s":7.22,"e":7.5,"line":2},{"w":"But","s":8.04,"e":8.22,"line":3},{"w":"there's","s":8.22,"e":8.72,"line":3},{"w":"a","s":8.72,"e":8.86,"line":3},{"w":"reason","s":8.86,"e":9.22,"line":3},{"w":"so","s":9.22,"e":9.6,"line":3},{"w":"many","s":9.6,"e":9.82,"line":3},{"w":"prices","s":9.82,"e":10.24,"line":3},{"w":"end","s":10.24,"e":10.7,"line":3},{"w":"in","s":10.7,"e":11,"line":3},{"w":"99.","s":11,"e":11.48,"line":3},{"w":"Imagine","s":12.36,"e":12.72,"line":4},{"w":"you're","s":12.72,"e":13,"line":4},{"w":"shopping","s":13,"e":13.42,"line":4},{"w":"and","s":13.42,"e":13.74,"line":4},{"w":"see","s":13.74,"e":13.98,"line":4},{"w":"a","s":13.98,"e":14.14,"line":4},{"w":"shirt","s":14.14,"e":14.34,"line":4},{"w":"for","s":14.34,"e":14.6,"line":4},{"w":"$20.","s":14.6,"e":15.06,"line":4},{"w":"Now","s":15.86,"e":16.28,"line":5},{"w":"imagine","s":16.5,"e":16.94,"line":5},{"w":"the","s":16.94,"e":17.2,"line":5},{"w":"same","s":17.2,"e":17.58,"line":5},{"w":"shirt","s":17.58,"e":17.94,"line":5},{"w":"costs","s":17.94,"e":18.38,"line":5},{"w":"$19.99.","s":18.38,"e":21.3,"line":5},{"w":"The","s":21.3,"e":21.7,"line":6},{"w":"difference?","s":21.7,"e":22.04,"line":6},{"w":"Just","s":22.62,"e":22.94,"line":7},{"w":"one","s":22.94,"e":23.36,"line":7},{"w":"cent.","s":23.36,"e":23.78,"line":7},{"w":"But","s":24.32,"e":24.44,"line":8},{"w":"here's","s":24.44,"e":24.82,"line":8},{"w":"where","s":24.82,"e":25,"line":8},{"w":"your","s":25,"e":25.18,"line":8},{"w":"brain","s":25.18,"e":25.56,"line":8},{"w":"plays","s":25.56,"e":25.86,"line":8},{"w":"tricks","s":25.86,"e":26.24,"line":8},{"w":"on","s":26.24,"e":26.52,"line":8},{"w":"you.","s":26.52,"e":26.78,"line":8},{"w":"When","s":26.78,"e":27.36,"line":9},{"w":"you","s":27.36,"e":27.54,"line":9},{"w":"see","s":27.54,"e":27.78,"line":9},{"w":"$19.99,","s":27.78,"e":30.06,"line":9},{"w":"you","s":30.06,"e":30.52,"line":9},{"w":"tend","s":30.52,"e":30.74,"line":9},{"w":"to","s":30.74,"e":31,"line":9},{"w":"focus","s":31,"e":31.22,"line":9},{"w":"on","s":31.22,"e":31.52,"line":9},{"w":"the","s":31.52,"e":31.66,"line":9},{"w":"first","s":31.66,"e":31.94,"line":9},{"w":"number.","s":31.94,"e":32.36,"line":9},{"w":"You","s":32.94,"e":33.02,"line":10},{"w":"see","s":32.96,"e":33.24,"line":10},{"w":"19","s":33.24,"e":34.06,"line":10},{"w":"instead","s":34.06,"e":34.78,"line":10},{"w":"of","s":34.78,"e":34.94,"line":10},{"w":"20.","s":34.94,"e":35.32,"line":10},{"w":"And","s":35.9,"e":36.04,"line":11},{"w":"suddenly,","s":36.04,"e":36.52,"line":11},{"w":"the","s":36.78,"e":36.98,"line":11},{"w":"price","s":36.98,"e":37.24,"line":11},{"w":"can","s":37.24,"e":37.5,"line":11},{"w":"feel","s":37.5,"e":37.74,"line":11},{"w":"much","s":37.74,"e":38.1,"line":11},{"w":"cheaper","s":38.1,"e":38.52,"line":11},{"w":"than","s":38.52,"e":38.82,"line":11},{"w":"it","s":38.82,"e":38.94,"line":11},{"w":"actually","s":38.94,"e":39.28,"line":11},{"w":"is.","s":39.28,"e":39.78,"line":11},{"w":"This","s":40.94,"e":41.08,"line":12},{"w":"is","s":41.08,"e":41.34,"line":12},{"w":"called","s":41.34,"e":41.72,"line":12},{"w":"psychological","s":41.72,"e":42.42,"line":12},{"w":"pricing.","s":42.42,"e":43.26,"line":12},{"w":"Businesses","s":44.06,"e":44.44,"line":13},{"w":"have","s":44.44,"e":44.58,"line":13},{"w":"used","s":44.58,"e":44.84,"line":13},{"w":"this","s":44.84,"e":45.1,"line":13},{"w":"strategy","s":45.1,"e":45.52,"line":13},{"w":"for","s":45.52,"e":45.86,"line":13},{"w":"decades","s":45.86,"e":46.36,"line":13},{"w":"because","s":46.36,"e":47.06,"line":13},{"w":"it","s":47.06,"e":47.24,"line":13},{"w":"can","s":47.24,"e":47.42,"line":13},{"w":"influence","s":47.42,"e":47.98,"line":13},{"w":"what","s":47.98,"e":48.28,"line":13},{"w":"customers","s":48.28,"e":48.72,"line":13},{"w":"buy.","s":48.72,"e":49.16,"line":13},{"w":"And","s":50.32,"e":50.44,"line":14},{"w":"here's","s":50.44,"e":50.76,"line":14},{"w":"the","s":50.76,"e":50.9,"line":14},{"w":"funny","s":50.9,"e":51.2,"line":14},{"w":"part.","s":51.2,"e":51.58,"line":14},{"w":"Even","s":52.16,"e":52.44,"line":15},{"w":"when","s":52.44,"e":52.66,"line":15},{"w":"you","s":52.66,"e":52.84,"line":15},{"w":"know","s":52.84,"e":53.18,"line":15},{"w":"the","s":53.18,"e":53.4,"line":15},{"w":"trick,","s":53.4,"e":53.7,"line":15},{"w":"it","s":53.96,"e":54.14,"line":15},{"w":"can","s":54.14,"e":54.36,"line":15},{"w":"still","s":54.36,"e":54.74,"line":15},{"w":"work","s":54.74,"e":55.06,"line":15},{"w":"on","s":55.06,"e":55.32,"line":15},{"w":"you.","s":55.32,"e":55.52,"line":15},{"w":"So","s":55.52,"e":56.14,"line":16},{"w":"next","s":56.14,"e":56.6,"line":16},{"w":"time","s":56.6,"e":56.9,"line":16},{"w":"you","s":56.9,"e":57.08,"line":16},{"w":"see","s":57.08,"e":57.3,"line":16},{"w":"something","s":57.3,"e":57.64,"line":16},{"w":"priced","s":57.64,"e":58.02,"line":16},{"w":"at","s":58.02,"e":58.28,"line":16},{"w":"$9.99...","s":58.28,"e":60.66,"line":16},{"w":"Remember,","s":60.66,"e":61.68,"line":17},{"w":"that","s":62.34,"e":62.56,"line":17},{"w":"missing","s":62.56,"e":62.94,"line":17},{"w":"penny","s":62.94,"e":63.34,"line":17},{"w":"probably","s":63.34,"e":63.8,"line":17},{"w":"isn't","s":63.8,"e":64.34,"line":17},{"w":"there","s":64.34,"e":64.54,"line":17},{"w":"to","s":64.54,"e":64.72,"line":17},{"w":"save","s":64.72,"e":64.92,"line":17},{"w":"you","s":64.92,"e":65.12,"line":17},{"w":"money.","s":65.12,"e":65.36,"line":17},{"w":"It's","s":65.96,"e":66.24,"line":18},{"w":"there","s":66.24,"e":66.42,"line":18},{"w":"to","s":66.42,"e":66.58,"line":18},{"w":"make","s":66.58,"e":66.72,"line":18},{"w":"you","s":66.72,"e":66.92,"line":18},{"w":"feel","s":66.92,"e":67.28,"line":18},{"w":"like","s":67.28,"e":67.56,"line":18},{"w":"you're","s":67.56,"e":67.78,"line":18},{"w":"spending","s":67.78,"e":68.06,"line":18},{"w":"less.","s":68.06,"e":68.5,"line":18},{"w":"You","s":69.18,"e":69.38,"line":19},{"w":"didn't","s":69.38,"e":69.66,"line":19},{"w":"know","s":69.66,"e":69.86,"line":19},{"w":"that","s":69.86,"e":70.08,"line":19},{"w":"about","s":70.08,"e":70.34,"line":19},{"w":"money!","s":70.34,"e":70.68,"line":19}];
+      window.__timelines = window.__timelines || {};
+      const wd = (l, k) => WORDS.filter((w) => w.line === l)[k].s;     // start time of word k in script line l
+      const tl = gsap.timeline({ paused: true });
+      const E = 'power3.out', IO = 'power2.inOut';
+      const $ = (s) => document.querySelector(s);
+      const R = (el, t, from, to) => tl.fromTo(el, Object.assign({ opacity: 0, y: 30 }, from || {}), Object.assign({ opacity: 1, y: 0, duration: 0.5, ease: E, immediateRender: false }, to || {}), t);
+      const X = (el, t, d) => tl.to(el, { opacity: 0, duration: d || 0.25, ease: 'none' }, t);
+      const POP = { scale: 0.6, y: 24 }, POPTO = { scale: 1, duration: 0.5 };
+      const STRIKE = (sel, t) => tl.fromTo(sel, { scaleX: 0 }, { scaleX: 1, duration: 0.3, ease: 'power2.out', immediateRender: false }, t);
+      const add = (h) => $('#dyn').insertAdjacentHTML('beforeend', h);
+      const money = (v) => '$' + Math.round(v).toLocaleString('en-US');
+      const count = (sel, t, from, to, dur) => { const o = { v: from }; tl.to(o, { v: to, duration: dur, ease: 'power3.out', onUpdate() { $(sel).textContent = money(o.v); } }, t); };
+      // Paste-in helpers for HyperFrames templates (classic <script>, GSAP timeline `tl`, `$` = querySelector).
+// Ideas adapted (rewritten for our stack) from the MIT-licensed iart-ai/tiktok-video-skills + kinetic-typography-skills.
+// Everything is seek-safe: tweens only, no timers, no randomness except the seeded hash().
+//
+// Needs this CSS in the template:
+//   .mw { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: 0.14em; margin-bottom: -0.14em; }
+//   .mi { display: inline-block; will-change: transform; }
+
+const SAFE = { left: 60, right: 960, top: 120, bottom: 1600 };   // 1080x1920: keep text/cards inside; TikTok UI sits outside (right ~120px, bottom ~320px)
+
+const hashH = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+
+// Split a PLAIN-TEXT element into masked words (screen-reader label kept). Returns the inner word nodes.
+const splitWords = (sel) => {
+  const el = document.querySelector(sel); const txt = el.textContent.trim();
+  el.setAttribute('aria-label', txt);
+  el.innerHTML = txt.split(/\s+/).map((w) => `<span class="mw"><span class="mi">${w}</span></span>`).join(' ');
+  return el.querySelectorAll('.mi');
+};
+
+// 1) Mask reveal: each word rises out of a clipped line. ~0.6s per word, 60ms stagger, expo ease (keep the whole reveal under ~0.8-1.0s).
+//    Use for headlines that appear mid-video (NOT the hook; see hookNow).
+const maskReveal = (tl, sel, t, o = {}) => {
+  const items = splitWords(sel);
+  tl.set(sel, { opacity: 1 }, t);
+  tl.fromTo(items, { yPercent: 115 }, { yPercent: 0, duration: o.dur || 0.6, ease: 'expo.out', stagger: o.stagger || 0.06, immediateRender: false }, t);
+  return items.length;
+};
+// matching exit: words drop back down (use instead of a plain fade when a headline leaves)
+const maskHide = (tl, sel, t, o = {}) => {
+  const items = document.querySelectorAll(sel + ' .mi');
+  tl.to(items, { yPercent: -115, duration: o.dur || 0.35, ease: 'power3.in', stagger: o.stagger || 0.03 }, t);
+  tl.set(sel, { opacity: 0 }, t + (o.dur || 0.35) + 0.03 * items.length);
+};
+
+// 2) Hook on frame 1: the hook text is fully visible at t=0 (no fade-up, no fade from black); only a tiny settle motion.
+const hookNow = (tl, sels) => { sels.forEach((s) => { tl.set(s, { opacity: 1 }, 0); tl.fromTo(s, { scale: 1.05 }, { scale: 1, duration: 0.6, ease: 'power3.out', immediateRender: false }, 0); }); };
+
+// 3) Pattern interrupt: a quick punch-in pulse on an element (use on long holds).
+const punch = (tl, sel, t, o = {}) => {
+  tl.fromTo(sel, { scale: 1 }, { scale: o.scale || 1.07, duration: o.dur || 0.18, ease: 'power2.out', immediateRender: false }, t);
+  tl.to(sel, { scale: 1, duration: 0.45, ease: 'power2.inOut' }, t + (o.dur || 0.18));
+};
+// Pulse an element every ~3s (uneven: 2.2s-3.8s gaps) between `from` and `to`. Never use a metronome gap.
+const heartbeat = (tl, sel, from, to, o = {}) => { let t = from + 1.2; let i = 0; while (t < to - 0.8) { punch(tl, sel, t, o); t += 2.2 + hashH(i++ + (o.seed || 0)) * 1.6; } };
+
+// 4) Optional seamless loop: end on the same first-frame look. Fade the final card out to the hook's background in the last 0.5s
+//    and make the last spoken line read as the lead-in to the first line ("...and that is why" -> hook).
+
+// 5) Scene wipe: each scene is a full-frame container (.sc, own background colour). The next one slides/zooms in over the previous.
+//    Initial offsets: tl.set('#sc2', { x: 1080 }, 0)  or { y: 1920 } / { x: -1080 } / { scale: 1.5, opacity: 0 } (zoom-in). Example: sceneCut(tl, '#sc1', '#sc2', 2.45, { x: 1080 });
+//    CSS: .sc { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:hidden; }
+const sceneCut = (tl, prev, next, t, from, d = 0.5) => {
+  tl.fromTo(next, from, { x: 0, y: 0, scale: 1, opacity: 1, duration: d, ease: 'power4.out', immediateRender: false }, t);
+  tl.to(prev, { x: from.x ? -from.x * 0.25 : 0, y: from.y ? -from.y * 0.2 : 0, duration: d, ease: 'power4.out' }, t);
+  tl.set(prev, { opacity: 0 }, t + d + 0.05);
+};
+// 6) Slow push-in on a scene container (camera feel): pushIn(tl, '#sc2', 2.5, 5.5)
+const pushIn = (tl, sel, a, b, s = 1.05) => tl.fromTo(sel, { scale: 1 }, { scale: s, duration: b - a, ease: 'none', immediateRender: false }, a + 0.01);
+
+
+      // ================= SCENES (src/scenes.js) =================
+      // Explainer-UI style (like inflation / bill-value): eyebrow + big headline + drawn UI cards with Phosphor icons, black and gold. No emoji, no characters.
+      const NO_CAPTION_LINES = [19];
+      const W = '#fffdf6', G = '#e5ab33', K = '#0a0a0a';
+      const dyn = document.getElementById('dyn');
+      let U = 0;
+      const IMG = (n, x, y, s) => `<img src="assets/img/${n}.svg" style="left:${x}px;top:${y}px;width:${s}px;height:${s}px" />`;
+      const LAB = (s, x, y) => `<div class="lab" style="left:${x}px;top:${y}px">${s}</div>`;
+      const VAL = (s, x, y, size, c) => `<div class="val" style="left:${x}px;top:${y}px;font-size:${size}px;${c ? 'color:' + c : ''}">${s}</div>`;
+      function beat(n, t0, t1, o) {
+        const out = t1 - 0.22;
+        const P = {
+          el(cls, l, t, w, h, html, at, style = '') {
+            at = Math.min(at, Math.max(0, out - 0.4));                       // never schedule an entrance after the scene's own exit (would leave it stuck on screen)
+            const id = `u${U++}`;
+            dyn.insertAdjacentHTML('beforeend', `<div id="${id}" class="${cls}" style="left:${l}px;top:${t}px;width:${w}px;height:${h}px;${style}">${html}</div>`);
+            if (at === 0) tl.set('#' + id, { opacity: 1 }, 0); else tl.fromTo('#' + id, { opacity: 0, y: 70, scale: 0.9 }, { opacity: 1, y: 0, scale: 1, duration: 0.55, ease: 'back.out(1.5)', immediateRender: false }, at);
+            tl.to('#' + id, { opacity: 0, y: -30, duration: 0.2, ease: 'power2.in' }, out);
+            return '#' + id;
+          },
+          grow(sel, at, d = 0.9) { tl.fromTo(sel, { scaleX: 0 }, { scaleX: 1, duration: d, ease: 'power3.out', immediateRender: false }, at); },
+          pulse(sel, at) { punch(tl, sel, at, { scale: 1.06 }); },
+        };
+        if (o.eyebrow) {
+          const id = `e${n}`;
+          dyn.insertAdjacentHTML('beforeend', `<div id="${id}" class="abs tag" style="left:0;top:150px;width:1080px">${o.eyebrow}</div>`);
+          if (n === 1) hookNow(tl, ['#' + id]); else tl.fromTo('#' + id, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.4, immediateRender: false }, t0);
+          tl.to('#' + id, { opacity: 0, duration: 0.2 }, out);
+        }
+        let y = o.top || 215;
+        (o.rows || []).forEach(([s, c, sz], i) => {
+          const id = `h${n}_${i}`;
+          dyn.insertAdjacentHTML('beforeend', `<div id="${id}" class="abs big" style="left:0;top:${y}px;width:1080px;font-size:${sz}px;color:${c}">${s}</div>`);
+          y += sz * 1.08;
+          if (n === 1) hookNow(tl, ['#' + id]); else maskReveal(tl, '#' + id, t0 + 0.05 + i * 0.15);
+          tl.to('#' + id, { opacity: 0, y: -40, duration: 0.2, ease: 'power2.in' }, out);
+        });
+        return P;
+      }
+      const creditCard = (P, l, t, w, at) => {
+        const h = Math.round(w * 0.62), k = w / 780;
+        return P.el('ccard abs', l, t, w, h, `<div class="chipx" style="left:${60 * k}px;top:${120 * k}px;transform:scale(${k});transform-origin:left top"></div><div class="val" style="left:${60 * k}px;top:${h - 160 * k}px;font-size:${52 * k}px">•••• •••• •••• 4821</div><div class="lab" style="left:${60 * k}px;top:${h - 90 * k}px;color:#3b2a05;font-size:${28 * k}px">CREDIT CARD</div>`, at);
+      };
+      const chip = (P, txt, l, t, at, cls = 'tagc') => P.el(cls + ' abs', l, t, 'auto', 'auto', txt, at);
+
+      // ---------- ambient layer: gold dust + flash (3D tag / digit blocks / 1¢ coin / dim coins live in src/modules.html, canvas #gl) ----------
+      const TOTAL = 72.58;
+      for (let i = 0; i < 14; i++) {
+        const sz = 4 + hashH(i + 3) * 7, x = 20 + hashH(i + 11) * 1040, sp = 70 + hashH(i + 5) * 90, y0 = hashH(i + 7) * 1900;
+        dyn.insertAdjacentHTML('beforeend', `<div id="pt${i}" class="pt" style="left:${x}px;top:0;width:${sz}px;height:${sz}px;opacity:${(0.14 + hashH(i + 9) * 0.22).toFixed(2)}"></div>`);
+        const first = (y0 + 80) / sp, cyc = 2000 / sp;
+        tl.fromTo('#pt' + i, { y: y0 }, { y: -80, duration: first, ease: 'none' }, 0);
+        tl.fromTo('#pt' + i, { y: 1960 }, { y: -80, duration: cyc, ease: 'none', repeat: Math.ceil((TOTAL - first) / cyc), immediateRender: false }, first);
+      }
+      dyn.insertAdjacentHTML('beforeend', '<div id="flash"></div>');
+      const flash = (t, a = 0.5) => tl.fromTo('#flash', { opacity: a }, { opacity: 0, duration: 0.5, ease: 'power2.out', immediateRender: false }, t);
+      const START = [0, 6.4, 8.04, 12.36, 15.86, 21.3, 22.62, 24.32, 26.78, 32.94, 35.9, 40.94, 44.06, 50.32, 52.16, 55.52, 60.66, 65.96, 69.18];
+      const B = (n, o, t1, t0) => { const i = parseInt(n, 10); return beat(n, t0 !== undefined ? t0 : i === 1 ? 0 : START[i - 1] - 0.1, t1 || (i === 19 ? 72.2 : START[i] - 0.1), o); };
+      const tagHTML = (price, x, y, at, P, rot = 0) => { const id = P.el('ptag abs', x, y, 260, 330, `<div class="hole"></div><div class="pv">${price}</div>`, at); tl.fromTo(id, { rotation: -rot }, { rotation: rot, duration: 1.3, ease: 'sine.inOut', yoyo: true, repeat: 6 }, at + 0.4); return id; };
+
+      // 1 hook: 3D hanging price tag
+      { B(1, { eyebrow: 'WHAT IF I TOLD YOU', rows: [['ONE CENT', G, 170], ['CAN TRICK YOUR BRAIN', W, 62]] }); }
+      // 2 sounds ridiculous
+      { const P = B(2, { rows: [['SOUNDS', W, 140], ['RIDICULOUS?', G, 120]], top: 260 });
+        P.el('abs', 320, 820, 440, 440, IMG('question', 0, 0, 440), 6.55); }
+      // 3 so many prices end in 99
+      { const P = B(3, { eyebrow: 'THERE’S A REASON SO MANY', rows: [['PRICES END IN', W, 100], ['99', G, 230]] });
+        tagHTML('$4<b>.99</b>', 90, 900, 8.5, P, 3); tagHTML('$9<b>.99</b>', 410, 900, 8.9, P, 3); tagHTML('$29<b>.99</b>', 730, 900, 9.3, P, 3); }
+      // 4 a shirt for $20 (3D tag shows $20.00)
+      { B(4, { eyebrow: 'IMAGINE A SHIRT FOR', rows: [['$20', G, 230]] }); }
+      // 5 same shirt $19.99 (tag flips)
+      { const P = B(5, { eyebrow: 'NOW THE SAME SHIRT COSTS', rows: [['$19.99', G, 200]] }); flash(wd(5, 6) - 0.1, 0.25); }
+      // 6 the difference?
+      { B(6, { eyebrow: 'THE', rows: [['DIFFERENCE?', G, 130]], top: 300 }); }
+      // 7 just one cent (3D 1c coin)
+      { const P = B(7, { eyebrow: 'JUST', rows: [['ONE CENT', G, 170]] }); chip(P, '$20.00 − $19.99 = $0.01', 180, 1300, wd(7, 2) - 0.1, 'tagc fill'); flash(22.7, 0.3); }
+      // 8 your brain plays tricks
+      { const P = B(8, { eyebrow: 'BUT HERE’S WHERE', rows: [['YOUR BRAIN', W, 130], ['PLAYS TRICKS', G, 120]] });
+        for (let i = 0; i < 3; i++) { const r = P.el('ring2 abs', 340, 760, 400, 400, '', 24.9 + i * 0.4); tl.fromTo(r, { scale: 0.6, opacity: 0.5 }, { scale: 1.4, opacity: 0, duration: 1.4, ease: 'power1.out', repeat: 1, immediateRender: false }, 25.0 + i * 0.4); }
+        P.el('abs', 390, 810, 300, 300, IMG('lightbulb', 0, 0, 300), 24.8); }
+      // 9 focus on the first number (3D digit blocks)
+      { const P = B(9, { eyebrow: 'WHEN YOU SEE $19.99 YOU FOCUS ON', rows: [['THE FIRST', W, 115], ['NUMBER', G, 115]] }); }
+      // 10 you see 19 instead of 20
+      { const P = B(10, { eyebrow: 'YOU SEE', rows: [['19', G, 230]] });
+        const c = P.el('tagc fill abs', 440, 1290, 'auto', 'auto', 'NOT 20', wd(10, 3)); }
+      // 11 feels cheaper
+      { const P = B(11, { eyebrow: 'THE PRICE CAN FEEL', rows: [['MUCH CHEAPER', G, 120]] });
+        P.el('uc abs', 120, 640, 840, 560, `${LAB('WHAT IT FEELS LIKE', 50, 40)}<div style="position:absolute;left:50px;top:95px;width:740px;height:70px;border-radius:20px;background:#4a3607"></div>${LAB('WHAT IT ACTUALLY COSTS', 50, 260)}<div style="position:absolute;left:50px;top:315px;width:740px;height:70px;border-radius:20px;background:#4a3607"></div>`, 36.3);
+        const b1 = P.el('abs', 170, 735, 740, 70, '<div style="width:100%;height:100%;border-radius:20px;background:#e5ab33"></div>', 36.6, 'transform-origin:left center'), b2 = P.el('abs', 170, 955, 740, 70, '<div style="width:100%;height:100%;border-radius:20px;background:#e5ab33"></div>', 36.9, 'transform-origin:left center');
+        tl.to(b1, { scaleX: 0.7, duration: 1.2, ease: 'power3.inOut' }, 38.2);
+        chip(P, 'JUST 1¢ APART', 330, 1090, 38.9, 'tagc fill'); }
+      // 12 psychological pricing
+      { const P = B(12, { eyebrow: 'THIS IS CALLED', rows: [['PSYCHOLOGICAL', G, 100], ['PRICING', W, 150]] });
+        P.el('uc abs', 270, 740, 540, 380, `${IMG('shopping-cart', 220, 60, 100)}${IMG('trend-up', 60, 60, 100)}${LAB('PRICE PSYCHOLOGY', 90, 230)}${VAL('99', 190, 270, 70, G)}`, 41.3); }
+      // 13 decades, influences what customers buy
+      { const P = B(13, { eyebrow: 'BUSINESSES HAVE USED IT FOR', rows: [['DECADES', G, 170]] });
+        P.el('uc abs', 100, 640, 380, 330, `${IMG('calendar', 130, 50, 120)}${LAB('DECADES', 105, 200)}${VAL('A STRATEGY', 70, 250, 44, W)}`, 44.9);
+        P.el('abs', 500, 760, 80, 80, IMG('trend-up', 0, 0, 80), wd(13, 8));
+        const u = P.el('uc gold abs', 600, 640, 380, 330, `${IMG('shopping-cart-k', 130, 50, 120)}${LAB('WHAT YOU BUY', 85, 200)}${VAL('INFLUENCED', 60, 250, 44, K)}`, wd(13, 11) - 0.1); P.pulse(u, wd(13, 12)); }
+      // 14 funny part
+      { const P = B(14, { eyebrow: 'AND HERE’S', rows: [['THE FUNNY', W, 130], ['PART', G, 170]], top: 280 }); P.el('abs', 390, 900, 300, 300, IMG('sparkle', 0, 0, 300), 50.6); }
+      // 15 even when you know the trick it works
+      { const P = B(15, { eyebrow: 'EVEN WHEN YOU KNOW THE TRICK', rows: [['IT CAN STILL', W, 115], ['WORK ON YOU', G, 115]] });
+        P.el('uc abs', 120, 700, 840, 200, `${IMG('check-circle', 40, 40, 120)}${VAL('YOU KNOW THE TRICK', 190, 70, 56, W)}`, 52.7);
+        P.el('uc gold abs', 120, 940, 840, 200, `${IMG('warning', 40, 40, 120)}${VAL('IT STILL WORKS', 190, 70, 56, K)}`, wd(15, 8)); }
+      // 16 next time $9.99 (3D tag)
+      { B(16, { eyebrow: 'NEXT TIME YOU SEE SOMETHING PRICED AT', rows: [['$9.99', G, 230]] }); }
+      // 17 the missing penny (3D coin)
+      { const P = B(17, { eyebrow: 'THAT MISSING PENNY', rows: [['ISN’T THERE TO', W, 100], ['SAVE YOU MONEY', G, 100]] });
+        chip(P, 'PROBABLY NOT SAVINGS', 270, 1300, wd(17, 5), 'tagc fill'); }
+      // 18 it's there to make you feel you spend less
+      { const P = B(18, { eyebrow: 'IT’S THERE TO MAKE YOU FEEL LIKE', rows: [['YOU’RE SPENDING', W, 100], ['LESS', G, 230]] });
+        tagHTML('$9<b>.99</b>', 410, 900, 66.4, P, 4); chip(P, '▼ FEELS CHEAPER', 300, 1260, wd(18, 8), 'tagc fill'); }
+      // 19 end
+      { const P = B(19, { rows: [['YOU DIDN’T KNOW', W, 104], ['THAT ABOUT MONEY!', G, 104]], top: 960 }); flash(69.5, 0.3); }
+
+
+      // ================= captions (word-timed karaoke) =================
+      const css = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+      const hexA = (h, a) => { const n = parseInt(h.replace('#', ''), 16); return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${a})`; };
+      const ACC = css('--accent'), INK = css('--ink'), ONACC = css('--on-accent');
+      const capsEl = $('#caps');
+      const groups = []; let cur = [];
+      WORDS.forEach((w, i) => { cur.push(w); const nx = WORDS[i + 1]; const endS = /[.!?]$/.test(w.w); const endC = /,$/.test(w.w) && cur.length >= 2; if (!nx || endS || endC || cur.length >= 4 || (nx && nx.s - w.e > 0.5)) { groups.push(cur); cur = []; } });
+      groups.forEach((g, gi) => {
+        if (typeof NO_CAPTION_LINES !== 'undefined' && NO_CAPTION_LINES.includes(g[0].line)) return;
+        const d = document.createElement('div'); d.className = 'cg'; const pill = document.createElement('div'); pill.className = 'pill'; d.appendChild(pill);
+        g.forEach((w, wi) => { const s = document.createElement('span'); s.className = 'cw'; s.id = `cw${gi}_${wi}`; s.textContent = w.w; pill.appendChild(s); });
+        capsEl.appendChild(d);
+        const a0 = g[0].s - 0.03, nextS = groups[gi + 1] ? groups[gi + 1][0].s : 1e9, b = Math.min(g[g.length - 1].e + 0.2, nextS - 0.08);
+        tl.fromTo(d, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.1, ease: 'power2.out', immediateRender: false }, Math.max(0, a0));
+        tl.to(d, { opacity: 0, duration: 0.06, ease: 'none' }, b);
+        g.forEach((w, wi) => { const sp = `#cw${gi}_${wi}`;
+          tl.fromTo(sp, { backgroundColor: hexA(ACC, 0), color: INK }, { backgroundColor: ACC, color: ONACC, duration: 0.06, ease: 'none', immediateRender: false }, w.s);
+          tl.to(sp, { backgroundColor: hexA(ACC, 0), color: INK, duration: 0.06, ease: 'none' }, Math.max(w.e, w.s + 0.1)); });
+      });
+      tl.fromTo('#prog', { scaleX: 0 }, { scaleX: 1, duration: 72.58, ease: 'none', immediateRender: false }, 0);
+      window.__timelines['main'] = tl;
+      tl.seek(0);
+    </script>
+    <script type="importmap">
+      { "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.181.2/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.181.2/examples/jsm/"
+      } }
+    </script>
+    <script type="module">
+      import * as THREE from 'three';
+      const W = 1080, H = 1920;
+      const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+      const sm = (x) => x * x * (3 - 2 * x);
+      const win = (t, a, b) => sm(clamp((t - a) / (b - a)));
+      const hh = (i) => { const x = Math.sin(i * 91.7 + 17.3) * 43758.5453; return x - Math.floor(x); };
+      const lerp = (a, b, k) => a + (b - a) * k;
+      const vis = (t, wins, f = 0.5) => { let s = 0; for (const [a, b] of wins) s = Math.max(s, win(t, a, a + f) * (1 - win(t, b - f, b))); return s; };
+      const backOut = (x) => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
+      async function build() {
+        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('gl'), antialias: true, alpha: true });
+        renderer.setPixelRatio(1); renderer.setSize(W, H, false); renderer.outputColorSpace = THREE.SRGBColorSpace; renderer.setClearColor(0x000000, 0);
+        const scene = new THREE.Scene(); scene.fog = new THREE.Fog(0x0a0a0a, 6.5, 13);
+        const camera = new THREE.PerspectiveCamera(40, W / H, 0.1, 60);
+        scene.add(new THREE.AmbientLight(0xfff1d0, 1.05));
+        const key = new THREE.DirectionalLight(0xfff4dc, 2.5); key.position.set(-3, 5, 7); scene.add(key);
+        const rim = new THREE.PointLight(0xe5ab33, 14, 14); rim.position.set(3, -2, 3); scene.add(rim);
+        const font = (px) => `700 ${px}px "Space Grotesk", "Helvetica Neue", Arial, sans-serif`;
+        const canvasTex = (w, h, draw) => { const c = document.createElement('canvas'); c.width = w; c.height = h; draw(c.getContext('2d'), w, h); const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4; return t; };
+        // ---------- price-tag textures ----------
+        const tagTex = (main, small, struck) => canvasTex(512, 512, (g, w, h) => {
+          g.clearRect(0, 0, w, h); g.fillStyle = '#0a0a0a'; g.textAlign = 'center'; g.textBaseline = 'middle';
+          g.font = font(60); g.fillStyle = '#b57a12'; g.fillText(small, w / 2, 110);
+          g.fillStyle = '#0a0a0a'; g.font = font(main.length > 5 ? 150 : 190); g.fillText(main, w / 2, 280);
+          g.fillStyle = '#b57a12'; g.fillRect(70, 410, w - 140, 10);
+        });
+        const T = { t1999: tagTex('$19.99', 'ONLY'), t2000: tagTex('$20.00', 'SHIRT'), t999: tagTex('$9.99', 'SALE') };
+        // ---------- hero: hanging price tag ----------
+        const tagRoot = new THREE.Group(); scene.add(tagRoot);                 // pivot at the top of the string
+        const swing = new THREE.Group(); tagRoot.add(swing);
+        const sh = new THREE.Shape(); const tw = 0.75, th = 1.1, ch = 0.3;
+        sh.moveTo(-tw + ch, th); sh.lineTo(tw - ch, th); sh.lineTo(tw, th - ch); sh.lineTo(tw, -th); sh.lineTo(-tw, -th); sh.lineTo(-tw, th - ch); sh.lineTo(-tw + ch, th);
+        const hole = new THREE.Path(); hole.absarc(0, th - 0.28, 0.09, 0, Math.PI * 2, true); sh.holes.push(hole);
+        const paper = new THREE.MeshStandardMaterial({ color: 0xfffdf6, roughness: 0.45, metalness: 0.02, emissive: 0x241f12 });
+        const edgeG = new THREE.MeshStandardMaterial({ color: 0xe5ab33, roughness: 0.35, metalness: 0.7 });
+        const tagBody = new THREE.Mesh(new THREE.ExtrudeGeometry(sh, { depth: 0.06, bevelEnabled: false }), [paper, edgeG]); tagBody.position.z = -0.03; swing.add(tagBody);
+        const fMat = new THREE.MeshBasicMaterial({ map: T.t1999, transparent: true }), bMat = new THREE.MeshBasicMaterial({ map: T.t2000, transparent: true });
+        const front = new THREE.Mesh(new THREE.PlaneGeometry(1.4, 1.4), fMat); front.position.set(0, -0.12, 0.035); swing.add(front);
+        const back = new THREE.Mesh(new THREE.PlaneGeometry(1.4, 1.4), bMat); back.rotation.y = Math.PI; back.position.set(0, -0.12, -0.035); swing.add(back);
+        const stringM = new THREE.Mesh(new THREE.CylinderGeometry(0.014, 0.014, 1, 8), new THREE.MeshStandardMaterial({ color: 0xb98a24, roughness: 0.5 }));
+        // ---------- hero: digit blocks ----------
+        const digs = new THREE.Group(); scene.add(digs); const blocks = [];
+        const digTex = (ch, gold) => canvasTex(256, 256, (g, w, h) => { g.fillStyle = gold ? '#e5ab33' : '#fffdf6'; g.fillRect(0, 0, w, h); g.fillStyle = '#0a0a0a'; g.font = font(ch === '.' ? 220 : 190); g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(ch, w / 2, ch === '.' ? 150 : 140); });
+        '19.99'.split('').forEach((ch, i) => {
+          const w = ch === '.' ? 0.3 : 0.62; const mats = [0, 1, 2, 3].map(() => new THREE.MeshStandardMaterial({ color: 0xe9dfc3, roughness: 0.4, metalness: 0.1 }));
+          const faceC = new THREE.MeshStandardMaterial({ map: digTex(ch, false), roughness: 0.4 }), faceG = new THREE.MeshStandardMaterial({ map: digTex(ch, true), roughness: 0.35, metalness: 0.2 });
+          const m = new THREE.Mesh(new THREE.BoxGeometry(w, 0.86, 0.28), [mats[0], mats[1], mats[2], mats[3], faceC, mats[0]]); digs.add(m);
+          blocks.push({ m, faceC, faceG, w, i });
+        });
+        // ---------- hero: 1¢ coin ----------
+        const coin = new THREE.Group(); scene.add(coin);
+        const cg = new THREE.CylinderGeometry(1, 1, 0.12, 64); cg.rotateX(Math.PI / 2);
+        const cTex = canvasTex(512, 512, (g, w, h) => { const gr = g.createRadialGradient(200, 190, 40, 256, 256, 260); gr.addColorStop(0, '#f6cf72'); gr.addColorStop(0.65, '#d79a22'); gr.addColorStop(1, '#a86f12'); g.fillStyle = gr; g.fillRect(0, 0, w, h); g.strokeStyle = 'rgba(60,35,4,.6)'; g.lineWidth = 14; g.beginPath(); g.arc(256, 256, 226, 0, Math.PI * 2); g.stroke(); g.fillStyle = '#3b2a05'; g.font = font(190); g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('1¢', 256, 268); });
+        cTex.center.set(0.5, 0.5); cTex.rotation = Math.PI / 2;
+        const cMat = new THREE.MeshStandardMaterial({ map: cTex, roughness: 0.4, metalness: 0.45 }), cEdge = new THREE.MeshStandardMaterial({ color: 0xc99a2e, roughness: 0.35, metalness: 0.8 });
+        coin.add(new THREE.Mesh(cg, [cEdge, cMat, cMat]));
+        // ---------- background pattern: dim drifting coins ----------
+        const bgG = new THREE.Group(); scene.add(bgG); const bgc = [];
+        const dimM = new THREE.MeshStandardMaterial({ color: 0x7a5d1a, roughness: 0.5, metalness: 0.5 }), dimS = new THREE.MeshStandardMaterial({ color: 0x6e6a5e, roughness: 0.5, metalness: 0.5 });
+        for (let i = 0; i < 18; i++) {
+          const r = 0.16 + hh(i + 1) * 0.28; const m = new THREE.Mesh(new THREE.CylinderGeometry(r, r, r * 0.16, 28), i % 3 === 0 ? dimS : dimM); bgG.add(m);
+          bgc.push({ m, x: (hh(i + 5) - 0.5) * 8.4, y0: hh(i + 9) * 14, z: -3.6 - hh(i + 13) * 5, sp: 0.16 + hh(i + 17) * 0.26, rx: hh(i + 21) * 6, rs: 0.3 + hh(i + 25) * 0.7 });
+        }
+        const WINS = { tag: [[-1, 6.3], [12.2, 21.2], [55.4, 60.6]], digs: [[26.9, 35.9]], coin: [[21.35, 24.3], [60.9, 66.0], [69.3, 73]] };
+        const SETMAP = (mat, tex) => { if (mat.map !== tex) { mat.map = tex; mat.needsUpdate = true; } };
+        function renderAt(t) {
+          camera.position.set(Math.sin(t * 0.35) * 0.12, Math.sin(t * 0.27) * 0.07, 6.2); camera.lookAt(0, -0.05, 0);
+          bgc.forEach((c) => { const span = 14; const y = ((c.y0 - t * c.sp) % span + span) % span - span / 2; c.m.position.set(c.x, y, c.z); c.m.rotation.set(c.rx + t * c.rs, t * c.rs * 0.6, 0); });
+          // ----- hanging tag -----
+          const st = vis(t, WINS.tag); tagRoot.visible = st > 0.002;
+          if (tagRoot.visible) {
+            const flip = t < 30 ? win(t, 18.1, 18.9) : 0;
+            const front$ = t < 12 ? T.t1999 : t < 30 ? T.t2000 : T.t999, back$ = T.t1999;
+            SETMAP(fMat, front$); SETMAP(bMat, back$);
+            const s = 0.66 * (0.25 + 0.75 * st); tagRoot.scale.setScalar(s); tagRoot.position.set(0, 1.0 - (1 - st) * 1.5, 0);
+            swing.position.y = -1.7;
+            const sw = Math.sin(t * 1.5) * 0.09 * (1 - 0.5 * flip) + Math.sin(t * 3.1) * 0.02;
+            tagRoot.rotation.z = sw; swing.rotation.y = flip * Math.PI + Math.sin(t * 0.7) * 0.18;
+            if (!stringM.parent) tagRoot.add(stringM);
+            stringM.scale.y = 1.7 - 0.3; stringM.position.y = -0.85 + 0.15;
+            swing.position.y = -1.7 - 0.0;
+            // tag body hole should sit at the end of the string: hole y = th-0.28 = 0.82 above the tag centre
+            swing.position.y = -(1.0 + 0.82) ;
+            stringM.scale.y = 1.0; stringM.position.y = -0.5;
+          }
+          // ----- digit blocks -----
+          const sd = vis(t, WINS.digs); digs.visible = sd > 0.002;
+          if (digs.visible) {
+            const focus = win(t, 31.0, 31.8), unfocus = win(t, 35.3, 35.8);
+            const gaps = 0.12;
+            const scs = blocks.map((b) => { const hi = b.i < 2 ? focus : 0; return (0.2 + 0.8 * sd) * (1 + 0.3 * hi - 0.2 * (b.i >= 2 ? focus : 0)); });
+            const totalW = blocks.reduce((a, b, k) => a + b.w * scs[k], 0) + gaps * 4; let x = -totalW / 2;
+            blocks.forEach((b, k) => { const hi = b.i < 2 ? focus : 0; const sc = scs[k];
+              b.m.scale.setScalar(sc); b.m.position.set(x + b.w * sc / 2, 0, 0.5 * hi * (1 - unfocus)); x += b.w * sc + gaps;
+              b.m.material[4] = hi > 0.5 ? b.faceG : b.faceC;
+              b.m.rotation.set(Math.sin(t * 0.9 + b.i) * 0.08, Math.sin(t * 0.6 + b.i * 0.5) * 0.18 + (1 - win(t, 26.9, 27.7)) * 1.2, 0); });
+            digs.position.set(0, -0.08, 0); digs.scale.setScalar(0.6);
+          }
+          // ----- coin -----
+          const sc = vis(t, WINS.coin); coin.visible = sc > 0.002;
+          if (coin.visible) {
+            let py = -0.1, s = 0.6, px = 0;
+            if (t > 60) { py = -0.1; s = 0.62; const away = win(t, 64.3, 65.7); s *= 1 - away; }
+            if (t > 69) { py = 1.1; s = 0.5; px = 0; }
+            coin.scale.setScalar(s * (0.2 + 0.8 * sc)); coin.position.set(px, py, 0);
+            coin.rotation.set(Math.sin(t * 0.6) * 0.12, t * 1.1, 0);
+          }
+          renderer.render(scene, camera);
+        }
+        window.addEventListener('hf-seek', (e) => renderAt(e.detail.time));
+        renderAt(window.__hfThreeTime || 0);
+      }
+      window.__hf = window.__hf || {}; window.__hf.buildReady = window.__hf.buildReady || {}; window.__hf.buildReady['price'] = build();
+    </script>
+
+  </body>
+</html>

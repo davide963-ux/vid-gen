@@ -1,0 +1,67 @@
+# Asset Descriptions
+
+⚠️  No vision credentials — descriptions below are catalog-derived (alt text, headings, section context, filename) instead of Vision-generated. To get richer Vision descriptions on the next capture, set GEMINI_API_KEY (or GOOGLE_API_KEY), or HYPERFRAMES_VERTEX_PROJECT_ID plus HYPERFRAMES_VERTEX_SERVICE_ACCOUNT for Vertex service-account auth, and re-run.
+
+The `logo-<hash>.svg` filename prefix is a structural hint (DOM said this SVG was inside a `<header>`, home-link `<a>`, or had an aria-label matching the page brand). To pick the actual brand logo without Vision, open the `logo-*` candidates in a previewer or rasterize them with `sharp` before referencing — composing a fake logo ships off-brand in the final video.
+
+- amara-restaurant-1024x1024.jpg — 127KB, amara restaurant 1024x1024
+- amara-restaurant-2-1024x1024.jpg — 141KB, amara restaurant 2 1024x1024
+- amara-restaurant-2-150x150.jpg — 11KB, amara restaurant 2 150x150
+- amara-restaurant-2-300x300.jpg — 25KB, amara restaurant 2 300x300
+- amara-restaurant-2-500x500.jpg — 51KB, amara restaurant 2 500x500
+- amara-restaurant-2-768x768.jpg — 93KB, amara restaurant 2 768x768
+- amara-restaurant-2.jpg — 252KB, amara restaurant 2
+- amara-restaurant-300x300.jpg — 19KB, amara restaurant 300x300
+- amara-restaurant-500x500.jpg — 41KB, amara restaurant 500x500
+- amara-restaurant-768x768.jpg — 81KB, amara restaurant 768x768
+- amara-restaurant.jpg — 159KB, amara restaurant
+- favicon.svg — 105KB, favicon
+- icon-apple-touch-icon-unsized.svg — 105KB, icon apple touch icon unsized
+- icon-icon-192x192.svg — 105KB, icon icon 192x192
+- icon-icon-32x32.svg — 105KB, icon icon 32x32
+- image-18.jpg — 161KB, image 18
+- logo-0747c7b7.svg — 115KB, logo 0747c7b7
+- restaurant-1024x442.png — 612KB, above fold, restaurant 1024x442
+- restaurant-1536x663.png — 1319KB, above fold, restaurant 1536x663
+- restaurant-2048x884.png — 2254KB, above fold, restaurant 2048x884
+- restaurant-300x130.png — 68KB, above fold, restaurant 300x130
+- restaurant-768x332.png — 359KB, above fold, restaurant 768x332
+- restaurant.png — 2972KB, above fold, restaurant
+- svgs/logo-05191ae9-2.svg — logo 05191ae9 2
+- svgs/logo-05191ae9.svg — logo 05191ae9
+- svgs/logo-2c436cb6-2.svg — logo 2c436cb6 2
+- svgs/logo-2c436cb6.svg — logo 2c436cb6
+- svgs/logo-b29c3088.svg — logo b29c3088
+- svgs/logo-f2569871-2.svg — logo f2569871 2
+- svgs/logo-f2569871.svg — logo f2569871
+- svgs/logo-f7bd7c87.svg — logo f7bd7c87
+- fonts/ACaslonPro-Regular.otf — font file
+- fonts/AmericanaBTWXXBold-Bold.ttf — font file
+- fonts/AmericanaBTWXXBold-Bold.woff — font file
+- fonts/AmericanaBTWXXBold-Bold.woff2 — font file
+- fonts/Casta-Thin.otf — font file
+- fonts/Casta-ThinSlanted.otf — font file
+- fonts/Chistodella-Regular.otf — font file
+- fonts/Chistodella-Regular.ttf — font file
+- fonts/Chistodella-Regular.woff — font file
+- fonts/Chistodella-Regular.woff2 — font file
+- fonts/fa-brands-400.ttf — font file
+- fonts/fa-brands-400.woff — font file
+- fonts/fa-brands-400.woff2 — font file
+- fonts/fa-regular-400.ttf — font file
+- fonts/fa-regular-400.woff — font file
+- fonts/fa-regular-400.woff2 — font file
+- fonts/fa-solid-900.ttf — font file
+- fonts/fa-solid-900.woff — font file
+- fonts/fa-solid-900.woff2 — font file
+- fonts/GraphikMedium.otf — font file
+- fonts/GraphikMediumItalic.otf — font file
+- fonts/GraphikRegular.otf — font file
+- fonts/GraphikRegularItalic.otf — font file
+- fonts/GraphikSemibold.otf — font file
+- fonts/GraphikSemiboldItalic.otf — font file
+- fonts/Seasona-Book.woff — font file
+- fonts/Seasona-Book.woff2 — font file
+- fonts/Seasona-Medium.ttf — font file
+- fonts/Seasona-Medium.woff — font file
+- fonts/Seasona-Medium.woff2 — font file

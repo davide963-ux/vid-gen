@@ -1,0 +1,14 @@
+{
+  "prefix": "b",
+  "viewBox": "20 20 440 320",
+  "cards": [
+    { "name": "card-a", "label": "Your deposit", "hero": "safe", "scale": 1.02,
+      "coins": [ { "pos": [95, 10, 165], "glyph": "dollar" }, { "pos": [-130, -35, 120], "glyph": "dollar" } ], "plate": { "pos": [-55, 75, 160], "bars": [10, 14] } },
+    { "name": "card-b", "label": "Lent out", "hero": "bank", "scale": 1.1, "arc": true,
+      "coins": [ { "pos": [150, 30, 125], "glyph": "dollar", "accent": true }, { "pos": [190, 65, 70], "glyph": "dollar" } ], "plate": { "pos": [-140, 40, 132], "bars": [8, 12] } },
+    { "name": "card-c", "label": "Interest comes back", "hero": "doc", "scale": 1.28, "arc": true,
+      "coins": [ { "pos": [90, 25, 185], "rot": [20, -10, 0], "glyph": "pct", "accent": true }, { "pos": [-115, -5, 110], "glyph": "plus" } ] },
+    { "name": "card-d", "label": "The bank keeps the difference", "hero": "pie", "scale": 1.32, "arc": true, "glyph": "dollar",
+      "coins": [ { "pos": [-125, -15, 80], "glyph": "pct" } ], "plate": { "pos": [105, 80, 95], "bars": [10, 16, 24] } }
+  ]
+}

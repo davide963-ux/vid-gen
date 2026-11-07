@@ -1,0 +1,6 @@
+[
+ {"say":"When does your money double?","pause":0.2},
+ {"say":"Divide seventy-two by the interest rate.","show":"Divide 72 by the interest rate.","pause":0.2},
+ {"say":"At six percent, about twelve years.","show":"At 6%, about 12 years.","pause":0.25},
+ {"say":"You didn't know that about money.","pause":0.2,"tail":0.7}
+]

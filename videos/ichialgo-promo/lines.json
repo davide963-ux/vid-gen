@@ -1,0 +1,115 @@
+{
+  "total": 46.34,
+  "lines": [
+    {
+      "i": 1,
+      "file": "assets/voice/01.wav",
+      "text": "The forex market never sleeps. But you do.",
+      "tts": "The forex market never sleeps. But you do.",
+      "start": 0.3,
+      "dur": 2.731,
+      "end": 3.031,
+      "pause": 0.45
+    },
+    {
+      "i": 2,
+      "file": "assets/voice/02.wav",
+      "text": "Meet Ichialgo.",
+      "tts": "Meet Ichialgo.",
+      "start": 3.481,
+      "dur": 1.301,
+      "end": 4.782,
+      "pause": 0.4
+    },
+    {
+      "i": 3,
+      "file": "assets/voice/03.wav",
+      "text": "It scans seven major forex pairs, around the clock, five days a week.",
+      "tts": "It scans seven major forex pairs, around the clock, five days a week.",
+      "start": 5.182,
+      "dur": 4.48,
+      "end": 9.662,
+      "pause": 0.45
+    },
+    {
+      "i": 4,
+      "file": "assets/voice/04.wav",
+      "text": "It watches for two things. Price touching the EMA 50. Or the Ichimoku cloud conditions lining up.",
+      "tts": "It watches for two things. Price touching the E M A fifty. Or the Ichimoku cloud conditions lining up.",
+      "start": 10.112,
+      "dur": 7.04,
+      "end": 17.152,
+      "pause": 0.45
+    },
+    {
+      "i": 5,
+      "file": "assets/voice/05.wav",
+      "text": "The moment a setup appears, it prints a signal. Long, or short.",
+      "tts": "The moment a setup appears, it prints a signal. Long, or short.",
+      "start": 17.602,
+      "dur": 3.733,
+      "end": 21.335,
+      "pause": 0.45
+    },
+    {
+      "i": 6,
+      "file": "assets/voice/06.wav",
+      "text": "Every signal shows its Ichimoku score, so you can see how many conditions agree.",
+      "tts": "Every signal shows its Ichimoku score, so you can see how many conditions agree.",
+      "start": 21.785,
+      "dur": 5.333,
+      "end": 27.119,
+      "pause": 0.45
+    },
+    {
+      "i": 7,
+      "file": "assets/voice/07.wav",
+      "text": "Need to size the trade? There's a built-in position calculator.",
+      "tts": "Need to size the trade? There's a built-in position calculator.",
+      "start": 27.569,
+      "dur": 3.84,
+      "end": 31.409,
+      "pause": 0.4
+    },
+    {
+      "i": 8,
+      "file": "assets/voice/08.wav",
+      "text": "And you can backtest the rules on real candles, yourself.",
+      "tts": "And you can backtest the rules on real candles, yourself.",
+      "start": 31.809,
+      "dur": 3.413,
+      "end": 35.222,
+      "pause": 0.5
+    },
+    {
+      "i": 9,
+      "file": "assets/voice/09.wav",
+      "text": "Stop staring at charts all day.",
+      "tts": "Stop staring at charts all day.",
+      "start": 35.722,
+      "dur": 2.176,
+      "end": 37.898,
+      "pause": 0.4
+    },
+    {
+      "i": 10,
+      "file": "assets/voice/10.wav",
+      "text": "Ichialgo. Your forex scanner, always on.",
+      "tts": "Ichialgo. Your forex scanner, always on.",
+      "start": 38.298,
+      "dur": 2.709,
+      "end": 41.007,
+      "pause": 0.5
+    },
+    {
+      "i": 11,
+      "file": "assets/voice/11.wav",
+      "text": "Trading involves risk. This is not financial advice.",
+      "tts": "Trading involves risk. This is not financial advice.",
+      "start": 41.507,
+      "dur": 3.733,
+      "end": 45.241,
+      "pause": 0.3
+    }
+  ]
+}

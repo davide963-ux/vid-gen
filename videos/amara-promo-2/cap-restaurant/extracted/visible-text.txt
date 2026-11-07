@@ -1,0 +1,70 @@
+[span] Rruga Pavaresia, Lagjja nr.13, Durrës
+[span] +355 67 70 78 000
+[span] Rruga Pavaresia, Lagjja nr.13 Durrës
+[span] Menu
+[span] +355 67 70 78 000
+[span] BOOK NOW
+[span] About Us
+[span] Accomodation
+[span] Restaurant
+[span] Wellness
+[h2] A Culinary Haven
+[h2] Amara Restaurant
+[p] Welcome to Amara Restaurant, where exceptional flavors meet an unforgettable dining experience. Nestled within the serene ambiance of Amara Hotel & SPA, our restaurant is a celebration of culinary artistry, offering a harmonious blend of traditional and contemporary cuisine. At Amara, we believe that dining is not just a meal but a journey. Our chefs craft every dish with passion, sourcing the finest local and seasonal ingredients to bring you plates that are both delicious and visually captivating. From expertly grilled seafood to innovative vegetarian creations, our menu is designed to cater to every palate, ensuring a memorable experience for all our guests.
+[p] Whether you’re enjoying an intimate dinner, a family gathering, or a business lunch, our elegant setting provides the perfect backdrop. With panoramic views, warm lighting, and impeccable service, Amara Restaurant sets the stage for moments that linger in your memory. Pair your meal with our carefully curated selection of fine wines, signature cocktails, and refreshing beverages, all chosen to complement your dining experience. And for those looking to make the occasion extra special, our private dining options and custom menus are perfect for celebrating life’s most cherished moments.
+[h2] Explore the Flavors of Amara Restaurant
+[p] At Amara Restaurant, our menu is crafted to delight your palate with a fusion of international and Mediterranean flavors. Whether you’re savoring fresh seafood, indulging in gourmet desserts, or enjoying a hearty main course, every dish is prepared with the finest ingredients and an artistic touch
+[span] Seasonal Specials
+[span] Chef's Recommendations
+[span] Vegetarian & Vegan Options
+[span] Dessert Selection
+[span] View Full Menu
+[h2] Visit Us
+[p] Make a reservation at Amara Restaurant and embark on a culinary voyage where the ocean meets your plate. Join us for a seafood experience that goes beyond the ordinary. Your table awaits!
+[h2] Phone Number
+[h2] +355 67 707 8000
+[h2] Email Address
+[h2] info@amarahotel.al
+[h2] Address
+[h2] Rruga Pavaresia, Lagjja nr.13, Durrës
+[span] Sign in
+[label] Username or email
+[label] Password
+[button] Login
+[a] Lost your password?
+[span] About Us
+[span] Accomodation
+[span] Restaurant
+[span] Wellness
+[a] +(406) 555-0120
+[span] Book Your Stay
+[h2] Sign Up For Exclusive
+[h2] Offers From Us
+[label] Email
+[span] subscribe now
+[p] PAGES
+[span] Home
+[span] About Us
+[span] Accomodation
+[span] Restaurant
+[span] Wellness
+[span] Contact
+[p] contact
+[a] +355 67 70 78 000
+[a] info@amarahotel.al
+[a] Rruga Pavaresia, Lagjja nr.13, Durrës
+[p] follow us
+[p] PAGES
+[span] Home
+[span] About Us
+[span] Accomodation
+[span] Restaurant
+[span] Wellness
+[span] Contact
+[p] contact
+[a] +355 67 70 78 000
+[a] info@amarahotel.al
+[a] Rruga Pavaresia, Lagjja nr.13, Durrës
+[p] follow us
+[p] Copyright © 2025 Amara Hotel & SPA. All rights reserved
+[a] Developed by Alien Studio

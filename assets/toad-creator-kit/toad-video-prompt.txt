@@ -1,0 +1,14 @@
+Create a 15-second vertical (9:16) community Toad video.
+Use the attached Toad reference images to preserve the same character: green plush texture, oversized expressive eyes, crooked smile, red shirt, and yellow overalls with suspenders. Keep proportions consistent between shots.
+
+Tone: relatable everyday chaos, dry humor, and a little heart.
+Scenario: Toad opens his laptop, discovers one more meeting, then takes a coffee break.
+
+0–3s — Close-up: Toad opens the laptop. Caption: “Just one quick thing.”
+3–8s — The calendar fills up. Toad slowly looks at the camera. Caption: “This feels like a tomorrow problem.”
+8–12s — Toad closes the laptop and picks up a coffee. Leave a beat for the expression.
+12–15s — End on his crooked smile. Caption: “Same Toad. Different days.”
+
+Use simple backgrounds, soft lighting, clear captions, and gentle cuts. Add captions in the edit if the video tool cannot render clean text. Use music or audio you have permission to use.
+Keep it kind. No financial predictions, price claims, or promises. Do not present community content as an official announcement.
+Return a shot-by-shot script and a separate generation prompt for each shot.

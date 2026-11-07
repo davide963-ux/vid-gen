@@ -1,0 +1,65 @@
+# Asset Descriptions
+
+⚠️  No vision credentials — descriptions below are catalog-derived (alt text, headings, section context, filename) instead of Vision-generated. To get richer Vision descriptions on the next capture, set GEMINI_API_KEY (or GOOGLE_API_KEY), or HYPERFRAMES_VERTEX_PROJECT_ID plus HYPERFRAMES_VERTEX_SERVICE_ACCOUNT for Vertex service-account auth, and re-run.
+
+The `logo-<hash>.svg` filename prefix is a structural hint (DOM said this SVG was inside a `<header>`, home-link `<a>`, or had an aria-label matching the page brand). To pick the actual brand logo without Vision, open the `logo-*` candidates in a previewer or rasterize them with `sharp` before referencing — composing a fake logo ships off-brand in the final video.
+
+- als-3901-scaled-e1737707463992-1441x1536.jpg — 355KB, als 3901 scaled e1737707463992 1441x1536
+- als-3901-scaled-e1737707463992-281x300.jpg — 25KB, als 3901 scaled e1737707463992 281x300
+- als-3901-scaled-e1737707463992-768x819.jpg — 130KB, als 3901 scaled e1737707463992 768x819
+- als-3901-scaled-e1737707463992-960x1024.jpg — 187KB, als 3901 scaled e1737707463992 960x1024
+- als-4711-1-1-1025x1536.png — 1323KB, als 4711 1 1 1025x1536
+- als-4711-1-1-1367x2048.png — 2318KB, als 4711 1 1 1367x2048
+- als-4711-1-1-200x300.png — 71KB, als 4711 1 1 200x300
+- als-4711-1-1-684x1024.png — 591KB, als 4711 1 1 684x1024
+- als-4711-1-1-768x1151.png — 719KB, als 4711 1 1 768x1151
+- als-4741-1024x684.jpg — 105KB, als 4741 1024x684
+- als-4741-1536x1025.jpg — 219KB, als 4741 1536x1025
+- als-4741-2048x1367.jpg — 362KB, als 4741 2048x1367
+- als-4741-300x200.jpg — 11KB, als 4741 300x200
+- als-4741-768x513.jpg — 61KB, als 4741 768x513
+- als-4741-scaled.jpg — 533KB, als 4741 scaled
+- favicon.svg — 105KB, favicon
+- icon-apple-touch-icon-unsized.svg — 105KB, icon apple touch icon unsized
+- icon-icon-192x192.svg — 105KB, icon icon 192x192
+- icon-icon-32x32.svg — 105KB, icon icon 32x32
+- image-17.jpg — 161KB, image 17
+- logo-0747c7b7.svg — 115KB, logo 0747c7b7
+- since-2021.jpg — 495KB, since 2021
+- svgs/logo-05191ae9-2.svg — logo 05191ae9 2
+- svgs/logo-05191ae9.svg — logo 05191ae9
+- svgs/logo-2c436cb6-2.svg — logo 2c436cb6 2
+- svgs/logo-2c436cb6.svg — logo 2c436cb6
+- svgs/logo-b29c3088.svg — logo b29c3088
+- svgs/logo-f2569871-2.svg — logo f2569871 2
+- svgs/logo-f2569871.svg — logo f2569871
+- fonts/ACaslonPro-Regular.otf — font file
+- fonts/AmericanaBTWXXBold-Bold.ttf — font file
+- fonts/AmericanaBTWXXBold-Bold.woff — font file
+- fonts/AmericanaBTWXXBold-Bold.woff2 — font file
+- fonts/Casta-Thin.otf — font file
+- fonts/Casta-ThinSlanted.otf — font file
+- fonts/Chistodella-Regular.otf — font file
+- fonts/Chistodella-Regular.ttf — font file
+- fonts/Chistodella-Regular.woff — font file
+- fonts/Chistodella-Regular.woff2 — font file
+- fonts/fa-brands-400.ttf — font file
+- fonts/fa-brands-400.woff — font file
+- fonts/fa-brands-400.woff2 — font file
+- fonts/fa-regular-400.ttf — font file
+- fonts/fa-regular-400.woff — font file
+- fonts/fa-regular-400.woff2 — font file
+- fonts/fa-solid-900.ttf — font file
+- fonts/fa-solid-900.woff — font file
+- fonts/fa-solid-900.woff2 — font file
+- fonts/GraphikMedium.otf — font file
+- fonts/GraphikMediumItalic.otf — font file
+- fonts/GraphikRegular.otf — font file
+- fonts/GraphikRegularItalic.otf — font file
+- fonts/GraphikSemibold.otf — font file
+- fonts/GraphikSemiboldItalic.otf — font file
+- fonts/Seasona-Book.woff — font file
+- fonts/Seasona-Book.woff2 — font file
+- fonts/Seasona-Medium.ttf — font file
+- fonts/Seasona-Medium.woff — font file
+- fonts/Seasona-Medium.woff2 — font file

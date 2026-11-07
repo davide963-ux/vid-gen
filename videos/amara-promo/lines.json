@@ -1,0 +1,85 @@
+{
+  "total": 43.04,
+  "lines": [
+    {
+      "i": 1,
+      "file": "assets/voice/01.wav",
+      "text": "A keni ëndërruar një pushim buzë detit?",
+      "tts": "A keni ëndërruar një pushim buzë detit?",
+      "start": 0.3,
+      "dur": 3.192,
+      "end": 3.492,
+      "pause": 0.5
+    },
+    {
+      "i": 2,
+      "file": "assets/voice/02.wav",
+      "text": "Mirë se vini në Amara Hotel & SPA, në Durrës.",
+      "tts": "Mirë se vini në Amara Hotel dhe Spa, në Durrës.",
+      "start": 3.992,
+      "dur": 4.104,
+      "end": 8.096,
+      "pause": 0.5
+    },
+    {
+      "i": 3,
+      "file": "assets/voice/03.wav",
+      "text": "Dhoma elegante, shumë prej tyre me pamje nga deti, ku çdo detaj është menduar për rehatinë tuaj.",
+      "tts": "Dhoma elegante, shumë prej tyre me pamje nga deti, ku çdo detaj është menduar për rehatinë tuaj.",
+      "start": 8.596,
+      "dur": 6.696,
+      "end": 15.292,
+      "pause": 0.5
+    },
+    {
+      "i": 4,
+      "file": "assets/voice/04.wav",
+      "text": "Shijoni gatime të shkëlqyera në restorantin tonë buzë detit.",
+      "tts": "Shijoni gatime të shkëlqyera në restorantin tonë buzë detit.",
+      "start": 15.792,
+      "dur": 4.584,
+      "end": 20.376,
+      "pause": 0.5
+    },
+    {
+      "i": 5,
+      "file": "assets/voice/05.wav",
+      "text": "Çlodhuni në pishinën e jashtme, ose në plazhin privat, me akses të drejtpërdrejtë.",
+      "tts": "Çlodhuni në pishinën e jashtme, ose në plazhin privat, me akses të drejtpërdrejtë.",
+      "start": 20.876,
+      "dur": 5.736,
+      "end": 26.612,
+      "pause": 0.5
+    },
+    {
+      "i": 6,
+      "file": "assets/voice/06.wav",
+      "text": "Dhe rimbushni energjitë në qendrën tonë të wellness dhe SPA.",
+      "tts": "Dhe rimbushni energjitë në qendrën tonë të wellness dhe spa.",
+      "start": 27.112,
+      "dur": 4.392,
+      "end": 31.504,
+      "pause": 0.55
+    },
+    {
+      "i": 7,
+      "file": "assets/voice/07.wav",
+      "text": "Amara Hotel & SPA. Rehatia, në një kuptim të ri.",
+      "tts": "Amara Hotel dhe Spa. Rehatia, në një kuptim të ri.",
+      "start": 32.054,
+      "dur": 5.28,
+      "end": 37.334,
+      "pause": 0.55
+    },
+    {
+      "i": 8,
+      "file": "assets/voice/08.wav",
+      "text": "Rezervoni qëndrimin tuaj sot.",
+      "tts": "Rezervoni qëndrimin tuaj sot.",
+      "start": 37.884,
+      "dur": 2.952,
+      "end": 40.836,
+      "pause": 0.3
+    }
+  ]
+}

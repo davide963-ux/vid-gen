@@ -1,0 +1,44 @@
+<!doctype html><html><head><meta charset="UTF-8"/><meta name="viewport" content="width=1080, height=1920"/>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script><title>Zenith logo reveal</title>
+<style>
+@font-face{font-family:Syne;font-weight:400 800;src:url(assets/fonts/syne.woff2)}@font-face{font-family:'JetBrains Mono';font-weight:400 700;src:url(assets/fonts/jbmono.woff2)}
+*{margin:0;padding:0;box-sizing:border-box}html,body{width:1080px;height:1920px;overflow:hidden;background:#040A18}
+#root{position:relative;width:1080px;height:1920px;overflow:hidden;color:#E8F0FF;background:radial-gradient(900px 800px at 50% 40%,rgba(61,123,255,.28),transparent 70%),#040A18}
+#stage{position:absolute;inset:0}
+.st{position:absolute;inset:0;background-image:radial-gradient(#7FB6FF 1.2px,transparent 1.6px);background-size:97px 83px;opacity:.14}
+#logo{position:absolute;left:300px;top:560px;width:480px;height:489px;filter:drop-shadow(0 0 80px rgba(61,123,255,.6))}
+#ring{position:absolute;left:190px;top:450px;width:700px;height:700px;border-radius:50%;border:3px solid rgba(127,182,255,.5);opacity:0}
+.mw{position:absolute;left:0;right:0;text-align:center;overflow:hidden;padding-bottom:12px}
+.mi{display:block;font-family:Syne,sans-serif;font-weight:800;letter-spacing:.2em;font-size:96px;text-indent:.2em}
+#sw{position:absolute;left:0;right:0;top:1300px;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:500;font-size:32px;letter-spacing:.55em;text-indent:.55em;color:#7FB6FF;opacity:0}
+#dom{position:absolute;left:230px;right:230px;top:1440px;text-align:center;padding:24px 0;border:1.5px solid rgba(127,182,255,.55);background:rgba(61,123,255,.2);border-radius:10px;font-family:'JetBrains Mono',monospace;font-size:38px;color:#E8F0FF;opacity:0}
+#sweep{position:absolute;top:520px;left:-300px;width:160px;height:600px;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-18deg);opacity:0}
+.sp{position:absolute;border-radius:50%;background:#7FB6FF;opacity:0}
+</style></head><body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="6" data-width="1080" data-height="1920"><div id="stage" class="clip" data-start="0" data-duration="6" data-track-index="0">
+<div class="st"></div><div id="ring"></div>
+<svg id="logo" viewBox="380 210 500 510"><defs><linearGradient id="gB" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7FB6FF"/><stop offset="1" stop-color="#3D7BFF"/></linearGradient><linearGradient id="gZ" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#9BB0D3"/></linearGradient><linearGradient id="gW" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5B9BFF"/><stop offset="1" stop-color="#2A6BFF"/></linearGradient></defs>
+<polygon id="p1" fill="url(#gB)" points="630,226 742,350 630,280 520,350"/><polygon id="p2" fill="url(#gZ)" points="462,361 815,361 484,700 398,700 652,425 418,425"/><polygon id="p3" fill="url(#gW)" points="676,573 856,573 738,700 484,700"/></svg>
+<div id="sweep"></div>
+<div class="mw" style="top:1160px"><span class="mi" id="zen">ZENITH</span></div>
+<div id="sw">SOFTWARE</div><div id="dom">zenith-software.tech</div>
+</div></div>
+<script>
+const tl = gsap.timeline({ paused: true });
+const sp = document.getElementById('stage');
+for (let i = 0; i < 14; i++) { const d = document.createElement('div'); d.className = 'sp'; const s = 5 + (i * 37 % 8); d.style.cssText = `left:${(i * 173 + 60) % 1000}px;top:${(i * 241 + 300) % 1300}px;width:${s}px;height:${s}px`; sp.appendChild(d); tl.fromTo(d, { opacity: 0, y: 0 }, { opacity: 0.7, y: -120 - (i % 5) * 40, duration: 2.2, ease: 'sine.inOut', yoyo: true, repeat: 1 }, 0.2 + (i % 6) * 0.25); }
+tl.set(['#p1', '#p2', '#p3'], { opacity: 0 }, 0); tl.set('#zen', { yPercent: 115 }, 0);
+tl.fromTo('#p2', { x: -260, opacity: 0 }, { x: 0, opacity: 1, duration: 0.7, ease: 'expo.out', immediateRender: false }, 0.25);
+tl.fromTo('#p3', { x: 260, y: 120, opacity: 0 }, { x: 0, y: 0, opacity: 1, duration: 0.7, ease: 'expo.out', immediateRender: false }, 0.45);
+tl.fromTo('#p1', { y: -240, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: 'bounce.out', immediateRender: false }, 0.75);
+tl.set(['#p1', '#p2', '#p3'], { opacity: 1 }, 1.6);
+tl.fromTo('#logo', { scale: 1 }, { scale: 1.06, duration: 0.2, ease: 'power2.out', immediateRender: false }, 1.3).to('#logo', { scale: 1, duration: 0.5, ease: 'power2.inOut' }, 1.5);
+tl.fromTo('#ring', { scale: 0.6, opacity: 0.8 }, { scale: 1.5, opacity: 0, duration: 1.2, ease: 'power2.out', immediateRender: false }, 1.35);
+tl.fromTo('#sweep', { x: 0, opacity: 0.9 }, { x: 1500, opacity: 0.9, duration: 0.9, ease: 'power2.inOut', immediateRender: false }, 1.4).set('#sweep', { opacity: 0 }, 2.4);
+tl.fromTo('#zen', { yPercent: 115 }, { yPercent: 0, duration: 0.7, ease: 'expo.out', immediateRender: false }, 1.7);
+tl.fromTo('#sw', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out', immediateRender: false }, 2.2);
+tl.fromTo('#dom', { opacity: 0, scale: 0.85, y: 30 }, { opacity: 1, scale: 1, y: 0, duration: 0.55, ease: 'back.out(1.8)', immediateRender: false }, 2.8);
+tl.fromTo('#logo', { y: 0 }, { y: -14, duration: 1.6, ease: 'sine.inOut', yoyo: true, repeat: 1 }, 2.3);
+tl.fromTo('#dom', { boxShadow: '0 0 0 rgba(61,123,255,0)' }, { boxShadow: '0 0 50px rgba(61,123,255,.6)', duration: 0.8, yoyo: true, repeat: 1, ease: 'sine.inOut' }, 3.4);
+window.__timelines = window.__timelines || {}; window.__timelines['main'] = tl; tl.seek(0);
+</script></body></html>

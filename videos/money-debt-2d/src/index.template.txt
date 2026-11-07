@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: 'Space Grotesk'; font-weight: 500; src: url('assets/fonts/space-grotesk-latin-500-normal.woff2') format('woff2'); }
+      @font-face { font-family: 'Space Grotesk'; font-weight: 600; src: url('assets/fonts/space-grotesk-latin-600-normal.woff2') format('woff2'); }
+      @font-face { font-family: 'Space Grotesk'; font-weight: 700; src: url('assets/fonts/space-grotesk-latin-700-normal.woff2') format('woff2'); }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #fdfae7; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #fdfae7; font-family: 'Space Grotesk', sans-serif; color: #111111; }
+      #stage { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; }
+      .scene { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; opacity: 0; }
+      .abs { position: absolute; opacity: 0; }
+      svg { display: block; overflow: visible; }
+
+      .eb { text-align: center; font-weight: 600; font-size: 36px; letter-spacing: 0.08em; text-transform: uppercase; color: #1e2bfa; }
+      .pillchip { display: inline-block; padding: 12px 30px; border-radius: 100px; background: rgba(30,43,250,0.08); border: 1.5px solid rgba(30,43,250,0.2); color: #1e2bfa; font-weight: 600; font-size: 30px; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; }
+      .tag { font-weight: 600; font-size: 28px; letter-spacing: 0.08em; text-transform: uppercase; color: #1e2bfa; text-align: center; white-space: nowrap; }
+      .card { background: rgba(30,43,250,0.045); border: 1.5px solid rgba(30,43,250,0.22); border-radius: 18px; }
+      .big { font-weight: 700; letter-spacing: -0.03em; line-height: 1.04; text-align: center; white-space: nowrap; }
+      .coin { width: 64px; height: 64px; border-radius: 50%; background: #1e2bfa; color: #fdfae7; font-weight: 700; font-size: 38px; line-height: 64px; text-align: center; border: 4px solid #fdfae7; box-shadow: 0 0 0 3px #1e2bfa; }
+      .bill { width: 150px; height: 76px; border-radius: 10px; background: #fdfae7; border: 4px solid #1e2bfa; position: relative; }
+      .bill::before { content: '$'; position: absolute; left: 50%; top: 50%; width: 38px; height: 38px; margin: -19px 0 0 -19px; border-radius: 50%; background: #1e2bfa; color: #fdfae7; font-weight: 700; font-size: 24px; line-height: 38px; text-align: center; }
+      .bill::after { content: ''; position: absolute; left: 10px; top: 10px; right: 10px; bottom: 10px; border: 2px dashed rgba(30,43,250,0.35); border-radius: 5px; }
+      .iou { width: 96px; height: 120px; border-radius: 10px; background: #fff; border: 4px solid #111; color: #111; font-weight: 700; font-size: 34px; text-align: center; padding-top: 38px; }
+
+      #chap { position: absolute; left: 0; top: 140px; width: 1080px; height: 60px; }
+      .chapi { position: absolute; left: 0; top: 0; width: 1080px; text-align: center; opacity: 0; }
+      #prog { position: absolute; left: 0; bottom: 0; width: 1080px; height: 6px; background: #1e2bfa; transform-origin: left center; }
+      #shade { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; opacity: 0; background: radial-gradient(ellipse 75% 15% at 50% 19%, rgba(253,250,231,0.96) 0%, rgba(253,250,231,0.85) 55%, rgba(253,250,231,0.0) 100%); }
+
+      #caps { position: absolute; left: 0; top: 1392px; width: 1080px; height: 190px; }
+      .cg { position: absolute; left: 90px; top: 0; width: 900px; text-align: center; opacity: 0; }
+      .cg .pill { display: inline-block; padding: 14px 30px 16px; border-radius: 34px; background: #ffffff; border: 1.5px solid rgba(30,43,250,0.22); box-shadow: 0 8px 30px rgba(17,17,17,0.06); font-weight: 600; font-size: 52px; line-height: 1.2; letter-spacing: -0.01em; color: #111; }
+      .cw { display: inline-block; margin: 0 4px; padding: 0 10px; border-radius: 12px; }
+
+      #bigA { position: absolute; left: 0; top: 330px; width: 1080px; font-size: 138px; opacity: 0; }
+      #bigB { position: absolute; left: 0; top: 340px; width: 1080px; font-size: 112px; opacity: 0; }
+      #bigA span, #bigB span { display: inline-block; opacity: 0; }
+      .bl { color: #1e2bfa; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="__TOTAL__" data-width="1080" data-height="1920">
+      <div id="stage" class="clip" data-start="0" data-duration="__TOTAL__" data-track-index="0">
+        <div id="scenes"></div>
+        <div id="shade"></div>
+        <div id="chap">
+          <div class="chapi eb" id="ch1">01 / The loan</div><div class="chapi eb" id="ch2">02 / The new deposit</div><div class="chapi eb" id="ch3">03 / The limits</div>
+          <div class="chapi eb" id="ch4">04 / Repayment</div><div class="chapi eb" id="ch5">05 / The system</div>
+        </div>
+        <div id="bigA" class="big"><span>MONEY&nbsp;STARTS</span><br/><span class="bl">AS&nbsp;DEBT.</span></div>
+        <div id="bigB" class="big"><span>YOU&nbsp;DIDN'T&nbsp;KNOW</span><br/><span>THAT&nbsp;ABOUT&nbsp;<span class="bl" style="opacity:1">MONEY.</span></span></div>
+        <div id="caps"></div>
+        <div id="prog"></div>
+      </div>
+    </div>
+
+    <script>
+      const WORDS = __WORDS__;
+      const LINES = __LINES__;
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      const E = 'power3.out', IO = 'power2.inOut';
+      const BLUE = '#1e2bfa', INK = '#111111', CREAM = '#fdfae7', TINT = 'rgba(30,43,250,0.06)';
+      const lerp = (a, b, u) => a + (b - a) * u;
+      const hash = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+      const at = (line, k) => WORDS.filter((w) => w.line === line)[k].s;
+      const endOf = (line, k) => WORDS.filter((w) => w.line === line)[k].e;
+      const ln = (i) => LINES.find((l) => l.i === i);
+      const $ = (s, root) => (root || document).querySelector(s);
+
+      // ---------- tiny DOM helpers ----------
+      function add(parent, html, css) { const d = document.createElement('div'); d.className = 'abs'; d.innerHTML = html; Object.assign(d.style, css || {}); parent.appendChild(d); return d; }
+      function box(parent, id, html, cx, cy, w, h, extra) { const d = add(parent, html, Object.assign({ left: (cx - w / 2) + 'px', top: (cy - h / 2) + 'px', width: w + 'px', height: h + 'px' }, extra || {})); if (id) d.id = id; return d; }
+      function text(parent, str, cls, cx, cy, w, css) { return box(parent, null, `<div class="${cls}" style="width:${w}px">${str}</div>`, cx, cy, w, 60, css); }
+      function R(el, t, from, to) { return tl.fromTo(el, Object.assign({ opacity: 0, y: 28 }, from || {}), Object.assign({ opacity: 1, y: 0, duration: 0.55, ease: E, immediateRender: false }, to || {}), t); }
+      function X(el, t, dur) { return tl.to(el, { opacity: 0, duration: dur || 0.3, ease: 'none' }, t); }
+      function scene(id, a, b, first, last) {
+        const s = document.createElement('div'); s.className = 'scene'; s.id = id; document.getElementById('scenes').appendChild(s);
+        tl.fromTo(s, { opacity: first ? 1 : 0 }, { opacity: 1, duration: first ? 0.01 : 0.35, ease: 'none', immediateRender: false }, first ? 0 : a - 0.25);
+        if (!last) tl.to(s, { opacity: 0, duration: 0.3, ease: 'none' }, b);
+        return s;
+      }
+      function arc(el, A, B, t, dur, h, ease) { const o = { p: 0 }; tl.fromTo(o, { p: 0 }, { p: 1, duration: dur, ease: ease || 'power1.inOut', immediateRender: false, onUpdate() { gsap.set(el, { x: lerp(A.x, B.x, o.p), y: lerp(A.y, B.y, o.p) - Math.sin(Math.PI * o.p) * h }); } }, t); }
+      function burst(parent, cx, cy, n, t, rad, size, round) {
+        for (let i = 0; i < n; i++) {
+          const a = hash(i + 7) * 6.283, r = rad * (0.5 + 0.5 * hash(i + 21)), s = size * (0.6 + hash(i + 3) * 0.8);
+          const d = box(parent, null, `<div style="width:${s}px;height:${s}px;background:${i % 3 ? BLUE : INK};border-radius:${round ? 50 : 3}px"></div>`, cx, cy, s, s);
+          tl.fromTo(d, { opacity: 1, x: 0, y: 0, scale: 0.2, rotation: 0 }, { opacity: 0, x: Math.cos(a) * r, y: Math.sin(a) * r - 30, scale: 1, rotation: hash(i) * 360, duration: 0.8, ease: 'power2.out', immediateRender: false }, t);
+        }
+      }
+
+      // ---------- the cast ----------
+      function person(o) {
+        const skin = o.skin, hair = o.hair, shirt = o.shirt, pants = o.pants, acc = o.acc || '', style = o.style || 'short';
+        const hairSvg = ({
+          short: `<path d="M62 78 C58 28 162 28 158 78 C150 54 130 46 110 46 C90 46 70 54 62 78Z" fill="${hair}"/>`,
+          curly: `<g fill="${hair}"><circle cx="76" cy="54" r="21"/><circle cx="102" cy="42" r="23"/><circle cx="128" cy="44" r="23"/><circle cx="148" cy="58" r="19"/><circle cx="62" cy="76" r="14"/><circle cx="158" cy="76" r="14"/></g>`,
+          long: `<path d="M58 96 C50 20 170 20 162 96 L166 160 L148 160 L148 74 C130 50 90 50 72 74 L72 160 L54 160Z" fill="${hair}"/>`,
+          bun: `<circle cx="110" cy="22" r="18" fill="${hair}"/><path d="M62 78 C58 28 162 28 158 78 C150 54 130 46 110 46 C90 46 70 54 62 78Z" fill="${hair}"/>`,
+          bald: ''
+        })[style];
+        const extras = [];
+        if (acc.includes('tie')) extras.push(`<path d="M110 134 L99 150 L110 218 L121 150Z" fill="${BLUE}"/><path d="M98 130 L110 146 L122 130" fill="none" stroke="#111" stroke-width="3"/>`);
+        if (acc.includes('badge')) extras.push(`<rect x="76" y="170" width="30" height="22" rx="4" fill="${BLUE}"/><rect x="82" y="176" width="18" height="4" fill="#fdfae7"/>`);
+        if (acc.includes('apron')) extras.push(`<path d="M76 172 H144 V272 H76Z" fill="#fff" stroke="${BLUE}" stroke-width="3"/>`);
+        const glasses = acc.includes('glasses') ? `<g fill="none" stroke="#111" stroke-width="3.5"><circle cx="92" cy="86" r="13"/><circle cx="128" cy="86" r="13"/><path d="M105 86 L115 86"/></g>` : '';
+        const cap = acc.includes('cap') ? `<path d="M60 74 C58 34 162 34 160 74Z" fill="${BLUE}"/><rect x="54" y="68" width="112" height="11" rx="5" fill="${BLUE}"/>` : '';
+        return `<svg viewBox="0 0 220 420" width="220" height="420">
+          <g class="legs"><rect x="74" y="248" width="32" height="154" rx="15" fill="${pants}"/><rect x="114" y="248" width="32" height="154" rx="15" fill="${pants}"/><ellipse cx="84" cy="404" rx="26" ry="11" fill="#1c1c1c"/><ellipse cx="136" cy="404" rx="26" ry="11" fill="#1c1c1c"/></g>
+          <g class="armL"><rect x="52" y="146" width="28" height="112" rx="14" fill="${shirt}" stroke="rgba(17,17,17,0.14)" stroke-width="2"/><circle cx="66" cy="262" r="16" fill="${skin}"/></g>
+          <g class="armR"><rect x="140" y="146" width="28" height="112" rx="14" fill="${shirt}" stroke="rgba(17,17,17,0.14)" stroke-width="2"/><circle cx="154" cy="262" r="16" fill="${skin}"/></g>
+          <rect class="torso" x="60" y="126" width="100" height="150" rx="32" fill="${shirt}" stroke="rgba(17,17,17,0.14)" stroke-width="2"/>
+          ${extras.join('')}
+          <g class="head"><rect x="97" y="118" width="26" height="28" rx="8" fill="${skin}"/><circle cx="110" cy="84" r="46" fill="${skin}"/>${hairSvg}${cap}
+            <g class="eyes"><circle cx="93" cy="86" r="5.5" fill="#111"/><circle cx="127" cy="86" r="5.5" fill="#111"/></g>${glasses}
+            <g class="brows" opacity="0" stroke="#111" stroke-width="4" stroke-linecap="round"><path d="M82 68 L102 66"/><path d="M118 66 L138 68"/></g>
+            <path class="mS" d="M93 106 Q110 122 127 106" fill="none" stroke="#111" stroke-width="4.5" stroke-linecap="round"/>
+            <ellipse class="mO" cx="110" cy="110" rx="10" ry="13" fill="#111" opacity="0"/>
+            <path class="mF" d="M96 110 L124 110" fill="none" stroke="#111" stroke-width="4.5" stroke-linecap="round" opacity="0"/>
+          </g></svg>`;
+      }
+      const LOOK = {
+        you: { skin: '#e0b08a', hair: '#2b1b12', shirt: BLUE, pants: INK },
+        banker: { skin: '#f1c9a5', hair: '#1a1a1a', shirt: '#ffffff', pants: INK, acc: 'tie glasses' },
+        other: { skin: '#a8693f', hair: '#111111', style: 'curly', shirt: '#2a2a2a', pants: '#4a4a55' },
+        reg: { skin: '#7a4a2c', hair: '#b9b9b9', shirt: '#c9ceff', pants: INK, acc: 'badge' },
+        barista: { skin: '#f1c9a5', hair: '#6a3b1e', style: 'bun', shirt: '#fff', pants: INK, acc: 'apron' },
+        shopper: { skin: '#d9a074', hair: '#111', style: 'long', shirt: '#6b6b6b', pants: BLUE },
+        owner: { skin: '#8d5a3c', hair: '#111', style: 'bald', shirt: '#dfe3ff', pants: '#333' }
+      };
+      const SK = ['#f1c9a5', '#e0b08a', '#d9a074', '#a8693f', '#7a4a2c'], HR = ['#111', '#2b1b12', '#6a3b1e', '#b9b9b9', '#c9a24a'], SH = [BLUE, '#111111', '#ffffff', '#c9ceff', '#6b6b6b'], ST = ['short', 'curly', 'long', 'bun', 'bald'];
+      const crowdLook = (i) => ({ skin: SK[(i * 3) % 5], hair: HR[(i * 2 + 1) % 5], style: ST[(i * 7) % 5], shirt: SH[(i * 2) % 5], pants: i % 2 ? INK : '#444b7a', acc: i % 4 === 0 ? 'cap' : '' });
+      function human(parent, id, look, cx, feetY, s) {
+        const d = box(parent, id, person(look), cx, feetY - 210, 220, 420);
+        gsap.set(d, { scale: s, transformOrigin: '50% 100%' });
+        gsap.set(d.querySelectorAll('.armL'), { svgOrigin: '66 152' }); gsap.set(d.querySelectorAll('.armR'), { svgOrigin: '154 152' });
+        gsap.set(d.querySelectorAll('.head'), { svgOrigin: '110 124' });
+        return d;
+      }
+      const arm = (p, side, t, rot, dur) => tl.to(p.querySelector(side === 'L' ? '.armL' : '.armR'), { rotation: rot, duration: dur || 0.4, ease: E }, t);
+      const head = (p, t, rot, dur) => tl.to(p.querySelector('.head'), { rotation: rot, duration: dur || 0.4, ease: IO }, t);
+      function face(p, t, mode) { // 'smile' | 'wow' | 'flat'
+        const m = { smile: [1, 0, 0, 0], wow: [0, 1, 0, 1], flat: [0, 0, 1, 0] }[mode];
+        ['.mS', '.mO', '.mF', '.brows'].forEach((q, i) => tl.to(p.querySelector(q), { opacity: m[i], duration: 0.15, ease: 'none' }, t));
+        tl.to(p.querySelector('.eyes'), { scale: mode === 'wow' ? 1.35 : 1, svgOrigin: '110 86', duration: 0.15, ease: 'none' }, t);
+      }
+      const hop = (p, t, h) => { tl.to(p, { y: -(h || 26), duration: 0.18, ease: 'power2.out' }, t); tl.to(p, { y: 0, duration: 0.2, ease: 'power2.in' }, t + 0.18); };
+
+      // ---------- objects ----------
+      const bankSvg = (w) => `<svg viewBox="0 0 440 360" width="${w}" height="${w * 360 / 440}">
+        <path d="M24 122 L220 18 L416 122 Z" fill="${TINT}" stroke="${BLUE}" stroke-width="9" stroke-linejoin="round"/>
+        <circle cx="220" cy="84" r="21" fill="${BLUE}"/><text x="220" y="94" text-anchor="middle" font-family="Space Grotesk" font-weight="700" font-size="28" fill="${CREAM}">$</text>
+        <rect x="44" y="132" width="352" height="28" rx="5" fill="${TINT}" stroke="${BLUE}" stroke-width="8"/>
+        ${[0, 1, 2, 3, 4].map((i) => `<rect x="${66 + i * 70}" y="168" width="36" height="128" rx="7" fill="${TINT}" stroke="${BLUE}" stroke-width="8"/>`).join('')}
+        <rect x="28" y="302" width="384" height="22" rx="5" fill="${TINT}" stroke="${BLUE}" stroke-width="8"/><rect x="8" y="328" width="424" height="24" rx="5" fill="${TINT}" stroke="${BLUE}" stroke-width="8"/></svg>`;
+      const shopSvg = (w, col) => `<svg viewBox="0 0 300 260" width="${w}" height="${w * 260 / 300}"><rect x="30" y="90" width="240" height="160" rx="8" fill="${TINT}" stroke="${BLUE}" stroke-width="8"/>
+        ${[0, 1, 2, 3, 4].map((i) => `<path d="M${20 + i * 52} 40 h52 l8 56 h-68z" fill="${i % 2 ? CREAM : BLUE}" stroke="${BLUE}" stroke-width="6" stroke-linejoin="round"/>`).join('')}
+        <rect x="64" y="130" width="76" height="70" rx="6" fill="${CREAM}" stroke="${BLUE}" stroke-width="6"/><rect x="170" y="150" width="68" height="100" rx="6" fill="${BLUE}" opacity="0.9"/></svg>`;
+      const houseSvg = (w) => `<svg viewBox="0 0 280 250" width="${w}" height="${w * 250 / 280}"><path d="M20 118 L140 20 L260 118Z" fill="${BLUE}" stroke="${BLUE}" stroke-width="8" stroke-linejoin="round"/><rect x="42" y="116" width="196" height="124" rx="8" fill="${TINT}" stroke="${BLUE}" stroke-width="8"/>
+        <rect x="116" y="160" width="48" height="80" rx="6" fill="${CREAM}" stroke="${BLUE}" stroke-width="6"/><rect x="62" y="140" width="40" height="40" rx="5" fill="${CREAM}" stroke="${BLUE}" stroke-width="6"/><rect x="178" y="140" width="40" height="40" rx="5" fill="${CREAM}" stroke="${BLUE}" stroke-width="6"/></svg>`;
+      const paperHtml = (title, amount) => `<div class="card" style="width:300px;height:360px;background:#fff;padding:26px 28px"><div class="tag" style="text-align:left;font-size:24px">${title}</div><div style="margin-top:20px;height:10px;border-radius:5px;background:rgba(17,17,17,0.12)"></div><div style="margin-top:14px;height:10px;width:70%;border-radius:5px;background:rgba(17,17,17,0.12)"></div><div style="margin-top:14px;height:10px;width:85%;border-radius:5px;background:rgba(17,17,17,0.12)"></div><div style="margin-top:34px;font-weight:700;font-size:62px;color:${BLUE};letter-spacing:-0.03em">${amount || ''}</div></div>`;
+      const checkSvg = (s, col) => `<svg viewBox="0 0 100 100" width="${s}" height="${s}"><circle cx="50" cy="50" r="44" fill="none" stroke="${col || BLUE}" stroke-width="9"/><path d="M28 52 L45 69 L74 33" fill="none" stroke="${col || BLUE}" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+      const crossSvg = (s) => `<svg viewBox="0 0 100 100" width="${s}" height="${s}"><circle cx="50" cy="50" r="44" fill="${CREAM}" stroke="${BLUE}" stroke-width="9"/><path d="M30 30 L70 70 M70 30 L30 70" stroke="${BLUE}" stroke-width="11" stroke-linecap="round"/></svg>`;
+      const rings = (S, cx, cy) => { const d = box(S, null, `<svg viewBox="0 0 1080 1920" width="1080" height="1920" style="position:absolute;left:0;top:0">${[190, 340, 490, 640, 790].map((r, i) => `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="rgba(30,43,250,${0.1 - i * 0.012})" stroke-width="2"/>`).join('')}</svg>`, 540, 960, 1080, 1920); R(d, 0, { y: 0 }, { duration: 0.9 }); return d; };
+      const ground = (S, y, t) => { const g = box(S, null, `<div style="height:5px;border-radius:3px;background:rgba(30,43,250,0.22)"></div>`, 540, y, 940, 5); R(g, t, { y: 0, scaleX: 0 }, { duration: 0.6 }); return g; };
+
+      // ============================================================
+      // SCENES (all times come from the narration word timings)
+      // ============================================================
+      // chapters
+      [['#ch1', 3.7, 10.5], ['#ch2', 17.3, 28.5], ['#ch3', 35.3, 52.3], ['#ch4', 54.4, 63.2], ['#ch5', 63.6, 99]].forEach(([id, a, b]) => { R(id, a, { y: -10 }, { duration: 0.5 }); if (b < 90) X(id, b, 0.4); });
+      tl.fromTo('#prog', { scaleX: 0 }, { scaleX: 1, duration: __TOTAL__, ease: 'none', immediateRender: false }, 0);
+
+      // S1: hook
+      { const S = scene('s1', 0, 3.6, true);
+        rings(S, 540, 820);
+        R(text(S, 'Money, explained', 'pillchip', 540, 262, 520), 0.1);
+        const you = human(S, 'you1', LOOK.you, 540, 1250, 1.75); R(you, 0.0, { y: 70 }, { duration: 0.8 });
+        const t = at(1, 2);
+        arm(you, 'L', t, 62); arm(you, 'R', t, -62); head(you, t, 7); face(you, t, 'flat');
+        ['?', '?', '?'].forEach((q, i) => { const d = box(S, null, `<div class="big" style="font-size:${110 + i * 20}px;color:${BLUE}">?</div>`, 400 + i * 150, 470 - (i % 2) * 60, 120, 140); R(d, t + 0.1 + i * 0.22, { y: 30, scale: 0.5 }, { scale: 1, duration: 0.5 }); });
+        const c = box(S, null, '<div class="coin">$</div>', 850, 720, 64, 64); R(c, at(1, 6), { y: 40, scale: 0.4, rotation: -120 }, { scale: 1.5, rotation: 0, duration: 0.7 });
+        ground(S, 1250, 0.2); }
+
+      // S2: the bank approves a loan
+      { const S = scene('s2', 3.35, 7.6);
+        const bk = box(S, 'bank2', bankSvg(560), 540, 560, 560, 458); R(bk, 3.45, { y: 40 }, { duration: 0.7 });
+        const banker = human(S, 'banker2', LOOK.banker, 270, 1250, 1.25); R(banker, 3.5, { x: -40 }, { x: 0, duration: 0.7 });
+        const desk = box(S, null, `<div style="width:400px;height:96px;border-radius:18px;background:${TINT};border:3px solid ${BLUE}"></div>`, 760, 1202, 400, 96); R(desk, 3.5);
+        const paper = box(S, null, paperHtml('LOAN', ''), 760, 960, 300, 360); R(paper, 3.7, { y: 40 }, { duration: 0.6 });
+        const stamp = box(S, 'stamp2', `<svg viewBox="0 0 140 150" width="140" height="150"><rect x="30" y="0" width="80" height="60" rx="16" fill="${INK}"/><rect x="58" y="56" width="24" height="46" fill="${INK}"/><rect x="4" y="100" width="132" height="40" rx="10" fill="${BLUE}"/></svg>`, 640, 560, 140, 150);
+        const ts = at(2, 3);
+        R(stamp, ts - 0.55, { y: -40 }, { duration: 0.4 });
+        tl.to(stamp, { x: 120, y: 330, duration: 0.2, ease: 'power3.in' }, ts - 0.05);
+        const appr = box(S, null, `<div style="border:8px solid ${BLUE};color:${BLUE};border-radius:14px;padding:6px 18px;font-weight:700;font-size:50px;letter-spacing:0.06em;transform:rotate(-10deg);background:rgba(253,250,231,0.9)">APPROVED</div>`, 760, 985, 330, 90); R(appr, ts + 0.12, { scale: 2, y: 0 }, { scale: 1, duration: 0.25 });
+        burst(S, 760, 985, 14, ts + 0.14, 150, 12, false);
+        tl.to(stamp, { y: 120, x: 160, opacity: 0, duration: 0.5, ease: 'power2.in' }, ts + 0.5);
+        arm(banker, 'R', ts - 0.4, -150, 0.35); arm(banker, 'R', ts + 0.2, -20, 0.5);
+        const tq = at(2, 7);
+        const q = box(S, null, `<div class="big" style="font-size:130px;color:${BLUE}">?!</div>`, 850, 390, 200, 160); R(q, tq, { scale: 0.4 }, { scale: 1, duration: 0.5 });
+        tl.fromTo(bk, { rotation: 0 }, { keyframes: { rotation: [0, -2.5, 2.5, -2, 2, 0] }, duration: 0.9, ease: 'none', immediateRender: false }, tq);
+        ground(S, 1250, 3.6); }
+
+      // S3: you borrow ten thousand dollars
+      { const S = scene('s3', 7.5, 10.65);
+        const bk = box(S, null, bankSvg(360), 790, 560, 360, 295); R(bk, 7.7, { x: 50 }, { x: 0, duration: 0.7 });
+        const you = human(S, 'you3', LOOK.you, 300, 1250, 1.75); R(you, 7.6, { x: -60 }, { x: 0, duration: 0.7 });
+        arm(you, 'L', at(3, 2), 40, 0.5); arm(you, 'R', at(3, 2), -40, 0.5);
+        const lp = box(S, 'paper3', paperHtml('LOAN', '$10,000'), 790, 820, 300, 360);
+        R(lp, at(3, 2), { y: -10, scale: 0.4 }, { duration: 0.6 });
+        arc(lp, { x: 0, y: 0 }, { x: -330, y: 120 }, at(3, 2) + 0.2, 1.1, 120, IO);
+        const dots = box(S, null, `<svg viewBox="0 0 520 220" width="520" height="220"><path d="M470 30 C 300 -20, 160 40, 90 150" fill="none" stroke="${BLUE}" stroke-width="6" stroke-dasharray="4 16" stroke-linecap="round"/></svg>`, 560, 680, 520, 220); R(dots, at(3, 2), { y: 0 }, { duration: 0.6 });
+        text(S, 'YOU', 'tag', 300, 1300, 200); R(S.lastChild, 7.9);
+        ground(S, 1250, 7.6); }
+
+      // S4: it is NOT someone else's money
+      { const S = scene('s4', 10.5, 17.3);
+        const other = human(S, 'other4', LOOK.other, 180, 1250, 1.3); R(other, 10.7, { x: -50 }, { x: 0, duration: 0.7 });
+        const bk = box(S, null, bankSvg(320), 540, 700, 320, 262); R(bk, 10.8, { y: 30 }, { duration: 0.7 });
+        const you = human(S, 'you4', LOOK.you, 900, 1250, 1.3); R(you, 10.7, { x: 50 }, { x: 0, duration: 0.7 });
+        text(S, 'SOMEONE ELSE', 'tag', 180, 1305, 300); R(S.lastChild, at(4, 9) - 0.3);
+        text(S, 'YOU', 'tag', 900, 1305, 200); R(S.lastChild, at(4, 15) - 0.3);
+        const acct = box(S, null, `<div class="card" style="width:230px;height:120px;background:#fff;padding:18px 20px"><div class="tag" style="text-align:left;font-size:20px">ACCOUNT</div><div style="margin-top:12px;height:12px;width:80%;border-radius:6px;background:rgba(17,17,17,0.14)"></div></div>`, 190, 650, 230, 120); R(acct, at(4, 9));
+        const cash = box(S, 'cash4', `<div style="position:relative;width:170px;height:110px">${[0, 1, 2].map((i) => `<div class="bill" style="position:absolute;left:${i * 8}px;top:${40 - i * 18}px;width:150px"></div>`).join('')}</div>`, 190, 960, 170, 110); R(cash, at(4, 9) + 0.1);
+        const p1 = { x: 0, y: 0 }, p2 = { x: 355, y: -250 }, p3 = { x: 560, y: -120 };
+        arc(cash, p1, p2, at(4, 4) + 0.1, 1.4, 90, IO);                   // "take ..." toward the bank
+        arc(cash, p2, p3, at(4, 13), 0.9, 40, IO);                        // "... hand it to you"
+        const x = box(S, null, crossSvg(190), 700, 1010, 190, 190); R(x, at(4, 15), { scale: 2.2, y: 0 }, { scale: 1, duration: 0.3 });
+        burst(S, 700, 1010, 12, at(4, 15) + 0.1, 130, 10, true);
+        tl.to(cash, { opacity: 0, scale: 0.3, duration: 0.35, ease: 'power2.in' }, at(4, 16) + 0.15);
+        arm(you, 'L', at(4, 15), 55, 0.4); arm(you, 'R', at(4, 15), -55, 0.4); face(you, at(4, 15), 'flat');
+        tl.fromTo(you.querySelector('.head'), { rotation: 0 }, { keyframes: { rotation: [0, -8, 8, -6, 6, 0] }, duration: 0.9, ease: 'none', immediateRender: false }, at(4, 16));
+        const dots = box(S, null, `<svg viewBox="0 0 760 160" width="760" height="160"><path d="M20 140 C 160 -20, 360 -20, 740 120" fill="none" stroke="${BLUE}" stroke-width="5" stroke-dasharray="4 16" stroke-linecap="round" opacity="0.7"/></svg>`, 540, 900, 760, 160); R(dots, at(4, 4), { y: 0 }, { duration: 0.5 });
+        ground(S, 1250, 10.7); }
+
+      // S5: instead, it creates a new deposit
+      { const S = scene('s5', 17.1, 20.5);
+        const bk = box(S, 'bank5', bankSvg(520), 540, 520, 520, 425); R(bk, 17.2, { y: 40 }, { duration: 0.7 });
+        const t = at(5, 3);
+        burst(S, 540, 680, 22, t, 260, 14, true);
+        const card = box(S, 'card5', `<div class="card" style="width:560px;height:250px;background:#fff;padding:30px 36px;border-color:${BLUE};border-width:3px;box-shadow:0 0 0 10px rgba(30,43,250,0.08)"><div class="tag" style="text-align:left">NEW DEPOSIT</div><div style="margin-top:22px;font-weight:700;font-size:92px;letter-spacing:-0.03em;color:${BLUE}">$ ? ? ?</div></div>`, 470, 1000, 560, 250);
+        R(card, t + 0.1, { scale: 0.2, rotation: -12, y: -120 }, { scale: 1, rotation: 0, y: 0, duration: 0.8 });
+        const you = human(S, 'you5', LOOK.you, 910, 1260, 1.3); R(you, 17.5, { y: 60 }, { duration: 0.7 });
+        head(you, t + 0.3, -8, 0.6); arm(you, 'L', t + 0.4, 150, 0.6); face(you, t + 0.4, 'wow');
+        ground(S, 1262, 17.4); }
+
+      // S6: the account suddenly says 10,000$
+      const B6 = { v: 0 };
+      { const S = scene('s6', 20.4, 25.5);
+        const card = box(S, 'acct6', `<div class="card" style="width:820px;height:520px;background:#fff;padding:44px 52px;box-shadow:0 18px 60px rgba(17,17,17,0.08)">
+          <div style="display:flex;justify-content:space-between"><div class="tag" style="text-align:left">CHECKING ACCOUNT</div><div class="pillchip" style="font-size:22px;padding:6px 18px">balance</div></div>
+          <div class="tag" style="text-align:left;color:#6b6b6b;margin-top:40px;margin-bottom:34px">AVAILABLE BALANCE</div>
+          <div id="bal6" style="font-weight:700;font-size:190px;letter-spacing:-0.04em;color:${INK};line-height:1.3">$0</div>
+          <div id="chip6" class="pillchip" style="margin-top:8px;opacity:0">+ new deposit</div></div>`, 540, 520, 820, 520);
+        R(card, at(6, 0) - 0.1, { y: 60 }, { duration: 0.8 });
+        const you = human(S, 'you6', LOOK.you, 540, 1262, 1.25); R(you, 20.7, { y: 60 }, { duration: 0.7 });
+        const t7 = at(7, 0);
+        head(you, at(6, 2), 8, 0.5);
+        tl.to(B6, { v: 10000, duration: 0.9, ease: 'power3.out', onUpdate() { $('#bal6').textContent = '$' + Math.round(B6.v).toLocaleString('en-US'); } }, t7);
+        tl.to('#chip6', { opacity: 1, duration: 0.3, ease: 'none' }, t7 + 0.8);
+        tl.fromTo('#bal6', { color: INK, scale: 1 }, { color: BLUE, scale: 1.06, duration: 0.25, ease: E, transformOrigin: '0% 50%', immediateRender: false }, t7);
+        arm(you, 'L', t7, 165, 0.35); arm(you, 'R', t7, -165, 0.35); face(you, t7, 'wow'); hop(you, t7 + 0.1, 40);
+        burst(S, 540, 520, 30, t7, 420, 14, false);
+        ground(S, 1262, 20.7); }
+
+      // S7: spent in the real economy
+      { const S = scene('s7', 25.35, 29.1);
+        const cafe = box(S, null, shopSvg(330), 200, 800, 330, 286); R(cafe, at(8, 5) - 0.2, { y: 40 }, { duration: 0.6 });
+        const house = box(S, null, houseSvg(310), 540, 690, 310, 277); R(house, at(8, 6) - 0.1, { y: 40 }, { duration: 0.6 });
+        const store = box(S, null, shopSvg(330), 880, 800, 330, 286); R(store, at(8, 8) - 0.2, { y: 40 }, { duration: 0.6 });
+        [['CAFE', 200, 990], ['HOME', 540, 880], ['SHOP', 880, 990]].forEach(([s, x, y], i) => { text(S, s, 'tag', x, y, 220); R(S.lastChild, 26.2 + i * 0.3); });
+        const bar = human(S, 'bar7', LOOK.barista, 200, 1190, 0.78); R(bar, at(8, 5) + 0.1);
+        const sho = human(S, 'sho7', LOOK.shopper, 880, 1200, 0.8); R(sho, at(8, 8) + 0.1);
+        const you = human(S, 'you7', LOOK.you, 540, 1262, 1.15); R(you, 25.5, { y: 50 }, { duration: 0.6 }); arm(you, 'R', 25.9, -50, 0.5);
+        [[200, 900], [540, 790], [880, 900]].forEach(([tx, ty], i) => {
+          for (let k = 0; k < 3; k++) { const c = box(S, null, '<div class="coin" style="width:52px;height:52px;font-size:30px;line-height:52px">$</div>', 600, 960, 52, 52); R(c, at(8, 5) + 0.1 + i * 0.35 + k * 0.45, { y: 0, scale: 0.5 }, { scale: 1, duration: 0.2 }); arc(c, { x: 0, y: 0 }, { x: tx - 600, y: ty - 960 }, at(8, 5) + 0.15 + i * 0.35 + k * 0.45, 0.8, 140, 'power1.inOut'); X(c, at(8, 5) + 0.95 + i * 0.35 + k * 0.45, 0.15); }
+        });
+        hop(bar, at(8, 5) + 1.0, 20); hop(sho, at(8, 8) + 1.2, 20);
+        ground(S, 1262, 25.5); }
+
+      // S8: banks create new money when they issue loans
+      { const S = scene('s8', 28.9, 35.1);
+        const bk = box(S, 'bank8', bankSvg(500), 540, 640, 500, 409); R(bk, 29.0, { y: 40 }, { duration: 0.7 });
+        const banker = human(S, 'banker8', LOOK.banker, 150, 1250, 1.25); R(banker, at(9, 6) - 0.2, { x: -50 }, { x: 0, duration: 0.6 });
+        const you = human(S, 'you8', LOOK.you, 930, 1250, 1.25); R(you, at(9, 14) - 0.3, { x: 50 }, { x: 0, duration: 0.6 });
+        const p1 = human(S, 'p1_8', crowdLook(2), 400, 1250, 1.0), p2 = human(S, 'p2_8', crowdLook(5), 680, 1250, 1.0); R(p1, at(9, 9) - 0.2); R(p2, at(9, 9) - 0.1);
+        const tc = at(9, 9);
+        const chip = box(S, null, '<div class="pillchip" style="font-size:36px;padding:14px 36px">New money</div>', 540, 250, 380, 70); R(chip, at(9, 10));
+        for (let i = 0; i < 18; i++) {
+          const isBill = i % 2 === 0, side = i % 3 - 1;
+          const d = box(S, null, isBill ? '<div class="bill" style="width:120px;height:62px"></div>' : '<div class="coin" style="width:56px;height:56px;font-size:32px;line-height:56px">$</div>', 540, 700, 130, 70);
+          const t0 = tc + i * 0.28;
+          R(d, t0, { y: 0, scale: 0.4 }, { scale: 1, duration: 0.15 });
+          arc(d, { x: 0, y: 0 }, { x: (side * 300) + (hash(i) - 0.5) * 220, y: 520 + hash(i + 5) * 60 }, t0, 1.1, 260, 'power1.in');
+          X(d, t0 + 1.0, 0.15);
+        }
+        arm(banker, 'R', tc, -160, 0.4); hop(p1, tc + 0.9, 20); hop(p2, tc + 1.3, 20);
+        ground(S, 1262, 29.1); }
+
+      // S9: they cannot just type unlimited zeros
+      { const S = scene('s9', 35.1, 41.55);
+        const desk = box(S, null, `<div style="width:620px;height:210px;border-radius:20px;background:${TINT};border:3px solid ${BLUE}"></div>`, 360, 1170, 620, 210);
+        const banker = human(S, 'banker9', LOOK.banker, 360, 1190, 1.35);
+        R(banker, 35.2, { y: 40 }, { duration: 0.6 }); R(desk, 35.3);
+        desk.style.zIndex = 3;
+        const lap = box(S, null, `<svg viewBox="0 0 200 130" width="200" height="130"><rect x="30" y="0" width="140" height="92" rx="9" fill="${INK}"/><rect x="40" y="10" width="120" height="72" rx="4" fill="${BLUE}" opacity="0.9"/><rect x="0" y="96" width="200" height="22" rx="8" fill="${INK}"/></svg>`, 360, 1070, 200, 130); lap.style.zIndex = 4; R(lap, 35.4);
+        text(S, 'But no...', 'big', 540, 300, 900, { fontSize: '96px' }); R(S.lastChild, 35.3, {}, {}); X(S.lastChild, 36.9, 0.3);
+        S.lastChild.style.fontSize = '96px';
+        arm(banker, 'L', 35.5, 140, 0.4); arm(banker, 'R', 35.5, -140, 0.4);
+        tl.fromTo(banker.querySelector('.head'), { rotation: 0 }, { keyframes: { rotation: [0, -7, 7, -6, 6, 0] }, duration: 1.0, ease: 'none', immediateRender: false }, 35.9);
+        tl.to(banker.querySelector('.armL'), { rotation: 8, duration: 0.3 }, 37.0); tl.to(banker.querySelector('.armR'), { rotation: -8, duration: 0.3 }, 37.0);
+        // zeros climbing out of the laptop
+        const zs = [];
+        for (let i = 0; i < 26; i++) {
+          const d = box(S, null, `<div class="big" style="font-size:${54 + (i % 4) * 14}px;color:${BLUE}">0</div>`, 560 + (hash(i) - 0.35) * 300, 1010, 70, 90); d.setAttribute('data-layout-allow-overlap', ''); d.querySelector('.big').setAttribute('data-layout-allow-overlap', ''); zs.push(d);
+          const t0 = at(11, 4) + i * 0.085; R(d, t0, { y: 0, scale: 0.4 }, { scale: 1, duration: 0.15 });
+          tl.to(d, { y: -(380 + hash(i + 2) * 330), duration: 1.5, ease: 'power1.out' }, t0);
+        }
+        // the regulator walks in and stops it
+        const reg = human(S, 'reg9', LOOK.reg, 860, 1240, 1.3); R(reg, 40.2, { x: 160 }, { x: 0, duration: 0.5 });
+        arm(reg, 'R', 40.5, -160, 0.3); arm(reg, 'L', 40.6, 30, 0.3);
+        const stop = box(S, null, `<svg viewBox="0 0 120 120" width="150" height="150"><path d="M60 8 L98 24 V60 C98 86 80 104 60 112 C40 104 22 86 22 60 V24Z" fill="${CREAM}" stroke="${BLUE}" stroke-width="8" stroke-linejoin="round"/><path d="M42 58 L55 72 L80 42" fill="none" stroke="${BLUE}" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/></svg>`, 745, 650, 150, 150); R(stop, 40.45, { scale: 0.2 }, { scale: 1, duration: 0.35 });
+        zs.forEach((d) => tl.to(d, { opacity: 0, scale: 0.4, duration: 0.25, ease: 'power2.in' }, 40.55));
+        burst(S, 620, 780, 16, 40.55, 200, 12, false);
+        const lim = box(S, null, '<div class="pillchip" style="font-size:36px;padding:14px 36px">Not unlimited</div>', 540, 300, 460, 70); R(lim, 40.6); X(lim, 41.3, 0.3);
+        ground(S, 1252, 35.2); }
+
+      // S10: the limits
+      { const S = scene('s10', 41.4, 51.8);
+        const sh = box(S, null, `<svg viewBox="0 0 120 130" width="260" height="282" fill="none"><path id="shp" d="M60 8 L100 24 V62 C100 90 82 108 60 118 C38 108 20 90 20 62 V24Z" stroke="${BLUE}" stroke-width="5" stroke-linejoin="round" fill="${TINT}"/></svg>`, 540, 400, 260, 282); R(sh, 41.5, { scale: 0.5 }, { scale: 1, duration: 0.7 });
+        const reg = human(S, 'reg10', LOOK.reg, 160, 640, 0.62); R(reg, 41.7); arm(reg, 'R', 42.2, -150, 0.4);
+        const bnk = human(S, 'ban10', LOOK.banker, 920, 640, 0.62); R(bnk, 41.7); arm(bnk, 'L', 42.2, 150, 0.4);
+        const items = [['Capital requirements', 4, '$'], ['Liquidity rules', 6, '≈'], ['Regulation', 8, '§'], ['Risk', 9, '!'], ['Borrowers who can repay', 15, '✓']];
+        items.forEach(([name, k, ic], i) => {
+          const y = 640 + i * 142;
+          const c = box(S, null, `<div class="card" style="width:900px;height:118px;background:#fff;position:relative"><div style="position:absolute;left:28px;top:20px;width:78px;height:78px;border-radius:50%;background:${BLUE};color:${CREAM};font-weight:700;font-size:42px;line-height:78px;text-align:center">${ic}</div><div style="position:absolute;left:132px;top:0;height:118px;line-height:118px;font-weight:600;font-size:46px;letter-spacing:-0.02em;white-space:nowrap">${name}</div></div>`, 540, y, 900, 118);
+          R(c, at(12, k) - 0.1, { x: 60, y: 0 }, { x: 0, duration: 0.5 });
+        });
+        const you = human(S, 'you10', LOOK.you, 960, 1340, 0.42); R(you, at(12, 15) + 0.1); hop(you, at(12, 18), 16);
+        ground(S, 1355, 41.6); }
+
+      // S11: the weirdest part
+      { const S = scene('s11', 51.55, 54.45);
+        rings(S, 540, 820);
+        const t = box(S, null, `<div class="big" style="font-size:118px;line-height:1.05">THE WEIRDEST<br/><span class="bl">PART.</span></div>`, 540, 480, 1000, 260); R(t, 51.7, { y: 40 }, { duration: 0.7 });
+        const you = human(S, 'you11', LOOK.you, 540, 1250, 1.45); R(you, 51.7, { y: 60 }, { duration: 0.7 });
+        arm(you, 'R', 52.2, -135, 0.5); head(you, 52.3, -8, 0.5); face(you, 52.4, 'flat');
+        const hm = box(S, null, `<div class="card" style="padding:16px 34px;background:#fff;font-weight:600;font-size:44px;border-radius:40px">hmm...</div>`, 790, 760, 200, 80); R(hm, 52.6, { scale: 0.5 }, { scale: 1, duration: 0.5 });
+        ground(S, 1250, 51.7); }
+
+      // S12: repayment, the money disappears
+      const B12 = { v: 10000 };
+      { const S = scene('s12', 54.2, 62.95);
+        const card = box(S, 'acct12', `<div class="card" style="width:760px;height:300px;background:#fff;padding:30px 44px"><div class="tag" style="text-align:left;font-size:22px">CHECKING ACCOUNT</div><div id="bal12" style="font-weight:700;font-size:130px;letter-spacing:-0.04em;line-height:1.2">$10,000</div><div class="pillchip" style="font-size:22px;padding:6px 18px">loan repaid</div></div>`, 540, 400, 760, 300);
+        R(card, 54.4, { y: 40 }, { duration: 0.7 });
+        tl.to(B12, { v: 0, duration: 2.8, ease: 'power2.inOut', onUpdate() { $('#bal12').textContent = '$' + Math.round(B12.v).toLocaleString('en-US'); } }, at(14, 5));
+        const you = human(S, 'you12', LOOK.you, 200, 1250, 1.1); R(you, 54.5, { x: -50 }, { x: 0, duration: 0.6 }); arm(you, 'R', at(14, 3), -70, 0.4);
+        const bk = box(S, null, bankSvg(380), 800, 800, 380, 311); R(bk, 54.6, { x: 50 }, { x: 0, duration: 0.6 });
+        const banker = human(S, 'banker12', LOOK.banker, 860, 1250, 1.0); R(banker, 54.7, { x: 40 }, { x: 0, duration: 0.6 });
+        for (let i = 0; i < 10; i++) {
+          const c = box(S, null, '<div class="coin" style="width:56px;height:56px;font-size:32px;line-height:56px">$</div>', 330, 1060, 56, 56);
+          const t0 = at(14, 3) + 0.2 + i * 0.3; R(c, t0, { y: 0, scale: 0.5 }, { scale: 1, duration: 0.15 }); arc(c, { x: 0, y: 0 }, { x: 440, y: -230 }, t0, 1.0, 120, IO);
+          tl.to(c, { scale: 0.2, opacity: 0, duration: 0.2, ease: 'power2.in' }, t0 + 0.95);
+          burst(S, 770, 830, 5, t0 + 0.95, 60, 9, true);
+        }
+        const paid = box(S, null, `<div style="border:8px solid ${BLUE};color:${BLUE};border-radius:14px;padding:6px 20px;font-weight:700;font-size:54px;letter-spacing:0.06em;transform:rotate(-8deg);background:rgba(253,250,231,0.92)">PAID</div>`, 800, 1010, 220, 100); R(paid, at(15, 7) - 0.4, { scale: 2, y: 0 }, { scale: 1, duration: 0.3 });
+        arm(banker, 'R', at(15, 7) - 0.6, -150, 0.3);
+        // the created money is removed: a bill dissolves upward
+        for (let i = 0; i < 8; i++) { const b = box(S, null, '<div class="bill" style="width:110px;height:58px"></div>', 540 + (i - 3.5) * 74, 900, 110, 58); R(b, at(15, 7) + i * 0.05, { y: 0 }, { duration: 0.2 }); tl.to(b, { y: -240 - hash(i) * 120, opacity: 0, scale: 0.4, duration: 0.9, ease: 'power2.in' }, at(15, 8) + i * 0.08); }
+        ground(S, 1262, 54.5); }
+
+      // S13-15: a crowd, and the money started as debt
+      { const S = scene('s13', 62.75, 73.5, false, true);
+        const back = [], front = [];
+        for (let i = 0; i < 6; i++) { const p = human(S, null, crowdLook(i + 1), 110 + i * 172, 1170, 0.66); back.push(p); R(p, 63.0 + i * 0.12, { y: 30 }, { duration: 0.5 }); }
+        for (let i = 0; i < 5; i++) { const p = human(S, null, crowdLook(i + 8), 200 + i * 170, 1290, 0.9); front.push(p); R(p, 63.5 + i * 0.12, { y: 30 }, { duration: 0.5 }); }
+        const people = back.concat(front);
+        const tFlip = ln(17).start + 0.02;
+        people.forEach((p, i) => {
+          const rect = { left: parseFloat(p.style.left) + 110, top: parseFloat(p.style.top) };
+          const s = i < 6 ? 0.66 : 0.9, headY = rect.top + 420 - 420 * s - 90;
+          const coin = box(S, null, '<div class="coin" style="width:58px;height:58px;font-size:34px;line-height:58px">$</div>', rect.left, headY, 58, 58);
+          const iou = box(S, null, '<div class="iou" style="transform-origin:50% 50%;width:76px;height:94px;font-size:28px;padding-top:28px">IOU</div>', rect.left, headY, 76, 94);
+          R(coin, 64.2 + i * 0.1, { y: 20, scale: 0.4 }, { scale: 1, duration: 0.4 });
+          tl.to(coin, { y: -14, duration: 1.3, ease: 'sine.inOut' }, 64.6 + i * 0.1);
+          tl.to(coin, { scaleX: 0, duration: 0.2, ease: 'power2.in' }, tFlip + i * 0.07);
+          tl.fromTo(iou, { opacity: 0, scaleX: 0 }, { opacity: 1, scaleX: 1, duration: 0.25, ease: 'power2.out', immediateRender: false }, tFlip + 0.2 + i * 0.07);
+        });
+        hop(front[2], 66.5, 24);
+        ground(S, 1272, 63.0); }
+
+      // big closing texts
+      tl.fromTo('#shade', { opacity: 0 }, { opacity: 1, duration: 0.8, ease: 'none', immediateRender: false }, 67.0);
+      const bw = (sel, t0) => document.querySelectorAll(sel + ' > span').forEach((s, i) => tl.fromTo(s, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.7, ease: E, immediateRender: false }, t0 + i * 0.3));
+      tl.fromTo('#bigA', { opacity: 0 }, { opacity: 1, duration: 0.01, immediateRender: false }, 67.4); bw('#bigA', 67.4);
+      tl.to('#bigA', { opacity: 0, y: -26, duration: 0.45, ease: 'power2.in' }, 69.8);
+      tl.fromTo('#bigB', { opacity: 0 }, { opacity: 1, duration: 0.01, immediateRender: false }, 70.05); bw('#bigB', 70.05);
+
+      // ---------- captions (not for the two big-text lines) ----------
+      const capsEl = $('#caps');
+      const words = WORDS.filter((w) => w.line < 17);
+      const groups = []; let cur = [];
+      words.forEach((w, i) => { cur.push(w); const nx = words[i + 1]; const endS = /[.!?…]$/.test(w.w); const endC = /,$/.test(w.w) && cur.length >= 3; if (!nx || endS || endC || cur.length >= 5 || (nx && nx.s - w.e > 0.6)) { groups.push(cur); cur = []; } });
+      groups.forEach((g, gi) => {
+        const d = document.createElement('div'); d.className = 'cg'; const pill = document.createElement('div'); pill.className = 'pill'; d.appendChild(pill);
+        g.forEach((w, wi) => { const s = document.createElement('span'); s.className = 'cw'; s.id = `cw${gi}_${wi}`; s.textContent = w.w; pill.appendChild(s); });
+        capsEl.appendChild(d);
+        const a = g[0].s - 0.03, nextS = groups[gi + 1] ? groups[gi + 1][0].s : 1e9, b = Math.min(g[g.length - 1].e + 0.28, nextS - 0.16);
+        tl.fromTo(d, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.14, ease: 'power2.out', immediateRender: false }, a);
+        tl.to(d, { opacity: 0, duration: 0.08, ease: 'none' }, b);
+        g.forEach((w, wi) => { const sp = `#cw${gi}_${wi}`;
+          tl.fromTo(sp, { backgroundColor: 'rgba(30,43,250,0)', color: INK }, { backgroundColor: BLUE, color: CREAM, duration: 0.08, ease: 'none', immediateRender: false }, w.s);
+          tl.to(sp, { backgroundColor: 'rgba(30,43,250,0)', color: INK, duration: 0.1, ease: 'none' }, Math.max(w.e, w.s + 0.12)); });
+      });
+
+      window.__timelines['main'] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

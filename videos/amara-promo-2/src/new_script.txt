@@ -1,0 +1,128 @@
+    <script>
+      const WORDS = __WORDS__;
+      window.__timelines = window.__timelines || {};
+      const wd = (l, k) => WORDS.filter((w) => w.line === l)[k].s;
+      const tl = gsap.timeline({ paused: true });
+      const E = 'power3.out', IO = 'power2.inOut';
+      const $ = (s) => document.querySelector(s);
+      const R = (el, t, from, to) => tl.fromTo(el, Object.assign({ opacity: 0, y: 30 }, from || {}), Object.assign({ opacity: 1, y: 0, duration: 0.7, ease: E, immediateRender: false }, to || {}), t);
+      const X = (el, t, d) => tl.to(el, { opacity: 0, duration: d || 0.3, ease: 'none' }, t);
+      const dyn = $('#dyn'); const add = (h) => dyn.insertAdjacentHTML('beforeend', h);
+      const photo = (id, src, t0, t1, x0, x1, z0 = 1.0, z1 = 1.08) => {
+        $('#photos').insertAdjacentHTML('beforeend', `<div id="${id}" class="ph"><img id="${id}i" src="assets/img/${src}.jpg" /></div>`);
+        tl.fromTo('#' + id, { opacity: 0 }, { opacity: 1, duration: 0.6, ease: 'none', immediateRender: false }, t0);
+        tl.fromTo('#' + id + 'i', { x: -x0, scale: z0, transformOrigin: '50% 50%' }, { x: -x1, scale: z1, duration: t1 - t0 + 0.6, ease: 'none', immediateRender: false }, t0);
+        tl.to('#' + id, { opacity: 0, duration: 0.6, ease: 'none' }, t1);
+      };
+      const card = (id, file, left, top, w, h) => add(`<div id="${id}" class="pc" style="left:${left}px;top:${top}px;width:${w}px;height:${h}px"><img id="${id}i" src="assets/img/${file}" /></div>`);
+      const head = (id, tag, big, size, top, cls) => add(`<div id="${id}t" class="abs tag" style="left:0;top:${top}px;width:1080px">${tag}</div><div id="${id}b" class="abs serif ${cls || ''}" style="left:0;top:${top + 48}px;width:1080px;font-size:${size}px">${big}</div>`);
+      const swap = (ids, a, b) => { ids.forEach((s) => X(s, b - 0.05, 0.3)); };
+
+      // ---- photos
+      photo('pOpen', 'pool-p', 0, 3.2, 100, 100, 1.0, 1.12);
+      photo('pPool', 'als-3906-min-1-scaled', 3.2, 6.4, 300, 820);
+      photo('pBed', 'als4741', 6.4, 10.0, 900, 1500);
+      photo('pPool2', 'als-3906-min-1-scaled', 10.0, 13.1, 820, 1200);
+      photo('pRoom1', 'als4790', 13.1, 15.4, 700, 1250);
+      photo('pRoom2', 'als4782', 15.4, 17.2, 1100, 1500);
+      photo('pRoom3', 'als4805', 17.2, 19.9, 500, 1000);
+      photo('pRestBg', 'als4792', 19.9, 26.3, 900, 1100);
+      photo('pPoolP', 'pool-p', 26.3, 29.9, 100, 100, 1.0, 1.12);
+      photo('pBeach', 'als-3906-min-1-scaled', 29.9, 33.1, 500, 1300);
+      photo('pSpaBg', 'als4807', 33.1, 41.6, 1200, 1500);
+      photo('pFinal', 'als4811', 41.6, 47.2, 150, 500);
+      photo('pCta', 'als-3906-min-1-scaled', 47.2, 53.59, 500, 1000);
+
+      // ---- cards (the hotel's own photos)
+      card('cFood', 'food.jpg', 110, 420, 860, 860);
+      card('cSea', 'seaview.jpg', 110, 420, 860, 860);
+      card('cWell', 'wellness.jpg', 60, 540, 960, 371);
+
+      // ---- text
+      add('<div id="lgc0" class="lgc" style="left:280px;top:640px"><img src="assets/img/logo.svg" /></div>');
+      add('<div id="t0c" class="abs" style="left:0;top:1090px;width:1080px;text-align:center"><span class="chip">Durrës · Albania</span></div>');
+      head('t1', 'Dreaming of', 'the perfect escape', 118, 240); add('<div id="t1c" class="abs serif it" style="left:0;top:420px;width:1080px;font-size:150px">by the sea?</div>');
+      add('<div id="t2a" class="abs serif" style="left:0;top:280px;width:1080px;font-size:150px">Discover</div>');
+      add('<div id="lgc" class="lgc" style="left:280px;top:600px"><img src="assets/img/logo.svg" /></div>');
+      head('t2b', 'Where elegance', 'meets relaxation', 118, 250);
+      head('t2c', 'On the beautiful coast of', 'Durrës', 190, 250);
+      head('t3a', 'Elegant, beautifully designed', 'rooms', 190, 250); head('t3b', 'Many offering', 'breathtaking views', 118, 250); head('t3c', 'Views of the', 'Adriatic Sea', 150, 250);
+      head('t4a', 'Seaside restaurant', 'Delicious cuisine', 120, 220); head('t4b', 'Every meal becomes', 'a memory', 140, 220);
+      add('<div id="t4c" class="abs" style="left:0;top:1310px;width:1080px;text-align:center"><span class="chip">Open daily · 7:30 am – 11 pm</span></div>');
+      head('t5a', 'Soak up the sunshine by our', 'outdoor pool', 140, 250); head('t5b', 'Unwind on our', 'private beach', 150, 250);
+      add('<div id="t5c" class="abs" style="left:0;top:1100px;width:1080px;text-align:center"><span class="chip">Just steps away</span></div>');
+      head('t6a', 'Escape the everyday', 'Wellness & SPA', 140, 250); head('t6b', 'Your sanctuary of', 'peace & relaxation', 120, 250);
+      add('<div id="t6c" class="abs" style="left:0;top:1000px;width:1080px;text-align:center"><span class="chip">Open daily · 7:30 am – 11 pm</span></div>');
+      add('<div id="lgc2" class="lgc" style="left:280px;top:420px"><img src="assets/img/logo.svg" /></div>');
+      add('<div id="t7a" class="abs serif" style="left:0;top:1030px;width:1080px;font-size:74px">Where comfort meets elegance,</div><div id="t7b" class="abs serif it" style="left:0;top:1120px;width:1080px;font-size:74px">every moment becomes a memory.</div>');
+      add('<div id="t8a" class="abs serif" style="left:0;top:520px;width:1080px;font-size:150px">Your seaside</div><div id="t8b" class="abs serif it" style="left:0;top:680px;width:1080px;font-size:150px">escape awaits.</div>');
+      add('<div id="t9a" class="abs serif" style="left:0;top:300px;width:1080px;font-size:150px">Book your</div><div id="t9b" class="abs serif it" style="left:0;top:460px;width:1080px;font-size:150px">stay today!</div>');
+      add('<div id="t9c" class="abs" style="left:0;top:700px;width:1080px;text-align:center"><span class="chip" style="font-size:40px;padding:18px 44px">+355 67 70 78 000</span></div>');
+      add('<div id="t9d" class="abs tag" style="left:0;top:840px;width:1080px;font-size:34px">amarahotel.al</div>');
+      add('<div id="t9e" class="abs tag" style="left:0;top:900px;width:1080px;font-size:24px;letter-spacing:0.16em;color:#F6F1E7">Rruga Pavarësia, Lagjja nr. 13, Durrës</div>');
+
+      // ================= timeline =================
+      // intro (0 - 2.9): brand before the voice starts
+      tl.fromTo('#lgc0', { opacity: 0, y: 40, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 1.0, ease: E, immediateRender: false }, 0.35);
+      R('#t0c', 1.1, {}, { duration: 0.7 }); ['#lgc0', '#t0c'].forEach((s) => X(s, 3.0, 0.45));
+      // S1 (2.96 - 5.4)
+      R('#t1t', 3.05, {}, { duration: 0.6 }); R('#t1b', 3.0, { scale: 0.96 }, { scale: 1, duration: 0.9 }); R('#t1c', wd(1, 5) - 0.1, { scale: 0.96 }, { scale: 1, duration: 0.9 });
+      ['#t1t', '#t1b', '#t1c'].forEach((s) => X(s, 6.0, 0.4));
+      // S2 (6.38 - 12.9)
+      R('#t2a', 6.4, { scale: 0.96 }, { scale: 1, duration: 0.9 });
+      tl.fromTo('#lgc', { opacity: 0, y: 40, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.9, ease: E, immediateRender: false }, wd(2, 1) + 0.2);
+      ['#t2a', '#lgc'].forEach((s) => X(s, wd(2, 5) + 0.3, 0.4));
+      R('#t2bt', wd(2, 5) + 0.35, {}, { duration: 0.6 }); R('#t2bb', wd(2, 5) + 0.35, {}, { duration: 0.9 }); ['#t2bt', '#t2bb'].forEach((s) => X(s, wd(2, 10) - 0.15, 0.3));
+      R('#t2ct', wd(2, 10) - 0.05, {}, { duration: 0.6 }); R('#t2cb', wd(2, 10) - 0.05, {}, { duration: 0.9 }); ['#t2ct', '#t2cb'].forEach((s) => X(s, 13.1, 0.4));
+      // S3 (12.88 - 19)
+      R('#t3at', 13.0, {}, { duration: 0.6 }); R('#t3ab', 13.0, {}, { duration: 0.9 }); ['#t3at', '#t3ab'].forEach((s) => X(s, wd(3, 7) - 0.1, 0.3));
+      R('#t3bt', wd(3, 7), {}, { duration: 0.6 }); R('#t3bb', wd(3, 7), {}, { duration: 0.9 }); ['#t3bt', '#t3bb'].forEach((s) => X(s, wd(3, 11) - 0.1, 0.3));
+      R('#t3ct', wd(3, 11), {}, { duration: 0.6 }); R('#t3cb', wd(3, 11), {}, { duration: 0.9 }); ['#t3ct', '#t3cb'].forEach((s) => X(s, 19.5, 0.4));
+      // S4 restaurant (19.76 - 25.4)
+      R('#t4at', 19.85, {}, { duration: 0.6 }); R('#t4ab', 19.85, {}, { duration: 0.9 });
+      R('#cFood', 19.95, { y: 60, scale: 0.97 }, { scale: 1, duration: 1.0 }); tl.fromTo('#cFoodi', { scale: 1 }, { scale: 1.1, duration: 3.2, ease: 'none', immediateRender: false }, 19.95);
+      R('#t4c', wd(4, 6), {}, { duration: 0.6 });
+      ['#t4at', '#t4ab'].forEach((s) => X(s, wd(4, 8) - 0.05, 0.3));
+      R('#t4bt', wd(4, 8) + 0.05, {}, { duration: 0.6 }); R('#t4bb', wd(4, 8) + 0.05, {}, { duration: 0.9 });
+      tl.fromTo('#cSea', { opacity: 0 }, { opacity: 1, duration: 0.8, ease: 'none', immediateRender: false }, wd(4, 8)); tl.fromTo('#cSeai', { scale: 1 }, { scale: 1.1, duration: 3.0, ease: 'none', immediateRender: false }, wd(4, 8));
+      ['#t4bt', '#t4bb', '#cFood', '#cSea', '#t4c'].forEach((s) => X(s, 26.0, 0.4));
+      // S5 pool + beach (26.14 - 31.9)
+      R('#t5at', 26.3, {}, { duration: 0.6 }); R('#t5ab', 26.3, {}, { duration: 0.9 }); ['#t5at', '#t5ab'].forEach((s) => X(s, wd(5, 9) - 0.1, 0.3));
+      R('#t5bt', wd(5, 9) + 0.05, {}, { duration: 0.6 }); R('#t5bb', wd(5, 9) + 0.05, {}, { duration: 0.9 }); R('#t5c', wd(5, 15), {}, { duration: 0.6 });
+      ['#t5bt', '#t5bb', '#t5c'].forEach((s) => X(s, 32.6, 0.4));
+      // S6 wellness (32.92 - 39.3)
+      R('#t6at', 33.0, {}, { duration: 0.6 }); R('#t6ab', 33.0, {}, { duration: 0.9 });
+      R('#cWell', 33.2, { y: 60, scale: 0.97 }, { scale: 1, duration: 1.0 }); tl.fromTo('#cWelli', { scale: 1.02 }, { scale: 1.14, duration: 6.2, ease: 'none', immediateRender: false }, 33.2);
+      R('#t6c', wd(6, 9), {}, { duration: 0.6 });
+      ['#t6at', '#t6ab'].forEach((s) => X(s, wd(6, 13) - 0.1, 0.3));
+      R('#t6bt', wd(6, 13), {}, { duration: 0.6 }); R('#t6bb', wd(6, 13), {}, { duration: 0.9 });
+      ['#t6bt', '#t6bb', '#cWell', '#t6c'].forEach((s) => X(s, 41.2, 0.5));
+      // S7 brand line (41.86 - 46.9)
+      tl.fromTo('#lgc2', { opacity: 0, y: 40, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 1.0, ease: E, immediateRender: false }, 41.9);
+      R('#t7a', wd(7, 4) - 0.1, {}, { duration: 0.9 }); R('#t7b', wd(7, 9), {}, { duration: 0.9 });
+      ['#lgc2', '#t7a', '#t7b'].forEach((s) => X(s, 47.2, 0.4));
+      // S8 (47.38 - 48.8)
+      R('#t8a', 47.4, {}, { duration: 0.9 }); R('#t8b', wd(8, 2), {}, { duration: 0.9 }); ['#t8a', '#t8b'].forEach((s) => X(s, 49.5, 0.4));
+      // S9 (49.82 - end)
+      R('#t9a', 49.85, {}, { duration: 0.9 }); R('#t9b', wd(9, 2), {}, { duration: 0.9 }); R('#t9c', 50.6, {}, { duration: 0.7 }); R('#t9d', 51.0, {}, { duration: 0.6 }); R('#t9e', 51.3, {}, { duration: 0.6 });
+      tl.to('#dim', { backgroundColor: 'rgba(5,10,12,0.34)', duration: 1.0 }, 6.4); tl.to('#dim', { backgroundColor: 'rgba(5,10,12,0.5)', duration: 0.8 }, 47.2);
+      tl.fromTo('#prog', { scaleX: 0 }, { scaleX: 1, duration: __TOTAL__, ease: 'none', immediateRender: false }, 0);
+
+      // ---------- captions ----------
+      const capsEl = $('#caps');
+      const groups = []; let cur = [];
+      WORDS.forEach((w, i) => { cur.push(w); const nx = WORDS[i + 1]; const endS = /[.!?…]$/.test(w.w); const endC = /,$/.test(w.w) && cur.length >= 3; if (!nx || endS || endC || cur.length >= 5 || (nx && nx.s - w.e > 0.5)) { groups.push(cur); cur = []; } });
+      groups.forEach((g, gi) => {
+        const d = document.createElement('div'); d.className = 'cg'; const pill = document.createElement('div'); pill.className = 'pill'; d.appendChild(pill);
+        g.forEach((w, wi) => { const s = document.createElement('span'); s.className = 'cw'; s.id = `cw${gi}_${wi}`; s.textContent = w.w; pill.appendChild(s); });
+        capsEl.appendChild(d);
+        const a = g[0].s - 0.03, nextS = groups[gi + 1] ? groups[gi + 1][0].s : 1e9, b = Math.min(g[g.length - 1].e + 0.25, nextS - 0.12);
+        tl.fromTo(d, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.12, ease: 'power2.out', immediateRender: false }, a);
+        tl.to(d, { opacity: 0, duration: 0.08, ease: 'none' }, b);
+        g.forEach((w, wi) => { const sp = `#cw${gi}_${wi}`;
+          tl.fromTo(sp, { backgroundColor: 'rgba(0,167,187,0)', color: '#F6F1E7' }, { backgroundColor: '#00A7BB', color: '#FFFFFF', duration: 0.07, ease: 'none', immediateRender: false }, w.s);
+          tl.to(sp, { backgroundColor: 'rgba(0,167,187,0)', color: '#F6F1E7', duration: 0.08, ease: 'none' }, Math.max(w.e, w.s + 0.12)); });
+      });
+      window.__timelines['main'] = tl;
+      tl.seek(0);
+    </script>

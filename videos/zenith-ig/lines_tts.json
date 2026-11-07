@@ -1,0 +1,75 @@
+{
+  "total": 19.77,
+  "lines": [
+    {
+      "i": 1,
+      "file": "assets/voice/01.wav",
+      "text": "Need a website that actually works?",
+      "tts": "Need a website that actually works?",
+      "start": 0.3,
+      "dur": 2.027,
+      "end": 2.327,
+      "pause": 0.25
+    },
+    {
+      "i": 2,
+      "file": "assets/voice/02.wav",
+      "text": "Meet Zenith Software.",
+      "tts": "Meet Zenith Software.",
+      "start": 2.577,
+      "dur": 1.451,
+      "end": 4.027,
+      "pause": 0.25
+    },
+    {
+      "i": 3,
+      "file": "assets/voice/03.wav",
+      "text": "A small studio building websites, web apps and custom tools.",
+      "tts": "A small studio building websites, web apps and custom tools.",
+      "start": 4.277,
+      "dur": 3.84,
+      "end": 8.117,
+      "pause": 0.25
+    },
+    {
+      "i": 4,
+      "file": "assets/voice/04.wav",
+      "text": "You talk directly to the developer writing your code.",
+      "tts": "You talk directly to the developer writing your code.",
+      "start": 8.367,
+      "dur": 3.051,
+      "end": 11.418,
+      "pause": 0.25
+    },
+    {
+      "i": 5,
+      "file": "assets/voice/05.wav",
+      "text": "Fixed quote, after a free call.",
+      "tts": "Fixed quote, after a free call.",
+      "start": 11.668,
+      "dur": 1.792,
+      "end": 13.46,
+      "pause": 0.25
+    },
+    {
+      "i": 6,
+      "file": "assets/voice/06.wav",
+      "text": "And you own everything. The code, the hosting, the domain.",
+      "tts": "And you own everything. The code, the hosting, the domain.",
+      "start": 13.71,
+      "dur": 3.307,
+      "end": 17.017,
+      "pause": 0.25
+    },
+    {
+      "i": 7,
+      "file": "assets/voice/07.wav",
+      "text": "Zenith Software. Built to last.",
+      "tts": "Zenith Software. Built to last.",
+      "start": 17.267,
+      "dur": 2.005,
+      "end": 19.272,
+      "pause": 0.2
+    }
+  ]
+}

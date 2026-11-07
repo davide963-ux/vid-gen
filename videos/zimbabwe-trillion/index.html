@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
+    <style>
+      /* THEME: change these six values to restyle the whole video */
+      :root { --bg: #0B1220; --ink: #F1F3F8; --accent: #E9B949; --panel: #131D33; --line: #2A3A5C; --muted: #8C97AD; --good: #67E3AE; --bad: #F0616D; --on-accent: #0B1220; --dots: rgba(233,185,73,0.10); --glow: rgba(233,185,73,0.12); }
+      :root { --bg: #0a0a0a; --ink: #fffdf6; --accent: #e5ab33; --panel: #17130a; --line: #4a3607; --muted: #b5ac96; --good: #e5ab33; --bad: #e5ab33; --on-accent: #0a0a0a; --dots: rgba(229,171,51,0.06); --glow: rgba(229,171,51,0.10); }
+
+.uc { position: absolute; opacity: 0; background: #17130a; border: 2px solid #4a3607; border-radius: 36px; box-shadow: 0 26px 60px rgba(0,0,0,.55); color: #fffdf6; }
+.uc.gold { background: #e5ab33; border-color: #f3c866; color: #0a0a0a; }
+.uc img { position: absolute; }
+.lab { position: absolute; font-weight: 600; font-size: 30px; letter-spacing: .14em; text-transform: uppercase; color: #b5ac96; white-space: nowrap; }
+.gold .lab { color: #3b2a05; }
+.val { position: absolute; font-weight: 700; letter-spacing: -.03em; white-space: nowrap; line-height: 1; }
+.ccard { background: linear-gradient(135deg,#f6cf72,#d79a22 60%,#b57a12); border-radius: 46px; box-shadow: 0 30px 70px rgba(0,0,0,.6), inset 0 2px 0 rgba(255,255,255,.35); color: #0a0a0a; }
+.ccard .chipx { position: absolute; width: 112px; height: 84px; border-radius: 16px; background: linear-gradient(135deg,#fbe7a5,#c9921f); border: 2px solid rgba(0,0,0,.25); }
+.tagc { position: absolute; padding: 12px 30px; border-radius: 100px; font-weight: 700; font-size: 34px; letter-spacing: .06em; white-space: nowrap; background: rgba(229,171,51,.12); border: 2px solid rgba(229,171,51,.55); color: #e5ab33; }
+.tagc.fill { background: #e5ab33; color: #0a0a0a; border-color: #f3c866; }
+
+.photo { position: absolute; opacity: 0; border-radius: 22px; overflow: hidden; border: 3px solid #e5ab33; box-shadow: 0 30px 80px rgba(0,0,0,.65), 0 0 110px rgba(229,171,51,.28); background: #0a0a0a; }
+.photo img { position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; }
+.shine { position: absolute; top: -20%; left: 0; width: 38%; height: 140%; background: linear-gradient(100deg, transparent, rgba(255,246,214,.55), transparent); transform: skewX(-18deg); opacity: .8; }
+.frame { position: absolute; opacity: 0; border-radius: 28px; overflow: hidden; border: 3px solid #e5ab33; box-shadow: 0 30px 80px rgba(0,0,0,.65), 0 0 90px rgba(229,171,51,.22); background: #0a0a0a; }
+.frame img { position: absolute; left: 0; top: 0; width: 100%; }
+.rays { position: absolute; opacity: 0; border-radius: 50%; background: repeating-conic-gradient(from 0deg, rgba(229,171,51,.30) 0deg 9deg, rgba(229,171,51,0) 9deg 24deg); -webkit-mask-image: radial-gradient(closest-side, #000 25%, transparent 100%); mask-image: radial-gradient(closest-side, #000 25%, transparent 100%); }
+.dg { position: absolute; width: 56px; height: 84px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 54px; border: 3px solid #4a3607; background: #17130a; color: #fffdf6; }
+.dg.one { background: #e5ab33; border-color: #f3c866; color: #0a0a0a; }
+.loaf { position: absolute; opacity: 0; background: linear-gradient(180deg,#e9b650,#a86f12); border-radius: 130px 130px 70px 70px; box-shadow: 0 24px 50px rgba(0,0,0,.55), inset 0 -14px 0 rgba(0,0,0,.18); }
+.loaf i { position: absolute; top: 40px; width: 20px; height: 84px; border-radius: 12px; background: rgba(60,35,4,.45); transform: rotate(24deg); }
+.stamp { position: absolute; opacity: 0; border: 8px solid #e5ab33; border-radius: 22px; color: #e5ab33; font-weight: 700; letter-spacing: .06em; text-align: center; background: rgba(10,10,10,.72); white-space: nowrap; }
+.pt { position: absolute; border-radius: 50%; background: #e5ab33; }
+.ring2 { position: absolute; opacity: 0; border-radius: 50%; border: 6px solid #e5ab33; }
+#flash { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; pointer-events: none; opacity: 0; background: radial-gradient(closest-side at 50% 50%, rgba(255,226,140,.85), rgba(229,171,51,.25) 70%, rgba(229,171,51,0)); }
+
+      @font-face { font-family: 'Space Grotesk'; font-weight: 500; src: url('assets/fonts/space-grotesk-latin-500-normal.woff2') format('woff2'); }
+      @font-face { font-family: 'Space Grotesk'; font-weight: 600; src: url('assets/fonts/space-grotesk-latin-600-normal.woff2') format('woff2'); }
+      @font-face { font-family: 'Space Grotesk'; font-weight: 700; src: url('assets/fonts/space-grotesk-latin-700-normal.woff2') format('woff2'); }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background-color: var(--bg); background-image: radial-gradient(var(--dots) 2.5px, transparent 2.5px); background-size: 60px 60px; font-family: 'Space Grotesk', sans-serif; color: var(--ink); }
+      #stage { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; }
+      #glow { position: absolute; left: -200px; top: -300px; width: 1480px; height: 1100px; pointer-events: none; background: radial-gradient(closest-side, var(--glow), transparent); }
+      /* SAFE AREA (1080x1920): keep content at x 60..960 and y 120..1600. Right ~120px and bottom ~320px belong to TikTok's UI. */
+      .abs { position: absolute; opacity: 0; }
+      .sc { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; }
+      .sp { position: absolute; opacity: 0; will-change: transform; }
+      .lot { position: absolute; opacity: 0; }
+      .big { font-weight: 700; letter-spacing: -0.035em; line-height: 1.02; text-align: center; white-space: nowrap; }
+      .ac { color: var(--accent); } .gn { color: var(--good); } .rd { color: var(--bad); }
+      .tag { font-weight: 600; font-size: 30px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); text-align: center; white-space: nowrap; }
+      .chip { display: inline-block; padding: 12px 30px; border-radius: 100px; background: rgba(233,185,73,0.10); border: 1.5px solid rgba(233,185,73,0.45); color: var(--accent); font-weight: 600; font-size: 28px; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; }
+      .card { background: var(--panel); border: 1.5px solid var(--line); border-radius: 28px; box-shadow: 0 24px 60px rgba(0,0,0,0.45); }
+      .strike { position: absolute; height: 10px; border-radius: 6px; background: var(--bad); transform-origin: left center; transform: scaleX(0); }
+      .mw { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: 0.14em; margin-bottom: -0.14em; }
+      .mi { display: inline-block; will-change: transform; }
+      #prog { position: absolute; left: 0; bottom: 0; width: 1080px; height: 6px; background: var(--accent); transform-origin: left center; }
+      #caps { position: absolute; left: 0; top: 1392px; width: 1080px; height: 190px; }
+      .cg { position: absolute; left: 90px; top: 0; width: 900px; text-align: center; opacity: 0; }
+      .cg .pill { display: inline-block; padding: 14px 30px 16px; border-radius: 34px; background: var(--panel); border: 1.5px solid var(--line); box-shadow: 0 8px 30px rgba(0,0,0,0.5); font-weight: 600; font-size: 50px; line-height: 1.2; letter-spacing: -0.01em; color: var(--ink); }
+      .cw { display: inline-block; margin: 0 4px; padding: 0 10px; border-radius: 12px; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="96.74" data-width="1080" data-height="1920">
+      <div id="stage" class="clip" data-start="0" data-duration="96.74" data-track-index="0">
+        <div id="glow"></div>
+        <div id="dyn"></div>
+
+        <div id="caps"></div>
+        <div id="prog"></div>
+      </div>
+    </div>
+
+    <script>
+      const WORDS = [{"w":"You","s":0,"e":0.36,"line":1},{"w":"Didn't","s":0.36,"e":0.74,"line":1},{"w":"Know","s":0.74,"e":1.16,"line":1},{"w":"Some","s":1.16,"e":1.86,"line":1},{"w":"Countries","s":1.86,"e":2.36,"line":1},{"w":"Printed","s":2.36,"e":2.98,"line":1},{"w":"Trillion-Dollar","s":2.98,"e":4.24,"line":1},{"w":"Banknotes.","s":4.24,"e":5.14,"line":1},{"w":"What","s":6.52,"e":6.68,"line":2},{"w":"if","s":6.68,"e":6.82,"line":2},{"w":"I","s":6.82,"e":7.02,"line":2},{"w":"told","s":7.02,"e":7.28,"line":2},{"w":"you","s":7.28,"e":7.66,"line":2},{"w":"that","s":7.66,"e":7.92,"line":2},{"w":"you","s":7.92,"e":8.34,"line":2},{"w":"could","s":8.34,"e":8.74,"line":2},{"w":"be","s":8.74,"e":8.92,"line":2},{"w":"a","s":8.92,"e":9.14,"line":2},{"w":"trillionaire","s":9.14,"e":9.76,"line":2},{"w":"and","s":9.76,"e":10.38,"line":2},{"w":"still","s":10.38,"e":10.76,"line":2},{"w":"struggle","s":10.76,"e":11.16,"line":2},{"w":"to","s":11.16,"e":11.38,"line":2},{"w":"buy","s":11.38,"e":11.58,"line":2},{"w":"groceries?","s":11.58,"e":12,"line":2},{"w":"Sounds","s":13.58,"e":13.66,"line":3},{"w":"crazy,","s":13.58,"e":13.92,"line":3},{"w":"right?","s":14.08,"e":14.32,"line":3},{"w":"But","s":15.16,"e":15.36,"line":4},{"w":"that's","s":15.36,"e":15.66,"line":4},{"w":"exactly","s":15.66,"e":16.18,"line":4},{"w":"how","s":16.18,"e":16.62,"line":4},{"w":"bad","s":16.62,"e":17.06,"line":4},{"w":"things","s":17.06,"e":17.46,"line":4},{"w":"got","s":17.46,"e":17.9,"line":4},{"w":"in","s":17.9,"e":18.4,"line":4},{"w":"Zimbabwe.","s":18.4,"e":18.78,"line":4},{"w":"In","s":20.18,"e":20.42,"line":5},{"w":"2008,","s":20.42,"e":21.2,"line":5},{"w":"the","s":21.76,"e":21.86,"line":5},{"w":"country","s":21.86,"e":22.2,"line":5},{"w":"experienced","s":22.2,"e":23.08,"line":5},{"w":"extreme","s":23.08,"e":23.82,"line":5},{"w":"inflation.","s":23.82,"e":24.66,"line":5},{"w":"Prices","s":25.34,"e":25.8,"line":6},{"w":"were","s":25.8,"e":26.22,"line":6},{"w":"rising","s":26.22,"e":26.64,"line":6},{"w":"so","s":26.64,"e":27.02,"line":6},{"w":"fast","s":27.02,"e":27.62,"line":6},{"w":"that","s":27.62,"e":28.24,"line":6},{"w":"money","s":28.24,"e":28.48,"line":6},{"w":"was","s":28.48,"e":28.84,"line":6},{"w":"losing","s":28.84,"e":29.28,"line":6},{"w":"its","s":29.28,"e":29.52,"line":6},{"w":"value","s":29.52,"e":29.98,"line":6},{"w":"almost","s":29.98,"e":30.54,"line":6},{"w":"every","s":30.54,"e":31.1,"line":6},{"w":"day.","s":31.1,"e":31.64,"line":6},{"w":"Imagine","s":32.62,"e":32.82,"line":7},{"w":"buying","s":32.82,"e":33.32,"line":7},{"w":"bread","s":33.32,"e":33.62,"line":7},{"w":"today","s":33.62,"e":34.02,"line":7},{"w":"for","s":34.02,"e":34.36,"line":7},{"w":"$10","s":34.36,"e":34.74,"line":7},{"w":"And","s":34.74,"e":35.86,"line":8},{"w":"coming","s":35.86,"e":36.14,"line":8},{"w":"back","s":36.14,"e":36.36,"line":8},{"w":"later","s":36.36,"e":36.76,"line":8},{"w":"to","s":36.76,"e":36.94,"line":8},{"w":"find","s":36.94,"e":37.2,"line":8},{"w":"it","s":37.2,"e":37.36,"line":8},{"w":"costs","s":37.36,"e":37.74,"line":8},{"w":"hundreds,","s":37.74,"e":38.6,"line":8},{"w":"thousands,","s":39.32,"e":39.7,"line":8},{"w":"or","s":39.96,"e":40.04,"line":8},{"w":"even","s":40.02,"e":40.88,"line":8},{"w":"millions.","s":40.88,"e":41.42,"line":8},{"w":"The","s":42.68,"e":42.9,"line":9},{"w":"situation","s":42.9,"e":43.36,"line":9},{"w":"became","s":43.36,"e":43.94,"line":9},{"w":"so","s":43.94,"e":44.46,"line":9},{"w":"extreme","s":44.46,"e":45.22,"line":9},{"w":"that","s":45.22,"e":45.7,"line":9},{"w":"Zimbabwe","s":45.7,"e":46.16,"line":9},{"w":"printed","s":46.16,"e":46.66,"line":9},{"w":"a","s":46.66,"e":46.9,"line":9},{"w":"banknote","s":46.9,"e":47.42,"line":9},{"w":"worth","s":47.42,"e":47.8,"line":9},{"w":"100","s":47.8,"e":49.26,"line":9},{"w":"TRILLION","s":49.26,"e":50.42,"line":9},{"w":"DOLLARS!","s":50.42,"e":51.78,"line":9},{"w":"That's","s":51.78,"e":52.66,"line":10},{"w":"a","s":52.66,"e":52.76,"line":10},{"w":"one","s":52.76,"e":53.2,"line":10},{"w":"followed","s":53.2,"e":53.94,"line":10},{"w":"by","s":53.94,"e":54.26,"line":10},{"w":"fourteen","s":54.26,"e":55.69,"line":10},{"w":"zeros.","s":55.69,"e":57.12,"line":10},{"w":"But","s":57.12,"e":57.2,"line":11},{"w":"here's","s":57.16,"e":57.56,"line":11},{"w":"the","s":57.56,"e":57.74,"line":11},{"w":"shocking","s":57.74,"e":58.04,"line":11},{"w":"part.","s":58.04,"e":58.5,"line":11},{"w":"Having","s":59.36,"e":59.64,"line":12},{"w":"a","s":59.64,"e":59.86,"line":12},{"w":"100-trillion-dollar","s":59.86,"e":61.48,"line":12},{"w":"banknote","s":61.48,"e":62.74,"line":12},{"w":"didn't","s":62.74,"e":63.5,"line":12},{"w":"make","s":63.5,"e":63.7,"line":12},{"w":"you","s":63.7,"e":63.88,"line":12},{"w":"rich.","s":63.88,"e":64.22,"line":12},{"w":"Because","s":65.04,"e":65.46,"line":13},{"w":"prices","s":65.46,"e":65.96,"line":13},{"w":"had","s":65.96,"e":66.2,"line":13},{"w":"risen","s":66.2,"e":66.5,"line":13},{"w":"so","s":66.5,"e":66.92,"line":13},{"w":"dramatically,","s":66.92,"e":67.6,"line":13},{"w":"that","s":68.26,"e":68.5,"line":13},{"w":"enormous","s":68.5,"e":69.06,"line":13},{"w":"number","s":69.06,"e":69.66,"line":13},{"w":"had","s":69.66,"e":69.96,"line":13},{"w":"very","s":69.96,"e":70.44,"line":13},{"w":"little","s":70.44,"e":70.86,"line":13},{"w":"purchasing","s":70.86,"e":71.3,"line":13},{"w":"power.","s":71.3,"e":71.82,"line":13},{"w":"Eventually,","s":73,"e":73.56,"line":14},{"w":"Zimbabwe","s":74.2,"e":74.5,"line":14},{"w":"abandoned","s":74.5,"e":75.26,"line":14},{"w":"its","s":75.26,"e":75.64,"line":14},{"w":"collapsing","s":75.64,"e":76.16,"line":14},{"w":"currency","s":76.16,"e":76.78,"line":14},{"w":"in","s":76.78,"e":77.06,"line":14},{"w":"2009.","s":77.06,"e":77.84,"line":14},{"w":"And","s":78.98,"e":79.16,"line":15},{"w":"here's","s":79.16,"e":79.5,"line":15},{"w":"the","s":79.5,"e":79.64,"line":15},{"w":"lesson.","s":79.64,"e":79.96,"line":15},{"w":"A","s":80.58,"e":81.18,"line":16},{"w":"huge","s":81.18,"e":81.54,"line":16},{"w":"number","s":81.54,"e":81.9,"line":16},{"w":"on","s":81.9,"e":82.16,"line":16},{"w":"a","s":82.16,"e":82.28,"line":16},{"w":"banknote","s":82.28,"e":82.84,"line":16},{"w":"doesn't","s":82.84,"e":83.3,"line":16},{"w":"mean","s":83.3,"e":83.58,"line":16},{"w":"you're","s":83.58,"e":84.04,"line":16},{"w":"wealthy.","s":84.04,"e":84.44,"line":16},{"w":"Because","s":85.42,"e":85.64,"line":17},{"w":"money","s":85.64,"e":85.98,"line":17},{"w":"isn't","s":85.98,"e":86.6,"line":17},{"w":"about","s":86.6,"e":86.84,"line":17},{"w":"how","s":86.84,"e":87.12,"line":17},{"w":"many","s":87.12,"e":87.42,"line":17},{"w":"zeros","s":87.42,"e":88.04,"line":17},{"w":"you","s":88.04,"e":88.28,"line":17},{"w":"have.","s":88.28,"e":88.64,"line":17},{"w":"It's","s":89.34,"e":89.52,"line":18},{"w":"about","s":89.52,"e":89.74,"line":18},{"w":"what","s":89.74,"e":90,"line":18},{"w":"those","s":90,"e":90.32,"line":18},{"w":"zeros","s":90.32,"e":91.08,"line":18},{"w":"can","s":91.08,"e":91.3,"line":18},{"w":"actually","s":91.3,"e":91.88,"line":18},{"w":"buy.","s":91.88,"e":92.3,"line":18},{"w":"You","s":93.6,"e":93.88,"line":19},{"w":"didn't","s":93.88,"e":94.18,"line":19},{"w":"know","s":94.18,"e":94.32,"line":19},{"w":"that","s":94.32,"e":94.54,"line":19},{"w":"about","s":94.54,"e":94.8,"line":19},{"w":"money.","s":94.8,"e":95.08,"line":19}];
+      window.__timelines = window.__timelines || {};
+      const wd = (l, k) => WORDS.filter((w) => w.line === l)[k].s;     // start time of word k in script line l
+      const tl = gsap.timeline({ paused: true });
+      const E = 'power3.out', IO = 'power2.inOut';
+      const $ = (s) => document.querySelector(s);
+      const R = (el, t, from, to) => tl.fromTo(el, Object.assign({ opacity: 0, y: 30 }, from || {}), Object.assign({ opacity: 1, y: 0, duration: 0.5, ease: E, immediateRender: false }, to || {}), t);
+      const X = (el, t, d) => tl.to(el, { opacity: 0, duration: d || 0.25, ease: 'none' }, t);
+      const POP = { scale: 0.6, y: 24 }, POPTO = { scale: 1, duration: 0.5 };
+      const STRIKE = (sel, t) => tl.fromTo(sel, { scaleX: 0 }, { scaleX: 1, duration: 0.3, ease: 'power2.out', immediateRender: false }, t);
+      const add = (h) => $('#dyn').insertAdjacentHTML('beforeend', h);
+      const money = (v) => '$' + Math.round(v).toLocaleString('en-US');
+      const count = (sel, t, from, to, dur) => { const o = { v: from }; tl.to(o, { v: to, duration: dur, ease: 'power3.out', onUpdate() { $(sel).textContent = money(o.v); } }, t); };
+      // Paste-in helpers for HyperFrames templates (classic <script>, GSAP timeline `tl`, `$` = querySelector).
+// Ideas adapted (rewritten for our stack) from the MIT-licensed iart-ai/tiktok-video-skills + kinetic-typography-skills.
+// Everything is seek-safe: tweens only, no timers, no randomness except the seeded hash().
+//
+// Needs this CSS in the template:
+//   .mw { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: 0.14em; margin-bottom: -0.14em; }
+//   .mi { display: inline-block; will-change: transform; }
+
+const SAFE = { left: 60, right: 960, top: 120, bottom: 1600 };   // 1080x1920: keep text/cards inside; TikTok UI sits outside (right ~120px, bottom ~320px)
+
+const hashH = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+
+// Split a PLAIN-TEXT element into masked words (screen-reader label kept). Returns the inner word nodes.
+const splitWords = (sel) => {
+  const el = document.querySelector(sel); const txt = el.textContent.trim();
+  el.setAttribute('aria-label', txt);
+  el.innerHTML = txt.split(/\s+/).map((w) => `<span class="mw"><span class="mi">${w}</span></span>`).join(' ');
+  return el.querySelectorAll('.mi');
+};
+
+// 1) Mask reveal: each word rises out of a clipped line. ~0.6s per word, 60ms stagger, expo ease (keep the whole reveal under ~0.8-1.0s).
+//    Use for headlines that appear mid-video (NOT the hook; see hookNow).
+const maskReveal = (tl, sel, t, o = {}) => {
+  const items = splitWords(sel);
+  tl.set(sel, { opacity: 1 }, t);
+  tl.fromTo(items, { yPercent: 115 }, { yPercent: 0, duration: o.dur || 0.6, ease: 'expo.out', stagger: o.stagger || 0.06, immediateRender: false }, t);
+  return items.length;
+};
+// matching exit: words drop back down (use instead of a plain fade when a headline leaves)
+const maskHide = (tl, sel, t, o = {}) => {
+  const items = document.querySelectorAll(sel + ' .mi');
+  tl.to(items, { yPercent: -115, duration: o.dur || 0.35, ease: 'power3.in', stagger: o.stagger || 0.03 }, t);
+  tl.set(sel, { opacity: 0 }, t + (o.dur || 0.35) + 0.03 * items.length);
+};
+
+// 2) Hook on frame 1: the hook text is fully visible at t=0 (no fade-up, no fade from black); only a tiny settle motion.
+const hookNow = (tl, sels) => { sels.forEach((s) => { tl.set(s, { opacity: 1 }, 0); tl.fromTo(s, { scale: 1.05 }, { scale: 1, duration: 0.6, ease: 'power3.out', immediateRender: false }, 0); }); };
+
+// 3) Pattern interrupt: a quick punch-in pulse on an element (use on long holds).
+const punch = (tl, sel, t, o = {}) => {
+  tl.fromTo(sel, { scale: 1 }, { scale: o.scale || 1.07, duration: o.dur || 0.18, ease: 'power2.out', immediateRender: false }, t);
+  tl.to(sel, { scale: 1, duration: 0.45, ease: 'power2.inOut' }, t + (o.dur || 0.18));
+};
+// Pulse an element every ~3s (uneven: 2.2s-3.8s gaps) between `from` and `to`. Never use a metronome gap.
+const heartbeat = (tl, sel, from, to, o = {}) => { let t = from + 1.2; let i = 0; while (t < to - 0.8) { punch(tl, sel, t, o); t += 2.2 + hashH(i++ + (o.seed || 0)) * 1.6; } };
+
+// 4) Optional seamless loop: end on the same first-frame look. Fade the final card out to the hook's background in the last 0.5s
+//    and make the last spoken line read as the lead-in to the first line ("...and that is why" -> hook).
+
+// 5) Scene wipe: each scene is a full-frame container (.sc, own background colour). The next one slides/zooms in over the previous.
+//    Initial offsets: tl.set('#sc2', { x: 1080 }, 0)  or { y: 1920 } / { x: -1080 } / { scale: 1.5, opacity: 0 } (zoom-in). Example: sceneCut(tl, '#sc1', '#sc2', 2.45, { x: 1080 });
+//    CSS: .sc { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:hidden; }
+const sceneCut = (tl, prev, next, t, from, d = 0.5) => {
+  tl.fromTo(next, from, { x: 0, y: 0, scale: 1, opacity: 1, duration: d, ease: 'power4.out', immediateRender: false }, t);
+  tl.to(prev, { x: from.x ? -from.x * 0.25 : 0, y: from.y ? -from.y * 0.2 : 0, duration: d, ease: 'power4.out' }, t);
+  tl.set(prev, { opacity: 0 }, t + d + 0.05);
+};
+// 6) Slow push-in on a scene container (camera feel): pushIn(tl, '#sc2', 2.5, 5.5)
+const pushIn = (tl, sel, a, b, s = 1.05) => tl.fromTo(sel, { scale: 1 }, { scale: s, duration: b - a, ease: 'none', immediateRender: false }, a + 0.01);
+
+
+      // ================= SCENES (src/scenes.js) =================
+      // Explainer-UI style (like inflation / bill-value): eyebrow + big headline + drawn UI cards with Phosphor icons, black and gold. No emoji, no characters.
+      const NO_CAPTION_LINES = [19];
+      const W = '#fffdf6', G = '#e5ab33', K = '#0a0a0a';
+      const dyn = document.getElementById('dyn');
+      let U = 0;
+      const IMG = (n, x, y, s) => `<img src="assets/img/${n}.svg" style="left:${x}px;top:${y}px;width:${s}px;height:${s}px" />`;
+      const LAB = (s, x, y) => `<div class="lab" style="left:${x}px;top:${y}px">${s}</div>`;
+      const VAL = (s, x, y, size, c) => `<div class="val" style="left:${x}px;top:${y}px;font-size:${size}px;${c ? 'color:' + c : ''}">${s}</div>`;
+      function beat(n, t0, t1, o) {
+        const out = t1 - 0.22;
+        const P = {
+          el(cls, l, t, w, h, html, at, style = '') {
+            const id = `u${U++}`;
+            dyn.insertAdjacentHTML('beforeend', `<div id="${id}" class="${cls}" style="left:${l}px;top:${t}px;width:${w}px;height:${h}px;${style}">${html}</div>`);
+            if (at === 0) tl.set('#' + id, { opacity: 1 }, 0); else tl.fromTo('#' + id, { opacity: 0, y: 70, scale: 0.9 }, { opacity: 1, y: 0, scale: 1, duration: 0.55, ease: 'back.out(1.5)', immediateRender: false }, at);
+            tl.to('#' + id, { opacity: 0, y: -30, duration: 0.2, ease: 'power2.in' }, out);
+            return '#' + id;
+          },
+          grow(sel, at, d = 0.9) { tl.fromTo(sel, { scaleX: 0 }, { scaleX: 1, duration: d, ease: 'power3.out', immediateRender: false }, at); },
+          pulse(sel, at) { punch(tl, sel, at, { scale: 1.06 }); },
+        };
+        if (o.eyebrow) {
+          const id = `e${n}`;
+          dyn.insertAdjacentHTML('beforeend', `<div id="${id}" class="abs tag" style="left:0;top:150px;width:1080px">${o.eyebrow}</div>`);
+          if (n === 1) hookNow(tl, ['#' + id]); else tl.fromTo('#' + id, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.4, immediateRender: false }, t0);
+          tl.to('#' + id, { opacity: 0, duration: 0.2 }, out);
+        }
+        let y = o.top || 215;
+        (o.rows || []).forEach(([s, c, sz], i) => {
+          const id = `h${n}_${i}`;
+          dyn.insertAdjacentHTML('beforeend', `<div id="${id}" class="abs big" style="left:0;top:${y}px;width:1080px;font-size:${sz}px;color:${c}">${s}</div>`);
+          y += sz * 1.08;
+          if (n === 1) hookNow(tl, ['#' + id]); else maskReveal(tl, '#' + id, t0 + 0.05 + i * 0.15);
+          tl.to('#' + id, { opacity: 0, y: -40, duration: 0.2, ease: 'power2.in' }, out);
+        });
+        return P;
+      }
+      const creditCard = (P, l, t, w, at) => {
+        const h = Math.round(w * 0.62), k = w / 780;
+        return P.el('ccard abs', l, t, w, h, `<div class="chipx" style="left:${60 * k}px;top:${120 * k}px;transform:scale(${k});transform-origin:left top"></div><div class="val" style="left:${60 * k}px;top:${h - 160 * k}px;font-size:${52 * k}px">•••• •••• •••• 4821</div><div class="lab" style="left:${60 * k}px;top:${h - 90 * k}px;color:#3b2a05;font-size:${28 * k}px">CREDIT CARD</div>`, at);
+      };
+      const chip = (P, txt, l, t, at, cls = 'tagc') => P.el(cls + ' abs', l, t, 'auto', 'auto', txt, at);
+
+      // ---------- ambient layer: drifting gold particles + flash overlay ----------
+      const TOTAL = 96.74;
+      for (let i = 0; i < 26; i++) {
+        const sz = 5 + hashH(i + 3) * 9, x = 20 + hashH(i + 11) * 1040, sp = 70 + hashH(i + 5) * 90, y0 = hashH(i + 7) * 1900;
+        dyn.insertAdjacentHTML('beforeend', `<div id="pt${i}" class="pt" style="left:${x}px;top:0;width:${sz}px;height:${sz}px;opacity:${(0.18 + hashH(i + 9) * 0.3).toFixed(2)};filter:blur(${hashH(i) > 0.6 ? 2 : 0}px)"></div>`);
+        const first = (y0 + 80) / sp, cyc = 2000 / sp;
+        tl.fromTo('#pt' + i, { y: y0 }, { y: -80, duration: first, ease: 'none' }, 0);
+        tl.fromTo('#pt' + i, { y: 1960 }, { y: -80, duration: cyc, ease: 'none', repeat: Math.ceil((TOTAL - first) / cyc), immediateRender: false }, first);
+        tl.fromTo('#pt' + i, { x: 0 }, { x: (hashH(i + 2) - 0.5) * 60, duration: 4 + hashH(i + 8) * 3, ease: 'sine.inOut', yoyo: true, repeat: 20 }, 0);
+      }
+      dyn.insertAdjacentHTML('beforeend', '<div id="flash"></div>');
+      const flash = (t, a = 0.6) => tl.fromTo('#flash', { opacity: a }, { opacity: 0, duration: 0.55, ease: 'power2.out', immediateRender: false }, t);
+
+      const START = [0, 6.52, 13.58, 15.16, 20.18, 25.34, 32.62, 34.74, 42.68, 51.78, 57.12, 59.36, 65.04, 73.0, 78.98, 80.58, 85.42, 89.34, 93.6];
+      const B = (n, o, t1, t0) => { const i = parseInt(n, 10); return beat(n, t0 !== undefined ? t0 : i === 1 ? 0 : START[i - 1] - 0.1, t1 || (i === 19 ? 96.5 : START[i] - 0.1), o); };
+      const photo = (P, src, l, t, w, at, extra = '') => {
+        const h = Math.round(w * 0.491);
+        const id = P.el('photo abs', l, t, w, h, `<img src="assets/img/${src}" /><div class="shine"></div>${extra}`, at);
+        tl.fromTo(id + ' .shine', { x: -w * 0.6 }, { x: w * 1.5, duration: 1.6, ease: 'power2.inOut', repeat: 6, repeatDelay: 1.4 }, at + 0.7);
+        return id;
+      };
+      const digits = (P, n, l, t, step, at, firstOne) => { const ids = []; for (let i = 0; i < n; i++) ids.push(P.el('dg abs' + (firstOne && i === 0 ? ' one' : ''), l + i * step, t, 56, 84, firstOne && i === 0 ? '1' : '0', at(i))); return ids; };
+
+      // 1 hook: the real note
+      { const P = B(1, { eyebrow: 'DID YOU KNOW', rows: [['TRILLION-DOLLAR', W, 112], ['BANKNOTES', G, 150]] });
+        const n = photo(P, 'note100t.jpg', 90, 650, 900, 0); hookNow(tl, [n]); tl.fromTo(n, { rotation: -4, y: 0 }, { rotation: 2.5, y: -18, duration: 5.4, ease: 'sine.inOut' }, 0);
+        const ch = P.el('tagc fill abs', 150, 1210, 780, 80, '<div style="text-align:center;line-height:56px">A REAL ZIMBABWEAN BANKNOTE</div>', 0); hookNow(tl, [ch]); }
+      // 2 trillionaire but groceries
+      { const P = B(2, { eyebrow: 'WHAT IF', rows: [['YOU COULD BE', W, 115], ['A TRILLIONAIRE', G, 115]] });
+        P.el('uc abs', 120, 640, 840, 290, `${IMG('money', 50, 45, 110)}${LAB('YOUR NET WORTH', 190, 50)}<div id="nw" class="val" style="left:50px;top:170px;font-size:78px;color:#e5ab33">$0</div>`, 7.3);
+        count('#nw', 7.7, 0, 1e12, 2.8);
+        const g = P.el('uc gold abs', 120, 990, 840, 250, `${IMG('shopping-cart-k', 50, 50, 130)}${LAB('BUT STRUGGLING TO BUY', 215, 56)}${VAL('GROCERIES', 215, 112, 84, K)}`, wd(2, 11) - 0.2); P.pulse(g, wd(2, 13)); }
+      // 3 sounds crazy
+      { const P = B(3, { rows: [['SOUNDS', W, 150], ['CRAZY?', G, 170]], top: 250 });
+        P.el('abs', 290, 800, 500, 500, IMG('question', 0, 0, 500), 13.7); }
+      // 4 Zimbabwe
+      { const P = B(4, { eyebrow: 'THAT’S EXACTLY HOW BAD IT GOT IN', rows: [['ZIMBABWE', G, 170]] });
+        for (let i = 0; i < 3; i++) { const r = P.el('ring2 abs', 340, 720, 400, 400, '', 15.8 + i * 0.5); tl.fromTo(r, { scale: 0.5, opacity: 0.6 }, { scale: 1.6, opacity: 0, duration: 1.8, ease: 'power1.out', repeat: 2, immediateRender: false }, 15.9 + i * 0.6); }
+        P.el('uc abs', 340, 720, 400, 400, `${IMG('buildings', 100, 80, 200)}${LAB('SOUTHERN AFRICA', 62, 310)}`, 15.7); }
+      // 5 2008 inflation chart
+      { const P = B(5, { eyebrow: '2008', rows: [['EXTREME', W, 125], ['INFLATION', G, 150]] });
+        P.el('uc abs', 100, 660, 880, 560, `${LAB('PRICES', 50, 40)}<svg viewBox="0 0 800 440" style="position:absolute;left:40px;top:90px;width:800px;height:440px"><defs><linearGradient id="gA" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e5ab33" stop-opacity=".35"/><stop offset="1" stop-color="#e5ab33" stop-opacity="0"/></linearGradient></defs><path id="areaP" d="M10 430 C 200 425 380 400 520 320 S 700 90 790 20 L 790 440 L 10 440 Z" fill="url(#gA)" opacity="0"/><path id="curveP" d="M10 430 C 200 425 380 400 520 320 S 700 90 790 20" fill="none" stroke="#e5ab33" stroke-width="12" stroke-linecap="round"/><circle id="dotP" cx="790" cy="20" r="16" fill="#fffdf6" opacity="0"/></svg>`, 21.0);
+        const cv = document.getElementById('curveP'), CL = cv.getTotalLength(); cv.style.strokeDasharray = CL; cv.style.strokeDashoffset = CL;
+        tl.fromTo('#curveP', { strokeDashoffset: CL }, { strokeDashoffset: 0, duration: 3.2, ease: 'power2.in', immediateRender: false }, 21.9);
+        tl.to('#areaP', { opacity: 1, duration: 1.2 }, 23.2); tl.fromTo('#dotP', { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, svgOrigin: '790 20', duration: 0.4, ease: 'back.out(3)', immediateRender: false }, 25.0);
+        chip(P, 'PRICES ▲▲▲', 360, 1260, 24.0, 'tagc fill'); }
+      // 6 money lost value almost every day
+      { const P = B(6, { eyebrow: 'PRICES ROSE SO FAST', rows: [['MONEY LOST VALUE', W, 95], ['ALMOST EVERY DAY', G, 95]] });
+        P.el('uc abs', 120, 640, 840, 520, `${IMG('calendar', 50, 45, 130)}<div id="dayn" class="val" style="left:220px;top:60px;font-size:90px">DAY 1</div>${LAB('WHAT YOUR MONEY IS WORTH', 50, 230)}<div style="position:absolute;left:50px;top:300px;width:740px;height:80px;border-radius:22px;background:#4a3607"></div>`, 26.4);
+        const o = { v: 1 }; tl.to(o, { v: 30, duration: 5.5, ease: 'none', onUpdate() { document.getElementById('dayn').textContent = 'DAY ' + Math.round(o.v); } }, 27.0);
+        const bar = P.el('abs', 170, 940, 740, 80, '<div style="width:100%;height:100%;border-radius:22px;background:#e5ab33"></div>', 26.8, 'transform-origin:left center');
+        tl.to(bar, { scaleX: 0.1, duration: 5.2, ease: 'power2.in' }, 27.2);
+        chip(P, 'VALUE ▼', 400, 1240, 29.5, 'tagc fill'); }
+      // 7 bread today $10
+      { const P = B(7, { eyebrow: 'IMAGINE BUYING BREAD', rows: [['TODAY FOR', W, 100], ['$10', G, 250]] });
+        const l = P.el('loaf abs', 330, 840, 420, 230, '<i style="left:110px"></i><i style="left:200px"></i><i style="left:290px"></i>', 33.0); tl.fromTo(l, { rotation: -4 }, { rotation: 4, duration: 1.6, ease: 'sine.inOut' }, 33.0);
+        chip(P, 'BREAD · $10', 380, 1130, 33.6, 'tagc fill'); }
+      // 8 hundreds, thousands, millions + framed notes pan
+      { const P = B(8, { eyebrow: 'COMING BACK LATER, IT COSTS', rows: [] });
+        [['HUNDREDS', 8], ['THOUSANDS', 9], ['MILLIONS', 12]].forEach(([s, k], i) => { const id = `w8_${i}`, at = wd(8, k) - 0.05, nxt = i < 2 ? wd(8, k + 1 + (i === 0 ? 0 : 2)) : 42.5;
+          dyn.insertAdjacentHTML('beforeend', `<div id="${id}" class="abs big" style="left:0;top:270px;width:1080px;font-size:${i === 2 ? 170 : 150}px;color:#e5ab33">${s}</div>`);
+          tl.fromTo('#' + id, { opacity: 0, scale: 1.6, y: 20 }, { opacity: 1, scale: 1, y: 0, duration: 0.4, ease: 'back.out(1.8)', immediateRender: false }, at);
+          tl.to('#' + id, { opacity: 0, y: -30, duration: 0.18 }, i < 2 ? nxt - 0.12 : 42.4); });
+        const fr = P.el('frame abs', 160, 560, 760, 640, '<img src="assets/img/notes-framed.jpg" id="nfimg" />', 35.6);
+        tl.fromTo('#nfimg', { y: 0 }, { y: -(760 * 1.805 - 640), duration: 6.0, ease: 'power1.inOut', immediateRender: false }, 36.0);
+        P.el('lab abs', 190, 1225, 'auto', 'auto', 'Photo: TCCOVGLAM · CC BY-SA 4.0 · Wikimedia Commons', 36.2, 'font-size:22px;letter-spacing:.04em;text-transform:none'); }
+      // 9a printing the notes
+      { const P = B('9a', { eyebrow: 'ZIMBABWE PRINTED A BANKNOTE', rows: [['WORTH…', G, 190]] }, 47.55);
+        P.el('abs', 390, 760, 300, 300, IMG('printer', 0, 0, 300), 43.4);
+        for (let i = 0; i < 5; i++) { const m = P.el('uc gold abs', 340, 1020, 400, 170, `<div class="ring" style="position:absolute;left:150px;top:35px;width:100px;height:100px;border-radius:50%;border:5px solid rgba(10,10,10,.5)"></div>`, 44.0 + i * 0.7, 'padding:0'); tl.fromTo(m, { y: 0, rotation: 0 }, { y: 120, rotation: (i % 2 ? 6 : -6), duration: 0.6, ease: 'power2.in' }, 44.35 + i * 0.7); } }
+      // 9b the 100 trillion reveal
+      { const P = B('9b', { eyebrow: 'ONE HUNDRED', rows: [['100 TRILLION', G, 128], ['DOLLARS', W, 128]], top: 270 }, 51.65, 47.6);
+        flash(wd(9, 11) - 0.05, 0.7);
+        const r = P.el('rays abs', -160, 600, 1400, 1400, '', wd(9, 11)); tl.to(r, { rotation: 180, duration: 5, ease: 'none' }, wd(9, 11));
+        const n = photo(P, 'note100t.jpg', 90, 820, 900, wd(9, 11) + 0.15); tl.fromTo(n, { rotation: 5 }, { rotation: -2.5, duration: 4, ease: 'sine.inOut' }, wd(9, 11) + 0.2); }
+      // 10 a one followed by fourteen zeros
+      { const P = B(10, { eyebrow: 'A ONE FOLLOWED BY', rows: [['FOURTEEN ZEROS', G, 110]] });
+        const ids = digits(P, 15, 64, 700, 60, (i) => i === 0 ? wd(10, 2) : 54.2 + i * 0.14, true);
+        const o = { v: 0 }; P.el('uc abs', 330, 880, 420, 200, '<div id="zc" class="val" style="left:0;width:420px;text-align:center;top:30px;font-size:130px;color:#e5ab33">0</div><div class="lab" style="left:0;width:420px;text-align:center;top:160px">ZEROS</div>', 54.0);
+        tl.to(o, { v: 14, duration: 14 * 0.14, ease: 'none', onUpdate() { document.getElementById('zc').textContent = Math.round(o.v); } }, 54.34); }
+      // 11 shocking part
+      { const P = B(11, { eyebrow: 'BUT HERE’S THE', rows: [['SHOCKING', W, 135], ['PART', G, 170]], top: 300 });
+        const w = P.el('abs', 340, 880, 400, 400, IMG('warning', 0, 0, 400), 57.5); tl.fromTo(w, { rotation: -6 }, { rotation: 6, duration: 0.18, repeat: 5, yoyo: true, ease: 'sine.inOut' }, 57.9); }
+      // 12 not rich
+      { const P = B(12, { eyebrow: 'A 100-TRILLION-DOLLAR NOTE', rows: [['DIDN’T MAKE', W, 125], ['YOU RICH', G, 150]] });
+        const n = photo(P, 'note100t.jpg', 170, 700, 740, 60.4); tl.to(n, { opacity: 0.55, duration: 0.3 }, wd(12, 4));
+        const s = P.el('stamp abs', 200, 840, 680, 170, '<div style="font-size:110px;line-height:150px">NOT RICH</div>', wd(12, 4) + 0.1, 'transform-origin:center;rotate:-9deg');
+        flash(wd(12, 4) + 0.12, 0.35); }
+      // 13 little purchasing power
+      { const P = B(13, { eyebrow: 'THAT ENORMOUS NUMBER HAD', rows: [['VERY LITTLE', W, 120], ['BUYING POWER', G, 120]] });
+        P.el('uc abs', 120, 660, 840, 560, `${LAB('NUMBER ON THE NOTE', 50, 40)}<div style="position:absolute;left:50px;top:95px;width:740px;height:70px;border-radius:20px;background:#4a3607"></div>${IMG('shopping-cart', 50, 245, 100)}${LAB('WHAT IT CAN BUY', 170, 250)}<div style="position:absolute;left:50px;top:380px;width:740px;height:70px;border-radius:20px;background:#4a3607"></div>`, 66.0);
+        const b1 = P.el('abs', 170, 755, 740, 70, '<div style="width:100%;height:100%;border-radius:20px;background:#e5ab33"></div>', 66.3, 'transform-origin:left center');
+        const b2 = P.el('abs', 170, 1040, 740, 70, '<div style="width:100%;height:100%;border-radius:20px;background:#e5ab33"></div>', 67.0, 'transform-origin:left center');
+        tl.to(b2, { scaleX: 0.05, duration: 1.4, ease: 'power3.inOut' }, 69.2);
+        chip(P, 'VERY LITTLE', 380, 1250, 70.0, 'tagc fill'); }
+      // 14 abandoned in 2009
+      { const P = B(14, { eyebrow: '2009', rows: [['ZIMBABWE ABANDONED', W, 86], ['ITS CURRENCY', G, 125]] });
+        const n = photo(P, 'note100t.jpg', 170, 700, 740, 74.0); tl.to(n, { filter: 'grayscale(1) brightness(0.55)', duration: 0.6 }, wd(14, 2) + 0.2);
+        const s = P.el('stamp abs', 190, 820, 700, 170, '<div style="font-size:96px;line-height:150px">ABANDONED</div>', wd(14, 2) + 0.4, 'rotate:-8deg');
+        flash(wd(14, 2) + 0.42, 0.3); }
+      // 15 lesson
+      { const P = B(15, { eyebrow: 'AND HERE’S', rows: [['THE LESSON', G, 150]], top: 330 });
+        P.el('abs', 340, 780, 400, 400, IMG('note', 0, 0, 400), 79.2); }
+      // 16 huge number != wealth
+      { const P = B(16, { eyebrow: 'A HUGE NUMBER ON A BANKNOTE', rows: [['DOESN’T MEAN', W, 115], ['YOU’RE WEALTHY', G, 105]] });
+        P.el('uc abs', 100, 680, 880, 330, `${IMG('money', 50, 45, 110)}${LAB('NUMBER ON THE NOTE', 190, 50)}<div id="bn" class="val" style="left:50px;top:190px;font-size:66px;color:#e5ab33">$0</div>`, 81.4);
+        count('#bn', 81.8, 0, 1e14, 2.0);
+        const c = P.el('uc gold abs', 220, 1060, 640, 170, `${IMG('prohibit', 30, 20, 130)}${VAL('≠ WEALTH', 190, 45, 80, K)}`, 83.4); P.pulse(c, 84.1); }
+      // 17 money isn't about zeros
+      { const P = B(17, { eyebrow: 'MONEY ISN’T ABOUT', rows: [['HOW MANY ZEROS', W, 105], ['YOU HAVE', G, 130]] });
+        const ids = digits(P, 10, 130, 760, 80, (i) => 85.9 + i * 0.12, false);
+        ids.forEach((id, i) => tl.to(id, { y: 220 + hashH(i + 40) * 90, opacity: 0, rotation: (i % 2 ? 1 : -1) * (14 + hashH(i) * 20), duration: 0.5, ease: 'power2.in' }, 87.3 + i * 0.12)); }
+      // 18 it's about what they can buy
+      { const P = B(18, { eyebrow: 'IT’S ABOUT WHAT THEY CAN', rows: [['ACTUALLY BUY', G, 135]] });
+        const l = P.el('loaf abs', 120, 760, 400, 220, '<i style="left:100px"></i><i style="left:190px"></i><i style="left:280px"></i>', 90.0);
+        P.el('uc abs', 560, 740, 400, 250, `${IMG('shopping-cart', 140, 40, 120)}${LAB('GROCERIES', 108, 190)}`, 90.6);
+        chip(P, '✓ BREAD', 170, 1030, 91.4, 'tagc fill'); chip(P, '✓ FOOD', 650, 1030, 91.9, 'tagc fill'); }
+      // 19 end
+      { const P = B(19, { rows: [['YOU DIDN’T KNOW', W, 104], ['THAT ABOUT MONEY.', G, 104]], top: 820 });
+        P.el('abs', 340, 380, 400, 400, IMG('coins', 0, 0, 400), 93.8); flash(94.0, 0.3); }
+
+
+      // ================= captions (word-timed karaoke) =================
+      const css = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+      const hexA = (h, a) => { const n = parseInt(h.replace('#', ''), 16); return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${a})`; };
+      const ACC = css('--accent'), INK = css('--ink'), ONACC = css('--on-accent');
+      const capsEl = $('#caps');
+      const groups = []; let cur = [];
+      WORDS.forEach((w, i) => { cur.push(w); const nx = WORDS[i + 1]; const endS = /[.!?]$/.test(w.w); const endC = /,$/.test(w.w) && cur.length >= 2; if (!nx || endS || endC || cur.length >= 4 || (nx && nx.s - w.e > 0.5)) { groups.push(cur); cur = []; } });
+      groups.forEach((g, gi) => {
+        if (typeof NO_CAPTION_LINES !== 'undefined' && NO_CAPTION_LINES.includes(g[0].line)) return;
+        const d = document.createElement('div'); d.className = 'cg'; const pill = document.createElement('div'); pill.className = 'pill'; d.appendChild(pill);
+        g.forEach((w, wi) => { const s = document.createElement('span'); s.className = 'cw'; s.id = `cw${gi}_${wi}`; s.textContent = w.w; pill.appendChild(s); });
+        capsEl.appendChild(d);
+        const a0 = g[0].s - 0.03, nextS = groups[gi + 1] ? groups[gi + 1][0].s : 1e9, b = Math.min(g[g.length - 1].e + 0.2, nextS - 0.08);
+        tl.fromTo(d, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.1, ease: 'power2.out', immediateRender: false }, Math.max(0, a0));
+        tl.to(d, { opacity: 0, duration: 0.06, ease: 'none' }, b);
+        g.forEach((w, wi) => { const sp = `#cw${gi}_${wi}`;
+          tl.fromTo(sp, { backgroundColor: hexA(ACC, 0), color: INK }, { backgroundColor: ACC, color: ONACC, duration: 0.06, ease: 'none', immediateRender: false }, w.s);
+          tl.to(sp, { backgroundColor: hexA(ACC, 0), color: INK, duration: 0.06, ease: 'none' }, Math.max(w.e, w.s + 0.1)); });
+      });
+      tl.fromTo('#prog', { scaleX: 0 }, { scaleX: 1, duration: 96.74, ease: 'none', immediateRender: false }, 0);
+      window.__timelines['main'] = tl;
+      tl.seek(0);
+    </script>
+
+  </body>
+</html>

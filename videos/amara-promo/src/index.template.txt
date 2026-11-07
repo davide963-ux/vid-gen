@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="sq">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: 'Cormorant Garamond'; font-weight: 500; src: url('assets/fonts/cormorant-garamond-latin-500-normal.woff2') format('woff2'); }
+      @font-face { font-family: 'Cormorant Garamond'; font-weight: 600; src: url('assets/fonts/cormorant-garamond-latin-600-normal.woff2') format('woff2'); }
+      @font-face { font-family: 'Cormorant Garamond'; font-weight: 700; src: url('assets/fonts/cormorant-garamond-latin-700-normal.woff2') format('woff2'); }
+      @font-face { font-family: 'Cormorant Garamond'; font-weight: 600; font-style: italic; src: url('assets/fonts/cormorant-garamond-latin-600-italic.woff2') format('woff2'); }
+      @font-face { font-family: 'Manrope'; font-weight: 600; src: url('assets/fonts/manrope-latin-600-normal.woff2') format('woff2'); }
+      @font-face { font-family: 'Manrope'; font-weight: 700; src: url('assets/fonts/manrope-latin-700-normal.woff2') format('woff2'); }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #0A1114; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #0A1114; font-family: 'Manrope', sans-serif; color: #F6F1E7; }
+      #stage { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; }
+      .abs { position: absolute; opacity: 0; }
+      .ph { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; opacity: 0; }
+      .ph img { position: absolute; left: 0; top: 0; height: 2100px; width: auto; max-width: none; }
+      .pc { position: absolute; opacity: 0; overflow: hidden; border-radius: 28px; border: 2px solid rgba(246,241,231,0.55); box-shadow: 0 40px 90px rgba(0,0,0,0.55); }
+      .pc img { position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; transform-origin: 50% 50%; }
+      #shadeT { position: absolute; left: 0; top: 0; width: 1080px; height: 900px; background: linear-gradient(180deg, rgba(5,10,12,0.72), rgba(5,10,12,0)); }
+      #shadeB { position: absolute; left: 0; top: 1000px; width: 1080px; height: 920px; background: linear-gradient(0deg, rgba(5,10,12,0.82), rgba(5,10,12,0)); }
+      #dim { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; background: rgba(5,10,12,0); }
+      .serif { font-family: 'Cormorant Garamond', serif; font-weight: 700; letter-spacing: -0.01em; line-height: 1.0; text-align: center; white-space: nowrap; text-shadow: 0 6px 40px rgba(0,0,0,0.55); }
+      .it { font-style: italic; font-weight: 600; color: #8FE3EE; }
+      .tag { font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 28px; letter-spacing: 0.28em; text-transform: uppercase; color: #8FE3EE; text-align: center; white-space: nowrap; text-shadow: 0 2px 20px rgba(0,0,0,0.6); }
+      .chip { display: inline-block; padding: 14px 34px; border-radius: 100px; background: rgba(10,17,20,0.62); border: 1.5px solid rgba(143,227,238,0.6); color: #F6F1E7; font-weight: 700; font-size: 28px; letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap; }
+      .lgc { position: absolute; opacity: 0; width: 520px; height: 420px; border-radius: 34px; background: rgba(246,241,231,0.94); box-shadow: 0 40px 90px rgba(0,0,0,0.5); text-align: center; }
+      .lgc img { width: 400px; margin-top: 74px; }
+      #prog { position: absolute; left: 0; bottom: 0; width: 1080px; height: 6px; background: #00A7BB; transform-origin: left center; }
+      #caps { position: absolute; left: 0; top: 1392px; width: 1080px; height: 190px; }
+      .cg { position: absolute; left: 70px; top: 0; width: 940px; text-align: center; opacity: 0; }
+      .cg .pill { display: inline-block; padding: 14px 32px 16px; border-radius: 34px; background: rgba(10,17,20,0.74); border: 1.5px solid rgba(246,241,231,0.25); font-weight: 700; font-size: 50px; line-height: 1.2; letter-spacing: -0.01em; color: #F6F1E7; }
+      .cw { display: inline-block; margin: 0 4px; padding: 0 10px; border-radius: 12px; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="__TOTAL__" data-width="1080" data-height="1920">
+      <div id="stage" class="clip" data-start="0" data-duration="__TOTAL__" data-track-index="0">
+        <div id="photos"></div>
+        <div id="dim"></div>
+        <div id="shadeT"></div><div id="shadeB"></div>
+        <div id="dyn"></div>
+        <div id="caps"></div>
+        <div id="prog"></div>
+      </div>
+    </div>
+
+    <script>
+      const WORDS = __WORDS__;
+      window.__timelines = window.__timelines || {};
+      const wd = (l, k) => WORDS.filter((w) => w.line === l)[k].s;
+      const tl = gsap.timeline({ paused: true });
+      const E = 'power3.out', IO = 'power2.inOut';
+      const $ = (s) => document.querySelector(s);
+      const R = (el, t, from, to) => tl.fromTo(el, Object.assign({ opacity: 0, y: 30 }, from || {}), Object.assign({ opacity: 1, y: 0, duration: 0.7, ease: E, immediateRender: false }, to || {}), t);
+      const X = (el, t, d) => tl.to(el, { opacity: 0, duration: d || 0.3, ease: 'none' }, t);
+      const dyn = $('#dyn'); const add = (h) => dyn.insertAdjacentHTML('beforeend', h);
+      // full-bleed photo layer that pans across the picture; x0/x1 are start/end offsets in px
+      const photo = (id, src, t0, t1, x0, x1, z0 = 1.0, z1 = 1.08) => {
+        $('#photos').insertAdjacentHTML('beforeend', `<div id="${id}" class="ph"><img id="${id}i" src="assets/img/${src}.jpg" /></div>`);
+        tl.fromTo('#' + id, { opacity: 0 }, { opacity: 1, duration: 0.6, ease: 'none', immediateRender: false }, t0);
+        tl.fromTo('#' + id + 'i', { x: -x0, scale: z0, transformOrigin: '50% 50%' }, { x: -x1, scale: z1, duration: t1 - t0 + 0.6, ease: 'none', immediateRender: false }, t0);
+        tl.to('#' + id, { opacity: 0, duration: 0.6, ease: 'none' }, t1);
+      };
+      const card = (id, src, left, top, w, h) => add(`<div id="${id}" class="pc" style="left:${left}px;top:${top}px;width:${w}px;height:${h}px"><img id="${id}i" src="assets/img/${src}.png" /></div>`);
+      const head = (id, tag, big, size, top) => add(`<div id="${id}t" class="abs tag" style="left:0;top:${top}px;width:1080px">${tag}</div><div id="${id}b" class="abs serif" style="left:0;top:${top + 48}px;width:1080px;font-size:${size}px">${big}</div>`);
+
+      // ---- photos (image is 2100px tall, ~3145px wide; offsets choose which part of the picture is in the 1080px window)
+      photo('pPool', 'als-3906-min-1-scaled', 0, 3.99 + 0.2, 300, 820);
+      photo('pPool2', 'als-3906-min-1-scaled', 3.99 + 0.2, 8.4, 820, 1040);
+      photo('pBed1', 'als4790', 8.4, 11.7, 700, 1250);
+      photo('pBed2', 'als4782', 11.7, 13.9, 1100, 1500);
+      photo('pSuite', 'als4805', 13.9, 15.6, 500, 900);
+      photo('pRestBg', 'als4792', 15.6, 23.5, 900, 1100);
+      photo('pPool3', 'als-3906-min-1-scaled', 23.4, 26.9, 400, 1200);
+      photo('pSpaBg', 'als4807', 26.9, 31.9, 1200, 1500);
+      photo('pFinal', 'als4811', 31.9, 37.7, 150, 500);
+      photo('pCta', 'als-3906-min-1-scaled', 37.7, 43.04, 500, 1000);
+
+      // ---- cards made from the hotel's own wide photos
+      card('cRest', 'restaurant-experienzce-1', 60, 560, 960, 449);
+      card('cPool', 'pool-experience-1', 60, 560, 960, 449);
+      card('cSpa', 'spa-experience-1', 60, 560, 960, 449);
+
+      // ---- text
+      head('t1', 'Durrës · buzë detit', 'Një pushim', 150, 250); add('<div id="t1c" class="abs serif it" style="left:0;top:440px;width:1080px;font-size:170px">buzë detit?</div>');
+      add('<div id="t2a" class="abs serif" style="left:0;top:300px;width:1080px;font-size:132px">Mirë se vini</div>');
+      add('<div id="lgc" class="lgc" style="left:280px;top:620px"><img src="assets/img/logo.svg" /></div>');
+      add('<div id="t2c" class="abs" style="left:0;top:1090px;width:1080px;text-align:center"><span class="chip">Durrës · Shqipëri</span></div>');
+      head('t3a', 'Dhoma', 'elegante', 170, 270); head('t3b', 'Shumë prej tyre', 'me pamje nga deti', 124, 270); head('t3c', 'Çdo detaj', 'për rehatinë tuaj', 120, 270);
+      head('t4', 'Restorant & Bar', 'Gatime të shkëlqyera', 112, 250);
+      add('<div id="t4c" class="abs" style="left:0;top:1100px;width:1080px;text-align:center"><span class="chip">Çdo ditë · 07:30 – 23:00</span></div>');
+      head('t5a', 'Pishina', 'e jashtme', 170, 270); head('t5b', 'Plazh privat', 'me akses direkt', 130, 270);
+      head('t6', 'Qendra', 'Wellness & SPA', 140, 250);
+      add('<div id="t6c" class="abs" style="left:0;top:1100px;width:1080px;text-align:center"><span class="chip">Çdo ditë · 07:30 – 23:00</span></div>');
+      add('<div id="lgc2" class="lgc" style="left:280px;top:520px"><img src="assets/img/logo.svg" /></div>');
+      add('<div id="t7a" class="abs serif" style="left:0;top:1000px;width:1080px;font-size:124px">Rehatia,</div><div id="t7b" class="abs serif it" style="left:0;top:1130px;width:1080px;font-size:124px">në një kuptim të ri.</div>');
+      add('<div id="t8a" class="abs serif" style="left:0;top:300px;width:1080px;font-size:160px">Rezervo</div><div id="t8b" class="abs serif it" style="left:0;top:470px;width:1080px;font-size:160px">sot.</div>');
+      add('<div id="t8c" class="abs" style="left:0;top:700px;width:1080px;text-align:center"><span class="chip" style="font-size:40px;padding:18px 44px">+355 67 70 78 000</span></div>');
+      add('<div id="t8d" class="abs tag" style="left:0;top:840px;width:1080px;font-size:34px">amarahotel.al</div>');
+      add('<div id="t8e" class="abs tag" style="left:0;top:900px;width:1080px;font-size:24px;letter-spacing:0.16em;color:#F6F1E7">Rruga Pavarësia, Lagjja nr. 13, Durrës</div>');
+
+      // ================= timeline =================
+      // L1 (0.3 - 3.5)
+      R('#t1t', 0.5, {}, { duration: 0.6 }); R('#t1b', 0.45, { scale: 0.96 }, { scale: 1, duration: 0.9 }); R('#t1c', wd(1, 5) - 0.3, { scale: 0.96 }, { scale: 1, duration: 0.9 });
+      ['#t1t', '#t1b', '#t1c'].forEach((s) => X(s, 3.7, 0.4));
+      // L2 (3.99 - 8.1)
+      R('#t2a', 4.05, { scale: 0.96 }, { scale: 1, duration: 0.9 });
+      tl.fromTo('#lgc', { opacity: 0, y: 40, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.9, ease: E, immediateRender: false }, wd(2, 4) - 0.2);
+      R('#t2c', wd(2, 8) - 0.1, {}, { duration: 0.6 });
+      ['#t2a', '#lgc', '#t2c'].forEach((s) => X(s, 8.3, 0.4));
+      // L3 (8.6 - 15.3)
+      R('#t3at', 8.75, {}, { duration: 0.6 }); R('#t3ab', 8.75, {}, { duration: 0.9 }); ['#t3at', '#t3ab'].forEach((s) => X(s, wd(3, 2) - 0.05, 0.3));
+      R('#t3bt', wd(3, 2), {}, { duration: 0.6 }); R('#t3bb', wd(3, 2), {}, { duration: 0.9 }); ['#t3bt', '#t3bb'].forEach((s) => X(s, wd(3, 9) - 0.1, 0.3));
+      R('#t3ct', wd(3, 9) + 0.05, {}, { duration: 0.6 }); R('#t3cb', wd(3, 9) + 0.05, {}, { duration: 0.9 }); ['#t3ct', '#t3cb'].forEach((s) => X(s, 15.5, 0.4));
+      // L4 (15.79 - 20.4)
+      R('#t4t', 15.85, {}, { duration: 0.6 }); R('#t4b', 15.85, {}, { duration: 0.9 });
+      R('#cRest', 15.95, { y: 60, scale: 0.97 }, { scale: 1, duration: 1.0 }); tl.fromTo('#cResti', { scale: 1 }, { scale: 1.12, duration: 5.2, ease: 'none', immediateRender: false }, 15.95);
+      R('#t4c', wd(4, 6), {}, { duration: 0.6 });
+      ['#t4t', '#t4b', '#cRest', '#t4c'].forEach((s) => X(s, 20.55, 0.4));
+      // L5 (20.88 - 26.6)
+      R('#t5at', 21.0, {}, { duration: 0.6 }); R('#t5ab', 21.0, {}, { duration: 0.9 });
+      R('#cPool', 21.1, { y: 60, scale: 0.97 }, { scale: 1, duration: 1.0 }); tl.fromTo('#cPooli', { scale: 1 }, { scale: 1.12, duration: 3.0, ease: 'none', immediateRender: false }, 21.1);
+      ['#t5at', '#t5ab', '#cPool'].forEach((s) => X(s, wd(5, 6) - 0.1, 0.4));
+      R('#t5bt', wd(5, 6) + 0.05, {}, { duration: 0.6 }); R('#t5bb', wd(5, 6) + 0.05, {}, { duration: 0.9 });
+      ['#t5bt', '#t5bb'].forEach((s) => X(s, 26.8, 0.4));
+      // L6 (27.11 - 31.5)
+      R('#t6t', 27.2, {}, { duration: 0.6 }); R('#t6b', 27.2, {}, { duration: 0.9 });
+      R('#cSpa', 27.3, { y: 60, scale: 0.97 }, { scale: 1, duration: 1.0 }); tl.fromTo('#cSpai', { scale: 1.02 }, { scale: 1.14, duration: 4.4, ease: 'none', immediateRender: false }, 27.3);
+      R('#t6c', wd(6, 7), {}, { duration: 0.6 });
+      ['#t6t', '#t6b', '#cSpa', '#t6c'].forEach((s) => X(s, 31.7, 0.4));
+      // L7 (32.05 - 37.3)
+      tl.fromTo('#lgc2', { opacity: 0, y: 40, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.9, ease: E, immediateRender: false }, 32.2);
+      R('#t7a', wd(7, 4) - 0.1, {}, { duration: 0.9 }); R('#t7b', wd(7, 5), {}, { duration: 0.9 });
+      ['#lgc2', '#t7a', '#t7b'].forEach((s) => X(s, 37.55, 0.4));
+      // L8 (37.88 - 40.9, holds to the end)
+      R('#t8a', 38.0, {}, { duration: 0.9 }); R('#t8b', wd(8, 0) + 0.35, {}, { duration: 0.9 }); R('#t8c', wd(8, 2), {}, { duration: 0.7 }); R('#t8d', wd(8, 3) + 0.1, {}, { duration: 0.6 }); R('#t8e', wd(8, 3) + 0.4, {}, { duration: 0.6 });
+      tl.to('#dim', { backgroundColor: 'rgba(5,10,12,0.38)', duration: 0.8 }, 32.0); tl.to('#dim', { backgroundColor: 'rgba(5,10,12,0.5)', duration: 0.8 }, 37.6);
+      tl.fromTo('#prog', { scaleX: 0 }, { scaleX: 1, duration: __TOTAL__, ease: 'none', immediateRender: false }, 0);
+
+      // ---------- captions ----------
+      const capsEl = $('#caps');
+      const groups = []; let cur = [];
+      WORDS.forEach((w, i) => { cur.push(w); const nx = WORDS[i + 1]; const endS = /[.!?…]$/.test(w.w); const endC = /,$/.test(w.w) && cur.length >= 3; if (!nx || endS || endC || cur.length >= 5 || (nx && nx.s - w.e > 0.5)) { groups.push(cur); cur = []; } });
+      groups.forEach((g, gi) => {
+        const d = document.createElement('div'); d.className = 'cg'; const pill = document.createElement('div'); pill.className = 'pill'; d.appendChild(pill);
+        g.forEach((w, wi) => { const s = document.createElement('span'); s.className = 'cw'; s.id = `cw${gi}_${wi}`; s.textContent = w.w; pill.appendChild(s); });
+        capsEl.appendChild(d);
+        const a = g[0].s - 0.03, nextS = groups[gi + 1] ? groups[gi + 1][0].s : 1e9, b = Math.min(g[g.length - 1].e + 0.25, nextS - 0.12);
+        tl.fromTo(d, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.12, ease: 'power2.out', immediateRender: false }, a);
+        tl.to(d, { opacity: 0, duration: 0.08, ease: 'none' }, b);
+        g.forEach((w, wi) => { const sp = `#cw${gi}_${wi}`;
+          tl.fromTo(sp, { backgroundColor: 'rgba(0,167,187,0)', color: '#F6F1E7' }, { backgroundColor: '#00A7BB', color: '#FFFFFF', duration: 0.07, ease: 'none', immediateRender: false }, w.s);
+          tl.to(sp, { backgroundColor: 'rgba(0,167,187,0)', color: '#F6F1E7', duration: 0.08, ease: 'none' }, Math.max(w.e, w.s + 0.12)); });
+      });
+      window.__timelines['main'] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

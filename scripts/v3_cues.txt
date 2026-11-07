@@ -1,0 +1,20 @@
+const w5 = (t) => { whoosh(t, 0.5, 0.12, 300, 2600); thud(t + 0.05, 70, 0.3, 0.3, 0.5); };
+// wipes
+[2.45, 5.4, 8.62, 11.5, 14.95].forEach(w5);
+// S1: hook slams
+[0.3, 0.86, 1.06, 1.54].forEach((t, i) => { stampHit(t - 0.03); ping(t, 330 + i * 110, 0.5, 0.08, 0.3); });
+for (let i = 0; i < 10; i++) click(0.1 + i * 0.22, 0.12);
+// S2: coin drops into the safe
+[3.0, 3.4, 3.85, 4.25, 4.6].forEach((t0, i) => { swoosh(t0, 0.3, 0.05); const t = t0 + 0.5; ping(t, 1568 + i * 140, 0.5, 0.12, 0.35); click(t, 0.35); thud(t, 85, 0.25, 0.25, 0.4); });
+stampHit(2.62); stampHit(3.12); stampHit(4.18); stampHit(4.42);
+// S3: coins fly out, text slam
+stampHit(5.95); thud(5.95, 50, 0.6, 0.5, 0.5); [0, 1, 2, 3, 4, 5].forEach((i) => { whoosh(5.85 + i * 0.28, 0.6, 0.06, 500, 3000); pop(5.85 + i * 0.28 + 0.1, 600 + i * 70, 0.08); ping(5.85 + i * 0.28 + 1.0, 1700 + i * 80, 0.25, 0.06, 0.3); });
+pop(at(3, 6) - 0.1, 700, 0.1); pop(at(3, 8) - 0.1, 800, 0.1);
+// S4: % coin lands on the document
+stampHit(8.78); stampHit(at(4, 4) - 0.2); riser(9.1, 0.4, 300, 700, 0.06); thud(10.0, 60, 0.5, 0.5, 0.5); bell(10.0, 0.18); sparkle(10.05, 10, 0.05); pop(at(4, 6) - 0.1, 760, 0.1);
+for (let i = 0; i < 4; i++) { ping(10.35 + i * 0.18, 1500 + i * 150, 0.4, 0.08, 0.3); pop(10.35 + i * 0.18, 700 + i * 80, 0.06); }
+// S5: pie
+stampHit(11.62); stampHit(at(5, 4) - 0.2); pop(at(5, 2), 640, 0.1); thud(at(5, 6), 70, 0.35, 0.35, 0.4); riser(at(5, 6) - 0.25, 0.3, 300, 800, 0.07); bell(at(5, 6) + 0.2, 0.14); pop(at(5, 8), 780, 0.1);
+// S6: final
+stampHit(15.22); ping(15.24, 523, 1.2, 0.1, 0.2); stampHit(at(6, 3) - 0.05); ping(at(6, 3), 659, 1.2, 0.1, 0.2); ping(at(6, 3) + 0.1, 784, 1.0, 0.08, 0.2);
+{ const n = Math.floor(0.3 * SR); const e = env(n, 0.001, 0.08); add(17.15, lp(noise(n), 5000).map((v, i) => v * e[i]), 0.45); } sparkle(17.2, 14, 0.05);

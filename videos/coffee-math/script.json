@@ -1,0 +1,33 @@
+[
+ {
+  "say": "Quick money math.",
+  "pause": 0.25
+ },
+ {
+  "say": "A five dollar coffee, every single day.",
+  "show": "A $5 coffee, every single day.",
+  "pause": 0.25
+ },
+ {
+  "say": "Five times three hundred sixty-five...",
+  "show": "$5 × 365 days...",
+  "pause": 0.35
+ },
+ {
+  "say": "is eighteen hundred twenty-five dollars.",
+  "show": "is $1,825.",
+  "pause": 0.1
+ },
+ {
+  "say": "A year.",
+  "pause": 0.4
+ },
+ {
+  "say": "Small habits, big numbers.",
+  "pause": 0.25
+ },
+ {
+  "say": "Know your number.",
+  "tail": 0.8
+ }
+]

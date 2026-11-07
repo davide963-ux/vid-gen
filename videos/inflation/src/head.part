@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
+    <style>
+      @font-face { font-family: 'Space Grotesk'; font-weight: 500; src: url('assets/fonts/space-grotesk-latin-500-normal.woff2') format('woff2'); }
+      @font-face { font-family: 'Space Grotesk'; font-weight: 600; src: url('assets/fonts/space-grotesk-latin-600-normal.woff2') format('woff2'); }
+      @font-face { font-family: 'Space Grotesk'; font-weight: 700; src: url('assets/fonts/space-grotesk-latin-700-normal.woff2') format('woff2'); }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #fdfae7; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background-color: #fdfae7; background-image: radial-gradient(rgba(30,43,250,0.10) 2.5px, transparent 2.5px); background-size: 60px 60px; font-family: 'Space Grotesk', sans-serif; color: #111; }
+      #stage { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; }
+      .abs { position: absolute; opacity: 0; }
+      .lot { position: absolute; opacity: 0; }
+      .big { font-weight: 700; letter-spacing: -0.035em; line-height: 1.02; text-align: center; white-space: nowrap; }
+      .bl { color: #1e2bfa; }
+      .tag { font-weight: 600; font-size: 34px; letter-spacing: 0.1em; text-transform: uppercase; color: #1e2bfa; text-align: center; white-space: nowrap; }
+      .chip { display: inline-block; padding: 12px 30px; border-radius: 100px; background: rgba(30,43,250,0.08); border: 1.5px solid rgba(30,43,250,0.22); color: #1e2bfa; font-weight: 600; font-size: 30px; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; }
+      .card { background: #fff; border: 1.5px solid rgba(30,43,250,0.22); border-radius: 26px; box-shadow: 0 16px 50px rgba(17,17,17,0.08); }
+      .strike { position: absolute; height: 10px; border-radius: 6px; background: #1e2bfa; transform-origin: left center; transform: scaleX(0); }
+      .ck { position: absolute; width: 60px; height: 60px; opacity: 0; }
+      .fxd { position: absolute; opacity: 0; }
+      #prog { position: absolute; left: 0; bottom: 0; width: 1080px; height: 6px; background: #1e2bfa; transform-origin: left center; }
+      #caps { position: absolute; left: 0; top: 1392px; width: 1080px; height: 190px; }
+      .cg { position: absolute; left: 90px; top: 0; width: 900px; text-align: center; opacity: 0; }
+      .cg .pill { display: inline-block; padding: 14px 30px 16px; border-radius: 34px; background: #fff; border: 1.5px solid rgba(30,43,250,0.22); box-shadow: 0 8px 30px rgba(17,17,17,0.06); font-weight: 600; font-size: 52px; line-height: 1.2; letter-spacing: -0.01em; color: #111; }
+      .cw { display: inline-block; margin: 0 4px; padding: 0 10px; border-radius: 12px; }
+      .spark { position: absolute; width: 90px; height: 90px; opacity: 0; -webkit-mask-size: contain; mask-size: contain; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-position: center; mask-position: center; -webkit-mask-image: url('assets/img/star.png'); mask-image: url('assets/img/star.png'); }
+      /* the illustrated banknote (generic design, no portrait) */
+      .bill { position: relative; width: 880px; height: 374px; border-radius: 20px; overflow: hidden; background: linear-gradient(135deg, #e6efd9 0%, #cfe0c0 55%, #dce9cd 100%); border: 4px solid #35563a; box-shadow: 0 34px 64px rgba(17,17,17,0.2); }
+      .bill .fine { position: absolute; inset: 0; background: repeating-linear-gradient(45deg, rgba(53,86,58,0.07) 0 3px, transparent 3px 9px); }
+      .bill .frame { position: absolute; inset: 16px; border: 3px solid rgba(53,86,58,0.75); border-radius: 12px; }
+      .bill .medal { position: absolute; left: 300px; top: 52px; width: 280px; height: 270px; border-radius: 135px / 135px; border: 4px solid #35563a; background: repeating-radial-gradient(circle at 50% 50%, rgba(53,86,58,0.42) 0 2px, transparent 2px 10px); }
+      .bill .plate { position: absolute; left: 270px; top: 122px; width: 340px; height: 130px; border-radius: 28px; background: #eef5e3; border: 4px solid #35563a; text-align: center; line-height: 122px; font-weight: 700; font-size: 100px; letter-spacing: -0.04em; color: #1f3a24; white-space: nowrap; }
+      .bill .bc { position: absolute; font-weight: 700; font-size: 56px; letter-spacing: -0.03em; color: #1f3a24; white-space: nowrap; }
+      .bill .thread { position: absolute; left: 196px; top: 0; width: 18px; height: 100%; background: linear-gradient(180deg, rgba(30,43,250,0.25), rgba(30,43,250,0.55), rgba(30,43,250,0.25)); }
+      .bill .seal { position: absolute; left: 676px; top: 214px; width: 96px; height: 96px; border-radius: 50%; border: 4px solid #35563a; background: repeating-radial-gradient(circle, rgba(53,86,58,0.5) 0 2px, transparent 2px 7px); }
+      .bill .wm { position: absolute; left: 640px; top: 56px; width: 170px; height: 124px; border-radius: 50%; background: rgba(53,86,58,0.13); }
+      .bill .scan { position: absolute; left: -40px; top: 0; width: 26px; height: 100%; background: linear-gradient(90deg, rgba(30,43,250,0), rgba(30,43,250,0.55), rgba(30,43,250,0)); opacity: 0; }

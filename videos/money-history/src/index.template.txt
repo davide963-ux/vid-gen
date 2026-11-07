@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
+    <style>
+      @font-face { font-family: 'Cormorant Garamond'; font-weight: 500; src: url('assets/fonts/cormorant-garamond-latin-500-normal.woff2') format('woff2'); }
+      @font-face { font-family: 'Cormorant Garamond'; font-weight: 600; src: url('assets/fonts/cormorant-garamond-latin-600-normal.woff2') format('woff2'); }
+      @font-face { font-family: 'Cormorant Garamond'; font-weight: 700; src: url('assets/fonts/cormorant-garamond-latin-700-normal.woff2') format('woff2'); }
+      @font-face { font-family: 'Cormorant Garamond'; font-weight: 600; font-style: italic; src: url('assets/fonts/cormorant-garamond-latin-600-italic.woff2') format('woff2'); }
+      @font-face { font-family: 'Manrope'; font-weight: 600; src: url('assets/fonts/manrope-latin-600-normal.woff2') format('woff2'); }
+      @font-face { font-family: 'Manrope'; font-weight: 700; src: url('assets/fonts/manrope-latin-700-normal.woff2') format('woff2'); }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #F4E9D3; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: radial-gradient(ellipse at 50% 28%, #FBF3E1 0%, #F4E9D3 55%, #E6D2AB 100%); font-family: 'Manrope', sans-serif; color: #2B1E14; }
+      #paper { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; background: repeating-linear-gradient(45deg, rgba(120,84,40,0.035) 0 2px, transparent 2px 9px); }
+      #stage { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; }
+      .abs { position: absolute; opacity: 0; }
+      .lot { position: absolute; opacity: 0; }
+      .serif { font-family: 'Cormorant Garamond', serif; font-weight: 700; letter-spacing: -0.015em; line-height: 1.0; text-align: center; white-space: nowrap; }
+      .it { font-style: italic; font-weight: 600; }
+      .tc { color: #C4572B; } .tl { color: #1F7A7A; } .gd { color: #A8741A; }
+      .tag { font-weight: 700; font-size: 28px; letter-spacing: 0.24em; text-transform: uppercase; color: #C4572B; text-align: center; white-space: nowrap; }
+      .chip { display: inline-block; padding: 14px 34px; border-radius: 100px; background: rgba(196,87,43,0.10); border: 2px solid rgba(196,87,43,0.45); color: #8E3A17; font-weight: 700; font-size: 28px; letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap; }
+      .card { background: #FFF9EC; border: 2px solid #D9C196; border-radius: 28px; box-shadow: 0 22px 50px rgba(90,60,20,0.18); text-align: center; }
+      .card img { display: block; margin: 0 auto; }
+      .strike { position: absolute; height: 12px; border-radius: 6px; background: #C4572B; transform-origin: left center; transform: scaleX(0); }
+      .lf { position: absolute; width: 26px; height: 26px; border-radius: 60% 0 60% 0; background: #5E8C3A; opacity: 0; }
+      #prog { position: absolute; left: 0; bottom: 0; width: 1080px; height: 6px; background: #C4572B; transform-origin: left center; }
+      #caps { position: absolute; left: 0; top: 1392px; width: 1080px; height: 190px; }
+      .cg { position: absolute; left: 80px; top: 0; width: 920px; text-align: center; opacity: 0; }
+      .cg .pill { display: inline-block; padding: 14px 32px 16px; border-radius: 34px; background: #2B1E14; border: 2px solid #4B3623; box-shadow: 0 10px 30px rgba(43,30,20,0.35); font-weight: 700; font-size: 50px; line-height: 1.2; letter-spacing: -0.01em; color: #FBF3E1; }
+      .cw { display: inline-block; margin: 0 4px; padding: 0 10px; border-radius: 12px; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="__TOTAL__" data-width="1080" data-height="1920">
+      <div id="stage" class="clip" data-start="0" data-duration="__TOTAL__" data-track-index="0">
+        <div id="paper"></div>
+        <div id="dyn"></div>
+        <div id="arrow" class="lot" style="left:440px;top:1040px;width:200px;height:112px"></div>
+        <div id="conf" class="lot" style="left:0;top:80px;width:1080px;height:1080px"></div>
+        <div id="caps"></div>
+        <div id="prog"></div>
+      </div>
+    </div>
+
+    <script>
+      const WORDS = __WORDS__;
+      window.__timelines = window.__timelines || {};
+      const hash = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+      const wd = (l, k) => WORDS.filter((w) => w.line === l)[k].s;
+      const tl = gsap.timeline({ paused: true });
+      const E = 'power3.out', IO = 'power2.inOut';
+      const $ = (s) => document.querySelector(s);
+      const R = (el, t, from, to) => tl.fromTo(el, Object.assign({ opacity: 0, y: 30 }, from || {}), Object.assign({ opacity: 1, y: 0, duration: 0.6, ease: E, immediateRender: false }, to || {}), t);
+      const X = (el, t, d) => tl.to(el, { opacity: 0, duration: d || 0.3, ease: 'none' }, t);
+      const POP = { scale: 0.6, y: 24 }, POPTO = { scale: 1, duration: 0.55 };
+      const STRIKE = (sel, t) => tl.fromTo(sel, { scaleX: 0 }, { scaleX: 1, duration: 0.3, ease: 'power2.out', immediateRender: false }, t);
+      const dyn = $('#dyn'); const add = (h) => dyn.insertAdjacentHTML('beforeend', h);
+      const hd = (id, tag, big, size, cls, top) => add(`<div id="${id}t" class="abs tag" style="left:0;top:${top || 215}px;width:1080px">${tag}</div><div id="${id}b" class="abs serif ${cls || ''}" style="left:0;top:${(top || 215) + 48}px;width:1080px;font-size:${size}px">${big}</div>`);
+      const pic = (id, src, left, top, w, extra) => add(`<img id="${id}" class="abs" src="assets/img/${src}.svg" style="left:${left}px;top:${top}px;width:${w}px;${extra || ''}" />`);
+      const kard = (id, src, label, left, top, w, h, iw) => add(`<div id="${id}" class="abs card" style="left:${left}px;top:${top}px;width:${w}px;height:${h}px"><img src="assets/img/${src}.svg" style="width:${iw}px;margin-top:${Math.round(h * 0.14)}px" /><div class="tag" style="margin-top:22px;font-size:26px;color:#6B4A2A">${label}</div></div>`);
+      const strikeCard = (id, w, h, wd2) => $('#' + id).insertAdjacentHTML('beforeend', `<div id="${id}s" class="strike" style="left:${Math.round((w - wd2) / 2)}px;top:${Math.round(h * 0.42)}px;width:${wd2}px"></div>`);
+
+      // ---- headers
+      hd('h1', 'People once used', 'AS MONEY?', 150, 'tc', 240);
+      hd('h3', 'Long before cards and bills', 'MONEY LOOKED', 120, '', 215);
+      hd('h4', 'Africa & Asia', 'COWRIE SHELLS', 118, 'tc', 215);
+      hd('h5', 'In parts of Asia', 'TEA BRICKS', 150, 'tc', 215);
+      hd('h7', 'So valuable that people', 'TRADED IT LIKE MONEY', 96, '', 215);
+      hd('h8', "But here's the", 'INTERESTING PART', 118, 'tc', 215);
+      hd('h9', 'None of these things had', 'A NUMBER PRINTED', 96, '', 215);
+      hd('h10', 'Their value came from being', 'ACCEPTED', 150, 'tc', 215);
+      hd('h12', "Money doesn't have to be", 'ANY OF THESE', 140, 'tc', 215);
+      hd('h13', 'It just needs people who', 'TRUST & ACCEPT IT', 112, 'tc', 215);
+      hd('h14', 'Seashell · dollar bill · Bitcoin', 'THE IDEA IS THE SAME', 100, '', 215);
+
+      // ---- S1: salt, seashells, tea
+      kard('k1a', 'salt', 'Salt', 60, 520, 300, 360, 170); kard('k1b', 'spiral-shell', 'Seashells', 390, 520, 300, 360, 170); kard('k1c', 'teacup-without-handle', 'Tea', 720, 520, 300, 360, 170);
+      // ---- S2
+      add('<div id="s2a" class="abs serif" style="left:0;top:560px;width:1080px;font-size:160px">SOUNDS</div><div id="s2b" class="abs serif tc" style="left:0;top:730px;width:1080px;font-size:160px">RIDICULOUS,</div><div id="s2c" class="abs serif it" style="left:0;top:900px;width:1080px;font-size:160px">right?</div>');
+      // ---- S3: cards and bills
+      kard('c3a', 'credit-card', 'Credit cards', 90, 520, 440, 340, 150); strikeCard('c3a', 440, 340, 340);
+      kard('c3b', 'dollar-banknote', 'Paper bills', 550, 520, 440, 340, 150); strikeCard('c3b', 440, 340, 340);
+      add('<div id="s3a" class="abs serif tc" style="left:0;top:480px;width:1080px;font-size:140px">COMPLETELY</div><div id="s3b" class="abs serif it" style="left:0;top:640px;width:1080px;font-size:140px">different.</div>');
+      // ---- S4: cowries
+      pic('g1', 'globe-showing-europe-africa', 290, 430, 170); pic('g2', 'globe-showing-asia-australia', 620, 430, 170);
+      for (let i = 0; i < 8; i++) pic('sh' + i, 'spiral-shell', 170 + (i % 4) * 190, 640 + Math.floor(i / 4) * 150, 120, 'transform:rotate(' + Math.round((hash(i) - 0.5) * 50) + 'deg)');
+      pic('tr1', 'spiral-shell', 200, 1010, 190); pic('tr2', 'shopping-bags', 700, 1010, 190);
+      // ---- S5: tea brick
+      for (let i = 0; i < 28; i++) add(`<div id="lf${i}" class="lf" style="left:${120 + hash(i + 5) * 800}px;top:${440 + hash(i + 11) * 520}px;transform:rotate(${Math.round(hash(i) * 360)}deg)"></div>`);
+      add(`<div id="brick" class="abs" style="left:250px;top:560px;width:580px;height:330px" data-layout-allow-overlap><svg viewBox="0 0 580 330" width="580" height="330"><rect x="6" y="6" width="568" height="318" rx="26" fill="#6B4423" stroke="#3E2713" stroke-width="8"/><g stroke="#4F3119" stroke-width="7" fill="none"><path d="M6 110 H574 M6 220 H574 M190 6 V324 M390 6 V324"/></g><g fill="#7C5230"><rect x="26" y="26" width="150" height="70" rx="10"/><rect x="206" y="26" width="170" height="70" rx="10"/><rect x="406" y="26" width="150" height="70" rx="10"/><rect x="26" y="126" width="150" height="80" rx="10"/><rect x="206" y="126" width="170" height="80" rx="10"/><rect x="406" y="126" width="150" height="80" rx="10"/><rect x="26" y="236" width="150" height="70" rx="10"/><rect x="206" y="236" width="170" height="70" rx="10"/><rect x="406" y="236" width="150" height="70" rx="10"/></g></svg></div>`);
+      pic('cup5', 'teacup-without-handle', 200, 980, 200); pic('coin5', 'coin', 680, 980, 200);
+      add('<div id="s5c" class="abs" style="left:0;top:1210px;width:1080px;text-align:center"><span class="chip">Used as currency</span></div>');
+      add('<div id="s5e" class="abs serif tc" style="left:455px;top:1010px;width:170px;font-size:130px" data-layout-allow-overlap>=</div>');
+      // ---- S6 / S7: salt
+      add('<div id="s6" class="abs serif" style="left:0;top:540px;width:1080px;font-size:190px">AND <span class="tc">SALT?</span></div>');
+      pic('salt6', 'salt', 340, 900, 400);
+      add('<div id="s7" class="abs serif tc" style="left:0;top:420px;width:1080px;font-size:200px">VALUABLE</div>');
+      pic('salt7', 'salt', 130, 900, 260); pic('coin7', 'coin', 690, 900, 260);
+      add('<div id="eq7" class="abs serif tc" style="left:440px;top:930px;width:200px;font-size:200px" data-layout-allow-overlap>⇄</div>');
+      // ---- S8
+      add('<img id="idea8" class="abs" src="assets/img/emote_idea.png" style="left:400px;top:760px;width:280px" />');
+      // ---- S9: three things, number crossed
+      kard('c9a', 'salt', 'Salt', 60, 520, 300, 360, 150); kard('c9b', 'spiral-shell', 'Seashell', 390, 520, 300, 360, 150); kard('c9c', 'teacup-without-handle', 'Tea brick', 720, 520, 300, 360, 150);
+      [0, 1, 2].forEach((i) => add(`<div id="n9${i}" class="abs" style="left:${60 + i * 330}px;top:940px;width:300px;text-align:center"><span class="chip" style="font-size:40px;padding:16px 40px;position:relative">$ 100<span id="n9s${i}" class="strike" style="left:6px;top:28px;width:180px"></span></span></div>`));
+      // ---- S10: useful / desirable / widely accepted
+      [['USEFUL', 'k'], ['DESIRABLE', 'k'], ['WIDELY ACCEPTED', 'k']].forEach((r, i) => add(`<div id="v${i}" class="abs card" style="left:90px;top:${470 + i * 250}px;width:900px;height:200px;text-align:left;padding:46px 60px"><span class="serif" style="font-size:76px;color:#2B1E14">${r[0]}</span><span style="position:absolute;right:56px;top:50px;width:100px;height:100px;border-radius:50%;background:#1F7A7A;color:#FFF9EC;font-size:64px;font-weight:700;line-height:100px;text-align:center">✓</span></div>`));
+      // ---- S11
+      pic('sp11', 'sparkles', 400, 860, 280);
+      add('<div id="s11a" class="abs tag" style="left:0;top:420px;width:1080px">And that reveals something</div><div id="s11b" class="abs serif tc" style="left:0;top:480px;width:1080px;font-size:126px">FASCINATING</div>');
+      // ---- S12: paper / metal / digital
+      kard('c12a', 'dollar-banknote', 'Paper', 60, 520, 300, 340, 150); kard('c12b', 'coin', 'Metal', 390, 520, 300, 340, 150); kard('c12c', 'mobile-phone', 'Digital', 720, 520, 300, 340, 150);
+      // ---- S13: trust
+      pic('hs13', 'handshake', 320, 520, 440);
+      add('<div id="tr13a" class="abs" style="left:0;top:1000px;width:1080px;text-align:center"><span class="chip" style="font-size:34px;padding:16px 44px">Trust</span></div><div id="tr13b" class="abs" style="left:0;top:1100px;width:1080px;text-align:center"><span class="chip" style="font-size:34px;padding:16px 44px">Willing to accept</span></div>');
+      // ---- S14/S15: shell, bill, bitcoin
+      kard('c14a', 'spiral-shell', 'Seashell', 60, 520, 290, 360, 150); kard('c14b', 'dollar-banknote', 'Dollar bill', 395, 520, 290, 360, 150); kard('c14c', 'btc', 'Bitcoin', 730, 520, 290, 360, 150);
+      add('<div id="eqA" class="abs serif tc" style="left:330px;top:640px;width:100px;font-size:100px" data-layout-allow-overlap>=</div><div id="eqB" class="abs serif tc" style="left:660px;top:640px;width:100px;font-size:100px" data-layout-allow-overlap>=</div>');
+      add('<div id="s15" class="abs serif it tc" style="left:0;top:960px;width:1080px;font-size:130px">surprisingly similar.</div>');
+      // ---- S16
+      add('<div id="f1" class="abs serif" style="left:0;top:340px;width:1080px;font-size:130px">YOU DIDN\'T KNOW</div><div id="f2" class="abs serif tc" style="left:0;top:490px;width:1080px;font-size:118px">THAT ABOUT MONEY!</div>');
+
+      // ================= timeline =================
+      // S1 (0 - 7)
+      R('#h1t', 0.1, {}, { duration: 0.5 }); R('#k1a', wd(1, 9) - 0.25, POP, POPTO); R('#k1b', wd(1, 10) - 0.25, POP, POPTO); R('#k1c', wd(1, 13) - 0.25, POP, POPTO); R('#h1b', wd(1, 14) - 0.1, { scale: 0.85, y: 40 }, { scale: 1, duration: 0.7 });
+      ['#h1t', '#h1b', '#k1a', '#k1b', '#k1c'].forEach((s) => X(s, 7.4, 0.3));
+      // S2 (7.7 - 9.3)
+      R('#s2a', 7.7, { scale: 0.9 }, { scale: 1, duration: 0.6 }); R('#s2b', wd(2, 1) - 0.1, { scale: 0.9 }, { scale: 1, duration: 0.6 }); R('#s2c', wd(2, 2) - 0.05, { scale: 0.9 }, { scale: 1, duration: 0.6 });
+      ['#s2a', '#s2b', '#s2c'].forEach((s) => X(s, 10.3, 0.3));
+      // S3 (10.7 - 16.3)
+      R('#h3t', 10.75, {}, { duration: 0.5 }); R('#c3a', wd(3, 3) - 0.2, POP, POPTO); R('#c3b', wd(3, 6) - 0.2, POP, POPTO);
+      STRIKE('#c3as', wd(3, 7) + 0.05); STRIKE('#c3bs', wd(3, 8) + 0.1);
+      ['#h3t', '#c3a', '#c3b'].forEach((s) => X(s, wd(3, 10) - 0.35, 0.3));
+      R('#s3a', wd(3, 10) - 0.2, { scale: 0.85, y: 40 }, { scale: 1, duration: 0.7 }); R('#s3b', wd(3, 11) - 0.05, { scale: 0.9 }, { scale: 1, duration: 0.7 });
+      ['#s3a', '#s3b'].forEach((s) => X(s, 16.9, 0.3));
+      // S4 cowries (17.2 - 24)
+      R('#h4t', 17.25, {}, { duration: 0.5 }); R('#h4b', wd(4, 9) - 0.2, { scale: 0.88 }, { scale: 1, duration: 0.7 });
+      R('#g1', wd(4, 4) - 0.1, POP, POPTO); R('#g2', wd(4, 6) - 0.1, POP, POPTO);
+      for (let i = 0; i < 8; i++) R('#sh' + i, wd(4, 10) + i * 0.1, { scale: 0.4, y: 20 }, { scale: 1, duration: 0.45 });
+      R('#tr1', wd(4, 13), POP, POPTO); R('#tr2', wd(4, 15), POP, POPTO);
+      tl.fromTo('#arrow', { opacity: 0 }, { opacity: 1, duration: 0.01, immediateRender: false }, 22.7); tl.to('#arrow', { opacity: 0, duration: 0.01 }, 24.4);
+      ['#h4t', '#h4b', '#g1', '#g2', '#tr1', '#tr2'].forEach((s) => X(s, 24.0, 0.3)); for (let i = 0; i < 8; i++) X('#sh' + i, 23.9, 0.3);
+      // S5 tea brick (24.08 - 31)
+      R('#h5t', 24.15, {}, { duration: 0.5 }); R('#h5b', wd(5, 4) - 0.1, { scale: 0.88 }, { scale: 1, duration: 0.7 });
+      for (let i = 0; i < 28; i++) { tl.fromTo('#lf' + i, { opacity: 0, scale: 0.4 }, { opacity: 0.9, scale: 1, duration: 0.3, ease: E, immediateRender: false }, wd(5, 4) + hash(i) * 0.5); tl.to('#lf' + i, { x: 530 - (120 + hash(i + 5) * 800), y: 710 - (440 + hash(i + 11) * 520), scale: 0.3, opacity: 0, duration: 0.8, ease: 'power2.in' }, wd(5, 6) + hash(i + 3) * 0.7); }
+      tl.fromTo('#brick', { opacity: 0, scale: 0.6, y: 20 }, { opacity: 1, scale: 1, y: 0, duration: 0.7, ease: 'back.out(1.5)', immediateRender: false }, wd(5, 8) - 0.2);
+      R('#cup5', wd(5, 4) + 0.2, POP, POPTO); R('#coin5', wd(5, 12), POP, POPTO); R('#s5e', wd(5, 12) + 0.1, { scale: 0.5, y: 0 }, POPTO); R('#s5c', wd(5, 16) - 0.2, {}, { duration: 0.5 });
+      ['#h5t', '#h5b', '#brick', '#cup5', '#coin5', '#s5e', '#s5c'].forEach((s) => X(s, 30.9, 0.3));
+      // S6 (31.08 - 32.6)
+      R('#s6', 31.1, { scale: 0.85 }, { scale: 1, duration: 0.7 }); R('#salt6', 31.3, { scale: 0.6, y: 40 }, { scale: 1, duration: 0.7 });
+      ['#s6', '#salt6'].forEach((s) => X(s, 33.0, 0.3));
+      // S7 (32.94 - 37.9)
+      R('#s7', wd(7, 3) - 0.2, { scale: 0.8, y: 40 }, { scale: 1, duration: 0.7 }); R('#salt7', wd(7, 3), POP, POPTO);
+      R('#h7t', wd(7, 7) - 0.1, {}, { duration: 0.5 }); R('#coin7', wd(7, 9), POP, POPTO); R('#eq7', wd(7, 10), { scale: 0.5, y: 0 }, POPTO);
+      ['#s7', '#salt7', '#h7t', '#coin7', '#eq7'].forEach((s) => X(s, 38.0, 0.3));
+      // S8 (38.2 - 40)
+      R('#h8t', 38.25, {}, { duration: 0.5 }); R('#h8b', wd(8, 3) - 0.15, { scale: 0.88 }, { scale: 1, duration: 0.7 }); R('#idea8', wd(8, 3) + 0.1, { scale: 0.4, y: 0 }, POPTO);
+      ['#h8t', '#h8b', '#idea8'].forEach((s) => X(s, 40.2, 0.3));
+      // S9 (40.6 - 43.3)
+      R('#h9t', 40.65, {}, { duration: 0.5 }); R('#h9b', wd(9, 6) - 0.15, { scale: 0.88 }, { scale: 1, duration: 0.7 });
+      R('#c9a', wd(9, 1), POP, POPTO); R('#c9b', wd(9, 2), POP, POPTO); R('#c9c', wd(9, 3), POP, POPTO);
+      [0, 1, 2].forEach((i) => { R('#n9' + i, wd(9, 6) + i * 0.1, { y: 20 }, { duration: 0.4 }); STRIKE('#n9s' + i, wd(9, 8) + i * 0.1); });
+      ['#h9t', '#h9b', '#c9a', '#c9b', '#c9c', '#n90', '#n91', '#n92'].forEach((s) => X(s, 43.3, 0.3));
+      // S10 (43.56 - 48.5)
+      R('#h10t', 43.6, {}, { duration: 0.5 }); R('#h10b', wd(10, 8) - 0.1, { scale: 0.88 }, { scale: 1, duration: 0.7 });
+      R('#v0', wd(10, 5) - 0.2, { x: -40, y: 0 }, { x: 0, duration: 0.6 }); R('#v1', wd(10, 6) - 0.2, { x: -40, y: 0 }, { x: 0, duration: 0.6 }); R('#v2', wd(10, 8) - 0.2, { x: -40, y: 0 }, { x: 0, duration: 0.6 });
+      ['#h10t', '#h10b', '#v0', '#v1', '#v2'].forEach((s) => X(s, 48.7, 0.3));
+      // S11 (48.96 - 52)
+      R('#s11a', 49.0, {}, { duration: 0.5 }); R('#s11b', wd(11, 4) - 0.2, { scale: 0.8, y: 40 }, { scale: 1, duration: 0.8 }); R('#sp11', wd(11, 4) + 0.2, { scale: 0.4, y: 0 }, POPTO);
+      tl.to('#sp11', { rotation: 20, duration: 2, ease: 'sine.inOut' }, wd(11, 4) + 0.2);
+      ['#s11a', '#s11b', '#sp11'].forEach((s) => X(s, 51.8, 0.3));
+      // S12 (51.88 - 57.5)
+      R('#h12t', 51.95, {}, { duration: 0.5 }); R('#h12b', wd(12, 5) - 0.3, { scale: 0.88 }, { scale: 1, duration: 0.7 });
+      R('#c12a', wd(12, 7) - 0.2, POP, POPTO); R('#c12b', wd(12, 8) - 0.2, POP, POPTO); R('#c12c', wd(12, 11) - 0.2, POP, POPTO);
+      ['#h12t', '#h12b', '#c12a', '#c12b', '#c12c'].forEach((s) => X(s, 57.8, 0.3));
+      // S13 (58.14 - 62.2)
+      R('#h13t', 58.2, {}, { duration: 0.5 }); R('#h13b', wd(13, 5) - 0.2, { scale: 0.88 }, { scale: 1, duration: 0.7 }); R('#hs13', wd(13, 3), { scale: 0.6, y: 40 }, { scale: 1, duration: 0.8 });
+      R('#tr13a', wd(13, 5) + 0.05, {}, { duration: 0.5 }); R('#tr13b', wd(13, 9), {}, { duration: 0.5 });
+      ['#h13t', '#h13b', '#hs13', '#tr13a', '#tr13b'].forEach((s) => X(s, 62.3, 0.3));
+      // S14 / S15 (62.44 - 70.2)
+      R('#h14t', 62.5, {}, { duration: 0.5 }); R('#c14a', wd(14, 4) - 0.2, POP, POPTO); R('#c14b', wd(14, 6) - 0.2, POP, POPTO); R('#c14c', wd(14, 9) - 0.2, POP, POPTO);
+      R('#h14b', wd(15, 5) - 0.3, { scale: 0.88 }, { scale: 1, duration: 0.8 }); R('#eqA', wd(15, 6) - 0.2, { scale: 0.4, y: 0 }, POPTO); R('#eqB', wd(15, 6), { scale: 0.4, y: 0 }, POPTO); R('#s15', wd(15, 6) + 0.1, {}, { duration: 0.7 });
+      ['#h14t', '#h14b', '#c14a', '#c14b', '#c14c', '#eqA', '#eqB', '#s15'].forEach((s) => X(s, 71.0, 0.3));
+      // S16 final (71.56 - end)
+      R('#f1', 71.6, {}, { duration: 0.6 }); R('#f2', 72.2, { scale: 0.88, y: 40 }, { scale: 1, duration: 0.7 });
+
+      // ---- Lotties
+      const mk = (id, path) => { const a = lottie.loadAnimation({ container: document.getElementById(id), renderer: 'svg', loop: false, autoplay: false, path, rendererSettings: { preserveAspectRatio: 'xMidYMid meet' } }); (window.__hfLottie = window.__hfLottie || []).push(a); return a; };
+      mk('arrow', 'assets/lottie/arrow-s.json'); mk('conf', 'assets/lottie/confetti-s.json');
+      tl.fromTo('#conf', { opacity: 0 }, { opacity: 1, duration: 0.01, immediateRender: false }, 72.5); tl.to('#conf', { opacity: 0, duration: 0.01 }, 74.4);
+      tl.fromTo('#prog', { scaleX: 0 }, { scaleX: 1, duration: __TOTAL__, ease: 'none', immediateRender: false }, 0);
+
+      // ---------- captions ----------
+      const capsEl = $('#caps');
+      const groups = []; let cur = [];
+      WORDS.forEach((w, i) => { cur.push(w); const nx = WORDS[i + 1]; const endS = /[.!?…]$/.test(w.w); const endC = /,$/.test(w.w) && cur.length >= 3; if (!nx || endS || endC || cur.length >= 5 || (nx && nx.s - w.e > 0.5)) { groups.push(cur); cur = []; } });
+      groups.forEach((g, gi) => {
+        if (g[0].line === 16) return;
+        const d = document.createElement('div'); d.className = 'cg'; const pill = document.createElement('div'); pill.className = 'pill'; d.appendChild(pill);
+        g.forEach((w, wi) => { const s = document.createElement('span'); s.className = 'cw'; s.id = `cw${gi}_${wi}`; s.textContent = w.w; pill.appendChild(s); });
+        capsEl.appendChild(d);
+        const a = g[0].s - 0.03, nextS = groups[gi + 1] ? groups[gi + 1][0].s : 1e9, b = Math.min(g[g.length - 1].e + 0.25, nextS - 0.12);
+        tl.fromTo(d, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.12, ease: 'power2.out', immediateRender: false }, Math.max(0, a));
+        tl.to(d, { opacity: 0, duration: 0.08, ease: 'none' }, b);
+        g.forEach((w, wi) => { const sp = `#cw${gi}_${wi}`;
+          tl.fromTo(sp, { backgroundColor: 'rgba(196,87,43,0)', color: '#FBF3E1' }, { backgroundColor: '#C4572B', color: '#FFFFFF', duration: 0.07, ease: 'none', immediateRender: false }, w.s);
+          tl.to(sp, { backgroundColor: 'rgba(196,87,43,0)', color: '#FBF3E1', duration: 0.08, ease: 'none' }, Math.max(w.e, w.s + 0.12)); });
+      });
+      window.__timelines['main'] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,2 @@
+/* default theme (already in base.template.txt): navy + gold */
+:root { --bg: #0B1220; --ink: #F1F3F8; --accent: #E9B949; --panel: #131D33; --line: #2A3A5C; --muted: #8C97AD; --good: #67E3AE; --bad: #F0616D; --on-accent: #0B1220; --dots: rgba(233,185,73,0.10); --glow: rgba(233,185,73,0.12); }

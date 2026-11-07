@@ -1,0 +1,131 @@
+{
+  "total": 74.73,
+  "lines": [
+    {
+      "i": 1,
+      "text": "You Didn't Know Banks Don't Keep Everyone's Deposits in Cash.",
+      "start": 0.0,
+      "end": 3.96,
+      "dur": 3.96
+    },
+    {
+      "i": 2,
+      "text": "What if I told you that your bank might not have enough cash to give everyone their money back at once?",
+      "start": 4.8,
+      "end": 10.42,
+      "dur": 5.62
+    },
+    {
+      "i": 3,
+      "text": "Sounds terrifying, right?",
+      "start": 11.7,
+      "end": 12.98,
+      "dur": 1.28
+    },
+    {
+      "i": 4,
+      "text": "But here's how it actually works.",
+      "start": 14.52,
+      "end": 16.52,
+      "dur": 2.0
+    },
+    {
+      "i": 5,
+      "text": "Imagine 100 people each deposit $1,000 into the same bank.",
+      "start": 17.2,
+      "end": 22.02,
+      "dur": 4.82
+    },
+    {
+      "i": 6,
+      "text": "That's $100,000 in total deposits.",
+      "start": 22.44,
+      "end": 25.54,
+      "dur": 3.1
+    },
+    {
+      "i": 7,
+      "text": "You might think the bank keeps all that cash locked inside a giant vault.",
+      "start": 26.1,
+      "end": 30.46,
+      "dur": 4.36
+    },
+    {
+      "i": 8,
+      "text": "But it doesn't.",
+      "start": 31.3,
+      "end": 32.64,
+      "dur": 1.34
+    },
+    {
+      "i": 9,
+      "text": "Banks use money to provide loans, make investments, and run their operations.",
+      "start": 33.22,
+      "end": 37.92,
+      "dur": 4.7
+    },
+    {
+      "i": 10,
+      "text": "They keep enough liquid funds to handle everyday withdrawals.",
+      "start": 38.66,
+      "end": 41.98,
+      "dur": 3.32
+    },
+    {
+      "i": 11,
+      "text": "But imagine all 100 customers suddenly demand their money back at the exact same time!",
+      "start": 42.62,
+      "end": 48.26,
+      "dur": 5.64
+    },
+    {
+      "i": 12,
+      "text": "The bank might not have enough cash immediately available.",
+      "start": 49.22,
+      "end": 52.08,
+      "dur": 2.86
+    },
+    {
+      "i": 13,
+      "text": "This is how a bank run can happen.",
+      "start": 52.62,
+      "end": 54.78,
+      "dur": 2.16
+    },
+    {
+      "i": 14,
+      "text": "And it's why banks are regulated and many countries have deposit insurance systems.",
+      "start": 54.78,
+      "end": 60.06,
+      "dur": 5.28
+    },
+    {
+      "i": 15,
+      "text": "So next time you check your bank balance, remember…",
+      "start": 60.78,
+      "end": 63.48,
+      "dur": 2.7
+    },
+    {
+      "i": 16,
+      "text": "Your money isn't necessarily sitting in a vault waiting for you.",
+      "start": 64.08,
+      "end": 67.86,
+      "dur": 3.78
+    },
+    {
+      "i": 17,
+      "text": "It's part of a much bigger financial system.",
+      "start": 68.18,
+      "end": 70.86,
+      "dur": 2.68
+    },
+    {
+      "i": 18,
+      "text": "You didn't know that about money.",
+      "start": 71.34,
+      "end": 72.9,
+      "dur": 1.56
+    }
+  ]
+}

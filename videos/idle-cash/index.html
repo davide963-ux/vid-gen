@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
+    <style>
+      /* THEME: change these six values to restyle the whole video */
+      :root { --bg: #0B1220; --ink: #F1F3F8; --accent: #E9B949; --panel: #131D33; --line: #2A3A5C; --muted: #8C97AD; --good: #67E3AE; --bad: #F0616D; --on-accent: #0B1220; --dots: rgba(233,185,73,0.10); --glow: rgba(233,185,73,0.12); }
+      :root { --bg: #0a0a0a; --ink: #fffdf6; --accent: #e5ab33; --panel: #17130a; --line: #4a3607; --muted: #b5ac96; --good: #e5ab33; --bad: #e5ab33; --on-accent: #0a0a0a; --dots: rgba(229,171,51,0.06); --glow: rgba(229,171,51,0.10); }
+
+.uc { position: absolute; opacity: 0; background: #17130a; border: 2px solid #4a3607; border-radius: 36px; box-shadow: 0 26px 60px rgba(0,0,0,.55); color: #fffdf6; }
+.uc.gold { background: #e5ab33; border-color: #f3c866; color: #0a0a0a; }
+.uc img { position: absolute; }
+.lab { position: absolute; font-weight: 600; font-size: 30px; letter-spacing: .14em; text-transform: uppercase; color: #b5ac96; white-space: nowrap; }
+.gold .lab { color: #3b2a05; }
+.val { position: absolute; font-weight: 700; letter-spacing: -.03em; white-space: nowrap; line-height: 1; }
+.ccard { background: linear-gradient(135deg,#f6cf72,#d79a22 60%,#b57a12); border-radius: 46px; box-shadow: 0 30px 70px rgba(0,0,0,.6), inset 0 2px 0 rgba(255,255,255,.35); color: #0a0a0a; }
+.ccard .chipx { position: absolute; width: 112px; height: 84px; border-radius: 16px; background: linear-gradient(135deg,#fbe7a5,#c9921f); border: 2px solid rgba(0,0,0,.25); }
+.tagc { position: absolute; padding: 12px 30px; border-radius: 100px; font-weight: 700; font-size: 34px; letter-spacing: .06em; white-space: nowrap; background: rgba(229,171,51,.12); border: 2px solid rgba(229,171,51,.55); color: #e5ab33; }
+.tagc.fill { background: #e5ab33; color: #0a0a0a; border-color: #f3c866; }
+
+.bill { background: linear-gradient(135deg,#f6cf72,#d79a22 60%,#b57a12); border-radius: 30px; box-shadow: 0 30px 70px rgba(0,0,0,.6), inset 0 2px 0 rgba(255,255,255,.35); color: #0a0a0a; }
+.bill .ring { position: absolute; border-radius: 50%; border: 6px solid rgba(10,10,10,.55); display: flex; align-items: center; justify-content: center; font-weight: 700; }
+
+      @font-face { font-family: 'Space Grotesk'; font-weight: 500; src: url('assets/fonts/space-grotesk-latin-500-normal.woff2') format('woff2'); }
+      @font-face { font-family: 'Space Grotesk'; font-weight: 600; src: url('assets/fonts/space-grotesk-latin-600-normal.woff2') format('woff2'); }
+      @font-face { font-family: 'Space Grotesk'; font-weight: 700; src: url('assets/fonts/space-grotesk-latin-700-normal.woff2') format('woff2'); }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background-color: var(--bg); background-image: radial-gradient(var(--dots) 2.5px, transparent 2.5px); background-size: 60px 60px; font-family: 'Space Grotesk', sans-serif; color: var(--ink); }
+      #stage { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; }
+      #glow { position: absolute; left: -200px; top: -300px; width: 1480px; height: 1100px; pointer-events: none; background: radial-gradient(closest-side, var(--glow), transparent); }
+      /* SAFE AREA (1080x1920): keep content at x 60..960 and y 120..1600. Right ~120px and bottom ~320px belong to TikTok's UI. */
+      .abs { position: absolute; opacity: 0; }
+      .sc { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; }
+      .sp { position: absolute; opacity: 0; will-change: transform; }
+      .lot { position: absolute; opacity: 0; }
+      .big { font-weight: 700; letter-spacing: -0.035em; line-height: 1.02; text-align: center; white-space: nowrap; }
+      .ac { color: var(--accent); } .gn { color: var(--good); } .rd { color: var(--bad); }
+      .tag { font-weight: 600; font-size: 30px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); text-align: center; white-space: nowrap; }
+      .chip { display: inline-block; padding: 12px 30px; border-radius: 100px; background: rgba(233,185,73,0.10); border: 1.5px solid rgba(233,185,73,0.45); color: var(--accent); font-weight: 600; font-size: 28px; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; }
+      .card { background: var(--panel); border: 1.5px solid var(--line); border-radius: 28px; box-shadow: 0 24px 60px rgba(0,0,0,0.45); }
+      .strike { position: absolute; height: 10px; border-radius: 6px; background: var(--bad); transform-origin: left center; transform: scaleX(0); }
+      .mw { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: 0.14em; margin-bottom: -0.14em; }
+      .mi { display: inline-block; will-change: transform; }
+      #prog { position: absolute; left: 0; bottom: 0; width: 1080px; height: 6px; background: var(--accent); transform-origin: left center; }
+      #caps { position: absolute; left: 0; top: 1392px; width: 1080px; height: 190px; }
+      .cg { position: absolute; left: 90px; top: 0; width: 900px; text-align: center; opacity: 0; }
+      .cg .pill { display: inline-block; padding: 14px 30px 16px; border-radius: 34px; background: var(--panel); border: 1.5px solid var(--line); box-shadow: 0 8px 30px rgba(0,0,0,0.5); font-weight: 600; font-size: 50px; line-height: 1.2; letter-spacing: -0.01em; color: var(--ink); }
+      .cw { display: inline-block; margin: 0 4px; padding: 0 10px; border-radius: 12px; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="91.92" data-width="1080" data-height="1920">
+      <div id="stage" class="clip" data-start="0" data-duration="91.92" data-track-index="0">
+        <div id="glow"></div>
+        <div id="dyn"></div>
+
+        <div id="caps"></div>
+        <div id="prog"></div>
+      </div>
+    </div>
+
+    <script>
+      const WORDS = [{"w":"You","s":0,"e":0.56,"line":1},{"w":"Didn't","s":0.56,"e":0.78,"line":1},{"w":"Know","s":0.78,"e":0.94,"line":1},{"w":"Your","s":0.94,"e":1.14,"line":1},{"w":"Money","s":1.14,"e":1.38,"line":1},{"w":"Loses","s":1.38,"e":1.86,"line":1},{"w":"Purchasing","s":1.86,"e":2.5,"line":1},{"w":"Power","s":2.5,"e":3.02,"line":1},{"w":"While","s":3.02,"e":3.36,"line":1},{"w":"Sitting","s":3.36,"e":3.62,"line":1},{"w":"Still.","s":3.62,"e":4.08,"line":1},{"w":"What","s":5.26,"e":5.34,"line":2},{"w":"if","s":5.26,"e":5.38,"line":2},{"w":"I","s":5.38,"e":5.54,"line":2},{"w":"told","s":5.54,"e":5.8,"line":2},{"w":"you","s":5.8,"e":6.06,"line":2},{"w":"that","s":6.06,"e":6.26,"line":2},{"w":"doing","s":6.26,"e":6.56,"line":2},{"w":"absolutely","s":6.56,"e":7.28,"line":2},{"w":"nothing","s":7.28,"e":7.8,"line":2},{"w":"with","s":7.8,"e":8.06,"line":2},{"w":"your","s":8.06,"e":8.28,"line":2},{"w":"money","s":8.28,"e":8.6,"line":2},{"w":"could","s":8.6,"e":9.14,"line":2},{"w":"make","s":9.14,"e":9.34,"line":2},{"w":"it","s":9.34,"e":9.5,"line":2},{"w":"worth","s":9.5,"e":9.64,"line":2},{"w":"less?","s":9.64,"e":10.06,"line":2},{"w":"Sounds","s":11.44,"e":11.52,"line":3},{"w":"impossible,","s":11.44,"e":12.08,"line":3},{"w":"right?","s":12.22,"e":12.52,"line":3},{"w":"Imagine","s":13.84,"e":13.98,"line":4},{"w":"you","s":13.98,"e":14.32,"line":4},{"w":"hide","s":14.32,"e":14.64,"line":4},{"w":"$1,000","s":14.64,"e":15.48,"line":4},{"w":"in","s":15.48,"e":16.04,"line":4},{"w":"a","s":16.04,"e":16.18,"line":4},{"w":"drawer","s":16.18,"e":16.54,"line":4},{"w":"and","s":16.54,"e":17.14,"line":4},{"w":"completely","s":17.14,"e":17.6,"line":4},{"w":"forget","s":17.6,"e":18.1,"line":4},{"w":"about","s":18.1,"e":18.42,"line":4},{"w":"it.","s":18.42,"e":18.86,"line":4},{"w":"Ten","s":19.44,"e":19.56,"line":5},{"w":"years","s":19.56,"e":19.82,"line":5},{"w":"later,","s":19.82,"e":20.2,"line":5},{"w":"you","s":20.2,"e":20.52,"line":5},{"w":"open","s":20.52,"e":20.82,"line":5},{"w":"that","s":20.82,"e":21.04,"line":5},{"w":"drawer.","s":21.04,"e":21.44,"line":5},{"w":"Good","s":22.36,"e":22.48,"line":6},{"w":"news!","s":22.48,"e":22.8,"line":6},{"w":"Your","s":23.16,"e":23.32,"line":6},{"w":"$1,000","s":23.32,"e":24.08,"line":6},{"w":"is","s":24.08,"e":24.58,"line":6},{"w":"still","s":24.58,"e":24.84,"line":6},{"w":"there.","s":24.84,"e":25.26,"line":6},{"w":"But","s":25.92,"e":26.16,"line":7},{"w":"here's","s":26.16,"e":26.54,"line":7},{"w":"the","s":26.54,"e":26.7,"line":7},{"w":"problem.","s":26.7,"e":27.22,"line":7},{"w":"The","s":28.02,"e":28.38,"line":8},{"w":"things","s":28.38,"e":28.72,"line":8},{"w":"you","s":28.72,"e":28.9,"line":8},{"w":"could","s":28.9,"e":29.1,"line":8},{"w":"buy","s":29.1,"e":29.42,"line":8},{"w":"with","s":29.42,"e":29.64,"line":8},{"w":"that","s":29.64,"e":29.88,"line":8},{"w":"money","s":29.88,"e":30.2,"line":8},{"w":"might","s":30.2,"e":30.78,"line":8},{"w":"now","s":30.78,"e":31.14,"line":8},{"w":"cost","s":31.14,"e":31.48,"line":8},{"w":"much","s":31.48,"e":31.76,"line":8},{"w":"more.","s":31.76,"e":32.2,"line":8},{"w":"Imagine","s":33.44,"e":33.52,"line":9},{"w":"a","s":33.44,"e":33.78,"line":9},{"w":"shopping","s":33.78,"e":34.16,"line":9},{"w":"cart","s":34.16,"e":34.54,"line":9},{"w":"full","s":34.54,"e":34.8,"line":9},{"w":"of","s":34.8,"e":35.52,"line":9},{"w":"groceries","s":35.52,"e":35.6,"line":9},{"w":"costs","s":35.52,"e":36.22,"line":9},{"w":"$100","s":36.22,"e":37,"line":9},{"w":"today.","s":37,"e":37.78,"line":9},{"w":"If","s":38.7,"e":38.92,"line":10},{"w":"prices","s":38.92,"e":39.3,"line":10},{"w":"rise","s":39.3,"e":39.78,"line":10},{"w":"by","s":39.78,"e":40.14,"line":10},{"w":"an","s":40.14,"e":40.28,"line":10},{"w":"average","s":40.28,"e":40.68,"line":10},{"w":"of","s":40.68,"e":40.9,"line":10},{"w":"3%","s":40.9,"e":41.18,"line":10},{"w":"every","s":41.56,"e":41.92,"line":10},{"w":"year,","s":41.92,"e":42.34,"line":10},{"w":"that","s":42.82,"e":42.98,"line":10},{"w":"same","s":42.98,"e":43.36,"line":10},{"w":"cart","s":43.36,"e":43.76,"line":10},{"w":"could","s":43.76,"e":44,"line":10},{"w":"cost","s":44,"e":44.32,"line":10},{"w":"around","s":44.32,"e":44.64,"line":10},{"w":"$134","s":44.64,"e":45.7,"line":10},{"w":"in","s":45.7,"e":46.76,"line":10},{"w":"ten","s":46.76,"e":47.02,"line":10},{"w":"years.","s":47.02,"e":47.38,"line":10},{"w":"Your","s":48.38,"e":48.6,"line":11},{"w":"money","s":48.6,"e":48.86,"line":11},{"w":"hasn't","s":48.86,"e":49.24,"line":11},{"w":"changed.","s":49.24,"e":49.8,"line":11},{"w":"But","s":50.48,"e":50.74,"line":12},{"w":"its","s":50.74,"e":50.86,"line":12},{"w":"buying","s":50.86,"e":51.28,"line":12},{"w":"power","s":51.28,"e":51.62,"line":12},{"w":"has.","s":51.62,"e":52.04,"line":12},{"w":"And","s":53.12,"e":53.3,"line":13},{"w":"here's","s":53.3,"e":53.68,"line":13},{"w":"what","s":53.68,"e":53.88,"line":13},{"w":"makes","s":53.88,"e":54.12,"line":13},{"w":"this","s":54.12,"e":54.36,"line":13},{"w":"interesting.","s":54.36,"e":54.92,"line":13},{"w":"You","s":55.64,"e":56.06,"line":14},{"w":"don't","s":56.06,"e":56.34,"line":14},{"w":"actually","s":56.34,"e":56.76,"line":14},{"w":"need","s":56.76,"e":57,"line":14},{"w":"to","s":57,"e":57.22,"line":14},{"w":"spend","s":57.22,"e":57.4,"line":14},{"w":"money","s":57.4,"e":57.7,"line":14},{"w":"to","s":57.7,"e":58.02,"line":14},{"w":"lose","s":58.02,"e":58.28,"line":14},{"w":"some","s":58.28,"e":58.58,"line":14},{"w":"of","s":58.58,"e":58.68,"line":14},{"w":"its","s":58.68,"e":58.82,"line":14},{"w":"value.","s":58.82,"e":59.3,"line":14},{"w":"Inflation","s":60.38,"e":60.76,"line":15},{"w":"can","s":60.76,"e":61.06,"line":15},{"w":"do","s":61.06,"e":61.3,"line":15},{"w":"that","s":61.3,"e":61.56,"line":15},{"w":"while","s":61.56,"e":62.02,"line":15},{"w":"your","s":62.02,"e":62.22,"line":15},{"w":"cash","s":62.22,"e":62.56,"line":15},{"w":"is","s":62.56,"e":62.78,"line":15},{"w":"sitting","s":62.78,"e":63.04,"line":15},{"w":"completely","s":63.04,"e":63.62,"line":15},{"w":"still.","s":63.62,"e":64.06,"line":15},{"w":"Now,","s":65.2,"e":65.4,"line":16},{"w":"money","s":65.7,"e":65.78,"line":16},{"w":"in","s":65.78,"e":66,"line":16},{"w":"a","s":66,"e":66.14,"line":16},{"w":"savings","s":66.14,"e":66.4,"line":16},{"w":"account","s":66.4,"e":66.94,"line":16},{"w":"might","s":66.94,"e":67.44,"line":16},{"w":"earn","s":67.44,"e":67.66,"line":16},{"w":"interest","s":67.66,"e":68.22,"line":16},{"w":"that","s":68.22,"e":68.46,"line":16},{"w":"helps","s":68.46,"e":68.76,"line":16},{"w":"offset","s":68.76,"e":69.28,"line":16},{"w":"inflation.","s":69.28,"e":69.94,"line":16},{"w":"But","s":70.78,"e":71.04,"line":17},{"w":"cash","s":71.04,"e":71.34,"line":17},{"w":"hidden","s":71.34,"e":71.64,"line":17},{"w":"under","s":71.64,"e":71.86,"line":17},{"w":"your","s":71.86,"e":72.04,"line":17},{"w":"mattress?","s":72.04,"e":72.46,"line":17},{"w":"It","s":73.22,"e":73.68,"line":18},{"w":"earns","s":73.68,"e":73.96,"line":18},{"w":"absolutely","s":73.96,"e":74.64,"line":18},{"w":"nothing.","s":74.64,"e":75.16,"line":18},{"w":"So","s":76.32,"e":76.6,"line":19},{"w":"here's","s":76.6,"e":76.96,"line":19},{"w":"the","s":76.96,"e":77.12,"line":19},{"w":"lesson.","s":77.12,"e":77.5,"line":19},{"w":"The","s":78.52,"e":78.7,"line":20},{"w":"number","s":78.7,"e":78.9,"line":20},{"w":"printed","s":78.9,"e":79.26,"line":20},{"w":"on","s":79.26,"e":79.46,"line":20},{"w":"your","s":79.46,"e":79.64,"line":20},{"w":"money","s":79.64,"e":79.98,"line":20},{"w":"can","s":79.98,"e":80.44,"line":20},{"w":"stay","s":80.44,"e":80.76,"line":20},{"w":"the","s":80.76,"e":80.94,"line":20},{"w":"same","s":80.94,"e":81.24,"line":20},{"w":"forever�","s":81.24,"e":81.66,"line":20},{"w":"But","s":82.32,"e":82.64,"line":21},{"w":"what","s":82.64,"e":82.82,"line":21},{"w":"that","s":82.82,"e":83.08,"line":21},{"w":"money","s":83.08,"e":83.32,"line":21},{"w":"can","s":83.32,"e":83.54,"line":21},{"w":"buy","s":83.54,"e":83.92,"line":21},{"w":"won't","s":83.92,"e":84.56,"line":21},{"w":"necessarily","s":84.56,"e":85,"line":21},{"w":"stay","s":85,"e":85.48,"line":21},{"w":"the","s":85.48,"e":85.68,"line":21},{"w":"same.","s":85.68,"e":86.06,"line":21},{"w":"You","s":87.1,"e":87.32,"line":22},{"w":"didn't","s":87.32,"e":87.64,"line":22},{"w":"know","s":87.64,"e":87.8,"line":22},{"w":"that","s":87.8,"e":88.08,"line":22},{"w":"about","s":88.08,"e":88.36,"line":22},{"w":"money.","s":88.36,"e":88.72,"line":22}];
+      window.__timelines = window.__timelines || {};
+      const wd = (l, k) => WORDS.filter((w) => w.line === l)[k].s;     // start time of word k in script line l
+      const tl = gsap.timeline({ paused: true });
+      const E = 'power3.out', IO = 'power2.inOut';
+      const $ = (s) => document.querySelector(s);
+      const R = (el, t, from, to) => tl.fromTo(el, Object.assign({ opacity: 0, y: 30 }, from || {}), Object.assign({ opacity: 1, y: 0, duration: 0.5, ease: E, immediateRender: false }, to || {}), t);
+      const X = (el, t, d) => tl.to(el, { opacity: 0, duration: d || 0.25, ease: 'none' }, t);
+      const POP = { scale: 0.6, y: 24 }, POPTO = { scale: 1, duration: 0.5 };
+      const STRIKE = (sel, t) => tl.fromTo(sel, { scaleX: 0 }, { scaleX: 1, duration: 0.3, ease: 'power2.out', immediateRender: false }, t);
+      const add = (h) => $('#dyn').insertAdjacentHTML('beforeend', h);
+      const money = (v) => '$' + Math.round(v).toLocaleString('en-US');
+      const count = (sel, t, from, to, dur) => { const o = { v: from }; tl.to(o, { v: to, duration: dur, ease: 'power3.out', onUpdate() { $(sel).textContent = money(o.v); } }, t); };
+      // Paste-in helpers for HyperFrames templates (classic <script>, GSAP timeline `tl`, `$` = querySelector).
+// Ideas adapted (rewritten for our stack) from the MIT-licensed iart-ai/tiktok-video-skills + kinetic-typography-skills.
+// Everything is seek-safe: tweens only, no timers, no randomness except the seeded hash().
+//
+// Needs this CSS in the template:
+//   .mw { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: 0.14em; margin-bottom: -0.14em; }
+//   .mi { display: inline-block; will-change: transform; }
+
+const SAFE = { left: 60, right: 960, top: 120, bottom: 1600 };   // 1080x1920: keep text/cards inside; TikTok UI sits outside (right ~120px, bottom ~320px)
+
+const hashH = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+
+// Split a PLAIN-TEXT element into masked words (screen-reader label kept). Returns the inner word nodes.
+const splitWords = (sel) => {
+  const el = document.querySelector(sel); const txt = el.textContent.trim();
+  el.setAttribute('aria-label', txt);
+  el.innerHTML = txt.split(/\s+/).map((w) => `<span class="mw"><span class="mi">${w}</span></span>`).join(' ');
+  return el.querySelectorAll('.mi');
+};
+
+// 1) Mask reveal: each word rises out of a clipped line. ~0.6s per word, 60ms stagger, expo ease (keep the whole reveal under ~0.8-1.0s).
+//    Use for headlines that appear mid-video (NOT the hook; see hookNow).
+const maskReveal = (tl, sel, t, o = {}) => {
+  const items = splitWords(sel);
+  tl.set(sel, { opacity: 1 }, t);
+  tl.fromTo(items, { yPercent: 115 }, { yPercent: 0, duration: o.dur || 0.6, ease: 'expo.out', stagger: o.stagger || 0.06, immediateRender: false }, t);
+  return items.length;
+};
+// matching exit: words drop back down (use instead of a plain fade when a headline leaves)
+const maskHide = (tl, sel, t, o = {}) => {
+  const items = document.querySelectorAll(sel + ' .mi');
+  tl.to(items, { yPercent: -115, duration: o.dur || 0.35, ease: 'power3.in', stagger: o.stagger || 0.03 }, t);
+  tl.set(sel, { opacity: 0 }, t + (o.dur || 0.35) + 0.03 * items.length);
+};
+
+// 2) Hook on frame 1: the hook text is fully visible at t=0 (no fade-up, no fade from black); only a tiny settle motion.
+const hookNow = (tl, sels) => { sels.forEach((s) => { tl.set(s, { opacity: 1 }, 0); tl.fromTo(s, { scale: 1.05 }, { scale: 1, duration: 0.6, ease: 'power3.out', immediateRender: false }, 0); }); };
+
+// 3) Pattern interrupt: a quick punch-in pulse on an element (use on long holds).
+const punch = (tl, sel, t, o = {}) => {
+  tl.fromTo(sel, { scale: 1 }, { scale: o.scale || 1.07, duration: o.dur || 0.18, ease: 'power2.out', immediateRender: false }, t);
+  tl.to(sel, { scale: 1, duration: 0.45, ease: 'power2.inOut' }, t + (o.dur || 0.18));
+};
+// Pulse an element every ~3s (uneven: 2.2s-3.8s gaps) between `from` and `to`. Never use a metronome gap.
+const heartbeat = (tl, sel, from, to, o = {}) => { let t = from + 1.2; let i = 0; while (t < to - 0.8) { punch(tl, sel, t, o); t += 2.2 + hashH(i++ + (o.seed || 0)) * 1.6; } };
+
+// 4) Optional seamless loop: end on the same first-frame look. Fade the final card out to the hook's background in the last 0.5s
+//    and make the last spoken line read as the lead-in to the first line ("...and that is why" -> hook).
+
+// 5) Scene wipe: each scene is a full-frame container (.sc, own background colour). The next one slides/zooms in over the previous.
+//    Initial offsets: tl.set('#sc2', { x: 1080 }, 0)  or { y: 1920 } / { x: -1080 } / { scale: 1.5, opacity: 0 } (zoom-in). Example: sceneCut(tl, '#sc1', '#sc2', 2.45, { x: 1080 });
+//    CSS: .sc { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:hidden; }
+const sceneCut = (tl, prev, next, t, from, d = 0.5) => {
+  tl.fromTo(next, from, { x: 0, y: 0, scale: 1, opacity: 1, duration: d, ease: 'power4.out', immediateRender: false }, t);
+  tl.to(prev, { x: from.x ? -from.x * 0.25 : 0, y: from.y ? -from.y * 0.2 : 0, duration: d, ease: 'power4.out' }, t);
+  tl.set(prev, { opacity: 0 }, t + d + 0.05);
+};
+// 6) Slow push-in on a scene container (camera feel): pushIn(tl, '#sc2', 2.5, 5.5)
+const pushIn = (tl, sel, a, b, s = 1.05) => tl.fromTo(sel, { scale: 1 }, { scale: s, duration: b - a, ease: 'none', immediateRender: false }, a + 0.01);
+
+
+      // ================= SCENES (src/scenes.js) =================
+      // Explainer-UI style (like inflation / bill-value): eyebrow + big headline + drawn UI cards with Phosphor icons, black and gold. No emoji, no characters.
+      const NO_CAPTION_LINES = [22];
+      const W = '#fffdf6', G = '#e5ab33', K = '#0a0a0a';
+      const dyn = document.getElementById('dyn');
+      let U = 0;
+      const IMG = (n, x, y, s) => `<img src="assets/img/${n}.svg" style="left:${x}px;top:${y}px;width:${s}px;height:${s}px" />`;
+      const LAB = (s, x, y) => `<div class="lab" style="left:${x}px;top:${y}px">${s}</div>`;
+      const VAL = (s, x, y, size, c) => `<div class="val" style="left:${x}px;top:${y}px;font-size:${size}px;${c ? 'color:' + c : ''}">${s}</div>`;
+      function beat(n, t0, t1, o) {
+        const out = t1 - 0.22;
+        const P = {
+          el(cls, l, t, w, h, html, at, style = '') {
+            const id = `u${U++}`;
+            dyn.insertAdjacentHTML('beforeend', `<div id="${id}" class="${cls}" style="left:${l}px;top:${t}px;width:${w}px;height:${h}px;${style}">${html}</div>`);
+            tl.fromTo('#' + id, { opacity: 0, y: 70, scale: 0.9 }, { opacity: 1, y: 0, scale: 1, duration: 0.55, ease: 'back.out(1.5)', immediateRender: false }, at);
+            tl.to('#' + id, { opacity: 0, y: -30, duration: 0.2, ease: 'power2.in' }, out);
+            return '#' + id;
+          },
+          grow(sel, at, d = 0.9) { tl.fromTo(sel, { scaleX: 0 }, { scaleX: 1, duration: d, ease: 'power3.out', immediateRender: false }, at); },
+          pulse(sel, at) { punch(tl, sel, at, { scale: 1.06 }); },
+        };
+        if (o.eyebrow) {
+          const id = `e${n}`;
+          dyn.insertAdjacentHTML('beforeend', `<div id="${id}" class="abs tag" style="left:0;top:150px;width:1080px">${o.eyebrow}</div>`);
+          if (n === 1) hookNow(tl, ['#' + id]); else tl.fromTo('#' + id, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.4, immediateRender: false }, t0);
+          tl.to('#' + id, { opacity: 0, duration: 0.2 }, out);
+        }
+        let y = o.top || 215;
+        (o.rows || []).forEach(([s, c, sz], i) => {
+          const id = `h${n}_${i}`;
+          dyn.insertAdjacentHTML('beforeend', `<div id="${id}" class="abs big" style="left:0;top:${y}px;width:1080px;font-size:${sz}px;color:${c}">${s}</div>`);
+          y += sz * 1.08;
+          if (n === 1) hookNow(tl, ['#' + id]); else maskReveal(tl, '#' + id, t0 + 0.05 + i * 0.15);
+          tl.to('#' + id, { opacity: 0, y: -40, duration: 0.2, ease: 'power2.in' }, out);
+        });
+        return P;
+      }
+      const creditCard = (P, l, t, w, at) => {
+        const h = Math.round(w * 0.62), k = w / 780;
+        return P.el('ccard abs', l, t, w, h, `<div class="chipx" style="left:${60 * k}px;top:${120 * k}px;transform:scale(${k});transform-origin:left top"></div><div class="val" style="left:${60 * k}px;top:${h - 160 * k}px;font-size:${52 * k}px">•••• •••• •••• 4821</div><div class="lab" style="left:${60 * k}px;top:${h - 90 * k}px;color:#3b2a05;font-size:${28 * k}px">CREDIT CARD</div>`, at);
+      };
+      const chip = (P, txt, l, t, at, cls = 'tagc') => P.el(cls + ' abs', l, t, 'auto', 'auto', txt, at);
+
+      const bill = (P, l, t, w, at, amt = '$1,000') => {
+        const h = Math.round(w * 0.48), r = Math.round(h * 0.62);
+        return P.el('bill abs', l, t, w, h, `<div class="ring" style="left:${(w - r) / 2}px;top:${(h - r) / 2}px;width:${r}px;height:${r}px;font-size:${r * 0.34}px">${amt}</div><div class="val" style="left:${w * 0.05}px;top:${h * 0.1}px;font-size:${h * 0.16}px;color:#3b2a05">$</div><div class="val" style="right:${w * 0.05}px;bottom:${h * 0.1}px;font-size:${h * 0.16}px;color:#3b2a05">$</div>`, at);
+      };
+      const L = (n) => LINES_T[n - 1];                       // [start, end] of narration line n
+      const LINES_T = [[0.3, 4.2], [5.1, 10.27], [11.07, 12.84], [13.64, 18.65], [19.35, 21.61], [22.31, 25.32], [26.02, 27.58], [28.28, 32.31], [33.11, 38.02], [38.72, 47.63], [48.43, 50.03], [50.63, 52.3], [53.1, 55.21], [55.91, 59.45], [60.25, 64.26], [65.06, 70.16], [70.86, 72.91], [73.51, 75.56], [76.36, 77.85], [78.55, 81.96], [82.56, 86.23], [87.13, 88.92]];
+      const B = (n, o) => beat(n, n === 1 ? 0 : L(n)[0] - 0.1, n === 22 ? 91.5 : L(n + 1)[0] - 0.1, o);
+
+      // 1 hook
+      { const P = B(1, { eyebrow: 'DID YOU KNOW', rows: [['YOUR MONEY', W, 135], ['LOSES VALUE', G, 135]] });
+        const b = bill(P, 140, 650, 800, 0); hookNow(tl, [b]); tl.fromTo(b, { rotation: -4 }, { rotation: 3, duration: 4.5, ease: 'sine.inOut' }, 0);
+        const ch = P.el('tagc fill abs', 190, 1190, 700, 80, '<div style="text-align:center;line-height:56px">WHILE SITTING STILL</div>', 0); hookNow(tl, [ch]); }
+      // 2 nothing -> worth less
+      { const P = B(2, { eyebrow: 'WHAT IF', rows: [['DOING NOTHING', W, 105], ['MAKES IT', W, 105], ['WORTH LESS?', G, 125]] });
+        P.el('uc abs', 120, 700, 840, 330, `${IMG('money', 50, 50, 110)}${LAB('WHAT YOUR MONEY IS WORTH', 190, 54)}<div style="position:absolute;left:50px;top:200px;width:740px;height:70px;border-radius:20px;background:#4a3607"></div>`, 6.4);
+        const bar = P.el('abs', 170, 900, 740, 70, '<div style="width:100%;height:100%;border-radius:20px;background:#e5ab33"></div>', 7.2, 'transform-origin:left center');
+        tl.to(bar, { scaleX: 0.55, duration: 1.2, ease: 'power2.inOut' }, 9.0); P.pulse(bar, 10.3); }
+      // 3 impossible
+      { const P = B(3, { rows: [['SOUNDS', W, 150], ['IMPOSSIBLE?', G, 140]], top: 250 });
+        P.el('abs', 290, 800, 500, 500, IMG('question', 0, 0, 500), 11.2); }
+      // 4 drawer
+      { const P = B(4, { eyebrow: 'IMAGINE', rows: [['$1,000', G, 210], ['IN A DRAWER', W, 105]] });
+        const bl = bill(P, 260, 760, 560, 15.2); tl.to(bl, { y: 150, duration: 0.7, ease: 'power2.in' }, 17.0);
+        P.el('uc abs', 160, 960, 760, 300, `<div style="position:absolute;left:30px;top:30px;right:30px;bottom:30px;border-radius:22px;border:3px solid #4a3607"></div><div style="position:absolute;left:300px;top:105px;width:160px;height:36px;border-radius:18px;background:#e5ab33"></div>${LAB('DRAWER', 300, 195)}`, 14.4); }
+      // 5 ten years later
+      { const P = B(5, { eyebrow: 'TEN YEARS LATER', rows: [['OPEN THE', W, 125], ['DRAWER', G, 150]] });
+        P.el('uc abs', 120, 700, 840, 330, `${IMG('calendar', 50, 55, 160)}${LAB('YEARS PASSED', 260, 64)}${VAL('10', 260, 110, 170, G)}`, 19.9); }
+      // 6 still $1,000
+      { const P = B(6, { eyebrow: 'GOOD NEWS', rows: [['STILL', W, 130], ['$1,000', G, 220]] });
+        bill(P, 140, 800, 800, 23.4); const c = P.el('abs', 770, 740, 160, 160, IMG('check-circle', 0, 0, 160), 24.2); P.pulse(c, 24.8); }
+      // 7 problem
+      { const P = B(7, { eyebrow: 'BUT HERE’S', rows: [['THE', W, 130], ['PROBLEM', G, 170]], top: 300 });
+        P.el('abs', 340, 880, 400, 400, IMG('warning', 0, 0, 400), 26.4); }
+      // 8 things cost more
+      { const P = B(8, { eyebrow: 'WHAT YOU COULD BUY', rows: [['NOW COSTS', W, 125], ['MUCH MORE', G, 140]] });
+        [['coffee', 'COFFEE'], ['fork-knife', 'DINNER'], ['t-shirt', 'CLOTHES']].forEach(([ic, nm], i) => { const at = 29.6 + i * 0.9;
+          P.el('uc abs', 120, 650 + i * 190, 840, 160, `${IMG(ic, 40, 28, 100)}${VAL(nm, 175, 52, 56, W)}`, at);
+          chip(P, '▲ MORE', 690, 690 + i * 190, at + 0.3, 'tagc fill'); }); }
+      // 9 cart $100
+      { const P = B(9, { eyebrow: 'TODAY', rows: [['A CART OF', W, 120], ['GROCERIES', G, 130]] });
+        P.el('uc abs', 120, 680, 840, 360, `${IMG('shopping-cart', 50, 60, 200)}${LAB('COSTS TODAY', 290, 70)}${VAL('$100', 290, 125, 190, W)}`, 35.2); }
+      // 10 3% a year -> $134
+      { const P = B(10, { eyebrow: 'PRICES RISE ~3% A YEAR', rows: [['IN TEN YEARS', W, 115], ['THE SAME CART?', G, 115]] });
+        P.el('uc abs', 100, 640, 380, 330, `${IMG('shopping-cart', 130, 40, 120)}${LAB('TODAY', 120, 190)}${VAL('$100', 90, 235, 80, W)}`, wd(10, 0) + 0.3);
+        chip(P, '+3% / YEAR', 340, 1010, wd(10, 7) - 0.1, 'tagc');
+        P.el('abs', 495, 770, 90, 90, IMG('trend-up', 0, 0, 90), wd(10, 7) + 0.3);
+        const g = P.el('uc gold abs', 600, 640, 380, 330, `${IMG('shopping-cart-k', 130, 40, 120)}${LAB('IN 10 YEARS', 85, 190)}${VAL('≈ $134', 60, 235, 80, K)}`, wd(10, 15) - 0.1); P.pulse(g, wd(10, 15) + 0.7); }
+      // 11 money hasn't changed
+      { const P = B(11, { eyebrow: 'YOUR MONEY', rows: [['HASN’T', W, 150], ['CHANGED', G, 150]] });
+        bill(P, 140, 760, 800, 49.0); }
+      // 12 buying power has
+      { const P = B(12, { eyebrow: 'BUT ITS', rows: [['BUYING POWER', G, 130], ['HAS', W, 130]] });
+        P.el('uc abs', 120, 700, 840, 280, `${IMG('shopping-cart', 50, 50, 110)}${LAB('WHAT $1,000 BUYS', 190, 54)}<div style="position:absolute;left:50px;top:170px;width:740px;height:60px;border-radius:18px;background:#4a3607"></div>`, 51.2);
+        const bar = P.el('abs', 170, 872, 740, 60, '<div style="width:100%;height:100%;border-radius:18px;background:#e5ab33"></div>', 51.6, 'transform-origin:left center');
+        tl.to(bar, { scaleX: 0.6, duration: 0.9, ease: 'power2.inOut' }, wd(12, 2)); }
+      // 13 interesting
+      { const P = B(13, { eyebrow: 'AND HERE’S', rows: [['WHAT MAKES', W, 120], ['THIS INTERESTING', G, 100]], top: 280 });
+        P.el('abs', 390, 900, 300, 300, IMG('sparkle', 0, 0, 300), 53.9); }
+      // 14 no need to spend
+      { const P = B(14, { eyebrow: 'YOU DON’T NEED TO SPEND IT', rows: [['TO LOSE', W, 125], ['SOME VALUE', G, 135]] });
+        P.el('uc abs', 120, 700, 840, 260, `${IMG('money', 50, 50, 110)}${LAB('MONEY SPENT', 190, 56)}${VAL('$0', 190, 110, 110, W)}`, 57.0);
+        chip(P, 'VALUE ▼', 340, 1020, wd(14, 8), 'tagc fill'); }
+      // 15 inflation while still
+      { const P = B(15, { eyebrow: 'INFLATION CAN DO THAT', rows: [['WHILE CASH', W, 125], ['SITS STILL', G, 140]] });
+        bill(P, 140, 700, 800, 61.4);
+        P.el('uc gold abs', 220, 1130, 640, 150, `${IMG('trend-up-k', 25, 20, 110)}${VAL('INFLATION', 160, 40, 56, K)}${LAB('PRICES GO UP', 160, 100)}`, 62.8); }
+      // 16 savings account
+      { const P = B(16, { eyebrow: 'IN A SAVINGS ACCOUNT', rows: [['MIGHT EARN', W, 125], ['INTEREST', G, 150]] });
+        P.el('uc abs', 120, 700, 840, 280, `${IMG('bank', 50, 55, 150)}${LAB('SAVINGS ACCOUNT', 240, 60)}${VAL('+ INTEREST', 240, 115, 90, G)}`, 66.4);
+        chip(P, 'CAN HELP OFFSET INFLATION', 190, 1050, wd(16, 8), 'tagc fill'); }
+      // 17 mattress
+      { const P = B(17, { eyebrow: 'BUT CASH', rows: [['UNDER THE', W, 120], ['MATTRESS?', G, 135]] });
+        const m = P.el('uc abs', 120, 760, 840, 300, `<div style="position:absolute;left:30px;right:30px;top:80px;height:150px;border-radius:30px;background:repeating-linear-gradient(90deg,#241a07 0 60px,#2e2209 60px 120px);border:3px solid #4a3607"></div><div style="position:absolute;left:60px;top:40px;width:230px;height:70px;border-radius:30px;background:#4a3607"></div>${LAB('MATTRESS', 330, 245)}`, 71.3);
+        bill(P, 540, 770, 330, 72.0); }
+      // 18 earns nothing
+      { const P = B(18, { eyebrow: 'IT EARNS', rows: [['ABSOLUTELY', W, 120], ['NOTHING', G, 160]] });
+        P.el('uc abs', 120, 720, 840, 300, `${IMG('prohibit', 50, 55, 140)}${LAB('INTEREST EARNED', 240, 60)}${VAL('$0.00', 240, 115, 130, W)}`, 74.4); }
+      // 19 lesson
+      { const P = B(19, { eyebrow: 'SO HERE’S', rows: [['THE LESSON', G, 150]], top: 330 });
+        P.el('abs', 340, 780, 400, 400, IMG('note', 0, 0, 400), 76.9); }
+      // 20 number stays
+      { const P = B(20, { eyebrow: 'THE NUMBER ON YOUR MONEY', rows: [['CAN STAY', W, 130], ['THE SAME', G, 140]] });
+        bill(P, 140, 720, 800, 79.2); const c = P.el('abs', 770, 660, 160, 160, IMG('check-circle', 0, 0, 160), 80.2); P.pulse(c, 80.8); }
+      // 21 what it buys
+      { const P = B(21, { eyebrow: 'BUT WHAT IT CAN BUY', rows: [['MAY NOT', W, 135], ['STAY THE SAME', G, 105]] });
+        P.el('uc abs', 120, 700, 840, 280, `${IMG('shopping-cart', 50, 55, 150)}${LAB('WHAT IT CAN BUY', 240, 60)}${VAL('LESS ▼', 240, 115, 110, G)}`, 83.6); }
+      // 22 end
+      { const P = B(22, { rows: [['YOU DIDN’T KNOW', W, 104], ['THAT ABOUT MONEY.', G, 104]], top: 820 });
+        P.el('abs', 340, 380, 400, 400, IMG('coins', 0, 0, 400), 87.5); }
+
+
+      // ================= captions (word-timed karaoke) =================
+      const css = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+      const hexA = (h, a) => { const n = parseInt(h.replace('#', ''), 16); return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${a})`; };
+      const ACC = css('--accent'), INK = css('--ink'), ONACC = css('--on-accent');
+      const capsEl = $('#caps');
+      const groups = []; let cur = [];
+      WORDS.forEach((w, i) => { cur.push(w); const nx = WORDS[i + 1]; const endS = /[.!?]$/.test(w.w); const endC = /,$/.test(w.w) && cur.length >= 2; if (!nx || endS || endC || cur.length >= 4 || (nx && nx.s - w.e > 0.5)) { groups.push(cur); cur = []; } });
+      groups.forEach((g, gi) => {
+        if (typeof NO_CAPTION_LINES !== 'undefined' && NO_CAPTION_LINES.includes(g[0].line)) return;
+        const d = document.createElement('div'); d.className = 'cg'; const pill = document.createElement('div'); pill.className = 'pill'; d.appendChild(pill);
+        g.forEach((w, wi) => { const s = document.createElement('span'); s.className = 'cw'; s.id = `cw${gi}_${wi}`; s.textContent = w.w; pill.appendChild(s); });
+        capsEl.appendChild(d);
+        const a0 = g[0].s - 0.03, nextS = groups[gi + 1] ? groups[gi + 1][0].s : 1e9, b = Math.min(g[g.length - 1].e + 0.2, nextS - 0.08);
+        tl.fromTo(d, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.1, ease: 'power2.out', immediateRender: false }, Math.max(0, a0));
+        tl.to(d, { opacity: 0, duration: 0.06, ease: 'none' }, b);
+        g.forEach((w, wi) => { const sp = `#cw${gi}_${wi}`;
+          tl.fromTo(sp, { backgroundColor: hexA(ACC, 0), color: INK }, { backgroundColor: ACC, color: ONACC, duration: 0.06, ease: 'none', immediateRender: false }, w.s);
+          tl.to(sp, { backgroundColor: hexA(ACC, 0), color: INK, duration: 0.06, ease: 'none' }, Math.max(w.e, w.s + 0.1)); });
+      });
+      tl.fromTo('#prog', { scaleX: 0 }, { scaleX: 1, duration: 91.92, ease: 'none', immediateRender: false }, 0);
+      window.__timelines['main'] = tl;
+      tl.seek(0);
+    </script>
+
+  </body>
+</html>

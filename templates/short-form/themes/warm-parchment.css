@@ -1,0 +1,2 @@
+/* warm paper look used by money-history (pair with a serif headline font if wanted) */
+:root { --bg: #F4E9D3; --ink: #2B1E14; --accent: #C4572B; --panel: #FFF9EC; --line: #D9C196; --muted: #6B4A2A; --good: #1F7A7A; --bad: #C4572B; --on-accent: #FFFFFF; --dots: rgba(120,84,40,0.07); --glow: rgba(196,87,43,0.10); }

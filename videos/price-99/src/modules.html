@@ -1,0 +1,121 @@
+    <script type="importmap">
+      { "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.181.2/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.181.2/examples/jsm/"
+      } }
+    </script>
+    <script type="module">
+      import * as THREE from 'three';
+      const W = 1080, H = 1920;
+      const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+      const sm = (x) => x * x * (3 - 2 * x);
+      const win = (t, a, b) => sm(clamp((t - a) / (b - a)));
+      const hh = (i) => { const x = Math.sin(i * 91.7 + 17.3) * 43758.5453; return x - Math.floor(x); };
+      const lerp = (a, b, k) => a + (b - a) * k;
+      const vis = (t, wins, f = 0.5) => { let s = 0; for (const [a, b] of wins) s = Math.max(s, win(t, a, a + f) * (1 - win(t, b - f, b))); return s; };
+      const backOut = (x) => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
+      async function build() {
+        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('gl'), antialias: true, alpha: true });
+        renderer.setPixelRatio(1); renderer.setSize(W, H, false); renderer.outputColorSpace = THREE.SRGBColorSpace; renderer.setClearColor(0x000000, 0);
+        const scene = new THREE.Scene(); scene.fog = new THREE.Fog(0x0a0a0a, 6.5, 13);
+        const camera = new THREE.PerspectiveCamera(40, W / H, 0.1, 60);
+        scene.add(new THREE.AmbientLight(0xfff1d0, 1.05));
+        const key = new THREE.DirectionalLight(0xfff4dc, 2.5); key.position.set(-3, 5, 7); scene.add(key);
+        const rim = new THREE.PointLight(0xe5ab33, 14, 14); rim.position.set(3, -2, 3); scene.add(rim);
+        const font = (px) => `700 ${px}px "Space Grotesk", "Helvetica Neue", Arial, sans-serif`;
+        const canvasTex = (w, h, draw) => { const c = document.createElement('canvas'); c.width = w; c.height = h; draw(c.getContext('2d'), w, h); const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4; return t; };
+        // ---------- price-tag textures ----------
+        const tagTex = (main, small, struck) => canvasTex(512, 512, (g, w, h) => {
+          g.clearRect(0, 0, w, h); g.fillStyle = '#0a0a0a'; g.textAlign = 'center'; g.textBaseline = 'middle';
+          g.font = font(60); g.fillStyle = '#b57a12'; g.fillText(small, w / 2, 110);
+          g.fillStyle = '#0a0a0a'; g.font = font(main.length > 5 ? 150 : 190); g.fillText(main, w / 2, 280);
+          g.fillStyle = '#b57a12'; g.fillRect(70, 410, w - 140, 10);
+        });
+        const T = { t1999: tagTex('$19.99', 'ONLY'), t2000: tagTex('$20.00', 'SHIRT'), t999: tagTex('$9.99', 'SALE') };
+        // ---------- hero: hanging price tag ----------
+        const tagRoot = new THREE.Group(); scene.add(tagRoot);                 // pivot at the top of the string
+        const swing = new THREE.Group(); tagRoot.add(swing);
+        const sh = new THREE.Shape(); const tw = 0.75, th = 1.1, ch = 0.3;
+        sh.moveTo(-tw + ch, th); sh.lineTo(tw - ch, th); sh.lineTo(tw, th - ch); sh.lineTo(tw, -th); sh.lineTo(-tw, -th); sh.lineTo(-tw, th - ch); sh.lineTo(-tw + ch, th);
+        const hole = new THREE.Path(); hole.absarc(0, th - 0.28, 0.09, 0, Math.PI * 2, true); sh.holes.push(hole);
+        const paper = new THREE.MeshStandardMaterial({ color: 0xfffdf6, roughness: 0.45, metalness: 0.02, emissive: 0x241f12 });
+        const edgeG = new THREE.MeshStandardMaterial({ color: 0xe5ab33, roughness: 0.35, metalness: 0.7 });
+        const tagBody = new THREE.Mesh(new THREE.ExtrudeGeometry(sh, { depth: 0.06, bevelEnabled: false }), [paper, edgeG]); tagBody.position.z = -0.03; swing.add(tagBody);
+        const fMat = new THREE.MeshBasicMaterial({ map: T.t1999, transparent: true }), bMat = new THREE.MeshBasicMaterial({ map: T.t2000, transparent: true });
+        const front = new THREE.Mesh(new THREE.PlaneGeometry(1.4, 1.4), fMat); front.position.set(0, -0.12, 0.035); swing.add(front);
+        const back = new THREE.Mesh(new THREE.PlaneGeometry(1.4, 1.4), bMat); back.rotation.y = Math.PI; back.position.set(0, -0.12, -0.035); swing.add(back);
+        const stringM = new THREE.Mesh(new THREE.CylinderGeometry(0.014, 0.014, 1, 8), new THREE.MeshStandardMaterial({ color: 0xb98a24, roughness: 0.5 }));
+        // ---------- hero: digit blocks ----------
+        const digs = new THREE.Group(); scene.add(digs); const blocks = [];
+        const digTex = (ch, gold) => canvasTex(256, 256, (g, w, h) => { g.fillStyle = gold ? '#e5ab33' : '#fffdf6'; g.fillRect(0, 0, w, h); g.fillStyle = '#0a0a0a'; g.font = font(ch === '.' ? 220 : 190); g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(ch, w / 2, ch === '.' ? 150 : 140); });
+        '19.99'.split('').forEach((ch, i) => {
+          const w = ch === '.' ? 0.3 : 0.62; const mats = [0, 1, 2, 3].map(() => new THREE.MeshStandardMaterial({ color: 0xe9dfc3, roughness: 0.4, metalness: 0.1 }));
+          const faceC = new THREE.MeshStandardMaterial({ map: digTex(ch, false), roughness: 0.4 }), faceG = new THREE.MeshStandardMaterial({ map: digTex(ch, true), roughness: 0.35, metalness: 0.2 });
+          const m = new THREE.Mesh(new THREE.BoxGeometry(w, 0.86, 0.28), [mats[0], mats[1], mats[2], mats[3], faceC, mats[0]]); digs.add(m);
+          blocks.push({ m, faceC, faceG, w, i });
+        });
+        // ---------- hero: 1¢ coin ----------
+        const coin = new THREE.Group(); scene.add(coin);
+        const cg = new THREE.CylinderGeometry(1, 1, 0.12, 64); cg.rotateX(Math.PI / 2);
+        const cTex = canvasTex(512, 512, (g, w, h) => { const gr = g.createRadialGradient(200, 190, 40, 256, 256, 260); gr.addColorStop(0, '#f6cf72'); gr.addColorStop(0.65, '#d79a22'); gr.addColorStop(1, '#a86f12'); g.fillStyle = gr; g.fillRect(0, 0, w, h); g.strokeStyle = 'rgba(60,35,4,.6)'; g.lineWidth = 14; g.beginPath(); g.arc(256, 256, 226, 0, Math.PI * 2); g.stroke(); g.fillStyle = '#3b2a05'; g.font = font(190); g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('1¢', 256, 268); });
+        cTex.center.set(0.5, 0.5); cTex.rotation = Math.PI / 2;
+        const cMat = new THREE.MeshStandardMaterial({ map: cTex, roughness: 0.4, metalness: 0.45 }), cEdge = new THREE.MeshStandardMaterial({ color: 0xc99a2e, roughness: 0.35, metalness: 0.8 });
+        coin.add(new THREE.Mesh(cg, [cEdge, cMat, cMat]));
+        // ---------- background pattern: dim drifting coins ----------
+        const bgG = new THREE.Group(); scene.add(bgG); const bgc = [];
+        const dimM = new THREE.MeshStandardMaterial({ color: 0x7a5d1a, roughness: 0.5, metalness: 0.5 }), dimS = new THREE.MeshStandardMaterial({ color: 0x6e6a5e, roughness: 0.5, metalness: 0.5 });
+        for (let i = 0; i < 18; i++) {
+          const r = 0.16 + hh(i + 1) * 0.28; const m = new THREE.Mesh(new THREE.CylinderGeometry(r, r, r * 0.16, 28), i % 3 === 0 ? dimS : dimM); bgG.add(m);
+          bgc.push({ m, x: (hh(i + 5) - 0.5) * 8.4, y0: hh(i + 9) * 14, z: -3.6 - hh(i + 13) * 5, sp: 0.16 + hh(i + 17) * 0.26, rx: hh(i + 21) * 6, rs: 0.3 + hh(i + 25) * 0.7 });
+        }
+        const WINS = { tag: [[-1, 6.3], [12.2, 21.2], [55.4, 60.6]], digs: [[26.9, 35.9]], coin: [[21.35, 24.3], [60.9, 66.0], [69.3, 73]] };
+        const SETMAP = (mat, tex) => { if (mat.map !== tex) { mat.map = tex; mat.needsUpdate = true; } };
+        function renderAt(t) {
+          camera.position.set(Math.sin(t * 0.35) * 0.12, Math.sin(t * 0.27) * 0.07, 6.2); camera.lookAt(0, -0.05, 0);
+          bgc.forEach((c) => { const span = 14; const y = ((c.y0 - t * c.sp) % span + span) % span - span / 2; c.m.position.set(c.x, y, c.z); c.m.rotation.set(c.rx + t * c.rs, t * c.rs * 0.6, 0); });
+          // ----- hanging tag -----
+          const st = vis(t, WINS.tag); tagRoot.visible = st > 0.002;
+          if (tagRoot.visible) {
+            const flip = t < 30 ? win(t, 18.1, 18.9) : 0;
+            const front$ = t < 12 ? T.t1999 : t < 30 ? T.t2000 : T.t999, back$ = T.t1999;
+            SETMAP(fMat, front$); SETMAP(bMat, back$);
+            const s = 0.66 * (0.25 + 0.75 * st); tagRoot.scale.setScalar(s); tagRoot.position.set(0, 1.0 - (1 - st) * 1.5, 0);
+            swing.position.y = -1.7;
+            const sw = Math.sin(t * 1.5) * 0.09 * (1 - 0.5 * flip) + Math.sin(t * 3.1) * 0.02;
+            tagRoot.rotation.z = sw; swing.rotation.y = flip * Math.PI + Math.sin(t * 0.7) * 0.18;
+            if (!stringM.parent) tagRoot.add(stringM);
+            stringM.scale.y = 1.7 - 0.3; stringM.position.y = -0.85 + 0.15;
+            swing.position.y = -1.7 - 0.0;
+            // tag body hole should sit at the end of the string: hole y = th-0.28 = 0.82 above the tag centre
+            swing.position.y = -(1.0 + 0.82) ;
+            stringM.scale.y = 1.0; stringM.position.y = -0.5;
+          }
+          // ----- digit blocks -----
+          const sd = vis(t, WINS.digs); digs.visible = sd > 0.002;
+          if (digs.visible) {
+            const focus = win(t, 31.0, 31.8), unfocus = win(t, 35.3, 35.8);
+            const gaps = 0.12;
+            const scs = blocks.map((b) => { const hi = b.i < 2 ? focus : 0; return (0.2 + 0.8 * sd) * (1 + 0.3 * hi - 0.2 * (b.i >= 2 ? focus : 0)); });
+            const totalW = blocks.reduce((a, b, k) => a + b.w * scs[k], 0) + gaps * 4; let x = -totalW / 2;
+            blocks.forEach((b, k) => { const hi = b.i < 2 ? focus : 0; const sc = scs[k];
+              b.m.scale.setScalar(sc); b.m.position.set(x + b.w * sc / 2, 0, 0.5 * hi * (1 - unfocus)); x += b.w * sc + gaps;
+              b.m.material[4] = hi > 0.5 ? b.faceG : b.faceC;
+              b.m.rotation.set(Math.sin(t * 0.9 + b.i) * 0.08, Math.sin(t * 0.6 + b.i * 0.5) * 0.18 + (1 - win(t, 26.9, 27.7)) * 1.2, 0); });
+            digs.position.set(0, -0.08, 0); digs.scale.setScalar(0.6);
+          }
+          // ----- coin -----
+          const sc = vis(t, WINS.coin); coin.visible = sc > 0.002;
+          if (coin.visible) {
+            let py = -0.1, s = 0.6, px = 0;
+            if (t > 60) { py = -0.1; s = 0.62; const away = win(t, 64.3, 65.7); s *= 1 - away; }
+            if (t > 69) { py = 1.1; s = 0.5; px = 0; }
+            coin.scale.setScalar(s * (0.2 + 0.8 * sc)); coin.position.set(px, py, 0);
+            coin.rotation.set(Math.sin(t * 0.6) * 0.12, t * 1.1, 0);
+          }
+          renderer.render(scene, camera);
+        }
+        window.addEventListener('hf-seek', (e) => renderAt(e.detail.time));
+        renderAt(window.__hfThreeTime || 0);
+      }
+      window.__hf = window.__hf || {}; window.__hf.buildReady = window.__hf.buildReady || {}; window.__hf.buildReady['price'] = build();
+    </script>

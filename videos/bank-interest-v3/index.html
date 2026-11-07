@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
+    <style>
+      /* THEME: change these six values to restyle the whole video */
+      :root { --bg: #0B1220; --ink: #F1F3F8; --accent: #E9B949; --panel: #131D33; --line: #2A3A5C; --muted: #8C97AD; --good: #67E3AE; --bad: #F0616D; --on-accent: #0B1220; --dots: rgba(233,185,73,0.10); --glow: rgba(233,185,73,0.12); }
+      :root { --bg: #ebebeb; --ink: #0e3f3d; --accent: #17736e; --panel: #ffffff; --line: #cfd6d6; --muted: #5c7270; --good: #36c3b0; --bad: #d9574f; --on-accent: #ffffff; --dots: rgba(14,63,61,0.06); --glow: rgba(54,195,176,0.20); }
+.sc { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; }
+.sp { position: absolute; opacity: 0; will-change: transform; }
+.bigline { position: absolute; left: 0; width: 1080px; opacity: 0; }
+.pillbig { display: inline-block; padding: 14px 40px 16px; border-radius: 100px; background: #f6c945; border: 4px solid #0e3f3d; color: #0e3f3d; font-weight: 700; font-size: 60px; letter-spacing: -0.01em; white-space: nowrap; box-shadow: 8px 8px 0 #0e3f3d; }
+.pillbig.w { background: #fff; }
+.shadowtxt { text-shadow: 0 8px 0 rgba(14,63,61,0.55); }
+
+      @font-face { font-family: 'Space Grotesk'; font-weight: 500; src: url('assets/fonts/space-grotesk-latin-500-normal.woff2') format('woff2'); }
+      @font-face { font-family: 'Space Grotesk'; font-weight: 600; src: url('assets/fonts/space-grotesk-latin-600-normal.woff2') format('woff2'); }
+      @font-face { font-family: 'Space Grotesk'; font-weight: 700; src: url('assets/fonts/space-grotesk-latin-700-normal.woff2') format('woff2'); }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background-color: var(--bg); background-image: radial-gradient(var(--dots) 2.5px, transparent 2.5px); background-size: 60px 60px; font-family: 'Space Grotesk', sans-serif; color: var(--ink); }
+      #stage { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; }
+      #glow { position: absolute; left: -200px; top: -300px; width: 1480px; height: 1100px; pointer-events: none; background: radial-gradient(closest-side, var(--glow), transparent); }
+      /* SAFE AREA (1080x1920): keep content at x 60..960 and y 120..1600. Right ~120px and bottom ~320px belong to TikTok's UI. */
+      .abs { position: absolute; opacity: 0; }
+      .lot { position: absolute; opacity: 0; }
+      .big { font-weight: 700; letter-spacing: -0.035em; line-height: 1.02; text-align: center; white-space: nowrap; }
+      .ac { color: var(--accent); } .gn { color: var(--good); } .rd { color: var(--bad); }
+      .tag { font-weight: 600; font-size: 30px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); text-align: center; white-space: nowrap; }
+      .chip { display: inline-block; padding: 12px 30px; border-radius: 100px; background: rgba(233,185,73,0.10); border: 1.5px solid rgba(233,185,73,0.45); color: var(--accent); font-weight: 600; font-size: 28px; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; }
+      .card { background: var(--panel); border: 1.5px solid var(--line); border-radius: 28px; box-shadow: 0 24px 60px rgba(0,0,0,0.45); }
+      .strike { position: absolute; height: 10px; border-radius: 6px; background: var(--bad); transform-origin: left center; transform: scaleX(0); }
+      .mw { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: 0.14em; margin-bottom: -0.14em; }
+      .mi { display: inline-block; will-change: transform; }
+      #prog { position: absolute; left: 0; bottom: 0; width: 1080px; height: 6px; background: var(--accent); transform-origin: left center; }
+      #caps { position: absolute; left: 0; top: 1392px; width: 1080px; height: 190px; }
+      .cg { position: absolute; left: 90px; top: 0; width: 900px; text-align: center; opacity: 0; }
+      .cg .pill { display: inline-block; padding: 14px 30px 16px; border-radius: 34px; background: var(--panel); border: 1.5px solid var(--line); box-shadow: 0 8px 30px rgba(0,0,0,0.5); font-weight: 600; font-size: 50px; line-height: 1.2; letter-spacing: -0.01em; color: var(--ink); }
+      .cw { display: inline-block; margin: 0 4px; padding: 0 10px; border-radius: 12px; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="20" data-width="1080" data-height="1920">
+      <div id="stage" class="clip" data-start="0" data-duration="20" data-track-index="0">
+        <div id="glow"></div>
+        <div id="dyn"></div>
+        <!-- ================= SCENES (full-frame containers that wipe in) ================= -->
+        <div id="sc1" class="sc" style="background:#0e4a48">
+          <div id="rain"></div>
+          <img id="bigcoin" class="sp" src="assets/img/coin-dollar-accent.svg" style="left:230px;top:960px;width:620px" />
+          <div id="a1" class="abs big shadowtxt" style="left:0;top:210px;width:1080px;font-size:158px;color:#fff">WHY DOES</div>
+          <div id="a2" class="abs big shadowtxt" style="left:0;top:360px;width:1080px;font-size:158px;color:#fff">A BANK</div>
+          <div id="a3" class="abs big shadowtxt" style="left:0;top:520px;width:1080px;font-size:178px;color:#f6c945">PAY YOU</div>
+          <div id="a4" class="abs big shadowtxt" style="left:0;top:700px;width:1080px;font-size:176px;color:#fff">INTEREST?</div>
+        </div>
+        <div id="sc2" class="sc" style="background:#f6c945">
+          <img id="safe" class="abs" src="assets/img/safe.svg" style="left:60px;top:640px;width:960px" />
+          <div id="t2a" class="abs big" style="left:0;top:190px;width:1080px;font-size:160px;color:#0e3f3d">YOUR</div>
+          <div id="t2b" class="abs big" style="left:0;top:340px;width:1080px;font-size:160px;color:#0e3f3d">DEPOSIT</div>
+          <div id="t2c" class="abs big" style="left:0;top:210px;width:1080px;font-size:150px;color:#0e3f3d">NOT JUST</div>
+          <div id="t2d" class="abs big" style="left:0;top:360px;width:1080px;font-size:122px;color:#fff;text-shadow:0 6px 0 #0e3f3d">SITTING THERE</div>
+        </div>
+        <div id="sc3" class="sc" style="background:#0e4a48">
+          <canvas id="gl" width="1080" height="1920" style="position:absolute;left:0;top:0;width:1080px;height:1920px"></canvas>
+          <div id="t3" class="abs big shadowtxt" style="left:0;top:210px;width:1080px;font-size:210px;color:#fff">LENT OUT</div>
+          <div id="p1" class="abs" style="left:0;top:1080px;width:1080px;text-align:center"><span class="pillbig">PEOPLE</span></div>
+          <div id="p2" class="abs" style="left:0;top:1200px;width:1080px;text-align:center"><span class="pillbig w">BUSINESSES</span></div>
+        </div>
+        <div id="sc4" class="sc" style="background:#ff7a59">
+          <img id="doc" class="abs" src="assets/img/doc.svg" style="left:60px;top:560px;width:960px" />
+          <div id="t4a" class="abs big" style="left:0;top:200px;width:1080px;font-size:150px;color:#0e3f3d">THEY PAY</div>
+          <div id="t4b" class="abs big" style="left:0;top:360px;width:1080px;font-size:196px;color:#fff;text-shadow:0 8px 0 #0e3f3d">INTEREST</div>
+          <div id="t4c" class="abs" style="left:420px;top:575px;width:600px;text-align:center;transform:rotate(-5deg)"><span class="pillbig w">ON THAT LOAN</span></div>
+        </div>
+        <div id="sc5" class="sc" style="background:#fdf3dc">
+          <img id="pbase" class="abs" src="assets/img/pie-base.svg" style="left:40px;top:540px;width:1000px" />
+          <img id="pslice" class="abs" src="assets/img/pie-slice.svg" style="left:40px;top:540px;width:1000px" />
+          <div id="t5a" class="abs big" style="left:0;top:200px;width:1080px;font-size:104px;color:#0e3f3d">THE BANK KEEPS</div>
+          <div id="t5b" class="abs big" style="left:0;top:320px;width:1080px;font-size:122px;color:#17736e">THE DIFFERENCE</div>
+          <div id="k1" class="abs" style="left:90px;top:1180px;width:500px"><span class="pillbig">BANK KEEPS</span></div>
+          <div id="k2" class="abs" style="left:430px;top:470px;width:560px;text-align:right"><span class="pillbig w">YOUR SHARE</span></div>
+        </div>
+        <div id="sc6" class="sc" style="background:#0e4a48">
+          <div id="rain6"></div>
+          <div id="e1" class="abs big shadowtxt" style="left:0;top:520px;width:1080px;font-size:132px;color:#fff">YOU DIDN'T KNOW</div>
+          <div id="e2" class="abs big shadowtxt" style="left:0;top:680px;width:1080px;font-size:112px;color:#f6c945">THAT ABOUT MONEY.</div>
+          <div id="conf" class="lot" style="left:0;top:80px;width:1080px;height:1080px"></div>
+        </div>
+
+        <div id="caps"></div>
+        <div id="prog"></div>
+      </div>
+    </div>
+
+    <script>
+      const WORDS = [{"w":"Why","s":0.3,"e":0.56,"line":1},{"w":"does","s":0.56,"e":0.74,"line":1},{"w":"a","s":0.74,"e":0.86,"line":1},{"w":"bank","s":0.86,"e":1.06,"line":1},{"w":"pay","s":1.06,"e":1.34,"line":1},{"w":"you","s":1.34,"e":1.54,"line":1},{"w":"interest?","s":1.54,"e":1.92,"line":1},{"w":"Because","s":2.691,"e":3.011,"line":2},{"w":"your","s":3.011,"e":3.251,"line":2},{"w":"deposit","s":3.251,"e":3.831,"line":2},{"w":"isn't","s":3.831,"e":4.211,"line":2},{"w":"just","s":4.211,"e":4.331,"line":2},{"w":"sitting","s":4.331,"e":4.631,"line":2},{"w":"there.","s":4.631,"e":5.011,"line":2},{"w":"The","s":5.595,"e":5.735,"line":3},{"w":"bank","s":5.735,"e":5.995,"line":3},{"w":"lends","s":5.995,"e":6.295,"line":3},{"w":"it","s":6.295,"e":6.515,"line":3},{"w":"to","s":6.515,"e":6.715,"line":3},{"w":"other","s":6.715,"e":6.935,"line":3},{"w":"people","s":6.935,"e":7.215,"line":3},{"w":"and","s":7.215,"e":7.535,"line":3},{"w":"businesses.","s":7.535,"e":7.855,"line":3},{"w":"They","s":8.775,"e":8.975,"line":4},{"w":"pay","s":8.975,"e":9.195,"line":4},{"w":"the","s":9.195,"e":9.375,"line":4},{"w":"bank","s":9.375,"e":9.615,"line":4},{"w":"interest","s":9.615,"e":10.055,"line":4},{"w":"on","s":10.055,"e":10.315,"line":4},{"w":"that","s":10.315,"e":10.475,"line":4},{"w":"loan.","s":10.475,"e":10.775,"line":4},{"w":"The","s":11.657,"e":11.797,"line":5},{"w":"bank","s":11.797,"e":11.997,"line":5},{"w":"keeps","s":11.997,"e":12.337,"line":5},{"w":"the","s":12.337,"e":12.557,"line":5},{"w":"difference,","s":12.557,"e":12.937,"line":5},{"w":"and","s":12.937,"e":13.437,"line":5},{"w":"shares","s":13.437,"e":13.737,"line":5},{"w":"a","s":13.737,"e":13.917,"line":5},{"w":"part","s":13.917,"e":14.137,"line":5},{"w":"with","s":14.137,"e":14.337,"line":5},{"w":"you.","s":14.337,"e":14.557,"line":5},{"w":"You","s":15.251,"e":15.451,"line":6},{"w":"didn't","s":15.451,"e":15.751,"line":6},{"w":"know","s":15.751,"e":15.931,"line":6},{"w":"that","s":15.931,"e":16.211,"line":6},{"w":"about","s":16.211,"e":16.471,"line":6},{"w":"money.","s":16.471,"e":16.771,"line":6}];
+      window.__timelines = window.__timelines || {};
+      const wd = (l, k) => WORDS.filter((w) => w.line === l)[k].s;     // start time of word k in script line l
+      const tl = gsap.timeline({ paused: true });
+      const E = 'power3.out', IO = 'power2.inOut';
+      const $ = (s) => document.querySelector(s);
+      const R = (el, t, from, to) => tl.fromTo(el, Object.assign({ opacity: 0, y: 30 }, from || {}), Object.assign({ opacity: 1, y: 0, duration: 0.5, ease: E, immediateRender: false }, to || {}), t);
+      const X = (el, t, d) => tl.to(el, { opacity: 0, duration: d || 0.25, ease: 'none' }, t);
+      const POP = { scale: 0.6, y: 24 }, POPTO = { scale: 1, duration: 0.5 };
+      const STRIKE = (sel, t) => tl.fromTo(sel, { scaleX: 0 }, { scaleX: 1, duration: 0.3, ease: 'power2.out', immediateRender: false }, t);
+      const add = (h) => $('#dyn').insertAdjacentHTML('beforeend', h);
+      const money = (v) => '$' + Math.round(v).toLocaleString('en-US');
+      const count = (sel, t, from, to, dur) => { const o = { v: from }; tl.to(o, { v: to, duration: dur, ease: 'power3.out', onUpdate() { $(sel).textContent = money(o.v); } }, t); };
+      // Paste-in helpers for HyperFrames templates (classic <script>, GSAP timeline `tl`, `$` = querySelector).
+// Ideas adapted (rewritten for our stack) from the MIT-licensed iart-ai/tiktok-video-skills + kinetic-typography-skills.
+// Everything is seek-safe: tweens only, no timers, no randomness except the seeded hash().
+//
+// Needs this CSS in the template:
+//   .mw { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: 0.14em; margin-bottom: -0.14em; }
+//   .mi { display: inline-block; will-change: transform; }
+
+const SAFE = { left: 60, right: 960, top: 120, bottom: 1600 };   // 1080x1920: keep text/cards inside; TikTok UI sits outside (right ~120px, bottom ~320px)
+
+const hashH = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+
+// Split a PLAIN-TEXT element into masked words (screen-reader label kept). Returns the inner word nodes.
+const splitWords = (sel) => {
+  const el = document.querySelector(sel); const txt = el.textContent.trim();
+  el.setAttribute('aria-label', txt);
+  el.innerHTML = txt.split(/\s+/).map((w) => `<span class="mw"><span class="mi">${w}</span></span>`).join(' ');
+  return el.querySelectorAll('.mi');
+};
+
+// 1) Mask reveal: each word rises out of a clipped line. ~0.6s per word, 60ms stagger, expo ease (keep the whole reveal under ~0.8-1.0s).
+//    Use for headlines that appear mid-video (NOT the hook; see hookNow).
+const maskReveal = (tl, sel, t, o = {}) => {
+  const items = splitWords(sel);
+  tl.set(sel, { opacity: 1 }, t);
+  tl.fromTo(items, { yPercent: 115 }, { yPercent: 0, duration: o.dur || 0.6, ease: 'expo.out', stagger: o.stagger || 0.06, immediateRender: false }, t);
+  return items.length;
+};
+// matching exit: words drop back down (use instead of a plain fade when a headline leaves)
+const maskHide = (tl, sel, t, o = {}) => {
+  const items = document.querySelectorAll(sel + ' .mi');
+  tl.to(items, { yPercent: -115, duration: o.dur || 0.35, ease: 'power3.in', stagger: o.stagger || 0.03 }, t);
+  tl.set(sel, { opacity: 0 }, t + (o.dur || 0.35) + 0.03 * items.length);
+};
+
+// 2) Hook on frame 1: the hook text is fully visible at t=0 (no fade-up, no fade from black); only a tiny settle motion.
+const hookNow = (tl, sels) => { sels.forEach((s) => { tl.set(s, { opacity: 1 }, 0); tl.fromTo(s, { scale: 1.05 }, { scale: 1, duration: 0.6, ease: 'power3.out', immediateRender: false }, 0); }); };
+
+// 3) Pattern interrupt: a quick punch-in pulse on an element (use on long holds).
+const punch = (tl, sel, t, o = {}) => {
+  tl.fromTo(sel, { scale: 1 }, { scale: o.scale || 1.07, duration: o.dur || 0.18, ease: 'power2.out', immediateRender: false }, t);
+  tl.to(sel, { scale: 1, duration: 0.45, ease: 'power2.inOut' }, t + (o.dur || 0.18));
+};
+// Pulse an element every ~3s (uneven: 2.2s-3.8s gaps) between `from` and `to`. Never use a metronome gap.
+const heartbeat = (tl, sel, from, to, o = {}) => { let t = from + 1.2; let i = 0; while (t < to - 0.8) { punch(tl, sel, t, o); t += 2.2 + hashH(i++ + (o.seed || 0)) * 1.6; } };
+
+// 4) Optional seamless loop: end on the same first-frame look. Fade the final card out to the hook's background in the last 0.5s
+//    and make the last spoken line read as the lead-in to the first line ("...and that is why" -> hook).
+
+
+      // ================= SCENES (src/scenes.js) =================
+      const NO_CAPTION_LINES = [6];
+      const hh = (i) => { const x = Math.sin(i * 91.7 + 17.3) * 43758.5453; return x - Math.floor(x); };
+      const spr = (parent, id, name, w, x, y) => $(parent).insertAdjacentHTML('beforeend', `<img id="${id}" class="sp" src="assets/img/${name}.svg" style="left:${x}px;top:${y}px;width:${w}px" />`);
+      // ---- scene containers wipe in (faster cuts: a new space every ~3 s)
+      tl.set('#sc2', { x: 1080 }, 0); tl.set('#sc3', { y: 1920 }, 0); tl.set('#sc4', { x: -1080 }, 0); tl.set('#sc5', { x: 1080 }, 0); tl.set('#sc6', { scale: 1.5, opacity: 0 }, 0);
+      const cut = (prev, next, t, from, d = 0.5) => {
+        tl.fromTo(next, from, { x: 0, y: 0, scale: 1, opacity: 1, duration: d, ease: 'power4.out', immediateRender: false }, t);
+        tl.to(prev, { x: from.x ? -from.x * 0.25 : 0, y: from.y ? -from.y * 0.2 : 0, duration: d, ease: 'power4.out' }, t);
+        tl.set(prev, { opacity: 0 }, t + d + 0.05);
+      };
+      cut('#sc1', '#sc2', 2.45, { x: 1080 }); cut('#sc2', '#sc3', 5.4, { y: 1920 }); cut('#sc3', '#sc4', 8.62, { x: -1080 }); cut('#sc4', '#sc5', 11.5, { x: 1080 }); cut('#sc5', '#sc6', 14.95, { scale: 1.5, opacity: 0 }, 0.45);
+      // slow push-in on every scene (camera feel)
+      [['#sc1', 0, 2.6], ['#sc2', 2.5, 5.5], ['#sc4', 8.6, 11.6], ['#sc5', 11.5, 15.0]].forEach(([s, a, b]) => tl.fromTo(s, { scale: 1 }, { scale: 1.05, duration: b - a, ease: 'none', immediateRender: false }, a + 0.01));
+
+      // ---- S1 hook: text AND the big coin are on screen at frame 1; coins rain behind
+      hookNow(tl, ['#a1', '#a2', '#a3', '#a4']);
+      tl.set('#bigcoin', { opacity: 1 }, 0);
+      tl.fromTo('#bigcoin', { scaleX: 1 }, { scaleX: -1, duration: 0.55, ease: 'sine.inOut', yoyo: true, repeat: 4, immediateRender: false }, 0);
+      tl.fromTo('#bigcoin', { y: 0 }, { y: -40, duration: 0.7, ease: 'sine.inOut', yoyo: true, repeat: 3 }, 0);
+      [[0.30, '#a1'], [0.86, '#a2'], [1.06, '#a3'], [1.54, '#a4']].forEach(([t, s]) => punch(tl, s, t, { scale: 1.07, dur: 0.14 }));
+      for (let i = 0; i < 18; i++) {
+        const el = 'rn' + i, w = 80 + hh(i) * 80; spr('#rain', el, i % 3 ? 'coin-dollar' : 'coin-dollar-accent', w, 20 + hh(i + 3) * 960, 0);
+        const dur = 1.3 + hh(i + 7) * 0.8, t0 = hh(i + 11) * 0.9;
+        for (let c = 0; c < 3; c++) tl.fromTo('#' + el, { y: -260, opacity: 1, rotation: -30 + hh(i) * 60 }, { y: 2100, rotation: 30 + hh(i + 2) * 120, duration: dur, ease: 'none', immediateRender: false }, t0 + c * dur);
+      }
+
+      // ---- S2 your deposit: coins drop into the safe
+      const SAFEPT = [465, 640];                                            // where coins land on the safe (calibrated on a still)
+      R('#safe', 2.55, { y: 80, scale: 0.9 }, { scale: 1, duration: 0.7, ease: 'back.out(1.4)' });
+      maskReveal(tl, '#t2a', 2.62); maskReveal(tl, '#t2b', 3.12);
+      const drops = [3.0, 3.4, 3.85, 4.25, 4.6];
+      drops.forEach((t0, i) => {
+        spr('#sc2', 'c2_' + i, i % 2 ? 'coin-dollar-accent' : 'coin-dollar', 150, SAFEPT[0] - 75 + (i - 2) * 22, -200);
+        tl.fromTo('#c2_' + i, { opacity: 1, y: 0, rotation: -40 + i * 25 }, { y: SAFEPT[1] + 200, rotation: 120, duration: 0.5, ease: 'power2.in', immediateRender: false }, t0);
+        tl.to('#c2_' + i, { opacity: 0, scale: 0.4, duration: 0.12 }, t0 + 0.46); punch(tl, '#safe', t0 + 0.48, { scale: 1.045, dur: 0.1 });
+      });
+      tl.to(['#t2a', '#t2b'], { opacity: 0, y: -70, duration: 0.2, ease: 'power2.in' }, 4.05);
+      maskReveal(tl, '#t2c', 4.15); maskReveal(tl, '#t2d', 4.4);
+
+      // ---- S3 lent out: 3D street + coins flying out
+      tl.fromTo('#t3', { opacity: 0, scale: 2.4 }, { opacity: 1, scale: 1, duration: 0.35, ease: 'back.out(1.6)', immediateRender: false }, wd(3, 2) - 0.1);
+      tl.fromTo('#p1', { opacity: 0, scale: 0.4, y: 40 }, { opacity: 1, scale: 1, y: 0, duration: 0.4, ease: 'back.out(2)', immediateRender: false }, wd(3, 6) - 0.1);
+      tl.fromTo('#p2', { opacity: 0, scale: 0.4, y: 40 }, { opacity: 1, scale: 1, y: 0, duration: 0.4, ease: 'back.out(2)', immediateRender: false }, wd(3, 8) - 0.1);
+      const tg = [[150, 1010], [880, 980], [170, 640], [860, 600], [540, 560], [540, 1130]];
+      tg.forEach(([tx, ty], i) => {
+        const t0 = 5.85 + i * 0.28; spr('#sc3', 'c3_' + i, i % 2 ? 'coin-dollar' : 'coin-dollar-accent', 150, 465, 1500);
+        tl.fromTo('#c3_' + i, { opacity: 1, x: 0, rotation: 0 }, { x: tx - 465, rotation: 360, duration: 1.0, ease: 'none', immediateRender: false }, t0);
+        tl.fromTo('#c3_' + i, { y: 0 }, { y: ty - 1500 - 260, duration: 0.5, ease: 'power2.out', immediateRender: false }, t0); tl.to('#c3_' + i, { y: ty - 1500, duration: 0.5, ease: 'power2.in' }, t0 + 0.5);
+        tl.to('#c3_' + i, { opacity: 0, scale: 0.4, duration: 0.15 }, t0 + 1.0);
+      });
+
+      // ---- S4 interest: a % coin stamps onto the loan document
+      R('#doc', 8.7, { y: 90, scale: 0.9 }, { scale: 1, duration: 0.7, ease: 'back.out(1.4)' });
+      tl.fromTo('#t4a', { opacity: 0, scale: 2.2 }, { opacity: 1, scale: 1, duration: 0.35, ease: 'back.out(1.6)', immediateRender: false }, 8.78);
+      maskReveal(tl, '#t4b', wd(4, 4) - 0.25);
+      const BADGE = [500, 850];                                           // the % badge on the document (calibrated)
+      spr('#sc4', 'c4', 'coin-pct-accent', 260, BADGE[0] - 130 + 250, -320);
+      tl.fromTo('#c4', { opacity: 1, x: 0, y: 0, rotation: 200, scale: 1.2 }, { x: -250, y: BADGE[1] + 320 - 120, rotation: 0, scale: 0.7, duration: 0.5, ease: 'power2.in', immediateRender: false }, 9.5);
+      tl.to('#c4', { opacity: 0, duration: 0.1 }, 10.0); punch(tl, '#doc', 10.0, { scale: 1.06, dur: 0.12 });
+      R('#t4c', wd(4, 6) - 0.1, { scale: 0.6 }, { scale: 1, duration: 0.45, ease: 'back.out(2)' });
+      for (let i = 0; i < 4; i++) {
+        spr('#sc4', 'c4r_' + i, i % 2 ? 'coin-dollar' : 'coin-dollar-accent', 110, 250 + i * 190, 1180);
+        tl.fromTo('#c4r_' + i, { opacity: 0, y: 0, rotation: 0 }, { opacity: 1, y: -280 - hh(i) * 120, rotation: 140, duration: 0.8, ease: 'power2.out', immediateRender: false }, 10.35 + i * 0.18); tl.to('#c4r_' + i, { opacity: 0, duration: 0.2 }, 11.1 + i * 0.1);
+      }
+
+      // ---- S5 the difference: pie slice pulls out
+      R('#pbase', 11.6, { y: 80, scale: 0.9 }, { scale: 1, duration: 0.7, ease: 'back.out(1.4)' });
+      R('#pslice', 11.6, { y: 80, scale: 0.9 }, { scale: 1, duration: 0.7, ease: 'back.out(1.4)' });
+      tl.fromTo('#t5a', { opacity: 0, x: -80 }, { opacity: 1, x: 0, duration: 0.45, ease: 'power3.out', immediateRender: false }, 11.62);
+      maskReveal(tl, '#t5b', wd(5, 4) - 0.12);
+      tl.fromTo('#k1', { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, duration: 0.4, ease: 'back.out(2)', immediateRender: false }, wd(5, 2));
+      tl.to('#pslice', { x: 55, y: -85, rotation: 5, duration: 0.55, ease: 'back.out(1.8)' }, wd(5, 6));
+      tl.fromTo('#k2', { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, duration: 0.4, ease: 'back.out(2)', immediateRender: false }, wd(5, 8));
+      punch(tl, '#pbase', wd(5, 3), { scale: 1.04 }); heartbeat(tl, '#pbase', 12.6, 14.9, { scale: 1.03 });
+
+      // ---- S6 ending
+      maskReveal(tl, '#e1', 15.22); maskReveal(tl, '#e2', wd(6, 3) - 0.1);
+      for (let i = 0; i < 10; i++) {
+        const el = 'r6_' + i; spr('#rain6', el, i % 2 ? 'coin-dollar' : 'coin-dollar-accent', 90 + hh(i + 20) * 60, 30 + hh(i + 31) * 960, 0);
+        const dur = 1.9 + hh(i + 5) * 1.2, t0 = 15.3 + hh(i + 9) * 1.2;
+        for (let c = 0; c < 3; c++) tl.fromTo('#' + el, { y: -240, opacity: 1, rotation: -20 }, { y: 2100, rotation: 100, duration: dur, ease: 'none', immediateRender: false }, t0 + c * dur);
+      }
+      tl.fromTo('#conf', { opacity: 0 }, { opacity: 1, duration: 0.01, immediateRender: false }, 17.1); tl.to('#conf', { opacity: 0, duration: 0.01 }, 19.9);
+      const lot = lottie.loadAnimation({ container: document.getElementById('conf'), renderer: 'svg', loop: false, autoplay: false, path: 'assets/lottie/confetti-s.json', rendererSettings: { preserveAspectRatio: 'xMidYMid meet' } }); (window.__hfLottie = window.__hfLottie || []).push(lot);
+
+
+      // ================= captions (word-timed karaoke) =================
+      const css = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+      const hexA = (h, a) => { const n = parseInt(h.replace('#', ''), 16); return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${a})`; };
+      const ACC = css('--accent'), INK = css('--ink'), ONACC = css('--on-accent');
+      const capsEl = $('#caps');
+      const groups = []; let cur = [];
+      WORDS.forEach((w, i) => { cur.push(w); const nx = WORDS[i + 1]; const endS = /[.!?]$/.test(w.w); const endC = /,$/.test(w.w) && cur.length >= 2; if (!nx || endS || endC || cur.length >= 4 || (nx && nx.s - w.e > 0.5)) { groups.push(cur); cur = []; } });
+      groups.forEach((g, gi) => {
+        if (typeof NO_CAPTION_LINES !== 'undefined' && NO_CAPTION_LINES.includes(g[0].line)) return;
+        const d = document.createElement('div'); d.className = 'cg'; const pill = document.createElement('div'); pill.className = 'pill'; d.appendChild(pill);
+        g.forEach((w, wi) => { const s = document.createElement('span'); s.className = 'cw'; s.id = `cw${gi}_${wi}`; s.textContent = w.w; pill.appendChild(s); });
+        capsEl.appendChild(d);
+        const a0 = g[0].s - 0.03, nextS = groups[gi + 1] ? groups[gi + 1][0].s : 1e9, b = Math.min(g[g.length - 1].e + 0.2, nextS - 0.08);
+        tl.fromTo(d, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.1, ease: 'power2.out', immediateRender: false }, Math.max(0, a0));
+        tl.to(d, { opacity: 0, duration: 0.06, ease: 'none' }, b);
+        g.forEach((w, wi) => { const sp = `#cw${gi}_${wi}`;
+          tl.fromTo(sp, { backgroundColor: hexA(ACC, 0), color: INK }, { backgroundColor: ACC, color: ONACC, duration: 0.06, ease: 'none', immediateRender: false }, w.s);
+          tl.to(sp, { backgroundColor: hexA(ACC, 0), color: INK, duration: 0.06, ease: 'none' }, Math.max(w.e, w.s + 0.1)); });
+      });
+      tl.fromTo('#prog', { scaleX: 0 }, { scaleX: 1, duration: 20, ease: 'none', immediateRender: false }, 0);
+      window.__timelines['main'] = tl;
+      tl.seek(0);
+    </script>
+    <script type="importmap">
+      { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.181.2/build/three.module.js", "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.181.2/examples/jsm/" } }
+    </script>
+    <script type="module">
+      import * as THREE from 'three';
+      import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+      const W = 1080, H = 1920;
+      async function build() {
+        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('gl'), antialias: true });
+        renderer.setPixelRatio(1); renderer.setSize(W, H, false); renderer.outputColorSpace = THREE.SRGBColorSpace;
+        const scene = new THREE.Scene(); scene.background = new THREE.Color(0x0e4a48); scene.fog = new THREE.Fog(0x0e4a48, 9, 26);
+        const camera = new THREE.PerspectiveCamera(52, W / H, 0.1, 100);
+        scene.add(new THREE.HemisphereLight(0xffffff, 0x2a6b66, 1.8)); const sun = new THREE.DirectionalLight(0xfff2cf, 2.0); sun.position.set(4, 8, 5); scene.add(sun);
+        const road = new THREE.Mesh(new THREE.PlaneGeometry(40, 80), new THREE.MeshLambertMaterial({ color: 0x0a3533 })); road.rotation.x = -Math.PI / 2; road.position.z = -20; scene.add(road);
+        const loader = new GLTFLoader(); const load = (u) => new Promise((res, rej) => loader.load(u, res, undefined, rej));
+        const place = async (url, x, z, ry = 0, target = 1) => {
+          const g = await load(url); const o = g.scene; scene.add(o); o.updateMatrixWorld(true);
+          let box = new THREE.Box3().setFromObject(o), size = box.getSize(new THREE.Vector3()); const k = target / Math.max(size.x, size.z); o.scale.multiplyScalar(k); o.updateMatrixWorld(true);
+          box = new THREE.Box3().setFromObject(o); o.position.set(x, -box.min.y, z); o.rotation.y = ry; return o;
+        };
+        const C = 'assets/models/commercial/';
+        const Lb = ['building-a', 'building-skyscraper-b', 'building-c', 'building-f', 'building-skyscraper-a', 'building-h', 'building-b', 'building-skyscraper-d', 'building-n'];
+        const Rb = ['building-d', 'building-skyscraper-c', 'building-g', 'building-j', 'building-skyscraper-e', 'building-m', 'building-e', 'building-skyscraper-a', 'building-l'];
+        for (let i = 0; i < Lb.length; i++) { await place(C + Lb[i] + '.glb', -1.75, 3 - i * 1.5, Math.PI / 2, 1.3); await place(C + Rb[i] + '.glb', 1.75, 3 - i * 1.5, -Math.PI / 2, 1.3); }
+        function renderAt(t) {
+          const u = Math.max(0, Math.min(1, (t - 5.4) / 3.4)), e = u * u * (3 - 2 * u);
+          camera.position.set(Math.sin(u * 4) * 0.3, 0.9 + e * 0.9, 5.5 - e * 10.5); camera.lookAt(Math.sin(u * 3) * 0.2, 1.3 + e * 0.2, camera.position.z - 7);
+          renderer.render(scene, camera);
+        }
+        window.addEventListener('hf-seek', (e) => renderAt(e.detail.time)); renderAt(window.__hfThreeTime || 0);
+      }
+      window.__hf = window.__hf || {}; window.__hf.buildReady = window.__hf.buildReady || {}; window.__hf.buildReady.bank3d = build();
+    </script>
+
+  </body>
+</html>

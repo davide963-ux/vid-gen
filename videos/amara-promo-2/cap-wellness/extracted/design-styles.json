@@ -1,0 +1,188 @@
+{
+  "typography": [
+    {
+      "role": "heading",
+      "fontFamily": "Casta",
+      "fontSize": "80px",
+      "fontWeight": "400",
+      "lineHeight": "48px",
+      "letterSpacing": "normal",
+      "color": "#FFFFFF",
+      "sampleText": "The Wellness Experience"
+    },
+    {
+      "role": "heading-3",
+      "fontFamily": "Casta",
+      "fontSize": "40px",
+      "fontWeight": "400",
+      "lineHeight": "60px",
+      "letterSpacing": "normal",
+      "color": "#FFFFFF",
+      "sampleText": "Jacuzzi"
+    },
+    {
+      "role": "heading-2",
+      "fontFamily": "Seasona Heading",
+      "fontSize": "36px",
+      "fontWeight": "700",
+      "lineHeight": "40px",
+      "letterSpacing": "normal",
+      "color": "#00A7BB",
+      "sampleText": "Sign Up For Exclusive Offers From Us"
+    },
+    {
+      "role": "body",
+      "fontFamily": "Graphik",
+      "fontSize": "18px",
+      "fontWeight": "300",
+      "lineHeight": "24.75px",
+      "letterSpacing": "normal",
+      "color": "#F7F8F2",
+      "sampleText": "Welcome to the heart of tranquility at Amara Hotel & SPA, wh"
+    },
+    {
+      "role": "label",
+      "fontFamily": "Seasona Body",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "lineHeight": "22px",
+      "letterSpacing": "normal",
+      "color": "#FFFFFF",
+      "sampleText": "Email subscribe now"
+    },
+    {
+      "role": "link",
+      "fontFamily": "Graphik",
+      "fontSize": "14px",
+      "fontWeight": "400",
+      "lineHeight": "20px",
+      "letterSpacing": "normal",
+      "color": "#FFFFFF",
+      "sampleText": "Rruga Pavaresia, Lagjja nr.13 Durrës"
+    }
+  ],
+  "spacing": {
+    "observed": [
+      4,
+      5,
+      8,
+      10,
+      15,
+      18,
+      20,
+      28,
+      30,
+      50
+    ],
+    "baseUnit": 4
+  },
+  "radius": [],
+  "shadows": [],
+  "buttons": [
+    {
+      "label": "BOOK NOW",
+      "background": "transparent",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#FFFFFF",
+      "padding": "0px",
+      "borderRadius": "0px",
+      "border": "0px none rgb(255, 255, 255)",
+      "boxShadow": "none",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "height": "24px"
+    },
+    {
+      "label": "button",
+      "background": "transparent",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#00A7BB",
+      "padding": "0px",
+      "borderRadius": "0px",
+      "border": "0px none rgb(0, 167, 187)",
+      "boxShadow": "none",
+      "fontSize": "14px",
+      "fontWeight": "400",
+      "height": "10px"
+    },
+    {
+      "label": "Book Your Stay",
+      "background": "transparent",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#FFFFFF",
+      "padding": "8px",
+      "borderRadius": "0px",
+      "border": "1px solid rgb(255, 255, 255)",
+      "boxShadow": "none",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "height": "42px"
+    },
+    {
+      "label": "subscribe now",
+      "background": "#00A7BB",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#141414",
+      "padding": "10px 15px",
+      "borderRadius": "0px",
+      "border": "0px none rgb(20, 20, 20)",
+      "boxShadow": "none",
+      "fontSize": "12px",
+      "fontWeight": "400",
+      "height": "59px"
+    },
+    {
+      "label": "subscribe now",
+      "background": "transparent",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#141414",
+      "padding": "0px",
+      "borderRadius": "0px",
+      "border": "0px none rgb(20, 20, 20)",
+      "boxShadow": "none",
+      "fontSize": "12px",
+      "fontWeight": "400",
+      "height": "24px"
+    }
+  ],
+  "cards": [
+    {
+      "label": "card",
+      "background": "transparent",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#FFFFFF",
+      "padding": "20px 30px 0px",
+      "borderRadius": "0px",
+      "border": "0px none rgb(255, 255, 255)",
+      "boxShadow": "none",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "height": "148px"
+    }
+  ],
+  "nav": {
+    "label": "navigation",
+    "background": "#18191B",
+    "backgroundImage": "",
+    "backdropFilter": "",
+    "color": "#FFFFFF",
+    "padding": "0px",
+    "borderRadius": "0px",
+    "border": "0px none rgb(255, 255, 255)",
+    "boxShadow": "none",
+    "fontSize": "16px",
+    "fontWeight": "400",
+    "height": "2930.05px"
+  },
+  "chips": [],
+  "statCells": [],
+  "tabs": [],
+  "backgrounds": [],
+  "glass": []
+}

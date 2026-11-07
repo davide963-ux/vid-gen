@@ -1,0 +1,165 @@
+{
+  "total": 67.66,
+  "lines": [
+    {
+      "i": 1,
+      "file": "assets/voice/01.wav",
+      "text": "You probably didn't know this about money.",
+      "tts": "You probably didn't know this about money.",
+      "start": 0.3,
+      "dur": 2.496,
+      "end": 2.796,
+      "pause": 0.45
+    },
+    {
+      "i": 2,
+      "file": "assets/voice/02.wav",
+      "text": "A $100 bill is worth $100…",
+      "tts": "A one hundred dollar bill is worth one hundred dollars…",
+      "start": 3.246,
+      "dur": 3.563,
+      "end": 6.809,
+      "pause": 0.35
+    },
+    {
+      "i": 3,
+      "file": "assets/voice/03.wav",
+      "text": "but it doesn't cost anywhere near $100 to make.",
+      "tts": "but it doesn't cost anywhere near one hundred dollars to make.",
+      "start": 7.159,
+      "dur": 3.499,
+      "end": 10.657,
+      "pause": 0.5
+    },
+    {
+      "i": 4,
+      "file": "assets/voice/04.wav",
+      "text": "Think about it.",
+      "tts": "Think about it.",
+      "start": 11.157,
+      "dur": 1.173,
+      "end": 12.331,
+      "pause": 0.5
+    },
+    {
+      "i": 5,
+      "file": "assets/voice/05.wav",
+      "text": "The government isn't putting $100 worth of material into every $100 bill.",
+      "tts": "The government isn't putting one hundred dollars worth of material into every one hundred dollar bill.",
+      "start": 12.831,
+      "dur": 6.016,
+      "end": 18.847,
+      "pause": 0.45
+    },
+    {
+      "i": 6,
+      "file": "assets/voice/06.wav",
+      "text": "It's basically a specially designed piece of paper with ink, security features, and advanced printing.",
+      "tts": "It's basically a specially designed piece of paper with ink, security features, and advanced printing.",
+      "start": 19.297,
+      "dur": 6.549,
+      "end": 25.846,
+      "pause": 0.5
+    },
+    {
+      "i": 7,
+      "file": "assets/voice/07.wav",
+      "text": "What gives it its $100 value isn't the material it's made from.",
+      "tts": "What gives it its one hundred dollar value isn't the material it's made from.",
+      "start": 26.346,
+      "dur": 4.651,
+      "end": 30.997,
+      "pause": 0.5
+    },
+    {
+      "i": 8,
+      "file": "assets/voice/08.wav",
+      "text": "It's the fact that people, businesses, banks, and governments agree to accept it as $100.",
+      "tts": "It's the fact that people, businesses, banks, and governments agree to accept it as one hundred dollars.",
+      "start": 31.497,
+      "dur": 6.485,
+      "end": 37.982,
+      "pause": 0.55
+    },
+    {
+      "i": 9,
+      "file": "assets/voice/09.wav",
+      "text": "The same idea works with a $1 bill.",
+      "tts": "The same idea works with a one dollar bill.",
+      "start": 38.532,
+      "dur": 2.837,
+      "end": 41.369,
+      "pause": 0.4
+    },
+    {
+      "i": 10,
+      "file": "assets/voice/10.wav",
+      "text": "The paper itself has very little value.",
+      "tts": "The paper itself has very little value.",
+      "start": 41.769,
+      "dur": 2.624,
+      "end": 44.393,
+      "pause": 0.4
+    },
+    {
+      "i": 11,
+      "file": "assets/voice/11.wav",
+      "text": "But the number printed on it changes what you can buy with it.",
+      "tts": "But the number printed on it changes what you can buy with it.",
+      "start": 44.793,
+      "dur": 3.307,
+      "end": 48.1,
+      "pause": 0.55
+    },
+    {
+      "i": 12,
+      "file": "assets/voice/12.wav",
+      "text": "So when you're holding a $100 bill…",
+      "tts": "So when you're holding a one hundred dollar bill…",
+      "start": 48.65,
+      "dur": 2.688,
+      "end": 51.338,
+      "pause": 0.3
+    },
+    {
+      "i": 13,
+      "file": "assets/voice/13.wav",
+      "text": "you're not really holding $100 worth of paper.",
+      "tts": "you're not really holding one hundred dollars worth of paper.",
+      "start": 51.638,
+      "dur": 3.435,
+      "end": 55.073,
+      "pause": 0.5
+    },
+    {
+      "i": 14,
+      "file": "assets/voice/14.wav",
+      "text": "You're holding something that society has agreed is worth $100.",
+      "tts": "You're holding something that society has agreed is worth one hundred dollars.",
+      "start": 55.573,
+      "dur": 4.907,
+      "end": 60.479,
+      "pause": 0.55
+    },
+    {
+      "i": 15,
+      "file": "assets/voice/15.wav",
+      "text": "And that's one of the strangest things about money.",
+      "tts": "And that's one of the strangest things about money.",
+      "start": 61.029,
+      "dur": 2.688,
+      "end": 63.717,
+      "pause": 0.55
+    },
+    {
+      "i": 16,
+      "file": "assets/voice/16.wav",
+      "text": "You didn't know that about money.",
+      "tts": "You didn't know that about money.",
+      "start": 64.267,
+      "dur": 1.792,
+      "end": 66.059,
+      "pause": 0.3
+    }
+  ]
+}

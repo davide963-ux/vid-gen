@@ -1,0 +1,44 @@
+[span] ICHI
+[b] ALGO
+[a] Dashboard
+[a] Backtest
+[a] Calculator
+[span] MARKET DATA ONLINE
+[h1] Position size calculator
+[p] Size a trade from your account risk and stop distance. JPY pairs use a 0.01 pip.
+[h2] Trade inputs
+[span] Account currency: USD · balance and risk are saved and reused by signals
+[label] Account balance
+[span] USD
+[label] Risk
+[label] Pair
+[option] EUR/USD
+[option] GBP/USD
+[option] USD/JPY
+[option] USD/CHF
+[option] AUD/USD
+[option] USD/CAD
+[option] NZD/USD
+[span] Pip size
+[span] 0.0001
+[label] Entry price
+[button] Use
+[button] live
+[button] price
+[span] 1.12145
+[label] Stop loss
+[label] Take profit
+[h2] Position size
+[dt] Risk amount
+[dt] Position size
+[small] Enter entry and stop loss
+[dt] Potential loss
+[dt] Potential profit
+[small] Add a take profit
+[dt] Risk / reward
+[dt] Pip value
+[small] per standard lot
+[span] Lots are rounded down to 0.01 so the loss never exceeds the risk amount.
+[span] Ichialgo: live Forex market data + EMA50 touch strategy.
+[span] Twelve Data
+[span] . Charts by TradingView Lightweight Charts.

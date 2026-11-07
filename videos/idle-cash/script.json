@@ -1,0 +1,91 @@
+[
+ {
+  "say": "You Didn't Know Your Money Loses Purchasing Power While Sitting Still.",
+  "pause": 0.9
+ },
+ {
+  "say": "What if I told you that doing absolutely nothing with your money could make it worth less?",
+  "pause": 0.8
+ },
+ {
+  "say": "Sounds impossible, right?",
+  "pause": 0.8
+ },
+ {
+  "say": "Imagine you hide one thousand dollars in a drawer and completely forget about it.",
+  "pause": 0.7
+ },
+ {
+  "say": "Ten years later, you open that drawer.",
+  "pause": 0.7
+ },
+ {
+  "say": "Good news! Your one thousand dollars is still there.",
+  "pause": 0.7
+ },
+ {
+  "say": "But here's the problem.",
+  "pause": 0.7
+ },
+ {
+  "say": "The things you could buy with that money might now cost much more.",
+  "pause": 0.8
+ },
+ {
+  "say": "Imagine a shopping cart full of groceries costs one hundred dollars today.",
+  "pause": 0.7
+ },
+ {
+  "say": "If prices rise by an average of three percent every year, that same cart could cost around one hundred thirty-four dollars in ten years.",
+  "pause": 0.8
+ },
+ {
+  "say": "Your money hasn't changed.",
+  "pause": 0.6
+ },
+ {
+  "say": "But its buying power has.",
+  "pause": 0.8
+ },
+ {
+  "say": "And here's what makes this interesting.",
+  "pause": 0.7
+ },
+ {
+  "say": "You don't actually need to spend money to lose some of its value.",
+  "pause": 0.8
+ },
+ {
+  "say": "Inflation can do that while your cash is sitting completely still.",
+  "pause": 0.8
+ },
+ {
+  "say": "Now, money in a savings account might earn interest that helps offset inflation.",
+  "pause": 0.7
+ },
+ {
+  "say": "But cash hidden under your mattress?",
+  "pause": 0.6
+ },
+ {
+  "say": "It earns absolutely nothing.",
+  "pause": 0.8
+ },
+ {
+  "say": "So here's the lesson.",
+  "pause": 0.7
+ },
+ {
+  "say": "The number printed on your money can stay the same forever…",
+  "pause": 0.6
+ },
+ {
+  "say": "But what that money can buy won't necessarily stay the same.",
+  "pause": 0.9
+ },
+ {
+  "say": "You didn't know that about money.",
+  "pause": 0.3,
+  "tail": 1.5
+ }
+]

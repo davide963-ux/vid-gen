@@ -1,0 +1,222 @@
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="__TOTAL__" data-width="1080" data-height="1920">
+      <div id="stage" class="clip" data-start="0" data-duration="__TOTAL__" data-track-index="0">
+        <div id="dyn"></div>
+
+        <!-- L1 hook -->
+        <div id="a0" class="abs" style="left:0;top:200px;width:1080px;text-align:center"><span class="chip">About money</span></div>
+        <div id="a1" class="abs big" style="left:0;top:290px;width:1080px;font-size:120px">YOU DIDN'T KNOW</div>
+        <div id="a2" class="abs big bl" style="left:0;top:420px;width:1080px;font-size:100px">GOVERNMENTS CAN</div>
+        <div id="a3" class="abs big" style="left:0;top:530px;width:1080px;font-size:100px">CREATE NEW MONEY</div>
+
+        <!-- L2 thin air -->
+        <div id="money" class="lot" style="left:330px;top:560px;width:420px;height:330px"></div>
+        <img id="iQ" class="abs" src="assets/img/ph-question-bold.svg" style="left:410px;top:620px;width:260px" />
+
+        <!-- L4 / L5 icons -->
+        <img id="iMagic" class="abs" src="assets/img/ph-magic-wand-bold.svg" style="left:400px;top:600px;width:280px" />
+        <img id="iGear" class="abs" src="assets/img/ph-gear-six-bold.svg" style="left:400px;top:600px;width:280px" />
+        <div id="chip5" class="abs" style="left:0;top:960px;width:1080px;text-align:center"><span class="chip">Part of the financial system</span></div>
+
+        <!-- L7 arrow -->
+        <div id="arrow" class="lot" style="left:460px;top:812px;width:160px;height:90px;transform:rotate(90deg)"></div>
+
+        <!-- L9 question -->
+        <div id="hq" class="abs big bl" style="left:0;top:1272px;width:1080px;font-size:84px">HOW DOES IT PAY?</div>
+
+        <!-- L18 final -->
+        <div id="f1" class="abs big" style="left:0;top:330px;width:1080px;font-size:112px">YOU DIDN'T KNOW</div>
+        <div id="f2" class="abs big bl" style="left:0;top:460px;width:1080px;font-size:100px">THAT ABOUT MONEY.</div>
+        <div id="conf" class="lot" style="left:0;top:80px;width:1080px;height:1080px"></div>
+
+        <div id="caps"></div>
+        <div id="prog"></div>
+      </div>
+    </div>
+
+    <script>
+      const WORDS = __WORDS__;
+      window.__timelines = window.__timelines || {};
+      const hash = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+      const wd = (l, k) => WORDS.filter((w) => w.line === l)[k].s;
+      const tl = gsap.timeline({ paused: true });
+      const E = 'power3.out', IO = 'power2.inOut';
+      const $ = (s) => document.querySelector(s);
+      const R = (el, t, from, to) => tl.fromTo(el, Object.assign({ opacity: 0, y: 28 }, from || {}), Object.assign({ opacity: 1, y: 0, duration: 0.55, ease: E, immediateRender: false }, to || {}), t);
+      const X = (el, t, d) => tl.to(el, { opacity: 0, duration: d || 0.25, ease: 'none' }, t);
+      const POP = { scale: 0.6, y: 24 }, POPTO = { scale: 1, duration: 0.5 };
+      const STRIKE = (sel, t) => tl.fromTo(sel, { scaleX: 0 }, { scaleX: 1, duration: 0.3, ease: 'power2.out', immediateRender: false }, t);
+      const money = (v) => '$' + Math.round(v).toLocaleString('en-US');
+      const count = (sel, t, from, to, dur) => { const o = { v: from }; tl.to(o, { v: to, duration: dur, ease: 'power3.out', onUpdate() { $(sel).textContent = money(o.v); } }, t); };
+      const dyn = $('#dyn');
+      const add = (html) => dyn.insertAdjacentHTML('beforeend', html);
+      const hd = (id, tag, big, size, cls, top) => add(`<div id="${id}t" class="abs tag" style="left:0;top:${top || 225}px;width:1080px">${tag}</div><div id="${id}b" class="abs big ${cls || ''}" style="left:0;top:${(top || 225) + 50}px;width:1080px;font-size:${size}px">${big}</div>`);
+      const iconCard = (id, icon, label, left, top, w, h, iw) => add(`<div id="${id}" class="abs card" style="left:${left}px;top:${top}px;width:${w}px;height:${h}px;text-align:center"><img src="assets/img/${icon}.svg" style="width:${iw || 120}px;margin-top:${Math.round(h * 0.18)}px" /><div class="tag" style="margin-top:22px;font-size:26px">${label}</div></div>`);
+      const strikeOn = (id, w) => $('#' + id).insertAdjacentHTML('beforeend', `<div id="${id}s" class="strike" style="left:${Math.round((parseInt($('#' + id).style.width) - w) / 2)}px;top:${Math.round(parseInt($('#' + id).style.height) / 2)}px;width:${w}px"></div>`);
+
+      // ---- headers
+      hd('h2a', 'What if I told you', 'WHAT IF?', 200, 'bl');
+      hd('h2', 'Money can be created', 'OUT OF THIN AIR', 118, 'bl');
+      hd('h3', 'No machine. No gold.', 'JUST NUMBERS', 150, 'bl');
+      hd('h4', 'Sounds like a', 'MAGIC TRICK', 140);
+      hd('h5', 'This is how part of the', 'MODERN FINANCE', 120, 'bl');
+      hd('h6', 'In many countries', 'CENTRAL BANKS', 130, '');
+      hd('h7', 'Wants to put more money into', 'THE SYSTEM', 150, 'bl');
+      hd('h8', 'It can buy', 'GOVERNMENT BONDS', 100, '');
+      hd('h10', 'By creating new', 'ELECTRONIC MONEY', 100, 'bl');
+      hd('h11', 'No physical cash', 'JUST ELECTRONIC', 118, '');
+      hd('h12', 'Just new money added to', 'THE BANKING SYSTEM', 100, 'bl');
+      hd('h13', "But here's", 'THE CATCH.', 190, 'bl');
+      hd('h14', 'More money doesn\'t automatically make', 'EVERYONE RICHER', 120, '');
+      hd('h15', 'If spending grows faster than the economy', 'PRICES CAN RISE', 124, 'bl');
+      hd('h16', 'Your money could end up', 'BUYING LESS', 150, 'bl');
+      hd('h17', 'So creating money is', 'ONE THING', 170, 'bl');
+      hd('h18', 'Creating real wealth is', 'TOTALLY DIFFERENT', 98, '');
+      $('#h14b').insertAdjacentHTML('beforeend', '<div id="h14s" class="strike" style="left:130px;top:60px;width:820px"></div>');
+
+      // ---- the central bank card + the banks card
+      add(`<div id="cb" class="abs card" style="left:130px;top:470px;width:820px;height:300px;padding:30px 50px" data-layout-allow-overlap><div style="display:flex;align-items:center;gap:18px"><img src="assets/img/tabler-building-bank.svg" style="width:50px" /><div class="tag" style="font-size:28px">Central bank</div></div><div class="tag" data-layout-allow-overlap style="text-align:left;color:#6b6b6b;margin-top:22px;font-size:24px">New electronic money</div><div id="cbc" class="big bl" style="text-align:left;font-size:104px;line-height:1.15;margin-top:2px">$0</div></div>`);
+      add(`<div id="bk" class="abs card" style="left:130px;top:960px;width:820px;height:300px;padding:30px 50px" data-layout-allow-overlap><div style="display:flex;align-items:center;gap:18px"><img src="assets/img/ph-buildings-bold.svg" style="width:50px" /><div class="tag" style="font-size:28px">Banks &amp; investors</div></div><div class="tag" data-layout-allow-overlap style="text-align:left;color:#6b6b6b;margin-top:22px;font-size:24px">Money in banks</div><div id="bkc" class="big" style="text-align:left;font-size:104px;line-height:1.15;margin-top:2px">$0</div></div>`);
+      add(`<div id="bond" class="abs card" style="left:560px;top:1010px;width:300px;height:130px;display:flex;align-items:center;gap:18px;padding-left:26px;border-color:#1e2bfa;border-width:3px;background:#fff" data-layout-allow-overlap><img src="assets/img/ph-certificate-bold.svg" style="width:64px" /><div class="big" style="font-size:44px;white-space:nowrap">Bond</div></div>`);
+      for (let i = 0; i < 6; i++) add(`<div id="tok${i}" class="abs" style="left:${300 + i * 80}px;top:790px;width:70px;height:70px;border-radius:50%;background:#1e2bfa;color:#fdfae7;font-weight:700;font-size:40px;text-align:center;line-height:70px" data-layout-allow-overlap>$</div>`);
+
+      // ---- L3 cards, L11 cards
+      iconCard('c1', 'ph-printer-bold', 'Printing machine', 60, 520, 300, 330); strikeOn('c1', 240);
+      iconCard('c2', 'ph-coins-bold', 'Gold', 390, 520, 300, 330); strikeOn('c2', 240);
+      add(`<div id="c3" class="abs card" style="left:720px;top:520px;width:300px;height:330px;text-align:center;border-color:#1e2bfa;border-width:3px"><div class="tag" style="margin-top:56px;font-size:30px">Numbers</div><div id="c3n" class="big bl" style="font-size:44px;margin-top:70px;letter-spacing:-0.03em">$0</div></div>`);
+      iconCard('d1', 'ph-truck-bold', 'Trucks full of cash', 90, 520, 420, 330); strikeOn('d1', 340);
+      iconCard('d2', 'ph-printer-bold', 'Giant presses', 570, 520, 420, 330); strikeOn('d2', 340);
+
+      // ---- L12 bar
+      add(`<div id="bar" class="abs card" style="left:110px;top:520px;width:860px;height:330px;padding:34px 44px"><div class="tag" style="text-align:left;font-size:28px">Money in the banking system</div><div style="margin-top:34px;display:flex;height:130px;border-radius:22px;overflow:hidden;border:2px solid #1e2bfa"><div style="width:470px;background:rgba(17,17,17,0.12);flex:none"></div><div id="newm" style="width:0px;background:#1e2bfa;color:#fdfae7;font-weight:700;font-size:40px;line-height:126px;text-align:center;white-space:nowrap;overflow:hidden;flex:none">+ NEW</div></div><div class="tag" style="text-align:left;margin-top:22px;font-size:24px;color:#6b6b6b">Existing money + newly created</div></div>`);
+
+      // ---- L14 money row
+      add(Array.from({ length: 5 }, (_, i) => `<img id="mr${i}" class="abs" src="assets/img/ph-money-bold.svg" style="left:${90 + i * 180}px;top:600px;width:150px" />`).join(''));
+
+      // ---- L15 bars
+      add(`<div id="sl" class="abs tag" style="left:110px;top:520px;width:860px;text-align:left;font-size:28px">Spending</div><div id="sb" class="abs" style="left:110px;top:568px;width:60px;height:100px;border-radius:20px;background:#1e2bfa"></div><div id="gl" class="abs tag" style="left:110px;top:720px;width:860px;text-align:left;font-size:28px">Goods &amp; services the economy produces</div><div id="gb" class="abs" style="left:110px;top:768px;width:60px;height:100px;border-radius:20px;background:#111"></div>`);
+      add(`<img id="iUp" class="abs" src="assets/img/ph-trend-up-bold.svg" style="left:410px;top:930px;width:260px" /><div id="chip15" class="abs" style="left:0;top:1230px;width:1080px;text-align:center"><span class="chip">Prices can rise</span></div>`);
+
+      // ---- L16 shop cards
+      const SH = [['ph-coffee-bold', 'Coffee'], ['ph-pizza-bold', 'Lunch'], ['ph-t-shirt-bold', 'Clothes'], ['ph-device-mobile-bold', 'Phone']];
+      SH.forEach((s, i) => iconCard('sh' + i, s[0], s[1], 60 + (i % 2) * 520, 520 + Math.floor(i / 2) * 290, 440, 250, 100));
+
+      // ---- L17 / L18 cards
+      iconCard('e1', 'ph-money-bold', 'Creating money', 90, 560, 380, 340);
+      iconCard('e2', 'ph-factory-bold', 'Creating real wealth', 610, 560, 380, 340);
+      add('<div id="neq" class="abs big bl" style="left:470px;top:640px;width:140px;font-size:130px" data-layout-allow-overlap>≠</div>');
+
+      // ================= timeline =================
+      // ---- L1 hook (central-bank card peeks in below)
+      R('#a0', 0.3); R('#a1', 0.3, {}, { duration: 0.6 }); R('#a2', 0.8, {}, { duration: 0.6 }); R('#a3', 1.45, {}, { duration: 0.6 });
+      tl.fromTo('#cb', { opacity: 0, y: 700, rotation: -7, scale: 0.9 }, { opacity: 1, y: 640, rotation: -4, scale: 0.9, duration: 0.9, ease: E, immediateRender: false }, 1.2);
+      ['#a0', '#a1', '#a2', '#a3', '#cb'].forEach((s) => X(s, 3.65, 0.25));
+      // ---- L2 thin air (4.02 - 7.8)
+      R('#h2at', 4.02, {}, { duration: 0.4 }); R('#h2ab', 4.1, { scale: 0.8, y: 40 }, { scale: 1, duration: 0.6 }); R('#iQ', 4.5, { scale: 0.5, y: 0 }, POPTO);
+      ['#h2at', '#h2ab', '#iQ'].forEach((s) => X(s, 6.0, 0.25));
+      R('#h2t', 6.0, {}, { duration: 0.4 }); R('#h2b', wd(2, 10) - 0.35, { scale: 0.85 }, { scale: 1, duration: 0.6 });
+      tl.fromTo('#money', { opacity: 0 }, { opacity: 1, duration: 0.01, immediateRender: false }, 6.0); tl.to('#money', { opacity: 0, duration: 0.01 }, 8.1);
+      ['#h2t', '#h2b'].forEach((s) => X(s, 8.05, 0.25));
+      // ---- L3 no machine, no gold, just numbers (8.28 - 11.4)
+      R('#h3t', 8.28, {}, { duration: 0.4 }); R('#h3b', wd(3, 5) - 0.1, { scale: 0.85 }, { scale: 1, duration: 0.6 });
+      R('#c1', wd(3, 1) - 0.1, POP, POPTO); STRIKE('#c1s', wd(3, 2)); R('#c2', wd(3, 4) - 0.2, POP, POPTO); STRIKE('#c2s', wd(3, 4) + 0.35);
+      R('#c3', wd(3, 5), POP, POPTO); count('#c3n', wd(3, 6), 0, 1000000, 0.9);
+      ['#h3t', '#h3b', '#c1', '#c2', '#c3'].forEach((s) => X(s, 11.65, 0.25));
+      // ---- L4 magic trick (11.89 - 13.9)
+      R('#h4t', 11.89, {}, { duration: 0.4 }); R('#h4b', wd(4, 3) - 0.2, { scale: 0.85 }, { scale: 1, duration: 0.6 });
+      R('#iMagic', wd(4, 3), { scale: 0.5, y: 0, rotation: -25 }, { scale: 1, rotation: 0, duration: 0.6 });
+      ['#h4t', '#h4b', '#iMagic'].forEach((s) => X(s, 14.2, 0.25));
+      // ---- L5 modern financial system (14.44 - 18.1)
+      R('#h5t', 14.44, {}, { duration: 0.4 }); R('#h5b', wd(5, 7) - 0.2, { scale: 0.85 }, { scale: 1, duration: 0.6 });
+      R('#iGear', wd(5, 3), { scale: 0.5, y: 0 }, POPTO); tl.to('#iGear', { rotation: 200, duration: 3.4, ease: 'none' }, wd(5, 3)); R('#chip5', wd(5, 9), {}, { duration: 0.4 });
+      ['#h5t', '#h5b', '#iGear', '#chip5'].forEach((s) => X(s, 18.4, 0.25));
+      // ---- L6 central banks create electronically (18.63 - 23)
+      R('#h6t', 18.63, {}, { duration: 0.4 }); R('#h6b', wd(6, 3) - 0.2, { scale: 0.85 }, { scale: 1, duration: 0.6 });
+      R('#cb', wd(6, 4), { y: 50, rotation: 0, scale: 1 }, { duration: 0.6 }); count('#cbc', wd(6, 6), 0, 1000000, 1.4);
+      ['#h6t', '#h6b'].forEach((s) => X(s, 23.3, 0.25));
+      // ---- L7 put more money into the system (23.52 - 28.3)
+      R('#h7t', 23.52, {}, { duration: 0.4 }); R('#h7b', wd(7, 10) - 0.2, { scale: 0.85 }, { scale: 1, duration: 0.6 });
+      R('#bk', wd(7, 6) - 0.2, { y: 50 }, { duration: 0.6 });
+      tl.fromTo('#arrow', { opacity: 0 }, { opacity: 1, duration: 0.01, immediateRender: false }, 25.6); tl.to('#arrow', { opacity: 0, duration: 0.01 }, 28.2);
+      ['#h7t', '#h7b'].forEach((s) => X(s, 28.55, 0.25));
+      // ---- L8 buy government bonds (28.8 - 32.6)
+      R('#h8t', 28.8, {}, { duration: 0.4 }); R('#h8b', wd(8, 3) - 0.1, { scale: 0.85 }, { scale: 1, duration: 0.6 });
+      R('#bond', wd(8, 4) - 0.1, POP, POPTO);
+      tl.to('#bond', { y: -300, scale: 0.8, duration: 0.9, ease: IO }, wd(8, 6)); X('#bond', wd(8, 6) + 0.8, 0.2);
+      tl.fromTo('#cb', { scale: 1 }, { scale: 1.04, duration: 0.2, ease: E, immediateRender: false }, wd(8, 6) + 0.85); tl.to('#cb', { scale: 1, duration: 0.3, ease: IO }, wd(8, 6) + 1.05);
+      ['#h8t', '#h8b'].forEach((s) => X(s, 32.8, 0.25));
+      // ---- L9 how does it pay (33.06 - 34.5)
+      R('#hq', 33.06, { scale: 0.85 }, { scale: 1, duration: 0.5 }); X('#hq', 34.7, 0.25);
+      // ---- L10 by creating new electronic money (34.98 - 37.24)
+      R('#h10t', 34.98, {}, { duration: 0.4 }); R('#h10b', wd(10, 3) - 0.3, { scale: 0.85 }, { scale: 1, duration: 0.6 });
+      for (let i = 0; i < 6; i++) { const t0 = wd(10, 1) + i * 0.16; tl.fromTo('#tok' + i, { opacity: 0, y: 0, scale: 0.4 }, { opacity: 1, y: 150, scale: 1, duration: 0.45, ease: 'power2.in', immediateRender: false }, t0); tl.to('#tok' + i, { opacity: 0, duration: 0.12, ease: 'none' }, t0 + 0.45); }
+      count('#bkc', wd(10, 2), 0, 1000000, 1.2); tl.fromTo('#bkc', { color: '#111' }, { color: '#1e2bfa', duration: 0.3, immediateRender: false }, wd(10, 2));
+      ['#h10t', '#h10b', '#cb', '#bk'].forEach((s) => X(s, 37.5, 0.25));
+      // ---- L11 no trucks, no presses (37.74 - 41.3)
+      R('#h11t', 37.74, {}, { duration: 0.4 }); R('#h11b', wd(11, 4), { scale: 0.85 }, { scale: 1, duration: 0.6 });
+      R('#d1', wd(11, 1) - 0.1, POP, POPTO); STRIKE('#d1s', wd(11, 4)); R('#d2', wd(11, 6) - 0.1, POP, POPTO); STRIKE('#d2s', wd(11, 8) - 0.05);
+      ['#h11t', '#h11b', '#d1', '#d2'].forEach((s) => X(s, 41.5, 0.25));
+      // ---- L12 added to the banking system (41.76 - 44.4)
+      R('#h12t', 41.76, {}, { duration: 0.4 }); R('#h12b', wd(12, 5) - 0.3, { scale: 0.85 }, { scale: 1, duration: 0.6 });
+      R('#bar', wd(12, 2) - 0.2, { y: 40 }, { duration: 0.6 }); tl.fromTo('#newm', { width: 0 }, { width: 330, duration: 1.1, ease: IO, immediateRender: false }, wd(12, 3));
+      ['#h12t', '#h12b', '#bar'].forEach((s) => X(s, 44.65, 0.25));
+      // ---- L13 the catch (44.93 - 46.3)
+      R('#h13t', 44.93, {}, { duration: 0.4 }); R('#h13b', wd(13, 2), { scale: 0.75, y: 40 }, { scale: 1, duration: 0.6 });
+      ['#h13t', '#h13b'].forEach((s) => X(s, 46.55, 0.2));
+      // ---- L14 more money isn't richer (46.79 - 50.7)
+      R('#h14t', 46.79, {}, { duration: 0.4 }); R('#h14b', wd(14, 5) - 0.1, { scale: 0.85 }, { scale: 1, duration: 0.6 }); STRIKE('#h14s', wd(14, 7) - 0.05);
+      for (let i = 0; i < 5; i++) R('#mr' + i, wd(14, 1) + i * 0.22, POP, POPTO);
+      ['#h14t', '#h14b', '#mr0', '#mr1', '#mr2', '#mr3', '#mr4'].forEach((s) => X(s, 51.0, 0.25));
+      // ---- L15 spending vs production (51.24 - 57.3)
+      R('#h15t', 51.24, {}, { duration: 0.4 }); R('#h15b', wd(15, 12) - 0.3, { scale: 0.85 }, { scale: 1, duration: 0.6 });
+      R('#sl', wd(15, 1) - 0.1, {}, { duration: 0.4 }); R('#sb', wd(15, 1), { y: 0 }, { duration: 0.2 }); tl.to('#sb', { width: 860, duration: 1.5, ease: 'power2.in' }, wd(15, 2));
+      R('#gl', wd(15, 6) - 0.1, {}, { duration: 0.4 }); R('#gb', wd(15, 6), { y: 0 }, { duration: 0.2 }); tl.to('#gb', { width: 330, duration: 3.4, ease: 'none' }, wd(15, 6));
+      R('#iUp', wd(15, 12), { scale: 0.5, y: 0 }, POPTO); R('#chip15', wd(15, 13), {}, { duration: 0.4 });
+      ['#h15t', '#h15b', '#sl', '#sb', '#gl', '#gb', '#iUp', '#chip15'].forEach((s) => X(s, 57.6, 0.25));
+      // ---- L16 buying less (57.84 - 60.1)
+      R('#h16t', 57.84, {}, { duration: 0.4 }); R('#h16b', wd(16, 6) - 0.2, { scale: 0.85 }, { scale: 1, duration: 0.6 });
+      for (let i = 0; i < 4; i++) R('#sh' + i, wd(16, 2) + i * 0.12, POP, POPTO);
+      [2, 3].forEach((i) => tl.to('#sh' + i, { opacity: 0.14, scale: 0.92, duration: 0.5, ease: 'power2.inOut' }, wd(16, 7) + (i - 2) * 0.2));
+      ['#h16t', '#h16b', '#sh0', '#sh1', '#sh2', '#sh3'].forEach((s) => X(s, 60.35, 0.25));
+      // ---- L17 one thing, L18 something different (60.6 - 66.6)
+      R('#h17t', 60.6, {}, { duration: 0.4 }); R('#h17b', wd(17, 4) - 0.1, { scale: 0.85 }, { scale: 1, duration: 0.6 }); R('#e1', wd(17, 2), POP, POPTO);
+      X('#h17t', 63.0, 0.2); X('#h17b', 63.0, 0.2);
+      R('#h18t', 63.22, {}, { duration: 0.4 }); R('#h18b', wd(18, 4) - 0.1, { scale: 0.85 }, { scale: 1, duration: 0.6 });
+      R('#e2', wd(18, 1), POP, POPTO); R('#neq', wd(18, 5), { scale: 0.3, y: 0 }, POPTO);
+      ['#h18t', '#h18b', '#e1', '#e2', '#neq'].forEach((s) => X(s, 66.85, 0.25));
+      // ---- L19 final (67.12 - 68.9)
+      R('#f1', 67.12, {}, { duration: 0.6 }); R('#f2', 67.8, { scale: 0.85, y: 40 }, { scale: 1, duration: 0.6 });
+
+      // ---- Lotties (time-shifted copies; see scripts/lottie_shift.mjs)
+      const mk = (id, path) => { const a = lottie.loadAnimation({ container: document.getElementById(id), renderer: 'svg', loop: false, autoplay: false, path, rendererSettings: { preserveAspectRatio: 'xMidYMid meet' } }); (window.__hfLottie = window.__hfLottie || []).push(a); return a; };
+      mk('money', 'assets/lottie/money-s.json'); mk('arrow', 'assets/lottie/arrow-s.json'); mk('conf', 'assets/lottie/confetti-s.json');
+      tl.fromTo('#conf', { opacity: 0 }, { opacity: 1, duration: 0.01, immediateRender: false }, 68.0); tl.to('#conf', { opacity: 0, duration: 0.01 }, 70.2);
+      // sparkles on the key moments
+      [[6.2, 540, 700], [12.7, 540, 740], [35.8, 540, 560], [68.1, 540, 420]].forEach(([t0, cx, cy]) => { for (let i = 0; i < 6; i++) { const a = i / 6 * 6.283, s = document.createElement('div'); s.className = 'spark'; s.style.left = (cx - 45 + Math.cos(a) * 300) + 'px'; s.style.top = (cy - 45 + Math.sin(a) * 140) + 'px'; s.style.backgroundColor = i % 2 ? '#1e2bfa' : '#f6b73c'; $('#stage').appendChild(s);
+        tl.fromTo(s, { opacity: 0, scale: 0.2, rotation: -40 }, { opacity: 1, scale: 0.6 + (i % 3) * 0.2, rotation: 20, duration: 0.4, ease: E, immediateRender: false }, t0 + i * 0.05); tl.to(s, { opacity: 0, scale: 0.1, duration: 0.5, ease: 'power2.in' }, t0 + 0.9 + i * 0.04); } });
+      tl.fromTo('#root', { backgroundPosition: '0px 0px' }, { backgroundPosition: '-120px -240px', duration: __TOTAL__, ease: 'none', immediateRender: false }, 0);
+
+      // ---------- captions ----------
+      const capsEl = $('#caps');
+      const groups = []; let cur = [];
+      WORDS.forEach((w, i) => { cur.push(w); const nx = WORDS[i + 1]; const endS = /[.!?…]$/.test(w.w); const endC = /,$/.test(w.w) && cur.length >= 3; if (!nx || endS || endC || cur.length >= 5 || (nx && nx.s - w.e > 0.5)) { groups.push(cur); cur = []; } });
+      groups.forEach((g, gi) => {
+        if (g[0].line === 19) return;
+        const d = document.createElement('div'); d.className = 'cg'; const pill = document.createElement('div'); pill.className = 'pill'; d.appendChild(pill);
+        g.forEach((w, wi) => { const s = document.createElement('span'); s.className = 'cw'; s.id = `cw${gi}_${wi}`; s.textContent = w.w; pill.appendChild(s); });
+        capsEl.appendChild(d);
+        const a = g[0].s - 0.03, nextS = groups[gi + 1] ? groups[gi + 1][0].s : 1e9, b = Math.min(g[g.length - 1].e + 0.25, nextS - 0.12);
+        tl.fromTo(d, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.12, ease: 'power2.out', immediateRender: false }, a);
+        tl.to(d, { opacity: 0, duration: 0.08, ease: 'none' }, b);
+        g.forEach((w, wi) => { const sp = `#cw${gi}_${wi}`;
+          tl.fromTo(sp, { backgroundColor: 'rgba(30,43,250,0)', color: '#111' }, { backgroundColor: '#1e2bfa', color: '#fdfae7', duration: 0.07, ease: 'none', immediateRender: false }, w.s);
+          tl.to(sp, { backgroundColor: 'rgba(30,43,250,0)', color: '#111', duration: 0.08, ease: 'none' }, Math.max(w.e, w.s + 0.12)); });
+      });
+      tl.fromTo('#prog', { scaleX: 0 }, { scaleX: 1, duration: __TOTAL__, ease: 'none', immediateRender: false }, 0);
+      window.__timelines['main'] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

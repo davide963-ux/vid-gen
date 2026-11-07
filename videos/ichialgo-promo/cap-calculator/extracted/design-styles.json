@@ -1,0 +1,183 @@
+{
+  "typography": [
+    {
+      "role": "display",
+      "fontFamily": "Manrope",
+      "fontSize": "28px",
+      "fontWeight": "600",
+      "lineHeight": "42px",
+      "letterSpacing": "-0.56px",
+      "color": "#E4ECE8",
+      "sampleText": "Position size calculator"
+    },
+    {
+      "role": "heading",
+      "fontFamily": "Manrope",
+      "fontSize": "15px",
+      "fontWeight": "700",
+      "lineHeight": "22.5px",
+      "letterSpacing": "normal",
+      "color": "#E4ECE8",
+      "sampleText": "Trade inputs"
+    },
+    {
+      "role": "link",
+      "fontFamily": "Manrope",
+      "fontSize": "15px",
+      "fontWeight": "400",
+      "lineHeight": "22.5px",
+      "letterSpacing": "normal",
+      "color": "#E4ECE8",
+      "sampleText": "ICHIALGO"
+    },
+    {
+      "role": "body",
+      "fontFamily": "Manrope",
+      "fontSize": "13px",
+      "fontWeight": "400",
+      "lineHeight": "19.5px",
+      "letterSpacing": "normal",
+      "color": "#7F9189",
+      "sampleText": "Size a trade from your account risk and stop distance. JPY p"
+    },
+    {
+      "role": "body-small",
+      "fontFamily": "Manrope",
+      "fontSize": "11px",
+      "fontWeight": "500",
+      "lineHeight": "16.5px",
+      "letterSpacing": "normal",
+      "color": "#4D5D56",
+      "sampleText": "Enter entry and stop loss"
+    },
+    {
+      "role": "label",
+      "fontFamily": "Manrope",
+      "fontSize": "11px",
+      "fontWeight": "700",
+      "lineHeight": "16.5px",
+      "letterSpacing": "0.88px",
+      "color": "#67E3AE",
+      "sampleText": "MARKET DATA ONLINE"
+    }
+  ],
+  "spacing": {
+    "observed": [
+      2,
+      6,
+      10,
+      12,
+      14,
+      16,
+      18,
+      20,
+      28
+    ],
+    "baseUnit": 4
+  },
+  "radius": [
+    "4px"
+  ],
+  "shadows": [],
+  "buttons": [
+    {
+      "label": "Use live price",
+      "background": "transparent",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#67E3AE",
+      "padding": "0px",
+      "borderRadius": "0px",
+      "border": "0px none rgb(103, 227, 174)",
+      "boxShadow": "none",
+      "fontSize": "11px",
+      "fontWeight": "700",
+      "height": "16.5px"
+    }
+  ],
+  "cards": [
+    {
+      "label": "card",
+      "background": "#0D1512",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#E4ECE8",
+      "padding": "0px",
+      "borderRadius": "10px",
+      "border": "1px solid rgb(27, 43, 37)",
+      "boxShadow": "none",
+      "fontSize": "15px",
+      "fontWeight": "400",
+      "height": "471.5px"
+    },
+    {
+      "label": "card",
+      "background": "transparent",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#E4ECE8",
+      "padding": "14px 18px",
+      "borderRadius": "0px",
+      "border": "",
+      "boxShadow": "none",
+      "fontSize": "15px",
+      "fontWeight": "400",
+      "height": "96.5px"
+    },
+    {
+      "label": "card",
+      "background": "transparent",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#E4ECE8",
+      "padding": "18px",
+      "borderRadius": "0px",
+      "border": "0px none rgb(228, 236, 232)",
+      "boxShadow": "none",
+      "fontSize": "15px",
+      "fontWeight": "400",
+      "height": "373px"
+    }
+  ],
+  "nav": {
+    "label": "navigation",
+    "background": "#050807",
+    "backgroundImage": "",
+    "backdropFilter": "blur(10px)",
+    "color": "#E4ECE8",
+    "padding": "0px",
+    "borderRadius": "0px",
+    "border": "",
+    "boxShadow": "none",
+    "fontSize": "15px",
+    "fontWeight": "400",
+    "height": "60px"
+  },
+  "chips": [
+    {
+      "label": "MARKET DATA ONLINE",
+      "background": "#0D1512",
+      "color": "#67E3AE",
+      "padding": "6px 12px",
+      "borderRadius": "999px",
+      "border": "1px solid rgb(37, 57, 47)",
+      "boxShadow": "none",
+      "fontSize": "11px",
+      "fontWeight": "700",
+      "height": "30.5px"
+    }
+  ],
+  "statCells": [],
+  "tabs": [],
+  "backgrounds": [],
+  "glass": [
+    {
+      "backdropFilter": "blur(10px)",
+      "background": "rgba(5, 8, 7, 0.86)",
+      "border": "",
+      "borderRadius": "0px",
+      "boxShadow": "",
+      "area": 115200
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080, height=1920" />
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+<style>
+@font-face { font-family: 'Space Grotesk'; font-weight: 700; src: url('assets/fonts/space-grotesk-latin-700-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Space Grotesk'; font-weight: 600; src: url('assets/fonts/space-grotesk-latin-600-normal.woff2') format('woff2'); }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 1080px; height: 1920px; overflow: hidden; background: #0a0a0a; }
+#root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: radial-gradient(closest-side at 50% 42%, #2b1f07, #0a0a0a 85%); font-family: 'Space Grotesk', sans-serif; color: #fffdf6; }
+#stage { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+.t { position: absolute; left: 0; width: 1080px; text-align: center; font-weight: 700; letter-spacing: -0.035em; line-height: 1; white-space: nowrap; }
+.card { position: absolute; left: 120px; top: 930px; width: 840px; height: 500px; border-radius: 50px; background: linear-gradient(135deg,#f6cf72,#d79a22 60%,#b57a12); box-shadow: 0 40px 90px rgba(0,0,0,.7), 0 0 120px rgba(229,171,51,.25), inset 0 2px 0 rgba(255,255,255,.35); transform: rotate(-6deg); }
+.rays { position:absolute; left:-160px; top:730px; width:1400px; height:1400px; border-radius:50%; background: repeating-conic-gradient(from 0deg, rgba(229,171,51,.20) 0deg 9deg, rgba(229,171,51,0) 9deg 24deg); -webkit-mask-image: radial-gradient(closest-side,#000 25%,transparent 100%); }
+.bl { position:absolute; width:16px; height:16px; border-radius:50%; background:#e5ab33; opacity:.85; box-shadow:0 0 14px rgba(255,211,106,.8); }
+.bl:nth-of-type(4n+1) { opacity:.35; box-shadow:none; }
+#wheelwrap { position:absolute; left:90px; top:740px; width:900px; height:640px; perspective:1500px; filter: drop-shadow(0 40px 50px rgba(0,0,0,.75)) drop-shadow(0 0 80px rgba(229,171,51,.35)); }
+#tilt { position:absolute; left:50px; top:30px; width:800px; height:800px; transform: rotateX(60deg); transform-style:preserve-3d; }
+.rim { position:absolute; inset:0; border-radius:50%; background: linear-gradient(135deg,#f6cf72,#b57a12); padding:34px; }
+.disc { position:absolute; inset:34px; border-radius:50%; background: repeating-conic-gradient(from 0deg, #e5ab33 0deg 7.5deg, #1a140a 7.5deg 15deg); box-shadow: inset 0 0 0 10px #0a0a0a; }
+.hub { position:absolute; left:50%; top:50%; width:340px; height:340px; margin:-170px 0 0 -170px; border-radius:50%; background: radial-gradient(circle at 40% 35%,#f6cf72,#b57a12 70%); box-shadow:0 0 0 14px #0a0a0a, inset 0 0 40px rgba(60,35,4,.5); }
+.hub::after { content:''; position:absolute; inset:60px; border-radius:50%; background: repeating-conic-gradient(from 0deg, #fffdf6 0deg 3deg, transparent 3deg 45deg); }
+.ball { position:absolute; left:610px; top:210px; width:36px; height:36px; border-radius:50%; background: radial-gradient(circle at 35% 30%,#fff,#e9dfc3); box-shadow:0 4px 10px rgba(0,0,0,.6); }
+.chip1 { position:absolute; left:690px; top:1230px; width:250px; height:250px; border-radius:50%; background: repeating-conic-gradient(from 0deg, #e5ab33 0deg 15deg, #fffdf6 15deg 30deg); border: 8px solid #a86f12; box-shadow:0 30px 60px rgba(0,0,0,.7), 0 0 60px rgba(229,171,51,.4); transform: rotate(-10deg); }
+.chin { position:absolute; inset:30px; border-radius:50%; background:#0a0a0a; border:6px dashed #fffdf6; display:flex; align-items:center; justify-content:center; color:#e5ab33; font-weight:700; font-size:62px; letter-spacing:-.03em; }
+.chipx { position: absolute; left: 64px; top: 130px; width: 120px; height: 90px; border-radius: 18px; background: linear-gradient(135deg,#fbe7a5,#c9921f); border: 2px solid rgba(0,0,0,.25); }
+.num { position: absolute; left: 64px; bottom: 120px; font-weight: 700; font-size: 56px; color: #0a0a0a; letter-spacing: -.02em; }
+.lab { position: absolute; left: 64px; bottom: 56px; font-weight: 600; font-size: 30px; letter-spacing: .14em; color: #3b2a05; }
+.coin { position: absolute; left: 700px; top: 640px; width: 260px; height: 260px; }
+.pill { position: absolute; left: 150px; top: 1600px; width: 780px; padding: 26px 0; border-radius: 100px; background: #e5ab33; color: #0a0a0a; font-weight: 700; font-size: 40px; letter-spacing: .02em; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,.5); }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="1" data-width="1080" data-height="1920">
+  <div id="stage" class="clip" data-start="0" data-duration="1" data-track-index="0">
+    <div class="t" style="top:270px;font-size:88px">YOU DIDN’T KNOW</div>
+    <div class="t" style="top:366px;font-size:76px">CASINOS ARE DESIGNED</div>
+    <div class="t" style="top:456px;font-size:82px;color:#e5ab33">TO MAKE YOU FORGET</div>
+    <div class="t" style="top:548px;font-size:128px;color:#e5ab33">ABOUT MONEY</div>
+    <div class="rays"></div>
+    <div id="wheelwrap"><div id="tilt"><div class="rim"><div class="disc"></div><div class="hub"></div><div class="ball"></div></div></div></div>
+    <div class="chip1"><div class="chin">$100</div></div>
+    <div class="pill">DESIGNED TO KEEP YOU PLAYING</div>
+    <i class="bl" style="left:24px;top:110px"></i><i class="bl" style="left:1044px;top:110px"></i><i class="bl" style="left:24px;top:194px"></i><i class="bl" style="left:1044px;top:194px"></i><i class="bl" style="left:24px;top:278px"></i><i class="bl" style="left:1044px;top:278px"></i><i class="bl" style="left:24px;top:362px"></i><i class="bl" style="left:1044px;top:362px"></i><i class="bl" style="left:24px;top:446px"></i><i class="bl" style="left:1044px;top:446px"></i><i class="bl" style="left:24px;top:530px"></i><i class="bl" style="left:1044px;top:530px"></i><i class="bl" style="left:24px;top:614px"></i><i class="bl" style="left:1044px;top:614px"></i><i class="bl" style="left:24px;top:698px"></i><i class="bl" style="left:1044px;top:698px"></i><i class="bl" style="left:24px;top:782px"></i><i class="bl" style="left:1044px;top:782px"></i><i class="bl" style="left:24px;top:866px"></i><i class="bl" style="left:1044px;top:866px"></i><i class="bl" style="left:24px;top:950px"></i><i class="bl" style="left:1044px;top:950px"></i><i class="bl" style="left:24px;top:1034px"></i><i class="bl" style="left:1044px;top:1034px"></i><i class="bl" style="left:24px;top:1118px"></i><i class="bl" style="left:1044px;top:1118px"></i><i class="bl" style="left:24px;top:1202px"></i><i class="bl" style="left:1044px;top:1202px"></i><i class="bl" style="left:24px;top:1286px"></i><i class="bl" style="left:1044px;top:1286px"></i><i class="bl" style="left:24px;top:1370px"></i><i class="bl" style="left:1044px;top:1370px"></i><i class="bl" style="left:24px;top:1454px"></i><i class="bl" style="left:1044px;top:1454px"></i><i class="bl" style="left:24px;top:1538px"></i><i class="bl" style="left:1044px;top:1538px"></i><i class="bl" style="left:24px;top:1622px"></i><i class="bl" style="left:1044px;top:1622px"></i><i class="bl" style="left:24px;top:1706px"></i><i class="bl" style="left:1044px;top:1706px"></i><i class="bl" style="left:24px;top:1790px"></i><i class="bl" style="left:1044px;top:1790px"></i>
+  </div>
+</div>
+<script>
+  window.__timelines = window.__timelines || {};
+  window.__timelines['main'] = gsap.timeline({ paused: true });
+</script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+{
+  "total": 20.27,
+  "lines": [
+    {
+      "i": 1,
+      "text": "Need a website that actually works?",
+      "start": 0.0,
+      "end": 2.1,
+      "dur": 2.1
+    },
+    {
+      "i": 2,
+      "text": "Meet Zenith Software.",
+      "start": 2.72,
+      "end": 3.76,
+      "dur": 1.04
+    },
+    {
+      "i": 3,
+      "text": "A small studio building websites, web apps and custom tools.",
+      "start": 4.04,
+      "end": 7.98,
+      "dur": 3.94
+    },
+    {
+      "i": 4,
+      "text": "You talk directly to the developer writing your code.",
+      "start": 8.44,
+      "end": 11.28,
+      "dur": 2.84
+    },
+    {
+      "i": 5,
+      "text": "Fixed quote, after a free call.",
+      "start": 11.74,
+      "end": 13.32,
+      "dur": 1.58
+    },
+    {
+      "i": 6,
+      "text": "And you own everything. The code, the hosting, the domain.",
+      "start": 13.74,
+      "end": 16.74,
+      "dur": 3.0
+    },
+    {
+      "i": 7,
+      "text": "Zenith Software. Built to last.",
+      "start": 17.34,
+      "end": 19.02,
+      "dur": 1.68
+    }
+  ]
+}

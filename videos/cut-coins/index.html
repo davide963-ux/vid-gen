@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
+    <style>
+      /* THEME: change these six values to restyle the whole video */
+      :root { --bg: #0B1220; --ink: #F1F3F8; --accent: #E9B949; --panel: #131D33; --line: #2A3A5C; --muted: #8C97AD; --good: #67E3AE; --bad: #F0616D; --on-accent: #0B1220; --dots: rgba(233,185,73,0.10); --glow: rgba(233,185,73,0.12); }
+      :root { --bg: #0a0a0a; --ink: #fffdf6; --accent: #e5ab33; --panel: #17130a; --line: #4a3607; --muted: #b5ac96; --good: #e5ab33; --bad: #e5ab33; --on-accent: #0a0a0a; --dots: rgba(229,171,51,0.06); --glow: rgba(229,171,51,0.10); }
+
+.uc { position: absolute; opacity: 0; background: #17130a; border: 2px solid #4a3607; border-radius: 36px; box-shadow: 0 26px 60px rgba(0,0,0,.55); color: #fffdf6; }
+.uc.gold { background: #e5ab33; border-color: #f3c866; color: #0a0a0a; }
+.uc img { position: absolute; }
+.lab { position: absolute; font-weight: 600; font-size: 30px; letter-spacing: .14em; text-transform: uppercase; color: #b5ac96; white-space: nowrap; }
+.gold .lab { color: #3b2a05; }
+.val { position: absolute; font-weight: 700; letter-spacing: -.03em; white-space: nowrap; line-height: 1; }
+.ccard { background: linear-gradient(135deg,#f6cf72,#d79a22 60%,#b57a12); border-radius: 46px; box-shadow: 0 30px 70px rgba(0,0,0,.6), inset 0 2px 0 rgba(255,255,255,.35); color: #0a0a0a; }
+.ccard .chipx { position: absolute; width: 112px; height: 84px; border-radius: 16px; background: linear-gradient(135deg,#fbe7a5,#c9921f); border: 2px solid rgba(0,0,0,.25); }
+.tagc { position: absolute; padding: 12px 30px; border-radius: 100px; font-weight: 700; font-size: 34px; letter-spacing: .06em; white-space: nowrap; background: rgba(229,171,51,.12); border: 2px solid rgba(229,171,51,.55); color: #e5ab33; }
+.tagc.fill { background: #e5ab33; color: #0a0a0a; border-color: #f3c866; }
+.photo { position: absolute; opacity: 0; border-radius: 22px; overflow: hidden; border: 3px solid #e5ab33; box-shadow: 0 30px 80px rgba(0,0,0,.65), 0 0 110px rgba(229,171,51,.28); background: #0a0a0a; }
+.photo img { position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; }
+.shine { position: absolute; top: -20%; left: 0; width: 38%; height: 140%; background: linear-gradient(100deg, transparent, rgba(255,246,214,.55), transparent); transform: skewX(-18deg); opacity: .8; }
+.frame { position: absolute; opacity: 0; border-radius: 28px; overflow: hidden; border: 3px solid #e5ab33; box-shadow: 0 30px 80px rgba(0,0,0,.65), 0 0 90px rgba(229,171,51,.22); background: #0a0a0a; }
+.frame img { position: absolute; left: 0; top: 0; width: 100%; }
+.rays { position: absolute; opacity: 0; border-radius: 50%; background: repeating-conic-gradient(from 0deg, rgba(229,171,51,.30) 0deg 9deg, rgba(229,171,51,0) 9deg 24deg); -webkit-mask-image: radial-gradient(closest-side, #000 25%, transparent 100%); mask-image: radial-gradient(closest-side, #000 25%, transparent 100%); }
+.dg { position: absolute; width: 56px; height: 84px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 54px; border: 3px solid #4a3607; background: #17130a; color: #fffdf6; }
+.dg.one { background: #e5ab33; border-color: #f3c866; color: #0a0a0a; }
+.loaf { position: absolute; opacity: 0; background: linear-gradient(180deg,#e9b650,#a86f12); border-radius: 130px 130px 70px 70px; box-shadow: 0 24px 50px rgba(0,0,0,.55), inset 0 -14px 0 rgba(0,0,0,.18); }
+.loaf i { position: absolute; top: 40px; width: 20px; height: 84px; border-radius: 12px; background: rgba(60,35,4,.45); transform: rotate(24deg); }
+.stamp { position: absolute; opacity: 0; border: 8px solid #e5ab33; border-radius: 22px; color: #e5ab33; font-weight: 700; letter-spacing: .06em; text-align: center; background: rgba(10,10,10,.72); white-space: nowrap; }
+.pt { position: absolute; border-radius: 50%; background: #e5ab33; }
+.ring2 { position: absolute; opacity: 0; border-radius: 50%; border: 6px solid #e5ab33; }
+#flash { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; pointer-events: none; opacity: 0; background: radial-gradient(closest-side at 50% 50%, rgba(255,226,140,.85), rgba(229,171,51,.25) 70%, rgba(229,171,51,0)); }
+
+#stage { isolation: isolate; }
+#gl { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; display: block; z-index: -1; }
+.pz { position: absolute; opacity: 0; border-radius: 50%; background-image: radial-gradient(circle at 50% 50%, rgba(0,0,0,0) 0 71%, rgba(0,0,0,.0) 71%), radial-gradient(circle at 36% 30%, #6b4309 0 5.2%, transparent 5.6%), radial-gradient(circle at 63% 27%, #6b4309 0 5.2%, transparent 5.6%), radial-gradient(circle at 70% 58%, #6b4309 0 5.2%, transparent 5.6%), radial-gradient(circle at 46% 66%, #6b4309 0 5.2%, transparent 5.6%), radial-gradient(circle at 28% 56%, #6b4309 0 5.2%, transparent 5.6%), radial-gradient(circle at 52% 44%, #6b4309 0 5.2%, transparent 5.6%), radial-gradient(circle at 50% 50%, #f3c866 0 66%, #d79a22 66% 83%, #a86f12 83% 100%); }
+.pz.dim { background-image: radial-gradient(circle at 50% 50%, #2a200a 0 83%, #3a2c0b 83% 100%); }
+
+      @font-face { font-family: 'Space Grotesk'; font-weight: 500; src: url('assets/fonts/space-grotesk-latin-500-normal.woff2') format('woff2'); }
+      @font-face { font-family: 'Space Grotesk'; font-weight: 600; src: url('assets/fonts/space-grotesk-latin-600-normal.woff2') format('woff2'); }
+      @font-face { font-family: 'Space Grotesk'; font-weight: 700; src: url('assets/fonts/space-grotesk-latin-700-normal.woff2') format('woff2'); }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background-color: var(--bg); background-image: radial-gradient(var(--dots) 2.5px, transparent 2.5px); background-size: 60px 60px; font-family: 'Space Grotesk', sans-serif; color: var(--ink); }
+      #stage { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; }
+      #glow { position: absolute; left: -200px; top: -300px; width: 1480px; height: 1100px; pointer-events: none; background: radial-gradient(closest-side, var(--glow), transparent); }
+      /* SAFE AREA (1080x1920): keep content at x 60..960 and y 120..1600. Right ~120px and bottom ~320px belong to TikTok's UI. */
+      .abs { position: absolute; opacity: 0; }
+      .sc { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; }
+      .sp { position: absolute; opacity: 0; will-change: transform; }
+      .lot { position: absolute; opacity: 0; }
+      .big { font-weight: 700; letter-spacing: -0.035em; line-height: 1.02; text-align: center; white-space: nowrap; }
+      .ac { color: var(--accent); } .gn { color: var(--good); } .rd { color: var(--bad); }
+      .tag { font-weight: 600; font-size: 30px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); text-align: center; white-space: nowrap; }
+      .chip { display: inline-block; padding: 12px 30px; border-radius: 100px; background: rgba(233,185,73,0.10); border: 1.5px solid rgba(233,185,73,0.45); color: var(--accent); font-weight: 600; font-size: 28px; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; }
+      .card { background: var(--panel); border: 1.5px solid var(--line); border-radius: 28px; box-shadow: 0 24px 60px rgba(0,0,0,0.45); }
+      .strike { position: absolute; height: 10px; border-radius: 6px; background: var(--bad); transform-origin: left center; transform: scaleX(0); }
+      .mw { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: 0.14em; margin-bottom: -0.14em; }
+      .mi { display: inline-block; will-change: transform; }
+      #prog { position: absolute; left: 0; bottom: 0; width: 1080px; height: 6px; background: var(--accent); transform-origin: left center; }
+      #caps { position: absolute; left: 0; top: 1392px; width: 1080px; height: 190px; }
+      .cg { position: absolute; left: 90px; top: 0; width: 900px; text-align: center; opacity: 0; }
+      .cg .pill { display: inline-block; padding: 14px 30px 16px; border-radius: 34px; background: var(--panel); border: 1.5px solid var(--line); box-shadow: 0 8px 30px rgba(0,0,0,0.5); font-weight: 600; font-size: 50px; line-height: 1.2; letter-spacing: -0.01em; color: var(--ink); }
+      .cw { display: inline-block; margin: 0 4px; padding: 0 10px; border-radius: 12px; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="72.89" data-width="1080" data-height="1920">
+      <div id="stage" class="clip" data-start="0" data-duration="72.89" data-track-index="0">
+        <div id="glow"></div>
+        <div id="dyn"></div>
+        <canvas id="gl" width="1080" height="1920"></canvas>
+
+        <div id="caps"></div>
+        <div id="prog"></div>
+      </div>
+    </div>
+
+    <script>
+      const WORDS = [{"w":"You","s":0,"e":0.28,"line":1},{"w":"Didn't","s":0.28,"e":0.56,"line":1},{"w":"Know","s":0.56,"e":0.92,"line":1},{"w":"People","s":0.92,"e":1.32,"line":1},{"w":"Used","s":1.32,"e":1.68,"line":1},{"w":"to","s":1.68,"e":1.88,"line":1},{"w":"Cut","s":1.88,"e":2.1,"line":1},{"w":"Coins","s":2.1,"e":2.6,"line":1},{"w":"Into","s":2.6,"e":2.9,"line":1},{"w":"Pieces.","s":2.9,"e":3.42,"line":1},{"w":"What","s":4.26,"e":4.48,"line":2},{"w":"if","s":4.48,"e":4.62,"line":2},{"w":"I","s":4.62,"e":4.76,"line":2},{"w":"told","s":4.76,"e":5.04,"line":2},{"w":"you","s":5.04,"e":5.32,"line":2},{"w":"that","s":5.32,"e":5.48,"line":2},{"w":"people","s":5.48,"e":5.86,"line":2},{"w":"once","s":5.86,"e":6.24,"line":2},{"w":"cut","s":6.24,"e":6.56,"line":2},{"w":"their","s":6.56,"e":6.74,"line":2},{"w":"money","s":6.74,"e":7.04,"line":2},{"w":"into","s":7.04,"e":7.38,"line":2},{"w":"pieces","s":7.38,"e":7.92,"line":2},{"w":"and","s":8.44,"e":8.66,"line":2},{"w":"those","s":8.66,"e":8.84,"line":2},{"w":"pieces","s":8.84,"e":9.32,"line":2},{"w":"were","s":9.32,"e":9.6,"line":2},{"w":"still","s":9.6,"e":9.96,"line":2},{"w":"worth","s":9.96,"e":10.24,"line":2},{"w":"something?","s":10.24,"e":10.74,"line":2},{"w":"Sounds","s":11.8,"e":11.96,"line":3},{"w":"crazy,","s":11.96,"e":12.46,"line":3},{"w":"right?","s":12.54,"e":12.82,"line":3},{"w":"But","s":13.7,"e":13.92,"line":4},{"w":"hundreds","s":13.92,"e":14.46,"line":4},{"w":"of","s":14.46,"e":14.74,"line":4},{"w":"years","s":14.74,"e":14.96,"line":4},{"w":"ago,","s":14.96,"e":15.38,"line":4},{"w":"that","s":15.72,"e":16,"line":4},{"w":"was","s":16,"e":16.18,"line":4},{"w":"actually","s":16.18,"e":16.7,"line":4},{"w":"a","s":16.7,"e":16.9,"line":4},{"w":"way","s":16.9,"e":17.04,"line":4},{"w":"to","s":17.04,"e":17.18,"line":4},{"w":"make","s":17.18,"e":17.36,"line":4},{"w":"change.","s":17.36,"e":17.82,"line":4},{"w":"One","s":18.64,"e":18.76,"line":5},{"w":"of","s":18.76,"e":18.88,"line":5},{"w":"the","s":18.88,"e":18.98,"line":5},{"w":"most","s":18.98,"e":19.22,"line":5},{"w":"famous","s":19.22,"e":19.64,"line":5},{"w":"coins","s":19.64,"e":20.06,"line":5},{"w":"in","s":20.06,"e":20.3,"line":5},{"w":"the","s":20.3,"e":20.44,"line":5},{"w":"world","s":20.44,"e":20.8,"line":5},{"w":"was","s":20.8,"e":21.08,"line":5},{"w":"the","s":21.08,"e":21.34,"line":5},{"w":"Spanish","s":21.34,"e":21.84,"line":5},{"w":"silver","s":21.84,"e":22.28,"line":5},{"w":"dollar.","s":22.28,"e":22.72,"line":5},{"w":"People","s":23.36,"e":23.58,"line":6},{"w":"called","s":23.58,"e":23.92,"line":6},{"w":"it","s":23.92,"e":24.2,"line":6},{"w":"the","s":24.2,"e":24.5,"line":6},{"w":"\"Piece","s":24.5,"e":24.8,"line":6},{"w":"of","s":24.8,"e":25.04,"line":6},{"w":"Eight.\"","s":25.04,"e":25.34,"line":6},{"w":"Why","s":25.94,"e":26.18,"line":7},{"w":"eight?","s":26.18,"e":26.52,"line":7},{"w":"Because","s":27.15,"e":27.52,"line":8},{"w":"it","s":27.52,"e":27.7,"line":8},{"w":"was","s":27.7,"e":27.9,"line":8},{"w":"worth","s":27.9,"e":28.12,"line":8},{"w":"eight","s":28.12,"e":28.46,"line":8},{"w":"smaller","s":28.46,"e":28.96,"line":8},{"w":"units","s":28.96,"e":29.34,"line":8},{"w":"of","s":29.34,"e":29.58,"line":8},{"w":"currency.","s":29.58,"e":30.04,"line":8},{"w":"And","s":30.72,"e":30.8,"line":9},{"w":"when","s":30.74,"e":30.9,"line":9},{"w":"smaller","s":30.9,"e":31.36,"line":9},{"w":"coins","s":31.36,"e":31.72,"line":9},{"w":"were","s":31.72,"e":31.92,"line":9},{"w":"hard","s":31.92,"e":32.1,"line":9},{"w":"to","s":32.1,"e":32.26,"line":9},{"w":"find,","s":32.26,"e":32.66,"line":9},{"w":"people","s":33.08,"e":33.36,"line":9},{"w":"sometimes","s":33.36,"e":33.92,"line":9},{"w":"cut","s":33.92,"e":34.28,"line":9},{"w":"silver","s":34.28,"e":34.68,"line":9},{"w":"coins","s":34.68,"e":35.08,"line":9},{"w":"into","s":35.08,"e":35.28,"line":9},{"w":"pieces.","s":35.28,"e":35.7,"line":9},{"w":"Imagine","s":36.52,"e":36.68,"line":10},{"w":"having","s":36.68,"e":37.06,"line":10},{"w":"a","s":37.06,"e":37.26,"line":10},{"w":"pizza","s":37.26,"e":37.68,"line":10},{"w":"divided","s":37.68,"e":38.14,"line":10},{"w":"into","s":38.14,"e":38.5,"line":10},{"w":"eight","s":38.5,"e":38.84,"line":10},{"w":"slices.","s":38.84,"e":39.34,"line":10},{"w":"Each","s":39.96,"e":40.18,"line":11},{"w":"slice","s":40.18,"e":40.58,"line":11},{"w":"represents","s":40.58,"e":41.12,"line":11},{"w":"part","s":41.12,"e":41.52,"line":11},{"w":"of","s":41.52,"e":41.68,"line":11},{"w":"the","s":41.68,"e":41.8,"line":11},{"w":"original","s":41.8,"e":42.18,"line":11},{"w":"value.","s":42.18,"e":42.62,"line":11},{"w":"And","s":43.16,"e":43.42,"line":12},{"w":"here's","s":43.42,"e":43.8,"line":12},{"w":"something","s":43.8,"e":44.06,"line":12},{"w":"interesting.","s":44.06,"e":44.5,"line":12},{"w":"Have","s":45.18,"e":45.28,"line":13},{"w":"you","s":45.28,"e":45.44,"line":13},{"w":"ever","s":45.44,"e":45.62,"line":13},{"w":"heard","s":45.62,"e":45.82,"line":13},{"w":"someone","s":45.82,"e":46.18,"line":13},{"w":"say","s":46.18,"e":46.6,"line":13},{"w":"\"two","s":46.6,"e":47.06,"line":13},{"w":"bits\"?","s":47.06,"e":47.36,"line":13},{"w":"That","s":47.92,"e":48.16,"line":14},{"w":"old","s":48.16,"e":48.36,"line":14},{"w":"expression","s":48.36,"e":48.84,"line":14},{"w":"for","s":48.84,"e":49.16,"line":14},{"w":"25","s":49.16,"e":49.7,"line":14},{"w":"cents","s":49.7,"e":50.06,"line":14},{"w":"comes","s":50.06,"e":50.58,"line":14},{"w":"from","s":50.58,"e":50.84,"line":14},{"w":"the","s":50.84,"e":51,"line":14},{"w":"Spanish","s":51,"e":51.42,"line":14},{"w":"dollar's","s":51.42,"e":52.06,"line":14},{"w":"eight-part","s":52.06,"e":52.6,"line":14},{"w":"value.","s":52.6,"e":53.1,"line":14},{"w":"Two","s":54,"e":54.36,"line":15},{"w":"out","s":54.36,"e":54.62,"line":15},{"w":"of","s":54.62,"e":54.74,"line":15},{"w":"eight","s":54.74,"e":55,"line":15},{"w":"parts","s":55,"e":55.5,"line":15},{"w":"equals","s":55.5,"e":55.9,"line":15},{"w":"one","s":55.9,"e":56.3,"line":15},{"w":"quarter!","s":56.3,"e":56.68,"line":15},{"w":"So","s":57.3,"e":57.38,"line":16},{"w":"before","s":57.34,"e":57.78,"line":16},{"w":"credit","s":57.78,"e":58.14,"line":16},{"w":"cards,","s":58.14,"e":58.64,"line":16},{"w":"ATMs,","s":58.94,"e":59.44,"line":16},{"w":"and","s":59.7,"e":59.78,"line":16},{"w":"digital","s":59.76,"e":60.18,"line":16},{"w":"payments","s":60.18,"e":60.64,"line":16},{"w":"people","s":61.14,"e":61.34,"line":16},{"w":"sometimes","s":61.34,"e":62.86,"line":16},{"w":"made","s":62.86,"e":63.26,"line":16},{"w":"change","s":63.26,"e":63.7,"line":16},{"w":"by","s":63.7,"e":63.98,"line":16},{"w":"literally","s":63.98,"e":64.48,"line":16},{"w":"cutting","s":64.48,"e":65.1,"line":16},{"w":"silver.","s":65.1,"e":65.72,"line":16},{"w":"Imagine","s":66.82,"e":66.94,"line":17},{"w":"trying","s":66.94,"e":67.38,"line":17},{"w":"that","s":67.38,"e":67.6,"line":17},{"w":"with","s":67.6,"e":67.74,"line":17},{"w":"your","s":67.74,"e":67.9,"line":17},{"w":"debit","s":67.9,"e":68.18,"line":17},{"w":"card","s":68.18,"e":68.52,"line":17},{"w":"today.","s":68.52,"e":68.94,"line":17},{"w":"You","s":69.48,"e":69.74,"line":18},{"w":"didn't","s":69.74,"e":70.04,"line":18},{"w":"know","s":70.04,"e":70.24,"line":18},{"w":"that","s":70.24,"e":70.5,"line":18},{"w":"about","s":70.5,"e":70.78,"line":18},{"w":"money.","s":70.78,"e":71.08,"line":18}];
+      window.__timelines = window.__timelines || {};
+      const wd = (l, k) => WORDS.filter((w) => w.line === l)[k].s;     // start time of word k in script line l
+      const tl = gsap.timeline({ paused: true });
+      const E = 'power3.out', IO = 'power2.inOut';
+      const $ = (s) => document.querySelector(s);
+      const R = (el, t, from, to) => tl.fromTo(el, Object.assign({ opacity: 0, y: 30 }, from || {}), Object.assign({ opacity: 1, y: 0, duration: 0.5, ease: E, immediateRender: false }, to || {}), t);
+      const X = (el, t, d) => tl.to(el, { opacity: 0, duration: d || 0.25, ease: 'none' }, t);
+      const POP = { scale: 0.6, y: 24 }, POPTO = { scale: 1, duration: 0.5 };
+      const STRIKE = (sel, t) => tl.fromTo(sel, { scaleX: 0 }, { scaleX: 1, duration: 0.3, ease: 'power2.out', immediateRender: false }, t);
+      const add = (h) => $('#dyn').insertAdjacentHTML('beforeend', h);
+      const money = (v) => '$' + Math.round(v).toLocaleString('en-US');
+      const count = (sel, t, from, to, dur) => { const o = { v: from }; tl.to(o, { v: to, duration: dur, ease: 'power3.out', onUpdate() { $(sel).textContent = money(o.v); } }, t); };
+      // Paste-in helpers for HyperFrames templates (classic <script>, GSAP timeline `tl`, `$` = querySelector).
+// Ideas adapted (rewritten for our stack) from the MIT-licensed iart-ai/tiktok-video-skills + kinetic-typography-skills.
+// Everything is seek-safe: tweens only, no timers, no randomness except the seeded hash().
+//
+// Needs this CSS in the template:
+//   .mw { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: 0.14em; margin-bottom: -0.14em; }
+//   .mi { display: inline-block; will-change: transform; }
+
+const SAFE = { left: 60, right: 960, top: 120, bottom: 1600 };   // 1080x1920: keep text/cards inside; TikTok UI sits outside (right ~120px, bottom ~320px)
+
+const hashH = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+
+// Split a PLAIN-TEXT element into masked words (screen-reader label kept). Returns the inner word nodes.
+const splitWords = (sel) => {
+  const el = document.querySelector(sel); const txt = el.textContent.trim();
+  el.setAttribute('aria-label', txt);
+  el.innerHTML = txt.split(/\s+/).map((w) => `<span class="mw"><span class="mi">${w}</span></span>`).join(' ');
+  return el.querySelectorAll('.mi');
+};
+
+// 1) Mask reveal: each word rises out of a clipped line. ~0.6s per word, 60ms stagger, expo ease (keep the whole reveal under ~0.8-1.0s).
+//    Use for headlines that appear mid-video (NOT the hook; see hookNow).
+const maskReveal = (tl, sel, t, o = {}) => {
+  const items = splitWords(sel);
+  tl.set(sel, { opacity: 1 }, t);
+  tl.fromTo(items, { yPercent: 115 }, { yPercent: 0, duration: o.dur || 0.6, ease: 'expo.out', stagger: o.stagger || 0.06, immediateRender: false }, t);
+  return items.length;
+};
+// matching exit: words drop back down (use instead of a plain fade when a headline leaves)
+const maskHide = (tl, sel, t, o = {}) => {
+  const items = document.querySelectorAll(sel + ' .mi');
+  tl.to(items, { yPercent: -115, duration: o.dur || 0.35, ease: 'power3.in', stagger: o.stagger || 0.03 }, t);
+  tl.set(sel, { opacity: 0 }, t + (o.dur || 0.35) + 0.03 * items.length);
+};
+
+// 2) Hook on frame 1: the hook text is fully visible at t=0 (no fade-up, no fade from black); only a tiny settle motion.
+const hookNow = (tl, sels) => { sels.forEach((s) => { tl.set(s, { opacity: 1 }, 0); tl.fromTo(s, { scale: 1.05 }, { scale: 1, duration: 0.6, ease: 'power3.out', immediateRender: false }, 0); }); };
+
+// 3) Pattern interrupt: a quick punch-in pulse on an element (use on long holds).
+const punch = (tl, sel, t, o = {}) => {
+  tl.fromTo(sel, { scale: 1 }, { scale: o.scale || 1.07, duration: o.dur || 0.18, ease: 'power2.out', immediateRender: false }, t);
+  tl.to(sel, { scale: 1, duration: 0.45, ease: 'power2.inOut' }, t + (o.dur || 0.18));
+};
+// Pulse an element every ~3s (uneven: 2.2s-3.8s gaps) between `from` and `to`. Never use a metronome gap.
+const heartbeat = (tl, sel, from, to, o = {}) => { let t = from + 1.2; let i = 0; while (t < to - 0.8) { punch(tl, sel, t, o); t += 2.2 + hashH(i++ + (o.seed || 0)) * 1.6; } };
+
+// 4) Optional seamless loop: end on the same first-frame look. Fade the final card out to the hook's background in the last 0.5s
+//    and make the last spoken line read as the lead-in to the first line ("...and that is why" -> hook).
+
+// 5) Scene wipe: each scene is a full-frame container (.sc, own background colour). The next one slides/zooms in over the previous.
+//    Initial offsets: tl.set('#sc2', { x: 1080 }, 0)  or { y: 1920 } / { x: -1080 } / { scale: 1.5, opacity: 0 } (zoom-in). Example: sceneCut(tl, '#sc1', '#sc2', 2.45, { x: 1080 });
+//    CSS: .sc { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:hidden; }
+const sceneCut = (tl, prev, next, t, from, d = 0.5) => {
+  tl.fromTo(next, from, { x: 0, y: 0, scale: 1, opacity: 1, duration: d, ease: 'power4.out', immediateRender: false }, t);
+  tl.to(prev, { x: from.x ? -from.x * 0.25 : 0, y: from.y ? -from.y * 0.2 : 0, duration: d, ease: 'power4.out' }, t);
+  tl.set(prev, { opacity: 0 }, t + d + 0.05);
+};
+// 6) Slow push-in on a scene container (camera feel): pushIn(tl, '#sc2', 2.5, 5.5)
+const pushIn = (tl, sel, a, b, s = 1.05) => tl.fromTo(sel, { scale: 1 }, { scale: s, duration: b - a, ease: 'none', immediateRender: false }, a + 0.01);
+
+
+      // ================= SCENES (src/scenes.js) =================
+      // Explainer-UI style (like inflation / bill-value): eyebrow + big headline + drawn UI cards with Phosphor icons, black and gold. No emoji, no characters.
+      const NO_CAPTION_LINES = [18];
+      const W = '#fffdf6', G = '#e5ab33', K = '#0a0a0a';
+      const dyn = document.getElementById('dyn');
+      let U = 0;
+      const IMG = (n, x, y, s) => `<img src="assets/img/${n}.svg" style="left:${x}px;top:${y}px;width:${s}px;height:${s}px" />`;
+      const LAB = (s, x, y) => `<div class="lab" style="left:${x}px;top:${y}px">${s}</div>`;
+      const VAL = (s, x, y, size, c) => `<div class="val" style="left:${x}px;top:${y}px;font-size:${size}px;${c ? 'color:' + c : ''}">${s}</div>`;
+      function beat(n, t0, t1, o) {
+        const out = t1 - 0.22;
+        const P = {
+          el(cls, l, t, w, h, html, at, style = '') {
+            const id = `u${U++}`;
+            dyn.insertAdjacentHTML('beforeend', `<div id="${id}" class="${cls}" style="left:${l}px;top:${t}px;width:${w}px;height:${h}px;${style}">${html}</div>`);
+            if (at === 0) tl.set('#' + id, { opacity: 1 }, 0); else tl.fromTo('#' + id, { opacity: 0, y: 70, scale: 0.9 }, { opacity: 1, y: 0, scale: 1, duration: 0.55, ease: 'back.out(1.5)', immediateRender: false }, at);
+            tl.to('#' + id, { opacity: 0, y: -30, duration: 0.2, ease: 'power2.in' }, out);
+            return '#' + id;
+          },
+          grow(sel, at, d = 0.9) { tl.fromTo(sel, { scaleX: 0 }, { scaleX: 1, duration: d, ease: 'power3.out', immediateRender: false }, at); },
+          pulse(sel, at) { punch(tl, sel, at, { scale: 1.06 }); },
+        };
+        if (o.eyebrow) {
+          const id = `e${n}`;
+          dyn.insertAdjacentHTML('beforeend', `<div id="${id}" class="abs tag" style="left:0;top:150px;width:1080px">${o.eyebrow}</div>`);
+          if (n === 1) hookNow(tl, ['#' + id]); else tl.fromTo('#' + id, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.4, immediateRender: false }, t0);
+          tl.to('#' + id, { opacity: 0, duration: 0.2 }, out);
+        }
+        let y = o.top || 215;
+        (o.rows || []).forEach(([s, c, sz], i) => {
+          const id = `h${n}_${i}`;
+          dyn.insertAdjacentHTML('beforeend', `<div id="${id}" class="abs big" style="left:0;top:${y}px;width:1080px;font-size:${sz}px;color:${c}">${s}</div>`);
+          y += sz * 1.08;
+          if (n === 1) hookNow(tl, ['#' + id]); else maskReveal(tl, '#' + id, t0 + 0.05 + i * 0.15);
+          tl.to('#' + id, { opacity: 0, y: -40, duration: 0.2, ease: 'power2.in' }, out);
+        });
+        return P;
+      }
+      const creditCard = (P, l, t, w, at) => {
+        const h = Math.round(w * 0.62), k = w / 780;
+        return P.el('ccard abs', l, t, w, h, `<div class="chipx" style="left:${60 * k}px;top:${120 * k}px;transform:scale(${k});transform-origin:left top"></div><div class="val" style="left:${60 * k}px;top:${h - 160 * k}px;font-size:${52 * k}px">•••• •••• •••• 4821</div><div class="lab" style="left:${60 * k}px;top:${h - 90 * k}px;color:#3b2a05;font-size:${28 * k}px">CREDIT CARD</div>`, at);
+      };
+      const chip = (P, txt, l, t, at, cls = 'tagc') => P.el(cls + ' abs', l, t, 'auto', 'auto', txt, at);
+
+      // ---------- ambient layer: gold dust + flash (the 3D coin pattern lives in src/modules.html, canvas #gl behind everything) ----------
+      const TOTAL = 72.89;
+      for (let i = 0; i < 18; i++) {
+        const sz = 4 + hashH(i + 3) * 8, x = 20 + hashH(i + 11) * 1040, sp = 70 + hashH(i + 5) * 90, y0 = hashH(i + 7) * 1900;
+        dyn.insertAdjacentHTML('beforeend', `<div id="pt${i}" class="pt" style="left:${x}px;top:0;width:${sz}px;height:${sz}px;opacity:${(0.15 + hashH(i + 9) * 0.25).toFixed(2)}"></div>`);
+        const first = (y0 + 80) / sp, cyc = 2000 / sp;
+        tl.fromTo('#pt' + i, { y: y0 }, { y: -80, duration: first, ease: 'none' }, 0);
+        tl.fromTo('#pt' + i, { y: 1960 }, { y: -80, duration: cyc, ease: 'none', repeat: Math.ceil((TOTAL - first) / cyc), immediateRender: false }, first);
+      }
+      dyn.insertAdjacentHTML('beforeend', '<div id="flash"></div>');
+      const flash = (t, a = 0.5) => tl.fromTo('#flash', { opacity: a }, { opacity: 0, duration: 0.5, ease: 'power2.out', immediateRender: false }, t);
+
+      const START = [0, 4.26, 11.8, 13.7, 18.64, 23.36, 25.94, 27.15, 30.72, 36.52, 39.96, 43.16, 45.18, 47.92, 54.0, 57.3, 66.82, 69.48];
+      const B = (n, o, t1, t0) => { const i = parseInt(n, 10); return beat(n, t0 !== undefined ? t0 : i === 1 ? 0 : START[i - 1] - 0.1, t1 || (i === 18 ? 72.6 : START[i] - 0.1), o); };
+      const CREDIT = 'Photo: The Portable Antiquities Scheme / Edwin Wood · CC BY 2.0 · Wikimedia Commons';
+      const pic = (P, src, l, t, w, h, at, style = '') => P.el('photo abs', l, t, w, h, `<img src="assets/img/${src}" /><div class="shine"></div>`, at, style);
+      const credit = (P, y, at) => P.el('lab abs', 120, y, 'auto', 'auto', CREDIT, at, 'font-size:20px;letter-spacing:.03em;text-transform:none');
+      // pizza / pie of 8 slices (CSS clip-path wedges). hi = indexes drawn bright; others drawn dim when dimOthers
+      const pizza = (P, cx, cy, size, at, o = {}) => { const ids = [];
+        for (let k = 0; k < 8; k++) { const a0 = (k * 45 - 0) * Math.PI / 180, a1 = ((k + 1) * 45) * Math.PI / 180, am = (a0 + a1) / 2;
+          const pt = (a) => `${(50 + 90 * Math.sin(a)).toFixed(2)}% ${(50 - 90 * Math.cos(a)).toFixed(2)}%`;
+          const dim = o.hi && !o.hi.includes(k);
+          const id = P.el('pz abs' + (dim ? ' dim' : ''), cx - size / 2, cy - size / 2, size, size, '', at + (o.stagger === false ? 0 : k * 0.06), `clip-path:polygon(50% 50%, ${pt(a0)}, ${pt((a0 + am) / 2)}, ${pt(am)}, ${pt((am + a1) / 2)}, ${pt(a1)})`);
+          ids.push({ id, am }); }
+        return ids; };
+
+      // 1 hook: 3D coin
+      { const P = B(1, { eyebrow: 'DID YOU KNOW', rows: [['PEOPLE CUT COINS', W, 100], ['INTO PIECES', G, 140]] });
+        const c = P.el('tagc fill abs', 190, 1330, 700, 74, '<div style="text-align:center;line-height:52px;font-size:32px">REAL 1771 SPANISH SILVER DOLLAR</div>', 0); hookNow(tl, [c]); }
+      // 2 cut money into pieces, still worth something
+      { const P = B(2, { eyebrow: 'WHAT IF PEOPLE CUT', rows: [['THEIR MONEY', W, 125], ['INTO PIECES?', G, 125]] });
+        chip(P, 'EACH PIECE STILL WORTH SOMETHING', 150, 1330, wd(2, 13) - 0.2, 'tagc fill'); }
+      // 3 sounds crazy
+      { const P = B(3, { rows: [['SOUNDS', W, 150], ['CRAZY?', G, 170]], top: 250 });
+        P.el('abs', 290, 800, 500, 500, IMG('question', 0, 0, 500), 11.95); }
+      // 4 hundreds of years ago: change; the real cut fragment
+      { const P = B(4, { eyebrow: 'HUNDREDS OF YEARS AGO', rows: [['A WAY TO', W, 120], ['MAKE CHANGE', G, 135]] });
+        const f = pic(P, 'cut-fragment-h.jpg', 120, 700, 840, 363, 14.8); tl.fromTo(f + ' img', { scale: 1.12 }, { scale: 1, duration: 3.6, ease: 'power1.out' }, 14.8);
+        chip(P, 'A REAL CUT COIN FRAGMENT', 280, 1090, 15.6, 'tagc fill'); credit(P, 1160, 15.9); }
+      // 5 the Spanish silver dollar (photo)
+      { const P = B(5, { eyebrow: 'ONE OF THE MOST FAMOUS COINS', rows: [['THE SPANISH', W, 120], ['SILVER DOLLAR', G, 120]] });
+        for (let i = 0; i < 3; i++) { const r = P.el('ring2 abs', 190, 640, 700, 700, '', 19.3 + i * 0.4); tl.fromTo(r, { scale: 0.7, opacity: 0.5 }, { scale: 1.25, opacity: 0, duration: 1.6, ease: 'power1.out', repeat: 2, immediateRender: false }, 19.4 + i * 0.5); }
+        const c = P.el('abs', 220, 670, 640, 640, '<img src="assets/img/coin-front.png" style="width:100%;height:100%;filter:drop-shadow(0 30px 40px rgba(0,0,0,.6)) drop-shadow(0 0 60px rgba(229,171,51,.35))" />', 19.2);
+        tl.fromTo(c, { rotation: -10 }, { rotation: 8, duration: 4.4, ease: 'sine.inOut' }, 19.3); }
+      // 6 "Piece of Eight": the back of the coin with the 8
+      { const P = B(6, { eyebrow: 'PEOPLE CALLED IT THE', rows: [['“PIECE OF EIGHT”', G, 105]] });
+        const c = P.el('abs', 220, 640, 640, 640, '<img src="assets/img/coin-back.jpg" style="width:100%;height:100%;border-radius:50%;box-shadow:0 30px 70px rgba(0,0,0,.65),0 0 90px rgba(229,171,51,.3)" />', 23.5);
+        tl.fromTo(c, { rotation: 12 }, { rotation: -6, duration: 2.4, ease: 'sine.inOut' }, 23.5);
+        const r = P.el('ring2 abs', 220 + 640 * 0.79 - 70, 640 + 640 * 0.51 - 70, 140, 140, '', wd(6, 6) - 0.1, 'border-color:#fffdf6'); tl.fromTo(r, { scale: 2.2 }, { scale: 1, duration: 0.5, ease: 'back.out(2)', immediateRender: false }, wd(6, 6) - 0.1); }
+      // 7 why eight
+      { const P = B(7, { eyebrow: 'WHY', rows: [['EIGHT?', G, 250]], top: 330 });
+        P.el('abs', 340, 850, 400, 400, '<div style="width:400px;height:400px;border-radius:50%;border:12px solid #e5ab33;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:290px;color:#e5ab33;background:#17130a">8</div>', 26.1); }
+      // 8 worth eight smaller units
+      { const P = B(8, { eyebrow: 'BECAUSE IT WAS WORTH', rows: [['EIGHT', G, 150], ['SMALLER UNITS', W, 100]] });
+        P.el('uc abs', 120, 660, 840, 470, `${LAB('1 SPANISH DOLLAR  =  8 REALES', 50, 36)}`, 27.3);
+        for (let i = 0; i < 8; i++) { const x = 150 + (i % 4) * 190, y = 760 + Math.floor(i / 4) * 160;
+          P.el('abs', x, y, 140, 140, `<div style="width:140px;height:140px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#f6cf72,#d79a22 65%,#a86f12);box-shadow:0 12px 24px rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:60px;color:#3b2a05">1</div>`, 27.9 + i * 0.28); }
+        chip(P, '= ONE SILVER DOLLAR', 290, 1160, 30.2, 'tagc fill'); }
+      // 9 cut silver coins into pieces: 3D coin splits
+      { const P = B(9, { eyebrow: 'WHEN SMALL COINS WERE HARD TO FIND', rows: [['PEOPLE CUT', W, 115], ['SILVER COINS', G, 115]] });
+        flash(wd(9, 10) - 0.02, 0.45);
+        const cut = P.el('abs', 140, 988, 800, 8, '<div style="width:100%;height:100%;border-radius:4px;background:linear-gradient(90deg,transparent,#fffdf6,transparent);box-shadow:0 0 24px #e5ab33"></div>', wd(9, 10) - 0.25, 'transform-origin:center'); tl.fromTo(cut, { scaleX: 0 }, { scaleX: 1, duration: 0.3, ease: 'power3.out', immediateRender: false }, wd(9, 10) - 0.25); tl.to(cut, { opacity: 0, duration: 0.3 }, wd(9, 10) + 0.2); }
+      // 10 pizza, eight slices
+      { const P = B(10, { eyebrow: 'IMAGINE A PIZZA DIVIDED INTO', rows: [['EIGHT SLICES', G, 130]] });
+        const sl = pizza(P, 540, 1000, 660, 36.8);
+        tl.to(sl.map((s) => s.id), { rotation: 8, duration: 2.6, ease: 'sine.inOut' }, 36.9); }
+      // 11 each slice = part of the value
+      { const P = B(11, { eyebrow: 'EACH SLICE REPRESENTS', rows: [['PART OF THE', W, 110], ['ORIGINAL VALUE', G, 110]] });
+        const sl = pizza(P, 540, 1010, 640, 40.1, { stagger: false });
+        const k = 2, s = sl[k]; tl.to(s.id, { x: 120 * Math.sin(s.am), y: -120 * Math.cos(s.am), duration: 0.6, ease: 'back.out(1.7)' }, wd(11, 2) + 0.1);
+        chip(P, '1/8 OF THE VALUE', 640, 880, wd(11, 5), 'tagc fill'); }
+      // 12 interesting
+      { const P = B(12, { eyebrow: 'AND HERE’S', rows: [['SOMETHING', W, 130], ['INTERESTING', G, 120]], top: 280 });
+        P.el('abs', 390, 900, 300, 300, IMG('sparkle', 0, 0, 300), 43.7); }
+      // 13 two bits
+      { const P = B(13, { eyebrow: 'EVER HEARD SOMEONE SAY', rows: [['“TWO BITS”?', G, 150]], top: 300 });
+        for (let i = 0; i < 2; i++) P.el('abs', 300 + i * 260, 820, 220, 220, '<div style="width:220px;height:220px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#f6cf72,#d79a22 65%,#a86f12);box-shadow:0 20px 40px rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:100px;color:#3b2a05">' + (i + 1) + '</div>', wd(13, 6) + i * 0.4);
+        chip(P, 'AN OLD EXPRESSION', 330, 1110, wd(13, 7), 'tagc'); }
+      // 14 25 cents from 8-part value
+      { const P = B(14, { eyebrow: 'THE OLD EXPRESSION FOR', rows: [['25 CENTS', G, 150]], top: 260 });
+        const sl = pizza(P, 540, 1010, 560, 49.0, { hi: [0, 1], stagger: true });
+        chip(P, 'FROM THE DOLLAR’S 8 PARTS', 260, 1290, wd(14, 11) - 0.2, 'tagc fill'); }
+      // 15 two out of eight = one quarter
+      { const P = B(15, { eyebrow: 'TWO OUT OF EIGHT PARTS', rows: [['= ONE QUARTER', G, 125]] });
+        const sl = pizza(P, 540, 960, 520, 54.2, { hi: [0, 1], stagger: false });
+        P.el('uc gold abs', 270, 1260, 540, 130, `${VAL('2/8 = 1/4 = 25¢', 40, 38, 58, K)}`, wd(15, 6) - 0.2); flash(wd(15, 7), 0.3); }
+      // 16 before cards, ATMs, digital: cutting silver
+      { const P = B(16, { eyebrow: 'BEFORE CREDIT CARDS, ATMS AND DIGITAL PAYMENTS', rows: [['PEOPLE MADE CHANGE BY', W, 70], ['CUTTING SILVER', G, 120]], top: 215 });
+        [['credit-card', 2, 'CARDS'], ['money', 4, 'ATMS'], ['mobile', 6, 'DIGITAL']].forEach(([ic, k, nm], i) => { const at = wd(16, k) - 0.1, x = 100 + i * 290;
+          P.el('uc abs', x, 640, 260, 250, `${IMG(ic, 80, 40, 100)}${LAB(nm, 130 - nm.length * 8.5, 175)}`, at);
+          const st = P.el('abs', x + 20, 760, 220, 12, '<div style="width:100%;height:100%;border-radius:6px;background:#e5ab33;transform:rotate(-14deg)"></div>', wd(16, 8) + i * 0.25, 'transform-origin:left center'); P.grow(st, wd(16, 8) + i * 0.25, 0.35); });
+        pic(P, 'cut-fragment-h.jpg', 160, 940, 760, 388, wd(16, 12)); credit(P, 1310, wd(16, 13)); }
+      // 17 try that with your debit card
+      { const P = B(17, { eyebrow: 'IMAGINE TRYING THAT WITH', rows: [['YOUR DEBIT CARD', G, 105]] });
+        const cardHTML = '<div class="ccard" style="position:absolute;left:0;top:0;width:700px;height:434px;border-radius:40px;opacity:1"><div class="chipx" style="left:52px;top:105px;transform:scale(.9);transform-origin:left top"></div><div class="val" style="left:52px;top:276px;font-size:46px">•••• •••• •••• 4821</div><div class="lab" style="left:52px;top:344px;color:#3b2a05;font-size:24px">DEBIT CARD</div></div>';
+        const a = P.el('abs', 190, 760, 700, 434, cardHTML, 67.2, 'clip-path:polygon(0 0, 52% 0, 46% 100%, 0 100%)'), b = P.el('abs', 190, 760, 700, 434, cardHTML, 67.2, 'clip-path:polygon(52% 0, 100% 0, 100% 100%, 46% 100%)');
+        const T = wd(17, 4) + 0.1; tl.to(a, { x: -60, rotation: -5, duration: 0.5, ease: 'back.out(1.8)' }, T); tl.to(b, { x: 60, rotation: 5, duration: 0.5, ease: 'back.out(1.8)' }, T);
+        const ln = P.el('abs', 190 + 0.49 * 700 - 4, 740, 8, 474, '<div style="width:100%;height:100%;background:#fffdf6;box-shadow:0 0 24px #e5ab33;transform:rotate(5deg)"></div>', T - 0.35); tl.to(ln, { opacity: 0, duration: 0.3 }, T + 0.1); flash(T, 0.35); }
+      // 18 end
+      { const P = B(18, { rows: [['YOU DIDN’T KNOW', W, 104], ['THAT ABOUT MONEY.', G, 104]], top: 960 }); flash(69.9, 0.3); }
+
+
+      // ================= captions (word-timed karaoke) =================
+      const css = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+      const hexA = (h, a) => { const n = parseInt(h.replace('#', ''), 16); return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${a})`; };
+      const ACC = css('--accent'), INK = css('--ink'), ONACC = css('--on-accent');
+      const capsEl = $('#caps');
+      const groups = []; let cur = [];
+      WORDS.forEach((w, i) => { cur.push(w); const nx = WORDS[i + 1]; const endS = /[.!?]$/.test(w.w); const endC = /,$/.test(w.w) && cur.length >= 2; if (!nx || endS || endC || cur.length >= 4 || (nx && nx.s - w.e > 0.5)) { groups.push(cur); cur = []; } });
+      groups.forEach((g, gi) => {
+        if (typeof NO_CAPTION_LINES !== 'undefined' && NO_CAPTION_LINES.includes(g[0].line)) return;
+        const d = document.createElement('div'); d.className = 'cg'; const pill = document.createElement('div'); pill.className = 'pill'; d.appendChild(pill);
+        g.forEach((w, wi) => { const s = document.createElement('span'); s.className = 'cw'; s.id = `cw${gi}_${wi}`; s.textContent = w.w; pill.appendChild(s); });
+        capsEl.appendChild(d);
+        const a0 = g[0].s - 0.03, nextS = groups[gi + 1] ? groups[gi + 1][0].s : 1e9, b = Math.min(g[g.length - 1].e + 0.2, nextS - 0.08);
+        tl.fromTo(d, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.1, ease: 'power2.out', immediateRender: false }, Math.max(0, a0));
+        tl.to(d, { opacity: 0, duration: 0.06, ease: 'none' }, b);
+        g.forEach((w, wi) => { const sp = `#cw${gi}_${wi}`;
+          tl.fromTo(sp, { backgroundColor: hexA(ACC, 0), color: INK }, { backgroundColor: ACC, color: ONACC, duration: 0.06, ease: 'none', immediateRender: false }, w.s);
+          tl.to(sp, { backgroundColor: hexA(ACC, 0), color: INK, duration: 0.06, ease: 'none' }, Math.max(w.e, w.s + 0.1)); });
+      });
+      tl.fromTo('#prog', { scaleX: 0 }, { scaleX: 1, duration: 72.89, ease: 'none', immediateRender: false }, 0);
+      window.__timelines['main'] = tl;
+      tl.seek(0);
+    </script>
+    <script type="importmap">
+      { "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.181.2/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.181.2/examples/jsm/"
+      } }
+    </script>
+    <script type="module">
+      import * as THREE from 'three';
+      const W = 1080, H = 1920;
+      const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+      const sm = (x) => x * x * (3 - 2 * x);
+      const win = (t, a, b) => sm(clamp((t - a) / (b - a)));
+      const hh = (i) => { const x = Math.sin(i * 91.7 + 17.3) * 43758.5453; return x - Math.floor(x); };
+      const backOut = (x) => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
+      async function build() {
+        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('gl'), antialias: true, alpha: true });
+        renderer.setPixelRatio(1); renderer.setSize(W, H, false); renderer.outputColorSpace = THREE.SRGBColorSpace; renderer.setClearColor(0x000000, 0);
+        const scene = new THREE.Scene(); scene.fog = new THREE.Fog(0x0a0a0a, 6.5, 13);
+        const camera = new THREE.PerspectiveCamera(40, W / H, 0.1, 60);
+        scene.add(new THREE.AmbientLight(0xfff1d0, 0.9));
+        const key = new THREE.DirectionalLight(0xfff4dc, 2.4); key.position.set(-3, 5, 7); scene.add(key);
+        const rim = new THREE.PointLight(0xe5ab33, 14, 14); rim.position.set(3, -2, 3); scene.add(rim);
+        const texL = new THREE.TextureLoader(); const load = (u) => new Promise((res, rej) => texL.load(u, res, undefined, rej));
+        const fTex = await load('assets/img/coin-front.png'), bTex = await load('assets/img/coin-back.jpg');
+        [fTex, bTex].forEach((t) => { t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4; });
+        fTex.repeat.set(0.5, 0.5); fTex.offset.set(0.5, 0.5);
+        bTex.repeat.set(-0.5, 0.5); bTex.offset.set(0.5, 0.5);
+        const capF = new THREE.MeshStandardMaterial({ map: fTex, roughness: 0.55, metalness: 0.25 });
+        const capB = new THREE.MeshStandardMaterial({ map: bTex, roughness: 0.55, metalness: 0.25, side: THREE.FrontSide });
+        const edgeM = new THREE.MeshStandardMaterial({ color: 0xb9b2a0, roughness: 0.4, metalness: 0.7 });
+
+        // ---------- hero coin: 8 wedges (textured front + back) ----------
+        const hero = new THREE.Group(); scene.add(hero);
+        const DEPTH = 0.1, wedges = [];
+        for (let k = 0; k < 8; k++) {
+          const a0 = k * Math.PI / 4, a1 = (k + 1) * Math.PI / 4;
+          const shp = new THREE.Shape(); shp.moveTo(0, 0); shp.lineTo(Math.cos(a0), Math.sin(a0)); shp.absarc(0, 0, 1, a0, a1, false); shp.lineTo(0, 0);
+          const g = new THREE.ExtrudeGeometry(shp, { depth: DEPTH, bevelEnabled: false, curveSegments: 14 });
+          const m = new THREE.Mesh(g, [capF, edgeM]); m.position.z = -DEPTH / 2;
+          const backG = new THREE.ShapeGeometry(shp, 14); const back = new THREE.Mesh(backG, capB); back.rotation.y = Math.PI; back.position.z = -DEPTH / 2 - 0.004;
+          const wg = new THREE.Group(); wg.add(m); wg.add(back); hero.add(wg);
+          wedges.push({ g: wg, mid: (a0 + a1) / 2, k });
+        }
+        // ---------- background pattern: drifting silver/gold coins ----------
+        const bg = new THREE.Group(); scene.add(bg); const bgc = [];
+        const silverM = new THREE.MeshStandardMaterial({ color: 0x7d7869, roughness: 0.5, metalness: 0.55 }), goldM = new THREE.MeshStandardMaterial({ color: 0x9a6f1c, roughness: 0.5, metalness: 0.55 });
+        for (let i = 0; i < 34; i++) {
+          const r = 0.16 + hh(i + 1) * 0.34; const m = new THREE.Mesh(new THREE.CylinderGeometry(r, r, r * 0.16, 28), i % 3 === 0 ? goldM : silverM);
+          bg.add(m); bgc.push({ m, x: (hh(i + 5) - 0.5) * 7.2, y0: hh(i + 9) * 12, z: -3.4 - hh(i + 13) * 5, sp: 0.18 + hh(i + 17) * 0.3, rx: hh(i + 21) * 6, rs: 0.4 + hh(i + 25) * 0.9 });
+        }
+        const CUT1 = (typeof WORDS !== 'undefined') ? WORDS.filter((w) => w.line === 2)[8].s : 6.9;
+        const CUT2 = (typeof WORDS !== 'undefined') ? WORDS.filter((w) => w.line === 9)[10].s : 33.9;
+        const SHOW = [[0, 11.7], [30.3, 36.3], [69.7, 73]];
+        function renderAt(t) {
+          camera.position.set(Math.sin(t * 0.35) * 0.18, Math.sin(t * 0.27) * 0.1, 6.2); camera.lookAt(0, -0.05, 0);
+          // background coins: slow rise + tumble
+          bgc.forEach((c) => { const span = 12; const y = ((c.y0 - t * c.sp) % span + span) % span - span / 2; c.m.position.set(c.x, y, c.z); c.m.rotation.set(c.rx + t * c.rs, t * c.rs * 0.6, 0); });
+          // hero visibility (scale in/out)
+          let s = 0; for (const [a, b] of SHOW) { const v = a === 0 ? 1 - win(t, b - 0.6, b) : win(t, a, a + 0.7) * (1 - win(t, b - 0.5, b)); s = Math.max(s, v); }
+          hero.visible = s > 0.002; if (!hero.visible) { renderer.render(scene, camera); return; }
+          const u = (a, b) => win(t, a, b);
+          // explode amount: coin 1 (cut at CUT1, gather before scene 3 ends), coin 2 (cut at CUT2)
+          const ex = Math.max(backOut(clamp((t - CUT1) / 0.9)) * (1 - u(10.9, 11.6)) * (t > CUT1 ? 1 : 0), backOut(clamp((t - CUT2) / 0.9)) * (1 - u(35.6, 36.2)) * (t > CUT2 ? 1 : 0));
+          const spin = t * 0.7, face = Math.sin(t * 0.8) * 0.18;
+          const yaw = (1 - clamp(ex)) * spin + clamp(ex) * face;
+          const endCoin = t > 69 ? 1 : 0;
+          hero.rotation.set(-0.28 * (1 - clamp(ex)) + Math.sin(t * 0.6) * 0.06, yaw, Math.sin(t * 0.5) * 0.06);
+          const base = endCoin ? 0.52 : 0.86; hero.scale.setScalar(base * (0.2 + 0.8 * s));
+          hero.position.set(0, endCoin ? 1.55 : -0.05 + Math.sin(t * 1.1) * 0.03, 0);
+          wedges.forEach((w) => {
+            const d = ex * (0.34 + 0.06 * hh(w.k + 3)), jit = ex * (hh(w.k + 7) - 0.5);
+            w.g.position.set(Math.cos(w.mid) * d, Math.sin(w.mid) * d, ex * 0.12 * Math.sin(w.k * 1.7 + t * 2.0));
+            w.g.rotation.set(jit * 0.5, jit * 0.4, jit * 0.35 + ex * 0.04 * Math.sin(t * 2 + w.k));
+          });
+          renderer.render(scene, camera);
+        }
+        window.addEventListener('hf-seek', (e) => renderAt(e.detail.time));
+        renderAt(window.__hfThreeTime || 0);
+      }
+      window.__hf = window.__hf || {}; window.__hf.buildReady = window.__hf.buildReady || {}; window.__hf.buildReady['coins'] = build();
+    </script>
+
+  </body>
+</html>

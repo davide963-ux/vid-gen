@@ -1,0 +1,42 @@
+{
+  "schema": "hyperframes.capture.icons.v1",
+  "headline": {
+    "file": "assets/favicon.svg",
+    "source": "assets/icon-icon-192x192.svg",
+    "rank": 0,
+    "shape": "bare-mark",
+    "reason": "the only candidate is a bare mark"
+  },
+  "icons": [
+    {
+      "file": "assets/icon-icon-192x192.svg",
+      "url": "https://amarahotel.al/wp-content/uploads/2025/01/Group-13.svg",
+      "rel": "icon",
+      "sizes": "192x192",
+      "type": null,
+      "rank": 0,
+      "shape": "bare-mark",
+      "shapeReason": "first painted element is <path> with margins"
+    },
+    {
+      "file": "assets/icon-apple-touch-icon-unsized.svg",
+      "url": "https://amarahotel.al/wp-content/uploads/2025/01/Group-13.svg",
+      "rel": "apple-touch-icon",
+      "sizes": null,
+      "type": null,
+      "rank": 1,
+      "shape": "bare-mark",
+      "shapeReason": "first painted element is <path> with margins"
+    },
+    {
+      "file": "assets/icon-icon-32x32.svg",
+      "url": "https://amarahotel.al/wp-content/uploads/2025/01/Group-13.svg",
+      "rel": "icon",
+      "sizes": "32x32",
+      "type": null,
+      "rank": 2,
+      "shape": "bare-mark",
+      "shapeReason": "first painted element is <path> with margins"
+    }
+  ]
+}

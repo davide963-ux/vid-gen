@@ -1,0 +1,17 @@
+{
+  "name": "studio",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "npx --yes hyperframes@0.8.138 preview",
+    "check": "npx --yes hyperframes@0.8.138 check",
+    "render": "npx --yes hyperframes@0.8.138 render",
+    "publish": "npx --yes hyperframes@0.8.138 publish",
+    "normalize": "node scripts/pipeline.mjs normalize",
+    "music:search": "node scripts/pipeline.mjs music-search",
+    "music:get": "node scripts/pipeline.mjs music-get",
+    "mix": "node scripts/pipeline.mjs mix",
+    "loudnorm": "node scripts/pipeline.mjs loudnorm",
+    "record": "node scripts/pipeline.mjs record"
+  }
+}

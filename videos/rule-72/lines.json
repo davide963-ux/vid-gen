@@ -1,0 +1,45 @@
+{
+  "total": 9.14,
+  "lines": [
+    {
+      "i": 1,
+      "file": "assets/voice/01.wav",
+      "text": "When does your money double?",
+      "tts": "When does your money double?",
+      "start": 0.3,
+      "dur": 1.429,
+      "end": 1.729,
+      "pause": 0.2
+    },
+    {
+      "i": 2,
+      "file": "assets/voice/02.wav",
+      "text": "Divide 72 by the interest rate.",
+      "tts": "Divide seventy-two by the interest rate.",
+      "start": 1.929,
+      "dur": 2.261,
+      "end": 4.191,
+      "pause": 0.2
+    },
+    {
+      "i": 3,
+      "file": "assets/voice/03.wav",
+      "text": "At 6%, about 12 years.",
+      "tts": "At six percent, about twelve years.",
+      "start": 4.391,
+      "dur": 2.048,
+      "end": 6.439,
+      "pause": 0.25
+    },
+    {
+      "i": 4,
+      "file": "assets/voice/04.wav",
+      "text": "You didn't know that about money.",
+      "tts": "You didn't know that about money.",
+      "start": 6.689,
+      "dur": 1.749,
+      "end": 8.438,
+      "pause": 0.2
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+[
+ {
+  "say": "You probably didn't know this about money.",
+  "pause": 0.45
+ },
+ {
+  "say": "Most money today is not actually cash.",
+  "pause": 0.4
+ },
+ {
+  "say": "It's not sitting somewhere as paper bills or coins.",
+  "pause": 0.4
+ },
+ {
+  "say": "Most of it exists digitally.",
+  "pause": 0.5
+ },
+ {
+  "say": "Think about your bank account.",
+  "pause": 0.4
+ },
+ {
+  "say": "If your balance says two thousand dollars, that doesn't mean the bank has a box with two thousand dollars in cash with your name on it.",
+  "show": "If your balance says 2,000$, that doesn't mean the bank has a box with 2,000$ in cash with your name on it.",
+  "pause": 0.4
+ },
+ {
+  "say": "It simply means their system records that you have two thousand dollars available.",
+  "show": "It simply means their system records that you have 2,000$ available.",
+  "pause": 0.5
+ },
+ {
+  "say": "When someone sends you money, cash usually doesn't physically move anywhere.",
+  "pause": 0.45
+ },
+ {
+  "say": "One account goes down.",
+  "pause": 0.4
+ },
+ {
+  "say": "Another account goes up.",
+  "pause": 0.45
+ },
+ {
+  "say": "That's it.",
+  "pause": 0.55
+ },
+ {
+  "say": "The same thing happens when you use your card, pay online, or receive your salary.",
+  "pause": 0.45
+ },
+ {
+  "say": "So most of the money we use every day is really just numbers stored in banking systems.",
+  "pause": 0.45
+ },
+ {
+  "say": "Physical cash is only a small part of it.",
+  "pause": 0.45
+ },
+ {
+  "say": "Money today is mostly digital information.",
+  "pause": 0.5
+ },
+ {
+  "say": "You didn't know that about money.",
+  "tail": 1
+ }
+]

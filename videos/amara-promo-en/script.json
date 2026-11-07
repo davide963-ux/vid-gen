@@ -1,0 +1,10 @@
+[
+ {"say":"Dreaming of a holiday by the sea?","pause":0.5},
+ {"say":"Welcome to Amara Hotel and spa, in Durres.","show":"Welcome to Amara Hotel & SPA, in Durrës.","pause":0.5},
+ {"say":"Elegant rooms, many with sea views, where every detail is designed for your comfort.","pause":0.5},
+ {"say":"Enjoy exquisite dishes at our restaurant by the sea.","pause":0.5},
+ {"say":"Relax by the outdoor pool, or at the private beach, with direct access.","pause":0.5},
+ {"say":"And recharge at our wellness center and spa.","show":"And recharge at our Wellness Center and SPA.","pause":0.55},
+ {"say":"Amara Hotel and spa. Comfort, redefined.","show":"Amara Hotel & SPA. Comfort, redefined.","pause":0.55},
+ {"say":"Book your stay today.","pause":0.3,"tail":2.2}
+]

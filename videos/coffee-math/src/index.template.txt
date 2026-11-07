@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
+    <script type="importmap">
+      { "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.181.2/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.181.2/examples/jsm/"
+      } }
+    </script>
+    <style>
+      @font-face { font-family: 'Space Grotesk'; font-weight: 500; src: url('assets/fonts/space-grotesk-latin-500-normal.woff2') format('woff2'); }
+      @font-face { font-family: 'Space Grotesk'; font-weight: 600; src: url('assets/fonts/space-grotesk-latin-600-normal.woff2') format('woff2'); }
+      @font-face { font-family: 'Space Grotesk'; font-weight: 700; src: url('assets/fonts/space-grotesk-latin-700-normal.woff2') format('woff2'); }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #fdfae7; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #fdfae7; font-family: 'Space Grotesk', sans-serif; color: #111; }
+      #stage { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; }
+      #gl { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; display: block; }
+      .abs { position: absolute; opacity: 0; }
+      #veil { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; opacity: 0; pointer-events: none; background: radial-gradient(ellipse 85% 38% at 50% 40%, rgba(253,250,231,0.95) 0%, rgba(253,250,231,0.86) 55%, rgba(253,250,231,0) 100%); }
+      .big { font-weight: 700; letter-spacing: -0.035em; line-height: 1.02; text-align: center; white-space: nowrap; }
+      .bl { color: #1e2bfa; }
+      .tag { font-weight: 600; font-size: 34px; letter-spacing: 0.1em; text-transform: uppercase; color: #1e2bfa; text-align: center; white-space: nowrap; }
+      .lot { position: absolute; opacity: 0; }
+      .spark { position: absolute; width: 90px; height: 90px; opacity: 0; -webkit-mask-size: contain; mask-size: contain; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-position: center; mask-position: center; -webkit-mask-image: url('assets/img/star.png'); mask-image: url('assets/img/star.png'); }
+      #prog { position: absolute; left: 0; bottom: 0; width: 1080px; height: 6px; background: #1e2bfa; transform-origin: left center; }
+      #caps { position: absolute; left: 0; top: 1392px; width: 1080px; height: 190px; }
+      .cg { position: absolute; left: 90px; top: 0; width: 900px; text-align: center; opacity: 0; }
+      .cg .pill { display: inline-block; padding: 14px 30px 16px; border-radius: 34px; background: #fff; border: 1.5px solid rgba(30,43,250,0.22); box-shadow: 0 8px 30px rgba(17,17,17,0.06); font-weight: 600; font-size: 54px; line-height: 1.2; letter-spacing: -0.01em; color: #111; }
+      .cw { display: inline-block; margin: 0 4px; padding: 0 10px; border-radius: 12px; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="__TOTAL__" data-width="1080" data-height="1920">
+      <div id="stage" class="clip" data-start="0" data-duration="__TOTAL__" data-track-index="0">
+        <canvas id="gl" width="1080" height="1920"></canvas>
+        <div id="veil"></div>
+
+        <!-- title -->
+        <div id="t1" class="abs big" style="left:0;top:330px;width:1080px;font-size:150px">COFFEE</div>
+        <div id="t2" class="abs big bl" style="left:0;top:480px;width:1080px;font-size:150px">MATH</div>
+        <img id="eIdea" class="abs" src="assets/img/emote_idea.png" style="left:760px;top:500px;width:170px" />
+
+        <!-- $5 -->
+        <div id="p1" class="abs tag" style="left:0;top:420px;width:1080px">One coffee</div>
+        <div id="p2" class="abs big bl" style="left:0;top:480px;width:1080px;font-size:300px">$5</div>
+
+        <!-- day counter -->
+        <div id="dayL" class="abs tag" style="left:0;top:170px;width:1080px;font-size:30px">Day</div>
+        <div id="dayN" class="abs big" style="left:0;top:206px;width:1080px;font-size:132px">1</div>
+
+        <!-- equation -->
+        <div id="eq" class="abs big" style="left:0;top:470px;width:1080px;font-size:176px"><span id="eqA" class="bl">$5</span> <span id="eqB">×</span> <span id="eqC" class="bl">365</span></div>
+        <div id="eqD" class="abs tag" style="left:0;top:700px;width:1080px">days</div>
+
+        <!-- reveal -->
+        <div id="money" class="lot" style="left:240px;top:170px;width:600px;height:474px"></div>
+        <div id="total" class="abs big bl" style="left:0;top:640px;width:1080px;font-size:224px">$0</div>
+        <img id="eCash" class="abs" src="assets/img/emote_cash.png" style="left:790px;top:240px;width:170px" />
+        <div id="conf" class="lot" style="left:0;top:160px;width:1080px;height:1080px"></div>
+        <div id="arrow" class="lot" style="left:60px;top:900px;width:560px;height:315px"></div>
+        <div id="yr" class="abs tag" style="left:620px;top:1030px;width:400px;font-size:50px">per year</div>
+
+        <!-- ending -->
+        <div id="h1" class="abs big" style="left:0;top:520px;width:1080px;font-size:136px">SMALL HABITS</div>
+        <div id="h2" class="abs big bl" style="left:0;top:680px;width:1080px;font-size:136px">BIG NUMBERS</div>
+        <div id="k1" class="abs big" style="left:0;top:470px;width:1080px;font-size:150px">KNOW YOUR</div>
+        <div id="k2" class="abs big bl" style="left:0;top:630px;width:1080px;font-size:190px">NUMBER.</div>
+
+        <div id="caps"></div>
+        <div id="prog"></div>
+      </div>
+    </div>
+
+    <script>
+      const WORDS = __WORDS__;
+      window.__timelines = window.__timelines || {};
+      const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+      const sm = (x) => x * x * (3 - 2 * x);
+      const lerp = (a, b, u) => a + (b - a) * u;
+      // how many coffees exist at time t (shared by the 3D scene and the day counter)
+      const CUP_KEYS = [[0, 1], [2.8, 1], [4.3, 120], [4.85, 138], [6.2, 365], [99, 365]];
+      window.cupsAt = (t) => { let i = 0; while (i < CUP_KEYS.length - 2 && t >= CUP_KEYS[i + 1][0]) i++; const [t0, v0] = CUP_KEYS[i], [t1, v1] = CUP_KEYS[i + 1]; return lerp(v0, v1, sm(clamp((t - t0) / (t1 - t0)))); };
+      window.moneyAt = (t) => 1825 * (1 - Math.pow(1 - clamp((t - 7.55) / 1.15), 3));
+
+      const tl = gsap.timeline({ paused: true });
+      const E = 'power3.out', IO = 'power2.inOut';
+      const $ = (s) => document.querySelector(s);
+      const R = (el, t, from, to) => tl.fromTo(el, Object.assign({ opacity: 0, y: 30 }, from || {}), Object.assign({ opacity: 1, y: 0, duration: 0.55, ease: E, immediateRender: false }, to || {}), t);
+      const X = (el, t, d) => tl.to(el, { opacity: 0, duration: d || 0.25, ease: 'none' }, t);
+
+      // title
+      R('#t1', 0.3); R('#t2', 0.72, { x: 0 }); R('#eIdea', 1.0, { scale: 0.3, y: 20 }, { scale: 1, duration: 0.5 });
+      X('#t1', 1.6); X('#t2', 1.6); X('#eIdea', 1.6);
+      // one coffee = $5
+      R('#p1', 1.86, {}, { duration: 0.4 }); R('#p2', 1.86, { scale: 0.6, y: 40 }, { scale: 1, duration: 0.6 });
+      tl.fromTo('#p2', { scale: 1 }, { scale: 1.08, duration: 0.18, ease: E, immediateRender: false }, 2.26); tl.to('#p2', { scale: 1, duration: 0.25, ease: IO }, 2.44);
+      X('#p1', 4.25); X('#p2', 4.25);
+      // day counter while the cups multiply
+      R('#dayL', 2.8, {}, { duration: 0.4 }); R('#dayN', 2.8, {}, { duration: 0.4 });
+      X('#dayL', 7.2); X('#dayN', 7.2);
+      // equation
+      R('#eq', 4.55, { y: 40 }, { duration: 0.6 }); R('#eqD', 5.2, {}, { duration: 0.4 });
+      tl.fromTo('#eqC', { scale: 1 }, { scale: 1.12, duration: 0.22, ease: E, immediateRender: false, transformOrigin: '50% 60%' }, 4.9); tl.to('#eqC', { scale: 1, duration: 0.3, ease: IO }, 5.15);
+      X('#eq', 7.3); X('#eqD', 7.3);
+      // veil behind the reveal and the ending
+      tl.fromTo('#veil', { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'none', immediateRender: false }, 4.45); tl.to('#veil', { opacity: 0.55, duration: 0.5, ease: 'none' }, 6.4);
+      tl.to('#veil', { opacity: 1, duration: 0.4, ease: 'none' }, 7.2); tl.to('#veil', { opacity: 0.35, duration: 0.3, ease: 'none' }, 10.65); tl.to('#veil', { opacity: 1, duration: 0.5, ease: 'none' }, 11.0);
+      // reveal
+      R('#total', 7.45, { scale: 0.7, y: 40 }, { scale: 1, duration: 0.55 });
+      R('#eCash', 7.9, { scale: 0.3, y: 30 }, { scale: 1, duration: 0.5 });
+      R('#yr', 10.0, { x: 30 }, { x: 0, duration: 0.5 });
+      ['#total', '#eCash', '#yr'].forEach((s) => X(s, 10.95, 0.3));
+      // sparkles around the total
+      for (let i = 0; i < 8; i++) { const a = i / 8 * 6.283, s = document.createElement('div'); s.className = 'spark'; s.style.left = (500 + Math.cos(a) * 330) + 'px'; s.style.top = (760 + Math.sin(a) * 170) + 'px'; s.style.backgroundColor = i % 2 ? '#1e2bfa' : '#f6b73c'; $('#stage').appendChild(s);
+        tl.fromTo(s, { opacity: 0, scale: 0.2, rotation: -40 }, { opacity: 1, scale: 0.7 + (i % 3) * 0.25, rotation: 20, duration: 0.45, ease: E, immediateRender: false }, 7.6 + i * 0.05); tl.to(s, { opacity: 0, scale: 0.1, duration: 0.5, ease: 'power2.in' }, 8.6 + i * 0.04); }
+      // ending lines
+      R('#h1', 11.08, {}, { duration: 0.6 }); R('#h2', 12.06, {}, { duration: 0.6 }); X('#h1', 12.95, 0.25); X('#h2', 12.95, 0.25);
+      R('#k1', 13.14, {}, { duration: 0.5 }); R('#k2', 13.55, { scale: 0.85, y: 40 }, { scale: 1, duration: 0.6 });
+
+      // Lotties: HyperFrames plays every registered Lottie against the composition clock, so each file was time-shifted
+      // (scripts/lottie_shift.mjs) to begin exactly when it should; here we only control when each one is visible.
+      const mk = (id, path) => { const a = lottie.loadAnimation({ container: document.getElementById(id), renderer: 'svg', loop: false, autoplay: false, path, rendererSettings: { preserveAspectRatio: 'xMidYMid meet' } }); (window.__hfLottie = window.__hfLottie || []).push(a); return a; };
+      const c2 = document.createElement('div'); c2.id = 'conf2'; c2.className = 'lot'; c2.style.cssText = 'left:0;top:900px;width:1080px;height:1080px;'; $('#stage').appendChild(c2);
+      mk('money', 'assets/lottie/money-s.json'); mk('conf', 'assets/lottie/confetti-s.json'); mk('conf2', 'assets/lottie/confetti2-s.json'); mk('arrow', 'assets/lottie/arrow-s.json');
+      [['#money', 7.4, 10.95], ['#conf', 7.9, 10.2], ['#conf2', 13.5, 15.2], ['#arrow', 9.75, 10.95]].forEach(([sel, a, b]) => { tl.fromTo(sel, { opacity: 0 }, { opacity: 1, duration: 0.01, immediateRender: false }, a); tl.to(sel, { opacity: 0, duration: 0.01 }, b); });
+      const proxy = { v: 0 };
+      function tick(t) {
+        $('#dayN').textContent = cupsAt(t) >= 364 ? '365' : String(Math.max(1, Math.round(cupsAt(t))));
+        $('#total').textContent = '$' + Math.round(moneyAt(t)).toLocaleString('en-US');
+      }
+      tl.to(proxy, { v: 1, duration: __TOTAL__, ease: 'none', onUpdate() { tick(tl.time()); } }, 0);
+
+      // ---------- captions ----------
+      const capsEl = $('#caps');
+      const groups = []; let cur = [];
+      WORDS.forEach((w, i) => { cur.push(w); const nx = WORDS[i + 1]; const endS = /[.!?…]$/.test(w.w); const endC = /,$/.test(w.w) && cur.length >= 2; if (!nx || endS || endC || cur.length >= 5 || (nx && nx.s - w.e > 0.5)) { groups.push(cur); cur = []; } });
+      groups.forEach((g, gi) => {
+        const d = document.createElement('div'); d.className = 'cg'; const pill = document.createElement('div'); pill.className = 'pill'; d.appendChild(pill);
+        g.forEach((w, wi) => { const s = document.createElement('span'); s.className = 'cw'; s.id = `cw${gi}_${wi}`; s.textContent = w.w; pill.appendChild(s); });
+        capsEl.appendChild(d);
+        const a = g[0].s - 0.03, nextS = groups[gi + 1] ? groups[gi + 1][0].s : 1e9, b = Math.min(g[g.length - 1].e + 0.25, nextS - 0.12);
+        tl.fromTo(d, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.12, ease: 'power2.out', immediateRender: false }, a);
+        tl.to(d, { opacity: 0, duration: 0.08, ease: 'none' }, b);
+        g.forEach((w, wi) => { const sp = `#cw${gi}_${wi}`;
+          tl.fromTo(sp, { backgroundColor: 'rgba(30,43,250,0)', color: '#111' }, { backgroundColor: '#1e2bfa', color: '#fdfae7', duration: 0.07, ease: 'none', immediateRender: false }, w.s);
+          tl.to(sp, { backgroundColor: 'rgba(30,43,250,0)', color: '#111', duration: 0.08, ease: 'none' }, Math.max(w.e, w.s + 0.12)); });
+      });
+      tl.fromTo('#prog', { scaleX: 0 }, { scaleX: 1, duration: __TOTAL__, ease: 'none', immediateRender: false }, 0);
+
+      window.__timelines['main'] = tl;
+      tl.seek(0);
+    </script>
+
+    <script type="module">
+      import * as THREE from 'three';
+      import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+      const W = 1080, H = 1920;
+      const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+      const sm = (x) => x * x * (3 - 2 * x);
+      const win = (t, a, b) => sm(clamp((t - a) / (b - a)));
+      const lerp = (a, b, u) => a + (b - a) * u;
+
+      async function build() {
+        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('gl'), antialias: true });
+        renderer.setPixelRatio(1); renderer.setSize(W, H, false); renderer.outputColorSpace = THREE.SRGBColorSpace;
+        const scene = new THREE.Scene(); scene.background = new THREE.Color(0xfdfae7); scene.fog = new THREE.Fog(0xfdfae7, 45, 120);
+        const camera = new THREE.PerspectiveCamera(40, W / H, 0.1, 200);
+        scene.add(new THREE.HemisphereLight(0xffffff, 0xe3d9b4, 1.9));
+        const sun = new THREE.DirectionalLight(0xfff4dc, 1.9); sun.position.set(6, 14, 8); scene.add(sun);
+        const floor = new THREE.Mesh(new THREE.PlaneGeometry(300, 300), new THREE.MeshLambertMaterial({ color: 0xf0e8c6 })); floor.rotation.x = -Math.PI / 2; scene.add(floor);
+
+        const loader = new GLTFLoader();
+        const load = (u) => new Promise((res, rej) => loader.load(u, res, undefined, rej));
+        const fit = (o, target, mode) => { o.updateMatrixWorld(true); let b = new THREE.Box3().setFromObject(o), s = b.getSize(new THREE.Vector3()); const ref = mode === 'height' ? s.y : mode === 'depth' ? s.z : Math.max(s.x, s.z); o.scale.multiplyScalar(target / ref); o.updateMatrixWorld(true); b = new THREE.Box3().setFromObject(o); o.position.y -= b.min.y; o.updateMatrixWorld(true); return new THREE.Box3().setFromObject(o); };
+
+        // --- the desk scene ---
+        const desk = new THREE.Group(); desk.position.set(0, 0, 16); scene.add(desk);
+        const dk = (await load('assets/models/furniture/desk.glb')).scene; desk.add(dk); const dbox = fit(dk, 4.2, 'width'); const TOP = dbox.max.y;
+        const lp = (await load('assets/models/furniture/laptop.glb')).scene; desk.add(lp); fit(lp, 1.45, 'width'); lp.position.set(-0.7, TOP, 0.05); lp.rotation.y = 0.25;
+        const plant = (await load('assets/models/furniture/plantSmall1.glb')).scene; desk.add(plant); fit(plant, 0.9, 'height'); plant.position.set(1.7, TOP, -0.35);
+        const chair = (await load('assets/models/furniture/chairDesk.glb')).scene; desk.add(chair); fit(chair, 1.9, 'height'); chair.position.set(-0.9, 0, 1.7); chair.rotation.y = Math.PI + 0.3;
+
+        // --- the coffee: one hero cup, then 365 instanced copies ---
+        const cupG = await load('assets/models/food/cup-coffee.glb');
+        const heroG = new THREE.Group(); scene.add(heroG); const heroCup = cupG.scene.clone(true); heroG.add(heroCup); fit(heroCup, 0.74, 'width');
+        heroG.updateMatrixWorld(true);
+        const parts = []; heroCup.traverse((o) => { if (o.isMesh) parts.push({ geo: o.geometry, mat: o.material, m: o.matrixWorld.clone() }); });
+        const N = 365, COLS = 14, ROWS = 27, CELL = 0.92;
+        const CUP_R = 0.37;
+        const lastRow = N - (ROWS - 1) * COLS;
+        const cellPos = (i) => { const c = i % COLS, r = Math.floor(i / COLS); const mid = r === ROWS - 1 ? (lastRow - 1) / 2 : (COLS - 1) / 2; return new THREE.Vector3((c - mid) * CELL, 0, (r - (ROWS - 1) / 2) * CELL); };
+        const inst = parts.map((p) => { const im = new THREE.InstancedMesh(p.geo, p.mat, N); im.frustumCulled = false; im.count = N; scene.add(im); return im; });
+        const shadow = new THREE.InstancedMesh(new THREE.CircleGeometry(0.42, 24), new THREE.MeshBasicMaterial({ color: 0x8a7a50, transparent: true, opacity: 0.22, depthWrite: false }), N); shadow.frustumCulled = false; scene.add(shadow);
+        // time at which cup i appears (invert the shared count curve)
+        const appear = new Float32Array(N); for (let i = 0; i < N; i++) { let lo = 2.7, hi = 6.4; for (let k = 0; k < 24; k++) { const mid = (lo + hi) / 2; if (cupsAt(mid) >= i + 0.5) hi = mid; else lo = mid; } appear[i] = hi; }
+        const D = new THREE.Object3D(), M = new THREE.Matrix4(), S = new THREE.Matrix4();
+
+        // --- camera path (time-scaled cardinal spline) ---
+        const K = [
+          [0.0, [4.2, 3.6, 30.0], [0, 2.3, 16.5], 38], [2.7, [3.2, 3.2, 28.5], [0, 2.1, 16.5], 38], [3.5, [0, 11, 24], [0, 0.4, 12.5], 40],
+          [4.7, [0, 22, 12.5], [0, 0, 4], 40], [6.5, [0, 37, 0.8], [0, 0, 0], 40], [10.6, [0, 35.5, 0.8], [0, 0, 0], 40], [13.1, [0, 29, 13.5], [0, 0, 1], 44], [15.2, [0, 31, 15], [0, 0, 1], 44]
+        ].map(([t, p, l, f]) => ({ t, p: new THREE.Vector3(...p), l: new THREE.Vector3(...l), f }));
+        const herm = (a, b, ma, mb, h, u) => { const u2 = u * u, u3 = u2 * u; return (2 * u3 - 3 * u2 + 1) * a + (u3 - 2 * u2 + u) * h * ma + (-2 * u3 + 3 * u2) * b + (u3 - u2) * h * mb; };
+        function camAt(t) {
+          let i = 0; while (i < K.length - 2 && t >= K[i + 1].t) i++;
+          const k0 = K[Math.max(0, i - 1)], k1 = K[i], k2 = K[i + 1], k3 = K[Math.min(K.length - 1, i + 2)], h = k2.t - k1.t, u = clamp((t - k1.t) / h);
+          const out = { p: [0, 0, 0], l: [0, 0, 0], f: lerp(k1.f, k2.f, sm(u)) };
+          ['x', 'y', 'z'].forEach((ax, j) => { const d1 = Math.max(1e-3, k2.t - k0.t), d2 = Math.max(1e-3, k3.t - k1.t);
+            out.p[j] = herm(k1.p[ax], k2.p[ax], (k2.p[ax] - k0.p[ax]) / d1, (k3.p[ax] - k1.p[ax]) / d2, h, u);
+            out.l[j] = herm(k1.l[ax], k2.l[ax], (k2.l[ax] - k0.l[ax]) / d1, (k3.l[ax] - k1.l[ax]) / d2, h, u); });
+          return out;
+        }
+
+        function renderAt(t) {
+          const c = camAt(t);
+          camera.position.set(c.p[0], c.p[1], c.p[2]); camera.fov = c.f; camera.updateProjectionMatrix();
+          const upU = win(t, 3.6, 6.2); camera.up.set(0, 1 - upU, -upU).normalize(); camera.lookAt(c.l[0], c.l[1], c.l[2]);
+
+          // desk shrinks away as the cups take over; hero cup drops into the first grid cell
+          const gone = win(t, 3.3, 4.0); desk.scale.setScalar(Math.max(0.0001, 1 - gone)); desk.visible = gone < 0.999;
+          const cell0 = cellPos(0), drop = win(t, 3.2, 3.9);
+          heroG.position.set(lerp(0.55, cell0.x, drop), lerp(TOP, 0, drop) + Math.sin(Math.PI * drop) * 1.6, lerp(16.9, cell0.z, drop));
+          heroG.rotation.y = t * 0.6 * (1 - drop);
+
+          // the field
+          for (let i = 1; i < N; i++) {
+            const a = win(t, appear[i] - 0.1, appear[i] + 0.35), p = cellPos(i);
+            D.position.copy(p); D.position.y = (1 - a) * 2.2; D.rotation.set(0, (i * 0.37) % 6.28, 0); D.scale.setScalar(Math.max(0.0001, a)); D.updateMatrix();
+            for (let k = 0; k < inst.length; k++) { M.multiplyMatrices(D.matrix, parts[k].m); inst[k].setMatrixAt(i, M); }
+            D.position.y = 0.012; D.rotation.set(-Math.PI / 2, 0, 0); D.scale.setScalar(Math.max(0.0001, a * 1.15)); D.updateMatrix(); shadow.setMatrixAt(i, D.matrix);
+          }
+          // instance 0 is hidden (the hero cup is the first coffee)
+          D.position.set(0, -50, 0); D.scale.setScalar(0.0001); D.updateMatrix(); for (let k = 0; k < inst.length; k++) inst[k].setMatrixAt(0, D.matrix); shadow.setMatrixAt(0, D.matrix);
+          inst.forEach((im) => { im.instanceMatrix.needsUpdate = true; }); shadow.instanceMatrix.needsUpdate = true;
+          renderer.render(scene, camera);
+        }
+        window.addEventListener('hf-seek', (e) => renderAt(e.detail.time));
+        renderAt(window.__hfThreeTime || 0);
+      }
+      window.__hf = window.__hf || {}; window.__hf.buildReady = window.__hf.buildReady || {}; window.__hf.buildReady['coffee-3d'] = build();
+    </script>
+  </body>
+</html>

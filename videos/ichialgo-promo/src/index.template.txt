@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: 'Manrope'; font-weight: 600; src: url('assets/fonts/manrope-latin-600-normal.woff2') format('woff2'); }
+      @font-face { font-family: 'Manrope'; font-weight: 700; src: url('assets/fonts/manrope-latin-700-normal.woff2') format('woff2'); }
+      @font-face { font-family: 'Manrope'; font-weight: 800; src: url('assets/fonts/manrope-latin-800-normal.woff2') format('woff2'); }
+      @font-face { font-family: 'IBM Plex Mono'; font-weight: 500; src: url('assets/fonts/ibm-plex-mono-latin-500-normal.woff2') format('woff2'); }
+      @font-face { font-family: 'IBM Plex Mono'; font-weight: 700; src: url('assets/fonts/ibm-plex-mono-latin-700-normal.woff2') format('woff2'); }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #050807; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #050807; font-family: 'Manrope', sans-serif; color: #E4ECE8; }
+      #stage { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; }
+      #glow { position: absolute; pointer-events: none; left: -200px; top: -300px; width: 1480px; height: 1100px; background: radial-gradient(closest-side, rgba(103,227,174,0.13), rgba(103,227,174,0)); }
+      .abs { position: absolute; opacity: 0; }
+      .big { font-weight: 800; letter-spacing: -0.035em; line-height: 1.02; text-align: center; white-space: nowrap; }
+      .g { color: #67E3AE; } .r { color: #F0616D; }
+      .tag { font-family: 'IBM Plex Mono', monospace; font-weight: 500; font-size: 30px; letter-spacing: 0.14em; text-transform: uppercase; color: #67E3AE; text-align: center; white-space: nowrap; }
+      .chip { display: inline-block; padding: 12px 30px; border-radius: 100px; background: rgba(103,227,174,0.08); border: 1.5px solid rgba(103,227,174,0.35); color: #67E3AE; font-family: 'IBM Plex Mono', monospace; font-weight: 700; font-size: 28px; letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap; }
+      .card { background: #0D1512; border: 1.5px solid #25392F; border-radius: 26px; box-shadow: 0 24px 60px rgba(0,0,0,0.5); }
+      .shot { position: absolute; opacity: 0; overflow: hidden; border-radius: 22px; border: 1.5px solid #25392F; background: #050807; box-shadow: 0 30px 70px rgba(0,0,0,0.6), 0 0 0 1px rgba(103,227,174,0.06); }
+      .shot img { position: absolute; display: block; max-width: none; transform-origin: 0 0; }
+      .mono { font-family: 'IBM Plex Mono', monospace; }
+      .mq { position: absolute; left: 0; white-space: nowrap; font-family: 'IBM Plex Mono', monospace; font-weight: 700; font-size: 60px; letter-spacing: 0.12em; color: rgba(103,227,174,0.07); }
+      .pip { position: absolute; width: 58px; height: 58px; border-radius: 50%; border: 3px solid #25392F; background: #0D1512; }
+      #prog { position: absolute; left: 0; bottom: 0; width: 1080px; height: 6px; background: #67E3AE; transform-origin: left center; }
+      #caps { position: absolute; left: 0; top: 1392px; width: 1080px; height: 190px; }
+      .cg { position: absolute; left: 90px; top: 0; width: 900px; text-align: center; opacity: 0; }
+      .cg .pill { display: inline-block; padding: 14px 30px 16px; border-radius: 34px; background: #0D1512; border: 1.5px solid #25392F; box-shadow: 0 8px 30px rgba(0,0,0,0.5); font-weight: 700; font-size: 50px; line-height: 1.2; letter-spacing: -0.01em; color: #E4ECE8; }
+      .cw { display: inline-block; margin: 0 4px; padding: 0 10px; border-radius: 12px; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="__TOTAL__" data-width="1080" data-height="1920">
+      <div id="stage" class="clip" data-start="0" data-duration="__TOTAL__" data-track-index="0">
+        <div id="glow"></div>
+        <div id="mqs" style="position:absolute;left:0;top:0;width:1080px;height:1920px;overflow:hidden"></div>
+        <div id="dyn"></div>
+
+        <!-- brand bar -->
+        <div id="brand" class="abs" style="left:0;top:78px;width:1080px;text-align:center"><span style="display:inline-flex;align-items:center;gap:16px"><img src="assets/img/logo.svg" style="width:46px;height:46px" /><span class="mono" style="font-weight:700;font-size:34px;letter-spacing:0.28em">ICHI<span class="g">ALGO</span></span></span></div>
+
+        <!-- S1 chart -->
+        <svg id="chart1" class="abs" viewBox="0 0 1000 380" width="1000" height="380" style="left:40px;top:1000px"><path id="c1ema" fill="none" stroke="#E9B949" stroke-width="5" stroke-linecap="round" stroke-dasharray="1400" stroke-dashoffset="1400" /><path id="c1p" fill="none" stroke="#67E3AE" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="1800" stroke-dashoffset="1800" /></svg>
+
+        <!-- S2 logo -->
+        <img id="lg" class="abs" src="assets/img/logo.svg" style="left:445px;top:560px;width:190px;height:190px" />
+        <div id="lw" class="abs mono" style="left:0;top:790px;width:1080px;text-align:center;font-weight:700;font-size:118px;letter-spacing:0.22em;padding-left:0.22em">ICHI<span class="g">ALGO</span></div>
+        <div id="lt" class="abs" style="left:0;top:960px;width:1080px;text-align:center"><span class="chip">EMA 50 + Ichimoku scanner</span></div>
+
+        <!-- S3 big 24/5 -->
+        <div id="b245" class="abs big g" style="left:0;top:1150px;width:1080px;font-size:200px">24/5</div>
+
+        <!-- S5 long/short -->
+        <div id="pl" class="abs" style="left:60px;top:960px;width:460px;height:170px;border-radius:30px;border:3px solid #67E3AE;background:rgba(103,227,174,0.12);text-align:center;line-height:166px;font-weight:800;font-size:84px;letter-spacing:-0.02em;color:#67E3AE">▲ LONG</div>
+        <div id="ps" class="abs" style="left:560px;top:960px;width:460px;height:170px;border-radius:30px;border:3px solid #F0616D;background:rgba(240,97,109,0.12);text-align:center;line-height:166px;font-weight:800;font-size:84px;letter-spacing:-0.02em;color:#F0616D">▼ SHORT</div>
+
+        <!-- S6 score -->
+        <div id="sc" class="abs big g mono" style="left:60px;top:880px;width:480px;font-size:200px;letter-spacing:-0.04em;text-align:left">4/5</div>
+        <div id="sc2" class="abs" style="left:0;top:1160px;width:1080px;text-align:center"><span class="chip">conditions agree</span></div>
+
+        <!-- S9 -->
+        <img id="eye" class="abs" src="assets/img/ph-eye-slash-bold.svg" style="left:410px;top:900px;width:260px" />
+
+        <!-- S10 end card -->
+        <div id="e1" class="abs big" style="left:0;top:890px;width:1080px;font-size:86px">YOUR FOREX SCANNER,</div>
+        <div id="e2" class="abs big g" style="left:0;top:1000px;width:1080px;font-size:132px">ALWAYS ON.</div>
+        <div id="e3" class="abs" style="left:0;top:1180px;width:1080px;text-align:center"><span class="chip"><span id="dot" style="display:inline-block;width:16px;height:16px;border-radius:50%;background:#67E3AE;margin-right:14px;vertical-align:middle"></span>scanning 24/5 · ichialgo.world</span></div>
+
+        <!-- S11 disclaimer -->
+        <div id="d1" class="abs big" style="left:0;top:880px;width:1080px;font-size:78px">TRADING INVOLVES RISK.</div>
+        <div id="d2" class="abs big r" style="left:0;top:980px;width:1080px;font-size:78px">NOT FINANCIAL ADVICE.</div>
+
+        <div id="caps"></div>
+        <div id="prog"></div>
+      </div>
+    </div>
+
+    <script>
+      const WORDS = __WORDS__;
+      window.__timelines = window.__timelines || {};
+      const hash = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+      const wd = (l, k) => WORDS.filter((w) => w.line === l)[k].s;
+      const tl = gsap.timeline({ paused: true });
+      const E = 'power3.out', IO = 'power2.inOut';
+      const $ = (s) => document.querySelector(s);
+      const R = (el, t, from, to) => tl.fromTo(el, Object.assign({ opacity: 0, y: 28 }, from || {}), Object.assign({ opacity: 1, y: 0, duration: 0.55, ease: E, immediateRender: false }, to || {}), t);
+      const X = (el, t, d) => tl.to(el, { opacity: 0, duration: d || 0.25, ease: 'none' }, t);
+      const POP = { scale: 0.7, y: 24 }, POPTO = { scale: 1, duration: 0.5 };
+      const dyn = $('#dyn'); const add = (h) => dyn.insertAdjacentHTML('beforeend', h);
+      const hd = (id, tag, big, size, cls) => add(`<div id="${id}t" class="abs tag" style="left:0;top:210px;width:1080px">${tag}</div><div id="${id}b" class="abs big ${cls || ''}" style="left:0;top:262px;width:1080px;font-size:${size}px">${big}</div>`);
+      // a cropped window onto a real screenshot (sx,sy,sw,sh in source pixels; displayed at width w)
+      const shot = (id, img, sx, sy, sw, sh, left, top, w) => { const k = w / sw; add(`<div id="${id}" class="shot" style="left:${left}px;top:${top}px;width:${w}px;height:${Math.round(sh * k)}px"><img id="${id}i" src="assets/shots/${img}.png" style="left:${-sx * k}px;top:${-sy * k}px;width:${1920 * k}px" /></div>`); return k; };
+      const ring = (id, x, y, w, h, color) => add(`<div id="${id}" class="abs" style="left:${x}px;top:${y}px;width:${w}px;height:${h}px;border:4px solid ${color || '#67E3AE'};border-radius:14px;box-shadow:0 0 30px ${color || '#67E3AE'}88" data-layout-allow-overlap></div>`);
+
+      // ---- ambient marquees (pair names drifting)
+      const PAIRS = 'EUR/USD   GBP/USD   USD/JPY   USD/CHF   AUD/USD   USD/CAD   NZD/USD   ';
+      [1640, 1740, 1840].forEach((y, i) => { $('#mqs').insertAdjacentHTML('beforeend', `<div class="mq" id="mq${i}" style="top:${y}px">${PAIRS.repeat(4)}</div>`); tl.fromTo('#mq' + i, { x: i % 2 ? -1800 : 0 }, { x: i % 2 ? 0 : -1800, duration: __TOTAL__, ease: 'none', immediateRender: false }, 0); });
+
+      // ---- headers
+      hd('h3', 'Scanning', '7 MAJOR PAIRS', 118, '');
+      hd('h4', 'It watches for', 'TWO THINGS', 124, 'g');
+      hd('h5', 'Setup detected', 'SIGNAL PRINTED', 112, 'g');
+      hd('h6', 'Every signal shows its', 'ICHIMOKU SCORE', 108, '');
+      hd('h7', 'Need to size the trade?', 'POSITION CALCULATOR', 86, 'g');
+      hd('h8', 'And you can', 'BACKTEST IT', 140, 'g');
+      add('<div id="h9a" class="abs big" style="left:0;top:380px;width:1080px;font-size:132px">STOP STARING</div><div id="h9b" class="abs big" style="left:0;top:520px;width:1080px;font-size:132px">AT CHARTS</div><div id="h9c" class="abs big g" style="left:0;top:660px;width:1080px;font-size:132px">ALL DAY.</div>');
+      add('<div id="a1" class="abs big" style="left:0;top:330px;width:1080px;font-size:92px">THE FOREX MARKET</div><div id="a2" class="abs big g" style="left:0;top:440px;width:1080px;font-size:132px">NEVER SLEEPS.</div><div id="a3" class="abs big" style="left:0;top:640px;width:1080px;font-size:150px">BUT YOU DO.</div>');
+
+      // ---- S1 chart paths (deterministic)
+      { const N = 48, pts = [], em = []; for (let i = 0; i < N; i++) { const x = 10 + i * (980 / (N - 1)); const e = 230 - i * 1.6 + Math.sin(i / 7) * 14; const p = e + Math.sin(i / 2.7 + 1) * 46 * (0.4 + hash(i) * 0.9) + (hash(i + 20) - 0.5) * 22; em.push([x, e]); pts.push([x, p]); }
+        const d = (a) => a.map((q, i) => (i ? 'L' : 'M') + q[0].toFixed(1) + ' ' + q[1].toFixed(1)).join(' ');
+        $('#c1p').setAttribute('d', d(pts)); $('#c1ema').setAttribute('d', d(em)); }
+
+      // ---- S4 illustrations
+      add(`<div id="emaC" class="abs card" style="left:70px;top:420px;width:940px;height:400px"><div class="tag" style="text-align:left;position:absolute;left:36px;top:26px;font-size:28px">1 · EMA 50 touch</div><svg viewBox="0 0 880 280" width="880" height="280" style="position:absolute;left:30px;top:96px"><path id="eEma" fill="none" stroke="#E9B949" stroke-width="5" stroke-linecap="round" d="M10 170 C 200 160, 420 150, 870 120" stroke-dasharray="1000" stroke-dashoffset="1000"/><path id="eP" fill="none" stroke="#67E3AE" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" d="M10 40 L60 70 L110 52 L170 92 L230 78 L300 112 L360 100 L430 140 L490 130 L560 152 L610 146 L660 120 L720 90 L780 100 L870 40" stroke-dasharray="1400" stroke-dashoffset="1400"/><circle id="eDot" cx="580" cy="152" r="16" fill="#67E3AE" opacity="0"/><circle id="eRing" cx="580" cy="152" r="30" fill="none" stroke="#67E3AE" stroke-width="4" opacity="0"/></svg></div>`);
+      add(`<div id="ichC" class="abs card" style="left:70px;top:860px;width:940px;height:400px"><div class="tag" style="text-align:left;position:absolute;left:36px;top:26px;font-size:28px">2 · Ichimoku cloud</div><svg viewBox="0 0 880 200" width="880" height="200" style="position:absolute;left:30px;top:80px"><path id="cloud" d="M10 120 C 200 90, 420 70, 870 110 L 870 160 C 420 150, 200 150, 10 150 Z" fill="rgba(103,227,174,0.22)" stroke="rgba(103,227,174,0.5)" stroke-width="2" opacity="0"/><path id="iP" fill="none" stroke="#E4ECE8" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" d="M10 170 L90 150 L170 140 L250 100 L330 80 L410 70 L490 40 L570 50 L650 30 L730 36 L870 14" stroke-dasharray="1200" stroke-dashoffset="1200"/></svg><div id="pipRow" style="position:absolute;left:36px;top:300px;width:880px;height:70px"></div></div>`);
+      { const row = $('#pipRow'); for (let i = 0; i < 5; i++) row.insertAdjacentHTML('beforeend', `<div class="pip" id="pp${i}" style="left:${i * 76}px;top:6px"></div>`); row.insertAdjacentHTML('beforeend', '<div class="mono" id="ppt" style="position:absolute;left:410px;top:8px;font-size:34px;font-weight:700;color:#67E3AE;opacity:0">CONDITIONS LINING UP</div>'); }
+      add('<div id="n1" class="abs" style="left:0;top:830px;width:1080px;text-align:center"><span class="chip">+ or</span></div>');
+
+      // ---- S6 pips next to score
+      add('<div id="sp" class="abs" style="left:560px;top:930px;width:460px;height:90px"></div>'); { const row = $('#sp'); for (let i = 0; i < 5; i++) row.insertAdjacentHTML('beforeend', `<div class="pip" id="sq${i}" style="left:${i * 88}px;top:14px"></div>`); }
+
+      // ---- the real screenshot windows
+      const kDash = shot('sDash', 'dash', 248, 303, 760, 437, 40, 500, 1000);                // pair table
+      const kTouch = shot('sSig', 'touches', 420, 78, 760, 330, 40, 480, 1000);              // signal rows
+      const kScore = shot('sScore', 'touches', 248, 78, 1100, 300, 40, 480, 1000);           // score column
+      const kCalc = shot('sCalc', 'calc', 248, 170, 800, 470, 40, 480, 1000);                // calculator
+      const kBack = shot('sBack', 'back', 248, 190, 652, 200, 40, 500, 1000);                // backtest settings
+      add('<div id="scan" class="abs" style="left:40px;top:500px;width:1000px;height:56px;background:linear-gradient(180deg,rgba(103,227,174,0),rgba(103,227,174,0.22),rgba(103,227,174,0));border-top:2px solid rgba(103,227,174,0.5)" data-layout-allow-overlap></div>');
+      ring('rSig', 40 + 0, 480 + (115 - 78) * kTouch, 1000, 52 * kTouch, '#67E3AE');
+      ring('rScore', 40 + (1236 - 248) * kScore, 480 + 12 * kScore, 84 * kScore, 250 * kScore, '#B58CFF');
+      ring('rBack', 40 + (781 - 248) * 1.534 - 6, 500 + (294 - 190) * 1.534 - 6, 70 * 1.534 + 12, 36 * 1.534 + 12, '#67E3AE');
+      add('<div id="bc" class="abs" style="left:0;top:880px;width:1080px;text-align:center"><span class="chip">on real candles</span></div>');
+
+      // ================= timeline =================
+      // ---- S1 hook (0.3 - 3.2)
+      R('#a1', 0.3, {}, { duration: 0.6 }); R('#a2', wd(1, 3) - 0.4, { scale: 0.9 }, { scale: 1, duration: 0.6 }); R('#a3', wd(1, 5) - 0.1, { scale: 0.8, y: 40 }, { scale: 1, duration: 0.6 });
+      tl.fromTo('#chart1', { opacity: 0 }, { opacity: 1, duration: 0.4, ease: 'none', immediateRender: false }, 0.6);
+      tl.to('#c1p', { strokeDashoffset: 0, duration: 2.6, ease: 'none' }, 0.6); tl.to('#c1ema', { strokeDashoffset: 0, duration: 1.8, ease: 'none' }, 0.6);
+      ['#a1', '#a2', '#a3', '#chart1'].forEach((s) => X(s, 3.2, 0.25));
+      // ---- S2 brand (3.48 - 5.1)
+      tl.fromTo('#lg', { opacity: 0, scale: 0.5, rotation: -20 }, { opacity: 1, scale: 1, rotation: 0, duration: 0.6, ease: 'back.out(1.7)', immediateRender: false }, 3.48);
+      R('#lw', wd(2, 1) - 0.1, { scale: 0.9 }, { scale: 1, duration: 0.6 }); R('#lt', wd(2, 1) + 0.4, {}, { duration: 0.5 });
+      ['#lg', '#lw', '#lt'].forEach((s) => X(s, 5.1, 0.25)); R('#brand', 5.2, { y: -14 }, { duration: 0.5 });
+      // ---- S3 seven pairs, 24/5 (5.18 - 9.8)
+      R('#h3t', 5.18, {}, { duration: 0.4 }); R('#h3b', wd(3, 2) - 0.1, { scale: 0.88 }, { scale: 1, duration: 0.6 });
+      R('#sDash', 5.35, { y: 50 }, { duration: 0.7 });
+      tl.fromTo('#scan', { opacity: 1, y: 70 }, { y: 630, duration: 2.4, ease: 'none', immediateRender: false }, wd(3, 2)); tl.to('#scan', { opacity: 0, duration: 0.2 }, wd(3, 2) + 2.4);
+      tl.fromTo('#sDashi', { scale: 1 }, { scale: 1.06, duration: 4.4, ease: 'none', immediateRender: false }, 5.4);
+      R('#b245', wd(3, 8), { scale: 0.7, y: 40 }, { scale: 1, duration: 0.6 });
+      ['#h3t', '#h3b', '#sDash', '#b245', '#scan'].forEach((s) => X(s, 9.85, 0.25));
+      // ---- S4 two things (10.11 - 17.2)
+      R('#h4t', 10.11, {}, { duration: 0.4 }); R('#h4b', wd(4, 3) - 0.1, { scale: 0.88 }, { scale: 1, duration: 0.6 });
+      R('#emaC', wd(4, 5) - 0.3, { y: 50 }, { duration: 0.6 }); tl.to('#eEma', { strokeDashoffset: 0, duration: 0.9, ease: 'none' }, wd(4, 5) - 0.2); tl.to('#eP', { strokeDashoffset: 0, duration: 1.7, ease: 'none' }, wd(4, 6));
+      tl.fromTo('#eDot', { opacity: 0, scale: 0.3, transformOrigin: '580px 152px' }, { opacity: 1, scale: 1, duration: 0.3, ease: E, immediateRender: false }, wd(4, 8));
+      tl.fromTo('#eRing', { opacity: 0.9, scale: 0.4, transformOrigin: '580px 152px' }, { opacity: 0, scale: 2.2, duration: 0.8, ease: 'power2.out', immediateRender: false }, wd(4, 8));
+      R('#ichC', wd(4, 10) - 0.2, { y: 50 }, { duration: 0.6 }); tl.to('#cloud', { opacity: 1, duration: 0.7, ease: 'none' }, wd(4, 12)); tl.to('#iP', { strokeDashoffset: 0, duration: 1.5, ease: 'none' }, wd(4, 12));
+      [0, 1, 2, 3, 4].forEach((i) => tl.fromTo('#pp' + i, { backgroundColor: '#0D1512', borderColor: '#25392F' }, { backgroundColor: '#67E3AE', borderColor: '#67E3AE', duration: 0.2, ease: 'none', immediateRender: false }, wd(4, 14) + i * 0.2));
+      tl.to('#ppt', { opacity: 1, duration: 0.3 }, wd(4, 15));
+      ['#h4t', '#h4b', '#emaC', '#ichC', '#n1'].forEach((s) => X(s, 17.4, 0.25));
+      // ---- S5 signal (17.6 - 21.4)
+      R('#h5t', 17.6, {}, { duration: 0.4 }); R('#h5b', wd(5, 5) - 0.3, { scale: 0.88 }, { scale: 1, duration: 0.6 });
+      R('#sSig', 17.8, { y: 50 }, { duration: 0.7 });
+      tl.fromTo('#rSig', { opacity: 0, scaleX: 0.9 }, { opacity: 1, scaleX: 1, duration: 0.35, ease: E, immediateRender: false }, wd(5, 7)); tl.to('#rSig', { opacity: 0.35, duration: 0.5, yoyo: true, repeat: 3 }, wd(5, 7) + 0.4);
+      R('#pl', wd(5, 9) - 0.05, POP, POPTO); R('#ps', wd(5, 11) - 0.05, POP, POPTO);
+      ['#h5t', '#h5b', '#sSig', '#rSig', '#pl', '#ps'].forEach((s) => X(s, 21.55, 0.25));
+      // ---- S6 ichimoku score (21.79 - 27.1)
+      R('#h6t', 21.79, {}, { duration: 0.4 }); R('#h6b', wd(6, 4) - 0.1, { scale: 0.88 }, { scale: 1, duration: 0.6 });
+      R('#sScore', 21.95, { y: 50 }, { duration: 0.7 });
+      tl.fromTo('#rScore', { opacity: 0, scale: 1.3 }, { opacity: 1, scale: 1, duration: 0.4, ease: E, immediateRender: false }, wd(6, 4) + 0.2); tl.to('#rScore', { opacity: 0.4, duration: 0.5, yoyo: true, repeat: 3 }, wd(6, 5));
+      R('#sc', wd(6, 9), { scale: 0.7, y: 40 }, { scale: 1, duration: 0.6 }); R('#sp', wd(6, 9), {}, { duration: 0.3 });
+      [0, 1, 2, 3].forEach((i) => tl.fromTo('#sq' + i, { backgroundColor: '#0D1512', borderColor: '#25392F' }, { backgroundColor: '#67E3AE', borderColor: '#67E3AE', duration: 0.18, ease: 'none', immediateRender: false }, wd(6, 10) + i * 0.15));
+      R('#sc2', wd(6, 12), {}, { duration: 0.4 });
+      ['#h6t', '#h6b', '#sScore', '#rScore', '#sc', '#sp', '#sc2'].forEach((s) => X(s, 27.3, 0.25));
+      // ---- S7 calculator (27.57 - 31.4)
+      R('#h7t', 27.57, {}, { duration: 0.4 }); R('#h7b', wd(7, 8) - 0.1, { scale: 0.88 }, { scale: 1, duration: 0.6 });
+      R('#sCalc', 27.75, { y: 50 }, { duration: 0.7 }); tl.fromTo('#sCalci', { scale: 1 }, { scale: 1.05, duration: 3.6, ease: 'none', immediateRender: false }, 27.8);
+      ['#h7t', '#h7b', '#sCalc'].forEach((s) => X(s, 31.6, 0.25));
+      // ---- S8 backtest (31.81 - 35.2)
+      R('#h8t', 31.81, {}, { duration: 0.4 }); R('#h8b', wd(8, 3) - 0.1, { scale: 0.88 }, { scale: 1, duration: 0.6 });
+      R('#sBack', 32.0, { y: 50 }, { duration: 0.7 });
+      tl.fromTo('#rBack', { opacity: 0, scale: 1.6 }, { opacity: 1, scale: 1, duration: 0.4, ease: E, immediateRender: false }, wd(8, 5)); tl.to('#rBack', { opacity: 0.4, duration: 0.5, yoyo: true, repeat: 3 }, wd(8, 5) + 0.5);
+      R('#bc', wd(8, 7), {}, { duration: 0.4 });
+      ['#h8t', '#h8b', '#sBack', '#rBack', '#bc'].forEach((s) => X(s, 35.45, 0.25));
+      // ---- S9 stop staring (35.72 - 37.9)
+      R('#h9a', 35.72, { scale: 0.9 }, { scale: 1, duration: 0.5 }); R('#h9b', wd(9, 2), { scale: 0.9 }, { scale: 1, duration: 0.5 }); R('#h9c', wd(9, 4), { scale: 0.85 }, { scale: 1, duration: 0.5 });
+      R('#eye', wd(9, 3), { scale: 0.5, y: 0 }, POPTO);
+      ['#h9a', '#h9b', '#h9c', '#eye'].forEach((s) => X(s, 38.1, 0.2));
+      // ---- S10 end card (38.3 - 41.2)
+      R('#e1', 38.3, { scale: 0.9 }, { scale: 1, duration: 0.55 }); R('#e2', wd(10, 4) - 0.1, { scale: 0.8, y: 40 }, { scale: 1, duration: 0.6 }); R('#e3', wd(10, 4) + 0.4, {}, { duration: 0.5 });
+      tl.fromTo('#dot', { opacity: 1 }, { opacity: 0.25, duration: 0.5, yoyo: true, repeat: 10, ease: 'none', immediateRender: false }, 39.0);
+      ['#e1', '#e2', '#e3'].forEach((s) => X(s, 41.3, 0.2));
+      // ---- S11 disclaimer (41.51 - 45.3)
+      R('#d1', 41.51, {}, { duration: 0.5 }); R('#d2', wd(11, 3) - 0.1, {}, { duration: 0.5 });
+      tl.fromTo('#glow', { opacity: 1 }, { opacity: 0.6, duration: 1, immediateRender: false }, 41.5);
+      tl.fromTo('#prog', { scaleX: 0 }, { scaleX: 1, duration: __TOTAL__, ease: 'none', immediateRender: false }, 0);
+
+      // ---------- captions ----------
+      const capsEl = $('#caps');
+      const groups = []; let cur = [];
+      WORDS.forEach((w, i) => { cur.push(w); const nx = WORDS[i + 1]; const endS = /[.!?…]$/.test(w.w); const endC = /,$/.test(w.w) && cur.length >= 3; if (!nx || endS || endC || cur.length >= 5 || (nx && nx.s - w.e > 0.5)) { groups.push(cur); cur = []; } });
+      groups.forEach((g, gi) => {
+        const d = document.createElement('div'); d.className = 'cg'; const pill = document.createElement('div'); pill.className = 'pill'; d.appendChild(pill);
+        g.forEach((w, wi) => { const s = document.createElement('span'); s.className = 'cw'; s.id = `cw${gi}_${wi}`; s.textContent = w.w; pill.appendChild(s); });
+        capsEl.appendChild(d);
+        const a = g[0].s - 0.03, nextS = groups[gi + 1] ? groups[gi + 1][0].s : 1e9, b = Math.min(g[g.length - 1].e + 0.25, nextS - 0.12);
+        tl.fromTo(d, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.12, ease: 'power2.out', immediateRender: false }, a);
+        tl.to(d, { opacity: 0, duration: 0.08, ease: 'none' }, b);
+        g.forEach((w, wi) => { const sp = `#cw${gi}_${wi}`;
+          tl.fromTo(sp, { backgroundColor: 'rgba(103,227,174,0)', color: '#E4ECE8' }, { backgroundColor: '#67E3AE', color: '#050807', duration: 0.07, ease: 'none', immediateRender: false }, w.s);
+          tl.to(sp, { backgroundColor: 'rgba(103,227,174,0)', color: '#E4ECE8', duration: 0.08, ease: 'none' }, Math.max(w.e, w.s + 0.12)); });
+      });
+      window.__timelines['main'] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

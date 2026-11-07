@@ -1,0 +1,8 @@
+[
+ {"say":"Why does a bank pay you interest?","pause":0.45},
+ {"say":"Because your deposit isn't just sitting there.","pause":0.45},
+ {"say":"The bank lends it to other people and businesses.","pause":0.45},
+ {"say":"They pay the bank interest on that loan.","pause":0.45},
+ {"say":"The bank keeps the difference, and shares a part with you.","pause":0.5},
+ {"say":"You didn't know that about money.","pause":0.3,"tail":1.0}
+]

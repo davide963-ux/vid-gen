@@ -1,0 +1,1510 @@
+{
+  "total_duration_s": 64.34,
+  "width": 1080,
+  "height": 1920,
+  "groups": [
+    {
+      "id": "caption-group-0",
+      "frame": 1,
+      "start": 0,
+      "end": 1,
+      "text": "Here's something weird",
+      "words": [
+        {
+          "id": "caption-word-0-0",
+          "text": "Here's",
+          "start": 0,
+          "end": 0.28
+        },
+        {
+          "id": "caption-word-0-1",
+          "text": "something",
+          "start": 0.28,
+          "end": 0.6
+        },
+        {
+          "id": "caption-word-0-2",
+          "text": "weird",
+          "start": 0.6,
+          "end": 1
+        }
+      ]
+    },
+    {
+      "id": "caption-group-1",
+      "frame": 1,
+      "start": 1,
+      "end": 1.82,
+      "text": "about money.",
+      "words": [
+        {
+          "id": "caption-word-1-0",
+          "text": "about",
+          "start": 1,
+          "end": 1.34
+        },
+        {
+          "id": "caption-word-1-1",
+          "text": "money.",
+          "start": 1.34,
+          "end": 1.7
+        }
+      ]
+    },
+    {
+      "id": "caption-group-2",
+      "frame": 2,
+      "start": 2.005,
+      "end": 2.305,
+      "text": "When you",
+      "words": [
+        {
+          "id": "caption-word-2-0",
+          "text": "When",
+          "start": 2.005,
+          "end": 2.205
+        },
+        {
+          "id": "caption-word-2-1",
+          "text": "you",
+          "start": 2.205,
+          "end": 2.305
+        }
+      ]
+    },
+    {
+      "id": "caption-group-3",
+      "frame": 2,
+      "start": 2.305,
+      "end": 4.565,
+      "text": "deposit $1,000 into a",
+      "words": [
+        {
+          "id": "caption-word-3-0",
+          "text": "deposit",
+          "start": 2.305,
+          "end": 2.585
+        },
+        {
+          "id": "caption-word-3-1",
+          "text": "$1,000",
+          "start": 2.585,
+          "end": 4.165
+        },
+        {
+          "id": "caption-word-3-2",
+          "text": "into",
+          "start": 4.165,
+          "end": 4.325
+        },
+        {
+          "id": "caption-word-3-3",
+          "text": "a",
+          "start": 4.325,
+          "end": 4.565
+        }
+      ]
+    },
+    {
+      "id": "caption-group-4",
+      "frame": 2,
+      "start": 4.565,
+      "end": 4.945,
+      "text": "bank,",
+      "words": [
+        {
+          "id": "caption-word-4-0",
+          "text": "bank,",
+          "start": 4.565,
+          "end": 4.825
+        }
+      ]
+    },
+    {
+      "id": "caption-group-5",
+      "frame": 2,
+      "start": 5.465,
+      "end": 7.385,
+      "text": "that exact $1,000",
+      "words": [
+        {
+          "id": "caption-word-5-0",
+          "text": "that",
+          "start": 5.465,
+          "end": 5.585
+        },
+        {
+          "id": "caption-word-5-1",
+          "text": "exact",
+          "start": 5.585,
+          "end": 5.785
+        },
+        {
+          "id": "caption-word-5-2",
+          "text": "$1,000",
+          "start": 5.785,
+          "end": 7.385
+        }
+      ]
+    },
+    {
+      "id": "caption-group-6",
+      "frame": 2,
+      "start": 7.385,
+      "end": 7.925,
+      "text": "doesn't just",
+      "words": [
+        {
+          "id": "caption-word-6-0",
+          "text": "doesn't",
+          "start": 7.385,
+          "end": 7.805
+        },
+        {
+          "id": "caption-word-6-1",
+          "text": "just",
+          "start": 7.805,
+          "end": 7.925
+        }
+      ]
+    },
+    {
+      "id": "caption-group-7",
+      "frame": 2,
+      "start": 7.925,
+      "end": 8.525,
+      "text": "sit inside",
+      "words": [
+        {
+          "id": "caption-word-7-0",
+          "text": "sit",
+          "start": 7.925,
+          "end": 8.225
+        },
+        {
+          "id": "caption-word-7-1",
+          "text": "inside",
+          "start": 8.225,
+          "end": 8.525
+        }
+      ]
+    },
+    {
+      "id": "caption-group-8",
+      "frame": 2,
+      "start": 8.525,
+      "end": 9.065,
+      "text": "a vault",
+      "words": [
+        {
+          "id": "caption-word-8-0",
+          "text": "a",
+          "start": 8.525,
+          "end": 8.825
+        },
+        {
+          "id": "caption-word-8-1",
+          "text": "vault",
+          "start": 8.825,
+          "end": 9.065
+        }
+      ]
+    },
+    {
+      "id": "caption-group-9",
+      "frame": 2,
+      "start": 9.065,
+      "end": 10.065,
+      "text": "waiting for you.",
+      "words": [
+        {
+          "id": "caption-word-9-0",
+          "text": "waiting",
+          "start": 9.065,
+          "end": 9.445
+        },
+        {
+          "id": "caption-word-9-1",
+          "text": "for",
+          "start": 9.445,
+          "end": 9.745
+        },
+        {
+          "id": "caption-word-9-2",
+          "text": "you.",
+          "start": 9.745,
+          "end": 9.945
+        }
+      ]
+    },
+    {
+      "id": "caption-group-10",
+      "frame": 3,
+      "start": 10.133,
+      "end": 10.693,
+      "text": "Banks use",
+      "words": [
+        {
+          "id": "caption-word-10-0",
+          "text": "Banks",
+          "start": 10.133,
+          "end": 10.353
+        },
+        {
+          "id": "caption-word-10-1",
+          "text": "use",
+          "start": 10.353,
+          "end": 10.693
+        }
+      ]
+    },
+    {
+      "id": "caption-group-11",
+      "frame": 3,
+      "start": 10.693,
+      "end": 12.013,
+      "text": "deposited money as",
+      "words": [
+        {
+          "id": "caption-word-11-0",
+          "text": "deposited",
+          "start": 10.693,
+          "end": 10.973
+        },
+        {
+          "id": "caption-word-11-1",
+          "text": "money",
+          "start": 10.973,
+          "end": 11.673
+        },
+        {
+          "id": "caption-word-11-2",
+          "text": "as",
+          "start": 11.673,
+          "end": 12.013
+        }
+      ]
+    },
+    {
+      "id": "caption-group-12",
+      "frame": 3,
+      "start": 12.013,
+      "end": 12.413,
+      "text": "part of",
+      "words": [
+        {
+          "id": "caption-word-12-0",
+          "text": "part",
+          "start": 12.013,
+          "end": 12.233
+        },
+        {
+          "id": "caption-word-12-1",
+          "text": "of",
+          "start": 12.233,
+          "end": 12.413
+        }
+      ]
+    },
+    {
+      "id": "caption-group-13",
+      "frame": 3,
+      "start": 12.413,
+      "end": 13.433,
+      "text": "their wider financial",
+      "words": [
+        {
+          "id": "caption-word-13-0",
+          "text": "their",
+          "start": 12.413,
+          "end": 12.573
+        },
+        {
+          "id": "caption-word-13-1",
+          "text": "wider",
+          "start": 12.573,
+          "end": 12.853
+        },
+        {
+          "id": "caption-word-13-2",
+          "text": "financial",
+          "start": 12.853,
+          "end": 13.433
+        }
+      ]
+    },
+    {
+      "id": "caption-group-14",
+      "frame": 3,
+      "start": 13.433,
+      "end": 14.273,
+      "text": "system.",
+      "words": [
+        {
+          "id": "caption-word-14-0",
+          "text": "system.",
+          "start": 13.433,
+          "end": 14.153
+        }
+      ]
+    },
+    {
+      "id": "caption-group-15",
+      "frame": 3,
+      "start": 14.953,
+      "end": 15.733,
+      "text": "They make loans,",
+      "words": [
+        {
+          "id": "caption-word-15-0",
+          "text": "They",
+          "start": 14.953,
+          "end": 14.993
+        },
+        {
+          "id": "caption-word-15-1",
+          "text": "make",
+          "start": 14.993,
+          "end": 15.153
+        },
+        {
+          "id": "caption-word-15-2",
+          "text": "loans,",
+          "start": 15.153,
+          "end": 15.613
+        }
+      ]
+    },
+    {
+      "id": "caption-group-16",
+      "frame": 3,
+      "start": 16.313,
+      "end": 17.053,
+      "text": "buy assets,",
+      "words": [
+        {
+          "id": "caption-word-16-0",
+          "text": "buy",
+          "start": 16.313,
+          "end": 16.413
+        },
+        {
+          "id": "caption-word-16-1",
+          "text": "assets,",
+          "start": 16.413,
+          "end": 16.933
+        }
+      ]
+    },
+    {
+      "id": "caption-group-17",
+      "frame": 3,
+      "start": 17.493,
+      "end": 18.413,
+      "text": "process payments,",
+      "words": [
+        {
+          "id": "caption-word-17-0",
+          "text": "process",
+          "start": 17.493,
+          "end": 17.793
+        },
+        {
+          "id": "caption-word-17-1",
+          "text": "payments,",
+          "start": 17.793,
+          "end": 18.293
+        }
+      ]
+    },
+    {
+      "id": "caption-group-18",
+      "frame": 3,
+      "start": 18.813,
+      "end": 19.213,
+      "text": "and keep",
+      "words": [
+        {
+          "id": "caption-word-18-0",
+          "text": "and",
+          "start": 18.813,
+          "end": 18.973
+        },
+        {
+          "id": "caption-word-18-1",
+          "text": "keep",
+          "start": 18.973,
+          "end": 19.213
+        }
+      ]
+    },
+    {
+      "id": "caption-group-19",
+      "frame": 3,
+      "start": 19.213,
+      "end": 19.813,
+      "text": "only enough",
+      "words": [
+        {
+          "id": "caption-word-19-0",
+          "text": "only",
+          "start": 19.213,
+          "end": 19.513
+        },
+        {
+          "id": "caption-word-19-1",
+          "text": "enough",
+          "start": 19.513,
+          "end": 19.813
+        }
+      ]
+    },
+    {
+      "id": "caption-group-20",
+      "frame": 3,
+      "start": 19.813,
+      "end": 21.033,
+      "text": "liquid money available",
+      "words": [
+        {
+          "id": "caption-word-20-0",
+          "text": "liquid",
+          "start": 19.813,
+          "end": 20.153
+        },
+        {
+          "id": "caption-word-20-1",
+          "text": "money",
+          "start": 20.153,
+          "end": 20.653
+        },
+        {
+          "id": "caption-word-20-2",
+          "text": "available",
+          "start": 20.653,
+          "end": 21.033
+        }
+      ]
+    },
+    {
+      "id": "caption-group-21",
+      "frame": 3,
+      "start": 21.033,
+      "end": 22.113,
+      "text": "to handle normal",
+      "words": [
+        {
+          "id": "caption-word-21-0",
+          "text": "to",
+          "start": 21.033,
+          "end": 21.413
+        },
+        {
+          "id": "caption-word-21-1",
+          "text": "handle",
+          "start": 21.413,
+          "end": 21.673
+        },
+        {
+          "id": "caption-word-21-2",
+          "text": "normal",
+          "start": 21.673,
+          "end": 22.113
+        }
+      ]
+    },
+    {
+      "id": "caption-group-22",
+      "frame": 3,
+      "start": 22.113,
+      "end": 22.833,
+      "text": "withdrawals.",
+      "words": [
+        {
+          "id": "caption-word-22-0",
+          "text": "withdrawals.",
+          "start": 22.113,
+          "end": 22.713
+        }
+      ]
+    },
+    {
+      "id": "caption-group-23",
+      "frame": 4,
+      "start": 23.296,
+      "end": 24.016,
+      "text": "So technically,",
+      "words": [
+        {
+          "id": "caption-word-23-0",
+          "text": "So",
+          "start": 23.296,
+          "end": 23.496
+        },
+        {
+          "id": "caption-word-23-1",
+          "text": "technically,",
+          "start": 23.496,
+          "end": 23.896
+        }
+      ]
+    },
+    {
+      "id": "caption-group-24",
+      "frame": 4,
+      "start": 24.436,
+      "end": 24.876,
+      "text": "if every",
+      "words": [
+        {
+          "id": "caption-word-24-0",
+          "text": "if",
+          "start": 24.436,
+          "end": 24.656
+        },
+        {
+          "id": "caption-word-24-1",
+          "text": "every",
+          "start": 24.656,
+          "end": 24.876
+        }
+      ]
+    },
+    {
+      "id": "caption-group-25",
+      "frame": 4,
+      "start": 24.876,
+      "end": 26.056,
+      "text": "customer walked into",
+      "words": [
+        {
+          "id": "caption-word-25-0",
+          "text": "customer",
+          "start": 24.876,
+          "end": 25.276
+        },
+        {
+          "id": "caption-word-25-1",
+          "text": "walked",
+          "start": 25.276,
+          "end": 25.776
+        },
+        {
+          "id": "caption-word-25-2",
+          "text": "into",
+          "start": 25.776,
+          "end": 26.056
+        }
+      ]
+    },
+    {
+      "id": "caption-group-26",
+      "frame": 4,
+      "start": 26.056,
+      "end": 26.336,
+      "text": "the bank",
+      "words": [
+        {
+          "id": "caption-word-26-0",
+          "text": "the",
+          "start": 26.056,
+          "end": 26.156
+        },
+        {
+          "id": "caption-word-26-1",
+          "text": "bank",
+          "start": 26.156,
+          "end": 26.336
+        }
+      ]
+    },
+    {
+      "id": "caption-group-27",
+      "frame": 4,
+      "start": 26.336,
+      "end": 28.056,
+      "text": "tomorrow and asked for",
+      "words": [
+        {
+          "id": "caption-word-27-0",
+          "text": "tomorrow",
+          "start": 26.336,
+          "end": 26.916
+        },
+        {
+          "id": "caption-word-27-1",
+          "text": "and",
+          "start": 26.916,
+          "end": 27.496
+        },
+        {
+          "id": "caption-word-27-2",
+          "text": "asked",
+          "start": 27.496,
+          "end": 27.756
+        },
+        {
+          "id": "caption-word-27-3",
+          "text": "for",
+          "start": 27.756,
+          "end": 28.056
+        }
+      ]
+    },
+    {
+      "id": "caption-group-28",
+      "frame": 4,
+      "start": 28.056,
+      "end": 28.556,
+      "text": "all their",
+      "words": [
+        {
+          "id": "caption-word-28-0",
+          "text": "all",
+          "start": 28.056,
+          "end": 28.336
+        },
+        {
+          "id": "caption-word-28-1",
+          "text": "their",
+          "start": 28.336,
+          "end": 28.556
+        }
+      ]
+    },
+    {
+      "id": "caption-group-29",
+      "frame": 4,
+      "start": 28.556,
+      "end": 29.096,
+      "text": "money at",
+      "words": [
+        {
+          "id": "caption-word-29-0",
+          "text": "money",
+          "start": 28.556,
+          "end": 28.816
+        },
+        {
+          "id": "caption-word-29-1",
+          "text": "at",
+          "start": 28.816,
+          "end": 29.096
+        }
+      ]
+    },
+    {
+      "id": "caption-group-30",
+      "frame": 4,
+      "start": 29.096,
+      "end": 29.436,
+      "text": "the exact",
+      "words": [
+        {
+          "id": "caption-word-30-0",
+          "text": "the",
+          "start": 29.096,
+          "end": 29.196
+        },
+        {
+          "id": "caption-word-30-1",
+          "text": "exact",
+          "start": 29.196,
+          "end": 29.436
+        }
+      ]
+    },
+    {
+      "id": "caption-group-31",
+      "frame": 4,
+      "start": 29.436,
+      "end": 30.556,
+      "text": "same time,",
+      "words": [
+        {
+          "id": "caption-word-31-0",
+          "text": "same",
+          "start": 29.436,
+          "end": 29.916
+        },
+        {
+          "id": "caption-word-31-1",
+          "text": "time,",
+          "start": 29.916,
+          "end": 30.436
+        }
+      ]
+    },
+    {
+      "id": "caption-group-32",
+      "frame": 4,
+      "start": 31.076,
+      "end": 31.556,
+      "text": "the bank",
+      "words": [
+        {
+          "id": "caption-word-32-0",
+          "text": "the",
+          "start": 31.076,
+          "end": 31.316
+        },
+        {
+          "id": "caption-word-32-1",
+          "text": "bank",
+          "start": 31.316,
+          "end": 31.556
+        }
+      ]
+    },
+    {
+      "id": "caption-group-33",
+      "frame": 4,
+      "start": 31.556,
+      "end": 32.676,
+      "text": "probably couldn't hand",
+      "words": [
+        {
+          "id": "caption-word-33-0",
+          "text": "probably",
+          "start": 31.556,
+          "end": 32.016
+        },
+        {
+          "id": "caption-word-33-1",
+          "text": "couldn't",
+          "start": 32.016,
+          "end": 32.476
+        },
+        {
+          "id": "caption-word-33-2",
+          "text": "hand",
+          "start": 32.476,
+          "end": 32.676
+        }
+      ]
+    },
+    {
+      "id": "caption-group-34",
+      "frame": 4,
+      "start": 32.676,
+      "end": 34.196,
+      "text": "everyone physical cash",
+      "words": [
+        {
+          "id": "caption-word-34-0",
+          "text": "everyone",
+          "start": 32.676,
+          "end": 33.196
+        },
+        {
+          "id": "caption-word-34-1",
+          "text": "physical",
+          "start": 33.196,
+          "end": 33.616
+        },
+        {
+          "id": "caption-word-34-2",
+          "text": "cash",
+          "start": 33.616,
+          "end": 34.196
+        }
+      ]
+    },
+    {
+      "id": "caption-group-35",
+      "frame": 4,
+      "start": 34.196,
+      "end": 34.836,
+      "text": "immediately.",
+      "words": [
+        {
+          "id": "caption-word-35-0",
+          "text": "immediately.",
+          "start": 34.196,
+          "end": 34.716
+        }
+      ]
+    },
+    {
+      "id": "caption-group-36",
+      "frame": 5,
+      "start": 35.157,
+      "end": 36.197,
+      "text": "That's basically what",
+      "words": [
+        {
+          "id": "caption-word-36-0",
+          "text": "That's",
+          "start": 35.157,
+          "end": 35.377
+        },
+        {
+          "id": "caption-word-36-1",
+          "text": "basically",
+          "start": 35.377,
+          "end": 35.777
+        },
+        {
+          "id": "caption-word-36-2",
+          "text": "what",
+          "start": 35.777,
+          "end": 36.197
+        }
+      ]
+    },
+    {
+      "id": "caption-group-37",
+      "frame": 5,
+      "start": 36.197,
+      "end": 36.457,
+      "text": "a bank",
+      "words": [
+        {
+          "id": "caption-word-37-0",
+          "text": "a",
+          "start": 36.197,
+          "end": 36.257
+        },
+        {
+          "id": "caption-word-37-1",
+          "text": "bank",
+          "start": 36.257,
+          "end": 36.457
+        }
+      ]
+    },
+    {
+      "id": "caption-group-38",
+      "frame": 5,
+      "start": 36.457,
+      "end": 37.117,
+      "text": "run is.",
+      "words": [
+        {
+          "id": "caption-word-38-0",
+          "text": "run",
+          "start": 36.457,
+          "end": 36.757
+        },
+        {
+          "id": "caption-word-38-1",
+          "text": "is.",
+          "start": 36.757,
+          "end": 36.997
+        }
+      ]
+    },
+    {
+      "id": "caption-group-39",
+      "frame": 6,
+      "start": 37.29,
+      "end": 37.51,
+      "text": "But this",
+      "words": [
+        {
+          "id": "caption-word-39-0",
+          "text": "But",
+          "start": 37.29,
+          "end": 37.37
+        },
+        {
+          "id": "caption-word-39-1",
+          "text": "this",
+          "start": 37.37,
+          "end": 37.51
+        }
+      ]
+    },
+    {
+      "id": "caption-group-40",
+      "frame": 6,
+      "start": 37.51,
+      "end": 38.05,
+      "text": "doesn't mean",
+      "words": [
+        {
+          "id": "caption-word-40-0",
+          "text": "doesn't",
+          "start": 37.51,
+          "end": 37.89
+        },
+        {
+          "id": "caption-word-40-1",
+          "text": "mean",
+          "start": 37.89,
+          "end": 38.05
+        }
+      ]
+    },
+    {
+      "id": "caption-group-41",
+      "frame": 6,
+      "start": 38.05,
+      "end": 39.15,
+      "text": "banks are secretly",
+      "words": [
+        {
+          "id": "caption-word-41-0",
+          "text": "banks",
+          "start": 38.05,
+          "end": 38.47
+        },
+        {
+          "id": "caption-word-41-1",
+          "text": "are",
+          "start": 38.47,
+          "end": 38.75
+        },
+        {
+          "id": "caption-word-41-2",
+          "text": "secretly",
+          "start": 38.75,
+          "end": 39.15
+        }
+      ]
+    },
+    {
+      "id": "caption-group-42",
+      "frame": 6,
+      "start": 39.15,
+      "end": 40.39,
+      "text": "stealing your money.",
+      "words": [
+        {
+          "id": "caption-word-42-0",
+          "text": "stealing",
+          "start": 39.15,
+          "end": 39.69
+        },
+        {
+          "id": "caption-word-42-1",
+          "text": "your",
+          "start": 39.69,
+          "end": 40.01
+        },
+        {
+          "id": "caption-word-42-2",
+          "text": "money.",
+          "start": 40.01,
+          "end": 40.27
+        }
+      ]
+    },
+    {
+      "id": "caption-group-43",
+      "frame": 7,
+      "start": 40.511,
+      "end": 41.651,
+      "text": "Modern banks operate",
+      "words": [
+        {
+          "id": "caption-word-43-0",
+          "text": "Modern",
+          "start": 40.511,
+          "end": 40.791
+        },
+        {
+          "id": "caption-word-43-1",
+          "text": "banks",
+          "start": 40.791,
+          "end": 41.111
+        },
+        {
+          "id": "caption-word-43-2",
+          "text": "operate",
+          "start": 41.111,
+          "end": 41.651
+        }
+      ]
+    },
+    {
+      "id": "caption-group-44",
+      "frame": 7,
+      "start": 41.651,
+      "end": 43.291,
+      "text": "with liquidity requirements,",
+      "words": [
+        {
+          "id": "caption-word-44-0",
+          "text": "with",
+          "start": 41.651,
+          "end": 42.071
+        },
+        {
+          "id": "caption-word-44-1",
+          "text": "liquidity",
+          "start": 42.071,
+          "end": 42.391
+        },
+        {
+          "id": "caption-word-44-2",
+          "text": "requirements,",
+          "start": 42.391,
+          "end": 43.171
+        }
+      ]
+    },
+    {
+      "id": "caption-group-45",
+      "frame": 7,
+      "start": 43.791,
+      "end": 44.691,
+      "text": "capital rules,",
+      "words": [
+        {
+          "id": "caption-word-45-0",
+          "text": "capital",
+          "start": 43.791,
+          "end": 44.031
+        },
+        {
+          "id": "caption-word-45-1",
+          "text": "rules,",
+          "start": 44.031,
+          "end": 44.571
+        }
+      ]
+    },
+    {
+      "id": "caption-group-46",
+      "frame": 7,
+      "start": 45.371,
+      "end": 46.511,
+      "text": "central-bank access,",
+      "words": [
+        {
+          "id": "caption-word-46-0",
+          "text": "central-bank",
+          "start": 45.371,
+          "end": 45.891
+        },
+        {
+          "id": "caption-word-46-1",
+          "text": "access,",
+          "start": 45.891,
+          "end": 46.391
+        }
+      ]
+    },
+    {
+      "id": "caption-group-47",
+      "frame": 7,
+      "start": 47.011,
+      "end": 48.011,
+      "text": "and deposit protection",
+      "words": [
+        {
+          "id": "caption-word-47-0",
+          "text": "and",
+          "start": 47.011,
+          "end": 47.071
+        },
+        {
+          "id": "caption-word-47-1",
+          "text": "deposit",
+          "start": 47.071,
+          "end": 47.411
+        },
+        {
+          "id": "caption-word-47-2",
+          "text": "protection",
+          "start": 47.411,
+          "end": 48.011
+        }
+      ]
+    },
+    {
+      "id": "caption-group-48",
+      "frame": 7,
+      "start": 48.011,
+      "end": 50.131,
+      "text": "systems designed to prevent",
+      "words": [
+        {
+          "id": "caption-word-48-0",
+          "text": "systems",
+          "start": 48.011,
+          "end": 48.751
+        },
+        {
+          "id": "caption-word-48-1",
+          "text": "designed",
+          "start": 48.751,
+          "end": 49.391
+        },
+        {
+          "id": "caption-word-48-2",
+          "text": "to",
+          "start": 49.391,
+          "end": 49.871
+        },
+        {
+          "id": "caption-word-48-3",
+          "text": "prevent",
+          "start": 49.871,
+          "end": 50.131
+        }
+      ]
+    },
+    {
+      "id": "caption-group-49",
+      "frame": 7,
+      "start": 50.131,
+      "end": 51.571,
+      "text": "exactly that situation.",
+      "words": [
+        {
+          "id": "caption-word-49-0",
+          "text": "exactly",
+          "start": 50.131,
+          "end": 50.631
+        },
+        {
+          "id": "caption-word-49-1",
+          "text": "that",
+          "start": 50.631,
+          "end": 51.051
+        },
+        {
+          "id": "caption-word-49-2",
+          "text": "situation.",
+          "start": 51.051,
+          "end": 51.451
+        }
+      ]
+    },
+    {
+      "id": "caption-group-50",
+      "frame": 8,
+      "start": 52.031,
+      "end": 53.171,
+      "text": "The interesting part,",
+      "words": [
+        {
+          "id": "caption-word-50-0",
+          "text": "The",
+          "start": 52.031,
+          "end": 52.131
+        },
+        {
+          "id": "caption-word-50-1",
+          "text": "interesting",
+          "start": 52.131,
+          "end": 52.331
+        },
+        {
+          "id": "caption-word-50-2",
+          "text": "part,",
+          "start": 52.331,
+          "end": 53.051
+        }
+      ]
+    },
+    {
+      "id": "caption-group-51",
+      "frame": 8,
+      "start": 53.851,
+      "end": 54.051,
+      "text": "most of",
+      "words": [
+        {
+          "id": "caption-word-51-0",
+          "text": "most",
+          "start": 53.851,
+          "end": 53.871
+        },
+        {
+          "id": "caption-word-51-1",
+          "text": "of",
+          "start": 53.871,
+          "end": 54.051
+        }
+      ]
+    },
+    {
+      "id": "caption-group-52",
+      "frame": 8,
+      "start": 54.051,
+      "end": 54.391,
+      "text": "the money",
+      "words": [
+        {
+          "id": "caption-word-52-0",
+          "text": "the",
+          "start": 54.051,
+          "end": 54.111
+        },
+        {
+          "id": "caption-word-52-1",
+          "text": "money",
+          "start": 54.111,
+          "end": 54.391
+        }
+      ]
+    },
+    {
+      "id": "caption-group-53",
+      "frame": 8,
+      "start": 54.391,
+      "end": 54.811,
+      "text": "you see",
+      "words": [
+        {
+          "id": "caption-word-53-0",
+          "text": "you",
+          "start": 54.391,
+          "end": 54.591
+        },
+        {
+          "id": "caption-word-53-1",
+          "text": "see",
+          "start": 54.591,
+          "end": 54.811
+        }
+      ]
+    },
+    {
+      "id": "caption-group-54",
+      "frame": 8,
+      "start": 54.811,
+      "end": 55.111,
+      "text": "in your",
+      "words": [
+        {
+          "id": "caption-word-54-0",
+          "text": "in",
+          "start": 54.811,
+          "end": 55.011
+        },
+        {
+          "id": "caption-word-54-1",
+          "text": "your",
+          "start": 55.011,
+          "end": 55.111
+        }
+      ]
+    },
+    {
+      "id": "caption-group-55",
+      "frame": 8,
+      "start": 55.111,
+      "end": 56.351,
+      "text": "bank account isn't",
+      "words": [
+        {
+          "id": "caption-word-55-0",
+          "text": "bank",
+          "start": 55.111,
+          "end": 55.331
+        },
+        {
+          "id": "caption-word-55-1",
+          "text": "account",
+          "start": 55.331,
+          "end": 55.811
+        },
+        {
+          "id": "caption-word-55-2",
+          "text": "isn't",
+          "start": 55.811,
+          "end": 56.351
+        }
+      ]
+    },
+    {
+      "id": "caption-group-56",
+      "frame": 8,
+      "start": 56.351,
+      "end": 57.371,
+      "text": "physical cash at",
+      "words": [
+        {
+          "id": "caption-word-56-0",
+          "text": "physical",
+          "start": 56.351,
+          "end": 56.571
+        },
+        {
+          "id": "caption-word-56-1",
+          "text": "cash",
+          "start": 56.571,
+          "end": 57.091
+        },
+        {
+          "id": "caption-word-56-2",
+          "text": "at",
+          "start": 57.091,
+          "end": 57.371
+        }
+      ]
+    },
+    {
+      "id": "caption-group-57",
+      "frame": 8,
+      "start": 57.371,
+      "end": 57.671,
+      "text": "all.",
+      "words": [
+        {
+          "id": "caption-word-57-0",
+          "text": "all.",
+          "start": 57.371,
+          "end": 57.551
+        }
+      ]
+    },
+    {
+      "id": "caption-group-58",
+      "frame": 8,
+      "start": 58.211,
+      "end": 58.651,
+      "text": "It's numbers",
+      "words": [
+        {
+          "id": "caption-word-58-0",
+          "text": "It's",
+          "start": 58.211,
+          "end": 58.391
+        },
+        {
+          "id": "caption-word-58-1",
+          "text": "numbers",
+          "start": 58.391,
+          "end": 58.651
+        }
+      ]
+    },
+    {
+      "id": "caption-group-59",
+      "frame": 8,
+      "start": 58.651,
+      "end": 59.791,
+      "text": "inside a financial",
+      "words": [
+        {
+          "id": "caption-word-59-0",
+          "text": "inside",
+          "start": 58.651,
+          "end": 59.011
+        },
+        {
+          "id": "caption-word-59-1",
+          "text": "a",
+          "start": 59.011,
+          "end": 59.551
+        },
+        {
+          "id": "caption-word-59-2",
+          "text": "financial",
+          "start": 59.551,
+          "end": 59.791
+        }
+      ]
+    },
+    {
+      "id": "caption-group-60",
+      "frame": 8,
+      "start": 59.791,
+      "end": 60.731,
+      "text": "system.",
+      "words": [
+        {
+          "id": "caption-word-60-0",
+          "text": "system.",
+          "start": 59.791,
+          "end": 60.611
+        }
+      ]
+    },
+    {
+      "id": "caption-group-61",
+      "frame": 9,
+      "start": 60.863,
+      "end": 61.483,
+      "text": "Money is",
+      "words": [
+        {
+          "id": "caption-word-61-0",
+          "text": "Money",
+          "start": 60.863,
+          "end": 61.163
+        },
+        {
+          "id": "caption-word-61-1",
+          "text": "is",
+          "start": 61.163,
+          "end": 61.483
+        }
+      ]
+    },
+    {
+      "id": "caption-group-62",
+      "frame": 9,
+      "start": 61.483,
+      "end": 62.003,
+      "text": "much more",
+      "words": [
+        {
+          "id": "caption-word-62-0",
+          "text": "much",
+          "start": 61.483,
+          "end": 61.723
+        },
+        {
+          "id": "caption-word-62-1",
+          "text": "more",
+          "start": 61.723,
+          "end": 62.003
+        }
+      ]
+    },
+    {
+      "id": "caption-group-63",
+      "frame": 9,
+      "start": 62.003,
+      "end": 63.043,
+      "text": "digital than most",
+      "words": [
+        {
+          "id": "caption-word-63-0",
+          "text": "digital",
+          "start": 62.003,
+          "end": 62.463
+        },
+        {
+          "id": "caption-word-63-1",
+          "text": "than",
+          "start": 62.463,
+          "end": 62.883
+        },
+        {
+          "id": "caption-word-63-2",
+          "text": "most",
+          "start": 62.883,
+          "end": 63.043
+        }
+      ]
+    },
+    {
+      "id": "caption-group-64",
+      "frame": 9,
+      "start": 63.043,
+      "end": 63.963,
+      "text": "people realize.",
+      "words": [
+        {
+          "id": "caption-word-64-0",
+          "text": "people",
+          "start": 63.043,
+          "end": 63.423
+        },
+        {
+          "id": "caption-word-64-1",
+          "text": "realize.",
+          "start": 63.423,
+          "end": 63.843
+        }
+      ]
+    }
+  ]
+}

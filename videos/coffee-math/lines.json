@@ -1,0 +1,75 @@
+{
+  "total": 15.01,
+  "lines": [
+    {
+      "i": 1,
+      "file": "assets/voice/01.wav",
+      "text": "Quick money math.",
+      "tts": "Quick money math.",
+      "start": 0.3,
+      "dur": 1.109,
+      "end": 1.409,
+      "pause": 0.25
+    },
+    {
+      "i": 2,
+      "file": "assets/voice/02.wav",
+      "text": "A $5 coffee, every single day.",
+      "tts": "A five dollar coffee, every single day.",
+      "start": 1.659,
+      "dur": 2.645,
+      "end": 4.305,
+      "pause": 0.25
+    },
+    {
+      "i": 3,
+      "file": "assets/voice/03.wav",
+      "text": "$5 × 365 days...",
+      "tts": "Five times three hundred sixty-five...",
+      "start": 4.555,
+      "dur": 2.432,
+      "end": 6.987,
+      "pause": 0.35
+    },
+    {
+      "i": 4,
+      "file": "assets/voice/04.wav",
+      "text": "is $1,825.",
+      "tts": "is eighteen hundred twenty-five dollars.",
+      "start": 7.337,
+      "dur": 2.347,
+      "end": 9.683,
+      "pause": 0.1
+    },
+    {
+      "i": 5,
+      "file": "assets/voice/05.wav",
+      "text": "A year.",
+      "tts": "A year.",
+      "start": 9.783,
+      "dur": 0.896,
+      "end": 10.679,
+      "pause": 0.4
+    },
+    {
+      "i": 6,
+      "file": "assets/voice/06.wav",
+      "text": "Small habits, big numbers.",
+      "tts": "Small habits, big numbers.",
+      "start": 11.079,
+      "dur": 1.813,
+      "end": 12.893,
+      "pause": 0.25
+    },
+    {
+      "i": 7,
+      "file": "assets/voice/07.wav",
+      "text": "Know your number.",
+      "tts": "Know your number.",
+      "start": 13.143,
+      "dur": 1.067,
+      "end": 14.209,
+      "pause": 0.4
+    }
+  ]
+}

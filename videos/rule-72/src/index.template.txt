@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
+    <style>
+      @font-face { font-family: 'Space Grotesk'; font-weight: 500; src: url('assets/fonts/space-grotesk-latin-500-normal.woff2') format('woff2'); }
+      @font-face { font-family: 'Space Grotesk'; font-weight: 600; src: url('assets/fonts/space-grotesk-latin-600-normal.woff2') format('woff2'); }
+      @font-face { font-family: 'Space Grotesk'; font-weight: 700; src: url('assets/fonts/space-grotesk-latin-700-normal.woff2') format('woff2'); }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #0B1220; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background-color: #0B1220; background-image: radial-gradient(rgba(233,185,73,0.10) 2.5px, transparent 2.5px); background-size: 60px 60px; font-family: 'Space Grotesk', sans-serif; color: #F1F3F8; }
+      #stage { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; }
+      #glow { position: absolute; left: -200px; top: -300px; width: 1480px; height: 1100px; pointer-events: none; background: radial-gradient(closest-side, rgba(233,185,73,0.12), rgba(233,185,73,0)); }
+      .abs { position: absolute; opacity: 0; }
+      .lot { position: absolute; opacity: 0; }
+      .big { font-weight: 700; letter-spacing: -0.035em; line-height: 1.02; text-align: center; white-space: nowrap; }
+      .gd { color: #E9B949; } .gn { color: #67E3AE; }
+      .tag { font-weight: 600; font-size: 30px; letter-spacing: 0.14em; text-transform: uppercase; color: #E9B949; text-align: center; white-space: nowrap; }
+      .card { background: #131D33; border: 1.5px solid #2A3A5C; border-radius: 28px; box-shadow: 0 24px 60px rgba(0,0,0,0.45); }
+      .mw { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: 0.14em; margin-bottom: -0.14em; }
+      .mi { display: inline-block; will-change: transform; }
+      #prog { position: absolute; left: 0; bottom: 0; width: 1080px; height: 6px; background: #E9B949; transform-origin: left center; }
+      #caps { position: absolute; left: 0; top: 1392px; width: 1080px; height: 190px; }
+      .cg { position: absolute; left: 90px; top: 0; width: 900px; text-align: center; opacity: 0; }
+      .cg .pill { display: inline-block; padding: 14px 30px 16px; border-radius: 34px; background: #131D33; border: 1.5px solid #2A3A5C; box-shadow: 0 8px 30px rgba(0,0,0,0.5); font-weight: 600; font-size: 50px; line-height: 1.2; letter-spacing: -0.01em; color: #F1F3F8; }
+      .cw { display: inline-block; margin: 0 4px; padding: 0 10px; border-radius: 12px; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="__TOTAL__" data-width="1080" data-height="1920">
+      <div id="stage" class="clip" data-start="0" data-duration="__TOTAL__" data-track-index="0">
+        <div id="glow"></div>
+
+        <!-- hook: visible from frame 1 -->
+        <div id="hk1" class="abs big" style="left:0;top:330px;width:1080px;font-size:132px">WHEN DOES</div>
+        <div id="hk2" class="abs big gd" style="left:0;top:470px;width:1080px;font-size:132px">YOUR MONEY</div>
+        <div id="hk3" class="abs big" style="left:0;top:620px;width:1080px;font-size:176px">DOUBLE?</div>
+        <div id="x2" class="abs big gd" style="left:340px;top:900px;width:400px;font-size:260px">×2</div>
+
+        <!-- the rule -->
+        <div id="fm" class="abs card" style="left:90px;top:430px;width:900px;height:420px">
+          <div class="tag" style="margin-top:40px;font-size:28px">The rule of 72</div>
+          <div style="position:absolute;left:0;top:130px;width:900px;height:200px;text-align:center;font-weight:700;font-size:150px;letter-spacing:-0.03em;line-height:200px;white-space:nowrap">
+            <span id="f72" class="gd" style="display:inline-block">72</span><span id="fdiv" style="display:inline-block;margin:0 26px;opacity:0.9">÷</span><span style="display:inline-block;position:relative;width:250px;height:200px;vertical-align:top"><span id="r0" style="position:absolute;left:0;width:250px;font-size:70px;letter-spacing:0.05em;color:#8C97AD">RATE</span><span id="r1" style="position:absolute;left:0;width:250px;opacity:0" class="gn">6%</span></span><span id="feq" style="display:inline-block;margin:0 22px;opacity:0.9">=</span><span style="display:inline-block;position:relative;width:200px;height:200px;vertical-align:top"><span id="q0" style="position:absolute;left:0;width:200px;color:#8C97AD">?</span><span id="q1" style="position:absolute;left:0;width:200px;opacity:0" class="gd">12</span></span>
+          </div>
+          <div class="tag" style="position:absolute;left:0;top:350px;width:900px;font-size:26px;color:#8C97AD">years to double</div>
+        </div>
+        <div id="bw" class="abs" style="left:90px;top:930px;width:900px;height:260px">
+          <div class="tag" style="text-align:left;font-size:24px;color:#8C97AD">Today</div>
+          <div id="b1" style="margin-top:10px;width:420px;height:70px;border-radius:18px;background:#2A3A5C;color:#F1F3F8;font-weight:700;font-size:40px;line-height:70px;padding-left:26px">$1,000</div>
+          <div class="tag" style="text-align:left;font-size:24px;color:#8C97AD;margin-top:22px">In about 12 years</div>
+          <div id="b2" style="margin-top:10px;width:420px;height:70px;border-radius:18px;background:#E9B949;color:#0B1220;font-weight:700;font-size:40px;line-height:70px;padding-left:26px;white-space:nowrap;overflow:hidden">$2,000</div>
+        </div>
+
+        <!-- ending -->
+        <div id="e1" class="abs big" style="left:0;top:520px;width:1080px;font-size:116px">YOU DIDN'T KNOW</div>
+        <div id="e2" class="abs big gd" style="left:0;top:660px;width:1080px;font-size:104px">THAT ABOUT MONEY.</div>
+        <div id="conf" class="lot" style="left:0;top:80px;width:1080px;height:1080px"></div>
+
+        <div id="caps"></div>
+        <div id="prog"></div>
+      </div>
+    </div>
+
+    <script>
+      const WORDS = __WORDS__;
+      window.__timelines = window.__timelines || {};
+      const wd = (l, k) => WORDS.filter((w) => w.line === l)[k].s;
+      const tl = gsap.timeline({ paused: true });
+      const E = 'power3.out';
+      const $ = (s) => document.querySelector(s);
+      const R = (el, t, from, to) => tl.fromTo(el, Object.assign({ opacity: 0, y: 30 }, from || {}), Object.assign({ opacity: 1, y: 0, duration: 0.5, ease: E, immediateRender: false }, to || {}), t);
+      /*__HELPERS__*/
+
+      // ---- hook: on screen at frame 1, no fade-up
+      hookNow(tl, ['#hk1', '#hk2', '#hk3']);
+      tl.fromTo('#x2', { opacity: 0, scale: 0.4, rotation: -12 }, { opacity: 1, scale: 1, rotation: 0, duration: 0.5, ease: 'back.out(2)', immediateRender: false }, 0.15);
+      punch(tl, '#x2', 0.95, { scale: 1.1 });
+      ['#hk1', '#hk2', '#hk3', '#x2'].forEach((s) => tl.to(s, { opacity: 0, y: -40, duration: 0.3, ease: 'power2.in' }, 1.75));
+      // ---- the rule (1.93 - 4.3)
+      R('#fm', 1.95, { y: 50, scale: 0.94 }, { scale: 1, duration: 0.6 });
+      tl.fromTo('#f72', { scale: 0.5, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: 'back.out(2)', immediateRender: false }, wd(2, 1) - 0.05);
+      tl.fromTo('#fdiv', { opacity: 0 }, { opacity: 0.9, duration: 0.25, immediateRender: false }, wd(2, 2) - 0.1);
+      tl.fromTo('#r0', { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3, immediateRender: false }, wd(2, 4) - 0.1);
+      tl.fromTo('#feq', { opacity: 0 }, { opacity: 0.9, duration: 0.25, immediateRender: false }, wd(2, 5));
+      tl.fromTo('#q0', { opacity: 0 }, { opacity: 1, duration: 0.25, immediateRender: false }, wd(2, 5) + 0.1);
+      // ---- 6% -> 12 (4.39 - 6.4)
+      tl.to('#r0', { opacity: 0, y: -20, duration: 0.2 }, wd(3, 1) - 0.05); tl.fromTo('#r1', { opacity: 0, y: 20, scale: 0.6 }, { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: 'back.out(2)', immediateRender: false }, wd(3, 1));
+      tl.to('#q0', { opacity: 0, duration: 0.15 }, wd(3, 3) - 0.1); tl.fromTo('#q1', { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, duration: 0.45, ease: 'back.out(2.2)', immediateRender: false }, wd(3, 3) - 0.05);
+      punch(tl, '#fm', wd(3, 3) + 0.1, { scale: 1.04 });
+      R('#bw', wd(3, 3) + 0.2, { y: 40 }, { duration: 0.5 });
+      tl.fromTo('#b2', { width: 420 }, { width: 860, duration: 0.7, ease: 'power3.out', immediateRender: false }, wd(3, 4));
+      ['#fm', '#bw'].forEach((s) => tl.to(s, { opacity: 0, duration: 0.25, ease: 'none' }, 6.45));
+      // ---- ending (6.69 - 10): mask reveal
+      maskReveal(tl, '#e1', 6.7); maskReveal(tl, '#e2', wd(4, 3) - 0.1);
+      tl.fromTo('#conf', { opacity: 0 }, { opacity: 1, duration: 0.01, immediateRender: false }, 7.8); tl.to('#conf', { opacity: 0, duration: 0.01 }, 9.95);
+
+      // ---- Lottie (time-shifted copy)
+      const a = lottie.loadAnimation({ container: document.getElementById('conf'), renderer: 'svg', loop: false, autoplay: false, path: 'assets/lottie/confetti-s.json', rendererSettings: { preserveAspectRatio: 'xMidYMid meet' } }); (window.__hfLottie = window.__hfLottie || []).push(a);
+      tl.fromTo('#prog', { scaleX: 0 }, { scaleX: 1, duration: __TOTAL__, ease: 'none', immediateRender: false }, 0);
+
+      // ---------- captions ----------
+      const capsEl = $('#caps');
+      const groups = []; let cur = [];
+      WORDS.forEach((w, i) => { cur.push(w); const nx = WORDS[i + 1]; const endS = /[.!?…]$/.test(w.w); const endC = /,$/.test(w.w) && cur.length >= 2; if (!nx || endS || endC || cur.length >= 4 || (nx && nx.s - w.e > 0.5)) { groups.push(cur); cur = []; } });
+      groups.forEach((g, gi) => {
+        if (g[0].line === 4) return;
+        const d = document.createElement('div'); d.className = 'cg'; const pill = document.createElement('div'); pill.className = 'pill'; d.appendChild(pill);
+        g.forEach((w, wi) => { const s = document.createElement('span'); s.className = 'cw'; s.id = `cw${gi}_${wi}`; s.textContent = w.w; pill.appendChild(s); });
+        capsEl.appendChild(d);
+        const a0 = g[0].s - 0.03, nextS = groups[gi + 1] ? groups[gi + 1][0].s : 1e9, b = Math.min(g[g.length - 1].e + 0.2, nextS - 0.08);
+        tl.fromTo(d, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.1, ease: 'power2.out', immediateRender: false }, Math.max(0, a0));
+        tl.to(d, { opacity: 0, duration: 0.06, ease: 'none' }, b);
+        g.forEach((w, wi) => { const sp = `#cw${gi}_${wi}`;
+          tl.fromTo(sp, { backgroundColor: 'rgba(233,185,73,0)', color: '#F1F3F8' }, { backgroundColor: '#E9B949', color: '#0B1220', duration: 0.06, ease: 'none', immediateRender: false }, w.s);
+          tl.to(sp, { backgroundColor: 'rgba(233,185,73,0)', color: '#F1F3F8', duration: 0.06, ease: 'none' }, Math.max(w.e, w.s + 0.1)); });
+      });
+      window.__timelines['main'] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

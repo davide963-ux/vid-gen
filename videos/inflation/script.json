@@ -1,0 +1,20 @@
+[
+ {"say":"You probably didn't know this about money.","pause":0.45},
+ {"say":"You can have the exact same amount of money in your bank account...","pause":0.4},
+ {"say":"and still become poorer.","pause":0.5},
+ {"say":"Sounds strange, right?","pause":0.5},
+ {"say":"Imagine you have one hundred dollars.","show":"Imagine you have $100.","pause":0.45},
+ {"say":"Today, that one hundred dollars might buy you ten meals.","show":"Today, that $100 might buy you ten meals.","pause":0.45},
+ {"say":"But after a few years of rising prices, those same ten meals might cost one hundred twenty dollars.","show":"But after a few years of rising prices, those same ten meals might cost $120.","pause":0.5},
+ {"say":"Your one hundred dollars didn't disappear.","show":"Your $100 didn't disappear.","pause":0.4},
+ {"say":"Nobody took money from your account.","pause":0.4},
+ {"say":"But now it buys less than it used to.","pause":0.5},
+ {"say":"That is what inflation does.","pause":0.5},
+ {"say":"When prices rise over time, each dollar has less purchasing power.","pause":0.5},
+ {"say":"So having more money doesn't always mean you're getting richer.","pause":0.5},
+ {"say":"What really matters is what that money can actually buy.","pause":0.5},
+ {"say":"That's why people say inflation quietly eats away at the value of your money.","pause":0.55},
+ {"say":"Your balance can stay exactly the same...","pause":0.35},
+ {"say":"while your buying power gets smaller.","pause":0.55},
+ {"say":"You didn't know that about money.","pause":0.3,"tail":1.6}
+]

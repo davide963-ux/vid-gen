@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: 'Space Grotesk'; font-weight: 700; font-style: normal; src: url('assets/fonts/space-grotesk-latin-700-normal.woff2') format('woff2'); }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #0b130d; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: 'Space Grotesk', sans-serif; }
+      #stage { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; }
+      #cam, #zoom, #world { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+      #zoom { transform-origin: 540px 1250px; }
+      .layer { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+      #sky { background: linear-gradient(180deg, #f3f7c9 0%, #cfe8b0 28%, #8fc79a 62%, #5f9f72 100%); }
+      #rays { opacity: 0.0; }
+      .ray { position: absolute; top: -200px; width: 160px; height: 2300px; background: linear-gradient(180deg, rgba(255,250,200,0.55), rgba(255,250,200,0)); transform-origin: 50% 0; }
+      #vignette { background: radial-gradient(ellipse at 50% 55%, rgba(0,0,0,0) 55%, rgba(8,24,12,0.55) 100%); pointer-events: none; }
+
+      .actor { position: absolute; }
+      .shadow { position: absolute; border-radius: 50%; background: radial-gradient(ellipse at center, rgba(15,30,10,0.55) 0%, rgba(15,30,10,0) 70%); }
+      #frogPos { left: 166px; top: 880px; width: 278px; height: 640px; }
+      #frogLean, #frogSpin, #frogSquash { position: absolute; left: 0; top: 0; width: 278px; height: 640px; }
+      #frogLean { transform-origin: 50% 97%; }
+      #frogSpin { transform-origin: 50% 52%; }
+      #frogSquash { transform-origin: 50% 100%; }
+      #frogImg { position: absolute; left: 0; top: 0; width: 278px; height: 640px; display: block; }
+      #frogShadow { left: 150px; top: 1490px; width: 330px; height: 70px; }
+
+      #dummyPos { left: 660px; top: 1000px; width: 220px; height: 520px; }
+      #dummyRot, #dummySway { position: absolute; left: 0; top: 0; width: 220px; height: 520px; }
+      #dummyRot { transform-origin: 50% 50%; }
+      #dummySway { transform-origin: 50% 100%; }
+      #dummyShadow { left: 640px; top: 1498px; width: 260px; height: 56px; }
+
+      .fx { position: absolute; pointer-events: none; }
+      .puff { width: 120px; height: 120px; border-radius: 50%; background: radial-gradient(circle, rgba(236,222,186,0.95) 0%, rgba(214,194,150,0.0) 70%); opacity: 0; }
+      #shock { width: 260px; height: 70px; border-radius: 50%; border: 10px solid rgba(255,244,200,0.9); opacity: 0; }
+      #burst { width: 520px; height: 520px; opacity: 0; }
+
+      .txt { position: absolute; left: 0; width: 1080px; text-align: center; font-weight: 700; color: #ffd23f; letter-spacing: -0.02em; line-height: 1; white-space: nowrap; opacity: 0;
+        -webkit-text-stroke: 14px #111; paint-order: stroke fill; text-shadow: 0 10px 0 rgba(0,0,0,0.35); }
+      #tTitle { top: 190px; font-size: 128px; }
+      #tOss1 { top: 470px; font-size: 220px; }
+      #tHip { top: 330px; font-size: 150px; }
+      #tIppon { top: 250px; font-size: 230px; color: #ff4b3e; }
+      #tSub { top: 300px; font-size: 130px; }
+      .tap { position: absolute; font-size: 74px; color: #fff; font-weight: 700; opacity: 0; -webkit-text-stroke: 10px #111; paint-order: stroke fill; }
+      #tOss2 { top: 440px; font-size: 230px; }
+      #fadeBlack { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; background: #050805; opacity: 1; pointer-events: none; }
+      .leaf { position: absolute; width: 26px; height: 14px; border-radius: 50% 0 50% 0; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="14" data-width="1080" data-height="1920">
+      <div id="stage" class="clip" data-start="0" data-duration="14" data-track-index="0">
+        <div id="cam"><div id="zoom"><div id="world">
+          <div id="sky" class="layer"></div>
+          <div id="rays" class="layer"></div>
+          <svg id="bgFar" class="layer" viewBox="0 0 1080 1920" width="1080" height="1920"></svg>
+          <svg id="bgMid" class="layer" viewBox="0 0 1080 1920" width="1080" height="1920"></svg>
+          <svg id="ground" class="layer" viewBox="0 0 1080 1920" width="1080" height="1920"></svg>
+
+          <div id="frogShadow" class="shadow"></div>
+          <div id="dummyShadow" class="shadow"></div>
+
+          <div id="dummyPos" class="actor"><div id="dummyRot"><div id="dummySway">
+            <svg id="dummySvg" viewBox="0 0 220 520" width="220" height="520">
+              <rect x="30" y="170" width="38" height="190" rx="19" fill="#d9b98a" stroke="#7a5a2c" stroke-width="5" transform="rotate(10 49 180)"/>
+              <rect x="152" y="170" width="38" height="190" rx="19" fill="#d9b98a" stroke="#7a5a2c" stroke-width="5" transform="rotate(-10 171 180)"/>
+              <rect x="62" y="380" width="46" height="130" rx="20" fill="#cfae7a" stroke="#7a5a2c" stroke-width="5"/>
+              <rect x="112" y="380" width="46" height="130" rx="20" fill="#cfae7a" stroke="#7a5a2c" stroke-width="5"/>
+              <rect x="50" y="150" width="120" height="250" rx="46" fill="#e2c496" stroke="#7a5a2c" stroke-width="5"/>
+              <rect x="50" y="300" width="120" height="30" fill="#b3261e" stroke="#7a1a14" stroke-width="4"/>
+              <path d="M70 170 L150 170 M64 210 L156 210 M64 250 L156 250" stroke="#b99358" stroke-width="3" stroke-dasharray="10 9" fill="none"/>
+              <circle cx="110" cy="92" r="60" fill="#e2c496" stroke="#7a5a2c" stroke-width="5"/>
+              <circle cx="88" cy="86" r="8" fill="#2a1d0e"/><circle cx="132" cy="86" r="8" fill="#2a1d0e"/>
+              <path d="M92 116 Q110 126 128 116" stroke="#2a1d0e" stroke-width="6" fill="none" stroke-linecap="round"/>
+              <path d="M62 52 L158 52" stroke="#b3261e" stroke-width="12" stroke-linecap="round"/>
+            </svg>
+          </div></div></div>
+
+          <div id="frogPos" class="actor"><div id="frogLean"><div id="frogSpin"><div id="frogSquash">
+            <img id="frogImg" src="assets/frog.png" alt="" />
+          </div></div></div></div>
+
+          <svg id="fgTrees" class="layer" viewBox="0 0 1080 1920" width="1080" height="1920"></svg>
+          <div id="leaves" class="layer"></div>
+
+          <div id="fxLayer" class="layer"></div>
+          <div id="vignette" class="layer"></div>
+        </div></div></div>
+
+        <div id="tTitle" class="txt">JIU-JITSU FROG</div>
+        <div id="tOss1" class="txt">OSS!</div>
+        <div id="tHip" class="txt">HIP THROW!</div>
+        <div id="tIppon" class="txt">IPPON!</div>
+        <div id="tSub" class="txt">SUBMISSION!</div>
+        <div id="tap1" class="tap" style="left:360px; top:1010px;">tap!</div>
+        <div id="tap2" class="tap" style="left:200px; top:960px;">tap!</div>
+        <div id="tap3" class="tap" style="left:470px; top:930px;">tap!</div>
+        <div id="tOss2" class="txt">OSS!</div>
+        <div id="fadeBlack"></div>
+      </div>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const NS = 'http://www.w3.org/2000/svg';
+      const hash = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+      const el = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); parent.appendChild(e); return e; };
+
+      // ---------- forest (deterministic, index-hashed) ----------
+      const far = document.getElementById('bgFar');
+      for (let i = 0; i < 16; i++) {
+        const x = i * 72 + hash(i) * 40 - 20, w = 22 + hash(i + 40) * 20, top = 380 + hash(i + 80) * 220, h = 1000;
+        el('rect', { x, y: top, width: w, height: h, fill: '#7db08a', opacity: 0.38 }, far);
+        el('ellipse', { cx: x + w / 2, cy: top + 20, rx: 90 + hash(i + 12) * 50, ry: 120 + hash(i + 30) * 60, fill: '#86b88f', opacity: 0.34 }, far);
+      }
+      const mid = document.getElementById('bgMid');
+      for (let i = 0; i < 9; i++) {
+        const x = i * 135 + hash(i + 200) * 60 - 30, w = 44 + hash(i + 220) * 30, top = 250 + hash(i + 240) * 280;
+        el('rect', { x, y: top, width: w, height: 1400, fill: '#6a5236', opacity: 0.8 }, mid);
+        el('rect', { x: x + w * 0.62, y: top, width: w * 0.2, height: 1400, fill: '#4b3823', opacity: 0.35 }, mid);
+        for (let k = 0; k < 4; k++) el('ellipse', { cx: x + w / 2 + (hash(i * 7 + k) - 0.5) * 150, cy: top + 10 + k * 60 - 60, rx: 110 + hash(i + k * 3) * 50, ry: 80 + hash(i + k * 5) * 30, fill: k % 2 ? '#3f7f52' : '#4d9360', opacity: 0.78 }, mid);
+      }
+      const g = document.getElementById('ground');
+      el('path', { d: 'M0 1390 Q 180 1350 360 1380 T 720 1370 T 1080 1385 L1080 1920 L0 1920 Z', fill: '#5b8f3a' }, g);
+      el('ellipse', { cx: 540, cy: 1560, rx: 640, ry: 190, fill: '#b99a63' }, g);
+      el('ellipse', { cx: 540, cy: 1540, rx: 560, ry: 150, fill: '#c7aa72' }, g);
+      for (let i = 0; i < 26; i++) { const x = hash(i + 500) * 1080, y = 1420 + hash(i + 520) * 70; el('path', { d: `M${x} ${y} l-6 -26 M${x} ${y} l2 -34 M${x} ${y} l9 -24`, stroke: '#3f7a2a', 'stroke-width': 5, 'stroke-linecap': 'round', fill: 'none' }, g); }
+      for (let i = 0; i < 14; i++) { const x = 60 + hash(i + 600) * 960, y = 1600 + hash(i + 620) * 230; el('ellipse', { cx: x, cy: y, rx: 12 + hash(i + 640) * 14, ry: 7 + hash(i + 660) * 6, fill: '#a58650', opacity: 0.8 }, g); }
+      const fg = document.getElementById('fgTrees');
+      el('rect', { x: -40, y: -40, width: 130, height: 2050, fill: '#2d2218' }, fg);
+      el('rect', { x: 990, y: -40, width: 120, height: 2050, fill: '#2d2218' }, fg);
+      el('ellipse', { cx: 30, cy: 1880, rx: 190, ry: 90, fill: '#2f6a35' }, fg);
+      el('ellipse', { cx: 1050, cy: 1890, rx: 200, ry: 90, fill: '#2f6a35' }, fg);
+      for (let i = 0; i < 9; i++) { const side = i % 2 ? 1050 : 30; el('path', { d: `M${side} 1900 q ${(i % 2 ? -1 : 1) * (60 + hash(i + 700) * 90)} -${130 + hash(i + 720) * 120} ${(i % 2 ? -1 : 1) * (150 + hash(i + 740) * 60)} -${40 + hash(i + 760) * 40}`, stroke: '#3d8a42', 'stroke-width': 18, fill: 'none', 'stroke-linecap': 'round' }, fg); }
+
+      const rays = document.getElementById('rays');
+      for (let i = 0; i < 5; i++) { const r = document.createElement('div'); r.className = 'ray'; r.style.left = (80 + i * 220) + 'px'; r.style.transform = 'rotate(-16deg)'; r.style.width = (110 + hash(i + 900) * 90) + 'px'; rays.appendChild(r); }
+
+      const leaves = document.getElementById('leaves');
+      const leafEls = [];
+      for (let i = 0; i < 16; i++) { const d = document.createElement('div'); d.className = 'leaf'; d.style.background = i % 3 ? '#e1ad45' : '#8dc54f'; d.style.left = (hash(i + 800) * 1000) + 'px'; d.style.top = '0px'; leaves.appendChild(d); leafEls.push(d); }
+
+      // fx elements
+      const fxl = document.getElementById('fxLayer');
+      const mk = (cls, id, css) => { const d = document.createElement('div'); d.className = 'fx ' + cls; d.id = id; Object.assign(d.style, css); fxl.appendChild(d); return d; };
+      const puffs = [];
+      for (let i = 0; i < 12; i++) puffs.push(mk('puff', 'puff' + i, { left: '0px', top: '1440px' }));
+      mk('', 'shock', { left: '120px', top: '1485px' });
+      const burst = mk('', 'burst', { left: '0px', top: '1180px' });
+      burst.innerHTML = '<svg viewBox="-260 -260 520 520" width="520" height="520"><g fill="#fff6c8" stroke="#111" stroke-width="8" stroke-linejoin="round"><path d="M0 -240 L40 -70 L190 -170 L80 -30 L240 0 L80 30 L190 170 L40 70 L0 240 L-40 70 L-190 170 L-80 30 L-240 0 L-80 -30 L-190 -170 L-40 -70 Z"/></g></svg>';
+
+      // ---------- timeline ----------
+      const tl = gsap.timeline({ paused: true });
+      const E = 'power3.out';
+      const IO = 'power2.inOut';
+
+      // camera/zoom + ambience (background parallax is linear and gentle)
+      tl.fromTo('#rays', { opacity: 0 }, { opacity: 0.55, duration: 1.2, ease: 'none' }, 0);
+      tl.fromTo('.ray', { x: -40 }, { x: 60, duration: 14, ease: 'none' }, 0);
+      leafEls.forEach((d, i) => {
+        const x0 = 0, s = 30 + hash(i + 11) * 40;
+        tl.fromTo(d, { y: -80 - hash(i + 3) * 300, rotation: 0 }, { y: 2000, rotation: 540 + hash(i) * 360, duration: 14, ease: 'none' }, 0);
+        tl.fromTo(d, { x: x0 }, { keyframes: { x: [0, s, -s, s, 0] }, duration: 14, ease: 'none' }, 0);
+      });
+
+      // fade in
+      tl.to('#fadeBlack', { opacity: 0, duration: 0.7, ease: 'none' }, 0);
+
+      // helper: jump with matching shadow squash
+      const shadowFor = (sel, y, t, dur) => {
+        tl.to(sel, { scale: 0.62, opacity: 0.55, duration: dur / 2, ease: 'power2.out' }, t);
+        tl.to(sel, { scale: 1, opacity: 1, duration: dur / 2, ease: 'power2.in' }, t + dur / 2);
+      };
+
+      // 0.0-1.3 walk in with hops
+      tl.fromTo('#frogPos', { x: -520, y: 0 }, { x: 0, duration: 1.3, ease: 'power1.out' }, 0);
+      tl.fromTo('#frogShadow', { x: -520 }, { x: 0, duration: 1.3, ease: 'power1.out' }, 0);
+      for (let i = 0; i < 4; i++) {
+        const t = 0.0 + i * 0.32;
+        tl.fromTo('#frogLean', { y: 0, rotation: 0 }, { y: -26, rotation: i % 2 ? 4 : -4, duration: 0.16, ease: 'power1.out' }, t);
+        tl.to('#frogLean', { y: 0, rotation: 0, duration: 0.16, ease: 'power1.in' }, t + 0.16);
+      }
+
+      // title
+      tl.fromTo('#tTitle', { opacity: 0, y: -50, scale: 0.9 }, { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: E }, 0.35);
+      tl.to('#tTitle', { opacity: 0, y: -30, duration: 0.4, ease: 'power1.in' }, 1.9);
+
+      // 1.4-2.5 bow + OSS
+      tl.to('#frogLean', { rotation: 22, duration: 0.4, ease: IO }, 1.4);
+      tl.to('#frogSquash', { scaleY: 0.96, duration: 0.4, ease: IO }, 1.4);
+      tl.to('#frogLean', { rotation: 0, duration: 0.45, ease: IO }, 2.0);
+      tl.to('#frogSquash', { scaleY: 1, duration: 0.45, ease: IO }, 2.0);
+      tl.fromTo('#tOss1', { opacity: 0, scale: 0.4, rotation: -8 }, { opacity: 1, scale: 1.05, rotation: -4, duration: 0.35, ease: E }, 1.55);
+      tl.to('#tOss1', { opacity: 0, y: -40, duration: 0.35, ease: 'power1.in' }, 2.5);
+
+      // 2.6-4.1 stance + shuffle (3 steps), dummy sways in response
+      tl.to('#frogSquash', { scaleY: 0.9, scaleX: 1.05, duration: 0.3, ease: E }, 2.6);
+      for (let i = 0; i < 3; i++) {
+        const t = 2.9 + i * 0.4;
+        tl.to('#frogPos', { x: 55 * (i + 1), duration: 0.3, ease: 'power2.out' }, t);
+        tl.to('#frogShadow', { x: 55 * (i + 1), duration: 0.3, ease: 'power2.out' }, t);
+        tl.to('#frogLean', { y: -12, rotation: i % 2 ? -5 : 5, duration: 0.15, ease: 'power1.out' }, t);
+        tl.to('#frogLean', { y: 0, duration: 0.15, ease: 'power1.in' }, t + 0.15);
+      }
+      tl.fromTo('#dummySway', { rotation: 0 }, { keyframes: { rotation: [0, -2.5, 2.5, -2, 2, -3, 0] }, duration: 1.6, ease: 'none' }, 2.7);
+
+      // 4.1-4.9 grip lunge, camera pushes in
+      tl.to('#zoom', { scale: 1.16, duration: 1.4, ease: 'power2.inOut' }, 4.1);
+      tl.to('#frogPos', { x: 235, duration: 0.5, ease: E }, 4.2);
+      tl.to('#frogShadow', { x: 235, duration: 0.5, ease: E }, 4.2);
+      tl.to('#frogLean', { rotation: 9, duration: 0.5, ease: E }, 4.2);
+      tl.to('#dummySway', { rotation: -7, duration: 0.45, ease: E }, 4.4);
+
+      // 4.9-5.4 load: deep crouch, dummy pulled in
+      tl.to('#frogSquash', { scaleY: 0.78, scaleX: 1.12, duration: 0.45, ease: IO }, 4.9);
+      tl.to('#frogLean', { rotation: -8, duration: 0.45, ease: IO }, 4.9);
+      tl.to('#frogPos', { x: 295, duration: 0.5, ease: IO }, 4.9);
+      tl.to('#frogShadow', { x: 295, duration: 0.5, ease: IO }, 4.9);
+      tl.to('#dummyPos', { x: -30, y: -10, duration: 0.4, ease: IO }, 4.9);
+      tl.fromTo('#tHip', { opacity: 0, scale: 0.4, rotation: 6 }, { opacity: 1, scale: 1, rotation: -3, duration: 0.3, ease: E }, 5.4);
+
+      // 5.4-6.5 explosive stand + dummy flies over (center-relative offsets)
+      tl.to('#frogSquash', { scaleY: 1.06, scaleX: 0.96, duration: 0.3, ease: 'power2.out' }, 5.4);
+      tl.to('#frogLean', { rotation: 28, duration: 0.3, ease: 'power2.out' }, 5.4);
+      tl.to('#dummyPos', { x: -130, y: -150, duration: 0.35, ease: 'power2.out' }, 5.4);
+      tl.to('#dummyRot', { rotation: -45, duration: 0.35, ease: 'power2.out' }, 5.4);
+      tl.to('#dummyPos', { x: -300, y: -500, duration: 0.3, ease: 'power1.inOut' }, 5.75);
+      tl.to('#dummyRot', { rotation: -140, duration: 0.3, ease: 'power1.inOut' }, 5.75);
+      tl.to('#dummyPos', { x: -440, y: -60, duration: 0.3, ease: 'power1.in' }, 6.05);
+      tl.to('#dummyRot', { rotation: -225, duration: 0.3, ease: 'power1.in' }, 6.05);
+      tl.to('#dummyPos', { x: -510, y: 150, duration: 0.15, ease: 'power3.in' }, 6.35);
+      tl.to('#dummyRot', { rotation: -270, duration: 0.15, ease: 'power3.in' }, 6.35);
+      tl.to('#dummySway', { rotation: 0, duration: 0.2, ease: 'none' }, 5.4);
+      tl.to('#frogLean', { rotation: 8, duration: 0.5, ease: E }, 5.9);
+      tl.to('#frogSquash', { scaleY: 1, scaleX: 1, duration: 0.5, ease: E }, 5.9);
+      // dummy bounce on landing
+      tl.to('#dummyPos', { x: -505, y: 100, duration: 0.14, ease: 'power2.out' }, 6.5);
+      tl.to('#dummyPos', { x: -510, y: 150, duration: 0.14, ease: 'power2.in' }, 6.64);
+      tl.to('#dummyShadow', { x: -510, scaleX: 1.9, duration: 0.15, ease: 'power3.in' }, 6.35);
+      tl.to('#tHip', { opacity: 0, duration: 0.2, ease: 'none' }, 6.3);
+
+      // impact: shake, dust, shock ring, burst, IPPON
+      tl.to('#cam', { keyframes: [
+        { x: -22, y: 14, rotation: -0.9, duration: 0.05 }, { x: 20, y: -16, rotation: 0.8, duration: 0.05 },
+        { x: -14, y: 10, rotation: -0.5, duration: 0.05 }, { x: 10, y: -8, rotation: 0.4, duration: 0.05 },
+        { x: -5, y: 4, rotation: -0.2, duration: 0.06 }, { x: 0, y: 0, rotation: 0, duration: 0.08 }] }, 6.5);
+      puffs.forEach((p, i) => {
+        const dir = i % 2 ? 1 : -1, n = (i >> 1);
+        const x0 = 150 + n * 40;
+        tl.fromTo(p, { x: x0, y: 0, opacity: 0, scale: 0.3 }, { x: x0 + dir * (120 + n * 70), y: -40 - n * 22, opacity: 0.9, scale: 1.2 + n * 0.25, duration: 0.3, ease: 'power2.out' }, 6.5 + n * 0.02);
+        tl.to(p, { opacity: 0, y: -90 - n * 20, duration: 0.5, ease: 'power1.in' }, 6.8 + n * 0.02);
+      });
+      tl.fromTo('#shock', { x: 20, scale: 0.3, opacity: 0.95 }, { x: 20, scale: 2.8, opacity: 0, duration: 0.6, ease: 'power2.out', immediateRender: false }, 6.5);
+      tl.fromTo('#burst', { x: 20, y: 0, scale: 0.2, opacity: 1, rotation: -10 }, { x: 20, scale: 1.1, opacity: 0, rotation: 8, duration: 0.5, ease: 'power2.out', immediateRender: false }, 6.5);
+      tl.fromTo('#tIppon', { opacity: 0, scale: 2.2, rotation: -10 }, { opacity: 1, scale: 1, rotation: -5, duration: 0.3, ease: 'power3.out' }, 6.6);
+      tl.to('#tIppon', { opacity: 0, y: -60, duration: 0.35, ease: 'power1.in' }, 8.0);
+
+      // camera back out
+      tl.to('#zoom', { scale: 1.0, duration: 0.9, ease: 'power2.inOut' }, 6.8);
+
+      // 7.8-8.6 flying mount onto the dummy
+      tl.to('#frogSquash', { scaleY: 0.82, scaleX: 1.08, duration: 0.25, ease: E }, 7.7);
+      tl.to('#frogLean', { rotation: -6, duration: 0.25, ease: E }, 7.7);
+      tl.to('#frogPos', { x: -50, duration: 0.7, ease: 'power1.inOut' }, 7.95);
+      tl.to('#frogShadow', { x: -50, duration: 0.7, ease: 'power1.inOut' }, 7.95);
+      tl.to('#frogPos', { y: -320, duration: 0.35, ease: 'power2.out' }, 7.95);
+      tl.to('#frogPos', { y: -200, duration: 0.35, ease: 'power2.in' }, 8.3);
+      tl.to('#frogSquash', { scaleY: 1.1, scaleX: 0.94, duration: 0.2, ease: E }, 7.95);
+      tl.to('#frogSpin', { rotation: -360, duration: 0.7, ease: 'power1.inOut' }, 7.95);
+      shadowFor('#frogShadow', 0, 7.95, 0.7);
+      tl.to('#frogSquash', { scaleY: 0.72, scaleX: 1.12, duration: 0.12, ease: 'power2.out' }, 8.65);
+      tl.to('#frogSquash', { scaleY: 0.86, scaleX: 1.06, duration: 0.3, ease: E }, 8.77);
+      tl.fromTo('#tSub', { opacity: 0, scale: 0.4, rotation: 5 }, { opacity: 1, scale: 1, rotation: -3, duration: 0.3, ease: E }, 8.75);
+      // dust on the mount landing
+      puffs.slice(0, 4).forEach((p, i) => {
+        tl.fromTo(p, { x: 100 + i * 70, y: -10, opacity: 0, scale: 0.3 }, { x: 100 + i * 70 + (i % 2 ? 90 : -90), y: -60, opacity: 0.8, scale: 1.1, duration: 0.25, ease: 'power2.out', immediateRender: false }, 8.65);
+        tl.to(p, { opacity: 0, duration: 0.4, ease: 'power1.in' }, 8.9);
+      });
+
+      // 9.1-10.2 the dummy taps out
+      ['#tap1', '#tap2', '#tap3'].forEach((id, i) => {
+        const t = 9.2 + i * 0.35;
+        tl.fromTo(id, { opacity: 0, scale: 0.4, y: 10 }, { opacity: 1, scale: 1, y: -20, duration: 0.18, ease: E }, t);
+        tl.to(id, { opacity: 0, y: -50, duration: 0.2, ease: 'power1.in' }, t + 0.22);
+        tl.to('#dummyPos', { y: 150 - 14, duration: 0.07, ease: 'power1.out' }, t);
+        tl.to('#dummyPos', { y: 150, duration: 0.07, ease: 'power1.in' }, t + 0.07);
+      });
+      tl.to('#tSub', { opacity: 0, y: -40, duration: 0.3, ease: 'power1.in' }, 10.1);
+
+      // 10.4-11.4 hop off and forward-roll to the right
+      tl.to('#frogSquash', { scaleY: 1, scaleX: 1, duration: 0.2, ease: E }, 10.3);
+      tl.to('#frogPos', { y: -120, x: 90, duration: 0.2, ease: 'power2.out' }, 10.4);
+      tl.to('#frogPos', { y: 0, x: 150, duration: 0.2, ease: 'power2.in' }, 10.6);
+      tl.to('#frogShadow', { x: 150, duration: 0.4, ease: 'none' }, 10.4);
+      tl.to('#frogPos', { x: 420, duration: 0.8, ease: 'power1.inOut' }, 10.9);
+      tl.to('#frogShadow', { x: 420, duration: 0.8, ease: 'power1.inOut' }, 10.9);
+      tl.to('#frogSpin', { rotation: 0, duration: 0.01 }, 10.89);
+      tl.fromTo('#frogSpin', { rotation: 0 }, { rotation: 360, duration: 0.8, ease: 'power1.inOut', immediateRender: false }, 10.9);
+      tl.to('#frogPos', { y: -40, duration: 0.4, ease: 'power1.out' }, 10.9);
+      tl.to('#frogPos', { y: 0, duration: 0.4, ease: 'power1.in' }, 11.3);
+
+      // 11.8-12.7 backflip
+      tl.to('#frogSquash', { scaleY: 0.82, scaleX: 1.08, duration: 0.2, ease: E }, 11.7);
+      tl.to('#frogSquash', { scaleY: 1.1, scaleX: 0.94, duration: 0.2, ease: E }, 11.95);
+      tl.to('#frogPos', { y: -380, duration: 0.4, ease: 'power2.out' }, 11.95);
+      tl.to('#frogPos', { y: 0, duration: 0.4, ease: 'power2.in' }, 12.35);
+      tl.fromTo('#frogSpin', { rotation: 0 }, { rotation: -360, duration: 0.8, ease: 'power1.inOut', immediateRender: false }, 11.95);
+      shadowFor('#frogShadow', 0, 11.95, 0.8);
+      tl.to('#frogSquash', { scaleY: 0.78, scaleX: 1.12, duration: 0.1, ease: 'power2.out' }, 12.75);
+      tl.to('#frogSquash', { scaleY: 1, scaleX: 1, duration: 0.35, ease: E }, 12.85);
+      puffs.slice(4, 8).forEach((p, i) => {
+        tl.fromTo(p, { x: 600 + i * 50, y: -10, opacity: 0, scale: 0.3 }, { x: 600 + i * 50 + (i % 2 ? 90 : -90), y: -50, opacity: 0.8, scale: 1.1, duration: 0.25, ease: 'power2.out', immediateRender: false }, 12.75);
+        tl.to(p, { opacity: 0, duration: 0.4, ease: 'power1.in' }, 13.0);
+      });
+
+      // 12.9-14 final bow + OSS, fade out
+      tl.to('#frogLean', { rotation: 14, duration: 0.35, ease: IO }, 12.95);
+      tl.to('#frogLean', { rotation: 0, duration: 0.4, ease: IO }, 13.4);
+      tl.fromTo('#tOss2', { opacity: 0, scale: 0.4, rotation: 8 }, { opacity: 1, scale: 1.05, rotation: 4, duration: 0.35, ease: E }, 13.0);
+      tl.to('#fadeBlack', { opacity: 1, duration: 0.4, ease: 'none' }, 13.6);
+
+      window.__timelines['main'] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,7 @@
+:root { --bg: #ebebeb; --ink: #0e3f3d; --accent: #17736e; --panel: #ffffff; --line: #cfd6d6; --muted: #5c7270; --good: #36c3b0; --bad: #d9574f; --on-accent: #ffffff; --dots: rgba(14,63,61,0.06); --glow: rgba(54,195,176,0.20); }
+.sc { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; }
+.sp { position: absolute; opacity: 0; will-change: transform; }
+.bigline { position: absolute; left: 0; width: 1080px; opacity: 0; }
+.pillbig { display: inline-block; padding: 14px 40px 16px; border-radius: 100px; background: #f6c945; border: 4px solid #0e3f3d; color: #0e3f3d; font-weight: 700; font-size: 60px; letter-spacing: -0.01em; white-space: nowrap; box-shadow: 8px 8px 0 #0e3f3d; }
+.pillbig.w { background: #fff; }
+.shadowtxt { text-shadow: 0 8px 0 rgba(14,63,61,0.55); }

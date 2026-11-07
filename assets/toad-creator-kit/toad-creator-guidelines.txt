@@ -1,0 +1,18 @@
+TOAD / Paper Pulse — community creator starter kit
+
+Character: Keep the green plush texture, oversized expressive eyes, crooked smile, red shirt, and yellow overalls with suspenders. Preserve proportions across shots.
+Voice: Relatable, a little chaotic, warm, and never mean. Everyday moments work best. Same Toad. Different days.
+Palette: Cream #F9F1D7; forest #144137; green #35D391; yellow #F6BE2D; lime #B5DB3A; red #E02B2F.
+Type: Anton for display; DM Sans for body; IBM Plex Mono for labels; Caveat for short handwritten notes. Font files are not bundled.
+Layout: Give the character breathing room. Keep captions readable, short, and within video safe areas. Use forest text on cream, yellow, lime, or green.
+Video: Start with the attached script. Attach the references to your AI tool. Add captions separately when the generator cannot render clean text. Use audio you have permission to use.
+Community content: Do not present a fan video as an official announcement or make price predictions or promises.
+
+Included: generated front cutout, supplied face photo, supplied rear photo, generated full-body scene, four transparent character pose cutouts, selected visual direction, and AI video prompt.
+A complete all-angle turnaround pack is not available yet. These are visual references, not a 3D model.
+
+These starter guidelines describe the current website direction. Contact the community about commercial uses and permissions: https://x.com/thetoadmeme_
+Community: https://t.me/eltoadonsol
+Memes: https://memedepot.com/d/the-toad-pepe
+
+The original website describes an independent community project with no endorsement from the original character rights holders. These files do not supply a commercial-use license.
