@@ -376,6 +376,18 @@
       "use": ""
     },
     {
+      "id": "impact-glass-crack",
+      "file": "sound-effects/impacts-synth/impact-glass-crack.wav",
+      "category": "impacts-synth",
+      "duration": 0.45,
+      "tags": [
+        "impact",
+        "glass",
+        "crack"
+      ],
+      "use": ""
+    },
+    {
       "id": "impact-sub-boom",
       "file": "sound-effects/impacts-synth/impact-sub-boom.wav",
       "category": "impacts-synth",
@@ -606,6 +618,30 @@
       "duration": 0.4,
       "tags": [
         "confirm"
+      ],
+      "use": ""
+    },
+    {
+      "id": "ui-coin-ding",
+      "file": "sound-effects/ui-synth/ui-coin-ding.wav",
+      "category": "ui-synth",
+      "duration": 0.5,
+      "tags": [
+        "ui",
+        "coin",
+        "ding"
+      ],
+      "use": ""
+    },
+    {
+      "id": "ui-notify-ping",
+      "file": "sound-effects/ui-synth/ui-notify-ping.wav",
+      "category": "ui-synth",
+      "duration": 0.7,
+      "tags": [
+        "ui",
+        "notify",
+        "ping"
       ],
       "use": ""
     }

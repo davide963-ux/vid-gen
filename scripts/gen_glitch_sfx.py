@@ -96,6 +96,24 @@ def data_whirr(d=0.7):
     x = np.sin(2 * np.pi * np.cumsum(f) / SR) * np.sign(np.sin(2 * np.pi * 28 * t))
     return crush(x, 5, 3) * np.minimum(1, t / 0.05) * np.minimum(1, (d - t) / 0.12) * 0.7
 
+
+def coin_ding(d=0.5):
+    n = int(d * SR); t = np.arange(n) / SR
+    x = np.sin(2 * np.pi * 1318 * t) * np.exp(-t / 0.18) + 0.6 * np.sin(2 * np.pi * 1976 * t) * np.exp(-t / 0.12) + 0.3 * np.sin(2 * np.pi * 2637 * t) * np.exp(-t / 0.07)
+    return x * np.minimum(1, t / 0.002)
+def notify_ping(d=0.7):
+    n = int(d * SR); t = np.arange(n) / SR; x = np.zeros(n)
+    for a, f in ((0.0, 988), (0.12, 1319)):
+        m = n - int(a * SR); tt = np.arange(m) / SR
+        x[int(a * SR):] += np.sin(2 * np.pi * f * tt) * np.exp(-tt / 0.22) + 0.35 * np.sin(2 * np.pi * f * 2 * tt) * np.exp(-tt / 0.1)
+    return x
+def glass_crack(d=0.45):
+    rng = np.random.default_rng(21); n = int(d * SR); t = np.arange(n) / SR; x = np.zeros(n)
+    for a in (0.0, 0.05, 0.13, 0.22):
+        m = n - int(a * SR); tt = np.arange(m) / SR
+        x[int(a * SR):] += hp(hp(noise(m, rng))) * np.exp(-tt / 0.012) * 0.8 + np.sin(2 * np.pi * rng.uniform(3000, 6500) * tt) * np.exp(-tt / 0.03) * 0.3
+    return x
+
 for i, (seed, d, b, dec, base) in enumerate([(1, .45, 5, 6, 220), (2, .6, 4, 8, 330), (3, .35, 6, 4, 165), (4, .8, 5, 5, 110)], 1):
     save("glitch-synth", f"glitch-stutter-{i:02d}", stutter(seed, d, b, dec, base))
 save("glitch-synth", "glitch-zap-01", zap(1)); save("glitch-synth", "glitch-zap-02", zap(2, 0.5))
@@ -104,5 +122,5 @@ save("glitch-synth", "glitch-tape-stop", tape_stop())
 save("glitch-synth", "glitch-data-whirr", data_whirr())
 save("ui-synth", "ui-click-01", click()); save("ui-synth", "ui-click-02", click(3400, 0.025, 2)); save("ui-synth", "ui-typing-tick", tick())
 save("ui-synth", "ui-blip-up", blip(900, 1350)); save("ui-synth", "ui-blip-down", blip(1350, 900)); save("ui-synth", "ui-confirm", confirm())
-save("impacts-synth", "impact-sub-boom", impact_sub()); save("impacts-synth", "impact-glass-shatter", shatter())
+save("impacts-synth", "impact-sub-boom", impact_sub()); save("impacts-synth", "impact-glass-crack", glass_crack()); save("ui-synth", "ui-coin-ding", coin_ding()); save("ui-synth", "ui-notify-ping", notify_ping()); save("impacts-synth", "impact-glass-shatter", shatter())
 print("wrote", sum(len(f) for _, _, f in os.walk(ROOT)) , "files under sound-effects/")

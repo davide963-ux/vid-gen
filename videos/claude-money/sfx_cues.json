@@ -1,0 +1,1507 @@
+[
+ {
+  "id": "glitch-stutter-01",
+  "t": 0.03,
+  "vol": 0.55
+ },
+ {
+  "id": "whoosh-classic-airy",
+  "t": 0,
+  "vol": 0.55
+ },
+ {
+  "id": "impact-sub-boom",
+  "t": 0.05,
+  "vol": 0.6
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 0.25,
+  "vol": 0.3
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 0.55,
+  "vol": 0.3
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 0.85,
+  "vol": 0.3
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 1.15,
+  "vol": 0.3
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 1.45,
+  "vol": 0.3
+ },
+ {
+  "id": "glitch-zap-01",
+  "t": 2.99,
+  "vol": 0.5
+ },
+ {
+  "id": "whoosh-designed-generic-air",
+  "t": 2.99,
+  "vol": 0.5
+ },
+ {
+  "id": "impact-sub-boom",
+  "t": 3.01,
+  "vol": 0.5
+ },
+ {
+  "id": "glitch-stutter-03",
+  "t": 3.92,
+  "vol": 0.6
+ },
+ {
+  "id": "glitch-static-burst-01",
+  "t": 3.94,
+  "vol": 0.4
+ },
+ {
+  "id": "whoosh-designed-generic-air",
+  "t": 4.14,
+  "vol": 0.4
+ },
+ {
+  "id": "whoosh-designed-generic-air",
+  "t": 4.29,
+  "vol": 0.4
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 4.96,
+  "vol": 0.4
+ },
+ {
+  "id": "impact-sub-boom",
+  "t": 5.95,
+  "vol": 0.65
+ },
+ {
+  "id": "glitch-zap-02",
+  "t": 5.95,
+  "vol": 0.5
+ },
+ {
+  "id": "ui-click-01",
+  "t": 6,
+  "vol": 0.5
+ },
+ {
+  "id": "impact-sub-boom",
+  "t": 6.71,
+  "vol": 0.65
+ },
+ {
+  "id": "glitch-zap-02",
+  "t": 6.71,
+  "vol": 0.5
+ },
+ {
+  "id": "ui-click-01",
+  "t": 6.76,
+  "vol": 0.5
+ },
+ {
+  "id": "ui-blip-down",
+  "t": 7.15,
+  "vol": 0.5
+ },
+ {
+  "id": "whoosh-classic-airy",
+  "t": 8.1,
+  "vol": 0.6
+ },
+ {
+  "id": "glitch-zap-01",
+  "t": 8.25,
+  "vol": 0.4
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 8.55,
+  "vol": 0.3
+ },
+ {
+  "id": "whoosh-softs",
+  "t": 9.45,
+  "vol": 0.3
+ },
+ {
+  "id": "whoosh-softs",
+  "t": 10.75,
+  "vol": 0.3
+ },
+ {
+  "id": "riser-stutter-is-coming",
+  "t": 7.52,
+  "vol": 0.32
+ },
+ {
+  "id": "riser-transition-reverse-eerie-fast-short",
+  "t": 8.42,
+  "vol": 0.42
+ },
+ {
+  "id": "impact-glass-crack",
+  "t": 10.98,
+  "vol": 0.85
+ },
+ {
+  "id": "impact-glass-crack",
+  "t": 11.12,
+  "vol": 0.75
+ },
+ {
+  "id": "impact-glass-shatter",
+  "t": 11.32,
+  "vol": 1
+ },
+ {
+  "id": "impact-sub-boom",
+  "t": 11.32,
+  "vol": 1
+ },
+ {
+  "id": "whoosh-classic-airy",
+  "t": 11.32,
+  "vol": 0.8
+ },
+ {
+  "id": "ui-confirm",
+  "t": 11.72,
+  "vol": 0.5
+ },
+ {
+  "id": "whoosh-designed-generic-air",
+  "t": 11.62,
+  "vol": 0.5
+ },
+ {
+  "id": "whoosh-wind",
+  "t": 12.25,
+  "vol": 0.65
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 13.18,
+  "vol": 0.4
+ },
+ {
+  "id": "whoosh-designed-generic-air",
+  "t": 15.22,
+  "vol": 0.45
+ },
+ {
+  "id": "ui-click-01",
+  "t": 15.37,
+  "vol": 0.4
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 15.52,
+  "vol": 0.3
+ },
+ {
+  "id": "glitch-data-whirr",
+  "t": 15.12,
+  "vol": 0.18,
+  "trim": 0.4,
+  "fade": 0.15
+ },
+ {
+  "id": "whoosh-designed-generic-air",
+  "t": 16.93,
+  "vol": 0.45
+ },
+ {
+  "id": "ui-click-01",
+  "t": 17.08,
+  "vol": 0.4
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 17.23,
+  "vol": 0.3
+ },
+ {
+  "id": "glitch-data-whirr",
+  "t": 16.83,
+  "vol": 0.18,
+  "trim": 0.4,
+  "fade": 0.15
+ },
+ {
+  "id": "whoosh-designed-generic-air",
+  "t": 18.62,
+  "vol": 0.45
+ },
+ {
+  "id": "ui-click-01",
+  "t": 18.77,
+  "vol": 0.4
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 18.92,
+  "vol": 0.3
+ },
+ {
+  "id": "glitch-data-whirr",
+  "t": 18.52,
+  "vol": 0.18,
+  "trim": 0.4,
+  "fade": 0.15
+ },
+ {
+  "id": "whoosh-designed-generic-air",
+  "t": 20.33,
+  "vol": 0.45
+ },
+ {
+  "id": "ui-click-01",
+  "t": 20.48,
+  "vol": 0.4
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 20.63,
+  "vol": 0.3
+ },
+ {
+  "id": "glitch-data-whirr",
+  "t": 20.23,
+  "vol": 0.18,
+  "trim": 0.4,
+  "fade": 0.15
+ },
+ {
+  "id": "whoosh-designed-generic-air",
+  "t": 21.82,
+  "vol": 0.45
+ },
+ {
+  "id": "ui-click-01",
+  "t": 21.97,
+  "vol": 0.4
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 22.12,
+  "vol": 0.3
+ },
+ {
+  "id": "glitch-data-whirr",
+  "t": 21.72,
+  "vol": 0.18,
+  "trim": 0.4,
+  "fade": 0.15
+ },
+ {
+  "id": "glitch-stutter-04",
+  "t": 24.97,
+  "vol": 0.65
+ },
+ {
+  "id": "glitch-static-burst-02",
+  "t": 24.99,
+  "vol": 0.5
+ },
+ {
+  "id": "ui-notify-ping",
+  "t": 25.28,
+  "vol": 0.6
+ },
+ {
+  "id": "ui-coin-ding",
+  "t": 25.48,
+  "vol": 0.45
+ },
+ {
+  "id": "ui-notify-ping",
+  "t": 25.77,
+  "vol": 0.6
+ },
+ {
+  "id": "ui-coin-ding",
+  "t": 25.97,
+  "vol": 0.45
+ },
+ {
+  "id": "ui-notify-ping",
+  "t": 26.45,
+  "vol": 0.6
+ },
+ {
+  "id": "ui-coin-ding",
+  "t": 26.65,
+  "vol": 0.45
+ },
+ {
+  "id": "ui-notify-ping",
+  "t": 26.93,
+  "vol": 0.6
+ },
+ {
+  "id": "ui-coin-ding",
+  "t": 26.45,
+  "vol": 0.3
+ },
+ {
+  "id": "ui-coin-ding",
+  "t": 26.57,
+  "vol": 0.3
+ },
+ {
+  "id": "ui-coin-ding",
+  "t": 26.69,
+  "vol": 0.3
+ },
+ {
+  "id": "ui-coin-ding",
+  "t": 26.81,
+  "vol": 0.3
+ },
+ {
+  "id": "ui-coin-ding",
+  "t": 26.93,
+  "vol": 0.3
+ },
+ {
+  "id": "ui-coin-ding",
+  "t": 27.05,
+  "vol": 0.3
+ },
+ {
+  "id": "ui-coin-ding",
+  "t": 27.17,
+  "vol": 0.3
+ },
+ {
+  "id": "ui-coin-ding",
+  "t": 27.29,
+  "vol": 0.3
+ },
+ {
+  "id": "whoosh-wind",
+  "t": 28.04,
+  "vol": 0.65
+ },
+ {
+  "id": "whoosh-designed-generic-air",
+  "t": 29.72,
+  "vol": 0.4
+ },
+ {
+  "id": "ui-click-01",
+  "t": 30.5,
+  "vol": 0.4
+ },
+ {
+  "id": "ui-click-01",
+  "t": 30.7,
+  "vol": 0.4
+ },
+ {
+  "id": "ui-click-01",
+  "t": 30.9,
+  "vol": 0.4
+ },
+ {
+  "id": "ui-click-01",
+  "t": 31.1,
+  "vol": 0.4
+ },
+ {
+  "id": "ui-click-01",
+  "t": 31.3,
+  "vol": 0.4
+ },
+ {
+  "id": "ui-click-01",
+  "t": 31.5,
+  "vol": 0.4
+ },
+ {
+  "id": "ui-coin-ding",
+  "t": 31.25,
+  "vol": 0.3
+ },
+ {
+  "id": "ui-coin-ding",
+  "t": 31.36,
+  "vol": 0.3
+ },
+ {
+  "id": "ui-coin-ding",
+  "t": 31.47,
+  "vol": 0.3
+ },
+ {
+  "id": "ui-coin-ding",
+  "t": 31.58,
+  "vol": 0.3
+ },
+ {
+  "id": "ui-coin-ding",
+  "t": 31.69,
+  "vol": 0.3
+ },
+ {
+  "id": "ui-coin-ding",
+  "t": 31.8,
+  "vol": 0.3
+ },
+ {
+  "id": "ui-coin-ding",
+  "t": 31.91,
+  "vol": 0.3
+ },
+ {
+  "id": "whoosh-classic-airy",
+  "t": 31.38,
+  "vol": 0.6
+ },
+ {
+  "id": "glitch-zap-01",
+  "t": 31.53,
+  "vol": 0.4
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 32.41,
+  "vol": 0.22
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 32.51,
+  "vol": 0.22
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 32.61,
+  "vol": 0.22
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 32.71,
+  "vol": 0.22
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 32.81,
+  "vol": 0.22
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 32.91,
+  "vol": 0.22
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 33.01,
+  "vol": 0.22
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 33.11,
+  "vol": 0.22
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 33.21,
+  "vol": 0.22
+ },
+ {
+  "id": "glitch-data-whirr",
+  "t": 32.72,
+  "vol": 0.3,
+  "trim": 1.2,
+  "fade": 0.4
+ },
+ {
+  "id": "ui-blip-down",
+  "t": 33.48,
+  "vol": 0.4
+ },
+ {
+  "id": "ui-blip-down",
+  "t": 33.83,
+  "vol": 0.4
+ },
+ {
+  "id": "ui-blip-down",
+  "t": 34.18,
+  "vol": 0.4
+ },
+ {
+  "id": "glitch-stutter-02",
+  "t": 33.38,
+  "vol": 0.4
+ },
+ {
+  "id": "ui-blip-down",
+  "t": 35.34,
+  "vol": 0.4
+ },
+ {
+  "id": "ui-blip-down",
+  "t": 35.64,
+  "vol": 0.4
+ },
+ {
+  "id": "ui-confirm",
+  "t": 35.84,
+  "vol": 0.5
+ },
+ {
+  "id": "glitch-stutter-02",
+  "t": 36.53,
+  "vol": 0.6
+ },
+ {
+  "id": "ui-typing-tick",
+  "t": 37.1,
+  "vol": 0.22
+ },
+ {
+  "id": "ui-typing-tick",
+  "t": 37.17,
+  "vol": 0.22
+ },
+ {
+  "id": "ui-typing-tick",
+  "t": 37.24,
+  "vol": 0.22
+ },
+ {
+  "id": "ui-typing-tick",
+  "t": 37.31,
+  "vol": 0.22
+ },
+ {
+  "id": "ui-typing-tick",
+  "t": 37.38,
+  "vol": 0.22
+ },
+ {
+  "id": "ui-typing-tick",
+  "t": 37.45,
+  "vol": 0.22
+ },
+ {
+  "id": "ui-typing-tick",
+  "t": 37.52,
+  "vol": 0.22
+ },
+ {
+  "id": "ui-typing-tick",
+  "t": 37.59,
+  "vol": 0.22
+ },
+ {
+  "id": "ui-typing-tick",
+  "t": 37.66,
+  "vol": 0.22
+ },
+ {
+  "id": "ui-typing-tick",
+  "t": 37.73,
+  "vol": 0.22
+ },
+ {
+  "id": "ui-typing-tick",
+  "t": 37.8,
+  "vol": 0.22
+ },
+ {
+  "id": "ui-typing-tick",
+  "t": 37.87,
+  "vol": 0.22
+ },
+ {
+  "id": "ui-typing-tick",
+  "t": 37.94,
+  "vol": 0.22
+ },
+ {
+  "id": "ui-typing-tick",
+  "t": 38.01,
+  "vol": 0.22
+ },
+ {
+  "id": "ui-typing-tick",
+  "t": 38.08,
+  "vol": 0.22
+ },
+ {
+  "id": "ui-typing-tick",
+  "t": 38.15,
+  "vol": 0.22
+ },
+ {
+  "id": "ui-typing-tick",
+  "t": 38.22,
+  "vol": 0.22
+ },
+ {
+  "id": "ui-typing-tick",
+  "t": 38.29,
+  "vol": 0.22
+ },
+ {
+  "id": "ui-typing-tick",
+  "t": 38.36,
+  "vol": 0.22
+ },
+ {
+  "id": "ui-typing-tick",
+  "t": 38.43,
+  "vol": 0.22
+ },
+ {
+  "id": "ui-typing-tick",
+  "t": 38.5,
+  "vol": 0.22
+ },
+ {
+  "id": "ui-typing-tick",
+  "t": 38.57,
+  "vol": 0.22
+ },
+ {
+  "id": "ui-typing-tick",
+  "t": 38.64,
+  "vol": 0.22
+ },
+ {
+  "id": "ui-typing-tick",
+  "t": 38.71,
+  "vol": 0.22
+ },
+ {
+  "id": "ui-click-01",
+  "t": 38.13,
+  "vol": 0.45
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 38.18,
+  "vol": 0.35
+ },
+ {
+  "id": "ui-click-01",
+  "t": 38.99,
+  "vol": 0.45
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 39.04,
+  "vol": 0.35
+ },
+ {
+  "id": "ui-click-01",
+  "t": 39.45,
+  "vol": 0.45
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 39.5,
+  "vol": 0.35
+ },
+ {
+  "id": "ui-click-01",
+  "t": 38.53,
+  "vol": 0.4
+ },
+ {
+  "id": "ui-click-01",
+  "t": 38.71,
+  "vol": 0.4
+ },
+ {
+  "id": "ui-click-01",
+  "t": 38.89,
+  "vol": 0.4
+ },
+ {
+  "id": "ui-click-01",
+  "t": 39.07,
+  "vol": 0.4
+ },
+ {
+  "id": "ui-click-01",
+  "t": 39.29,
+  "vol": 0.4
+ },
+ {
+  "id": "ui-click-01",
+  "t": 39.51,
+  "vol": 0.4
+ },
+ {
+  "id": "ui-click-01",
+  "t": 39.73,
+  "vol": 0.4
+ },
+ {
+  "id": "ui-confirm",
+  "t": 40.22,
+  "vol": 0.7
+ },
+ {
+  "id": "impact-sub-boom",
+  "t": 40.27,
+  "vol": 0.5
+ },
+ {
+  "id": "whoosh-designed-generic-air",
+  "t": 40.27,
+  "vol": 0.5
+ },
+ {
+  "id": "whoosh-wind",
+  "t": 41.02,
+  "vol": 0.65
+ },
+ {
+  "id": "ui-notify-ping",
+  "t": 42.6,
+  "vol": 0.55
+ },
+ {
+  "id": "ui-notify-ping",
+  "t": 44.51,
+  "vol": 0.55
+ },
+ {
+  "id": "ui-notify-ping",
+  "t": 45.64,
+  "vol": 0.55
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 45.84,
+  "vol": 0.4
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 47.12,
+  "vol": 0.28
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 47.38,
+  "vol": 0.28
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 47.64,
+  "vol": 0.28
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 47.9,
+  "vol": 0.28
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 48.16,
+  "vol": 0.28
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 48.42,
+  "vol": 0.28
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 46.72,
+  "vol": 0.25
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 47.02,
+  "vol": 0.25
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 47.32,
+  "vol": 0.25
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 47.62,
+  "vol": 0.25
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 47.92,
+  "vol": 0.25
+ },
+ {
+  "id": "whoosh-classic-airy",
+  "t": 48,
+  "vol": 0.8
+ },
+ {
+  "id": "glitch-stutter-01",
+  "t": 48.2,
+  "vol": 0.4
+ },
+ {
+  "id": "impact-sub-boom",
+  "t": 49.09,
+  "vol": 0.8
+ },
+ {
+  "id": "whoosh-designed-generic-air",
+  "t": 49.12,
+  "vol": 0.5
+ },
+ {
+  "id": "impact-sub-boom",
+  "t": 49.22,
+  "vol": 0.5
+ },
+ {
+  "id": "ui-coin-ding",
+  "t": 49.32,
+  "vol": 0.32
+ },
+ {
+  "id": "ui-coin-ding",
+  "t": 49.42,
+  "vol": 0.32
+ },
+ {
+  "id": "ui-coin-ding",
+  "t": 49.52,
+  "vol": 0.32
+ },
+ {
+  "id": "ui-coin-ding",
+  "t": 49.62,
+  "vol": 0.32
+ },
+ {
+  "id": "ui-coin-ding",
+  "t": 49.72,
+  "vol": 0.32
+ },
+ {
+  "id": "ui-coin-ding",
+  "t": 49.82,
+  "vol": 0.32
+ },
+ {
+  "id": "ui-coin-ding",
+  "t": 49.92,
+  "vol": 0.32
+ },
+ {
+  "id": "whoosh-designed-generic-air",
+  "t": 50.5,
+  "vol": 0.5
+ },
+ {
+  "id": "impact-sub-boom",
+  "t": 50.6,
+  "vol": 0.5
+ },
+ {
+  "id": "ui-coin-ding",
+  "t": 50.7,
+  "vol": 0.32
+ },
+ {
+  "id": "ui-coin-ding",
+  "t": 50.8,
+  "vol": 0.32
+ },
+ {
+  "id": "ui-coin-ding",
+  "t": 50.9,
+  "vol": 0.32
+ },
+ {
+  "id": "ui-coin-ding",
+  "t": 51,
+  "vol": 0.32
+ },
+ {
+  "id": "ui-coin-ding",
+  "t": 51.1,
+  "vol": 0.32
+ },
+ {
+  "id": "ui-coin-ding",
+  "t": 51.2,
+  "vol": 0.32
+ },
+ {
+  "id": "ui-coin-ding",
+  "t": 51.3,
+  "vol": 0.32
+ },
+ {
+  "id": "whoosh-designed-generic-air",
+  "t": 51.72,
+  "vol": 0.5
+ },
+ {
+  "id": "impact-sub-boom",
+  "t": 51.82,
+  "vol": 0.5
+ },
+ {
+  "id": "ui-confirm",
+  "t": 51.82,
+  "vol": 0.6
+ },
+ {
+  "id": "glitch-data-whirr",
+  "t": 53.54,
+  "vol": 0.3,
+  "trim": 1.2,
+  "fade": 0.4
+ },
+ {
+  "id": "glitch-data-whirr",
+  "t": 55.55,
+  "vol": 0.3,
+  "trim": 1.2,
+  "fade": 0.4
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 25.38,
+  "vol": 0.3
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 25.87,
+  "vol": 0.3
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 26.55,
+  "vol": 0.3
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 49.22,
+  "vol": 0.3
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 50.6,
+  "vol": 0.3
+ },
+ {
+  "id": "glitch-stutter-03",
+  "t": 57.23,
+  "vol": 0.6
+ },
+ {
+  "id": "impact-sub-boom",
+  "t": 58.65,
+  "vol": 0.6
+ },
+ {
+  "id": "whoosh-classic-airy",
+  "t": 58.45,
+  "vol": 0.6
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 58.45,
+  "vol": 0.22
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 58.52,
+  "vol": 0.22
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 58.59,
+  "vol": 0.22
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 58.66,
+  "vol": 0.22
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 58.73,
+  "vol": 0.22
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 58.8,
+  "vol": 0.22
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 58.87,
+  "vol": 0.22
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 58.94,
+  "vol": 0.22
+ },
+ {
+  "id": "whoosh-wind",
+  "t": 59.43,
+  "vol": 0.65
+ },
+ {
+  "id": "whoosh-designed-generic-air",
+  "t": 60.72,
+  "vol": 0.45
+ },
+ {
+  "id": "ui-click-01",
+  "t": 60.92,
+  "vol": 0.4
+ },
+ {
+  "id": "whoosh-designed-generic-air",
+  "t": 62.58,
+  "vol": 0.45
+ },
+ {
+  "id": "ui-click-01",
+  "t": 62.78,
+  "vol": 0.4
+ },
+ {
+  "id": "whoosh-designed-generic-air",
+  "t": 64.21,
+  "vol": 0.45
+ },
+ {
+  "id": "ui-click-01",
+  "t": 64.41,
+  "vol": 0.4
+ },
+ {
+  "id": "whoosh-designed-generic-air",
+  "t": 66.1,
+  "vol": 0.45
+ },
+ {
+  "id": "ui-click-01",
+  "t": 66.3,
+  "vol": 0.4
+ },
+ {
+  "id": "glitch-data-whirr",
+  "t": 63.53,
+  "vol": 0.25,
+  "trim": 1,
+  "fade": 0.3
+ },
+ {
+  "id": "ui-notify-ping",
+  "t": 64.66,
+  "vol": 0.5
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 66.71,
+  "vol": 0.3
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 66.86,
+  "vol": 0.3
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 67.01,
+  "vol": 0.3
+ },
+ {
+  "id": "whoosh-wind",
+  "t": 68.26,
+  "vol": 0.65
+ },
+ {
+  "id": "ui-click-01",
+  "t": 68.82,
+  "vol": 0.35
+ },
+ {
+  "id": "ui-click-01",
+  "t": 68.98,
+  "vol": 0.35
+ },
+ {
+  "id": "ui-click-01",
+  "t": 69.14,
+  "vol": 0.35
+ },
+ {
+  "id": "ui-click-01",
+  "t": 69.3,
+  "vol": 0.35
+ },
+ {
+  "id": "ui-click-01",
+  "t": 69.46,
+  "vol": 0.35
+ },
+ {
+  "id": "ui-click-01",
+  "t": 69.62,
+  "vol": 0.35
+ },
+ {
+  "id": "impact-sub-boom",
+  "t": 71.28,
+  "vol": 0.7
+ },
+ {
+  "id": "whoosh-classic-airy",
+  "t": 71.08,
+  "vol": 0.8
+ },
+ {
+  "id": "whoosh-softs",
+  "t": 71.38,
+  "vol": 0.4
+ },
+ {
+  "id": "ui-confirm",
+  "t": 72.48,
+  "vol": 0.22
+ },
+ {
+  "id": "ui-confirm",
+  "t": 72.8,
+  "vol": 0.22
+ },
+ {
+  "id": "ui-confirm",
+  "t": 73.12,
+  "vol": 0.22
+ },
+ {
+  "id": "ui-confirm",
+  "t": 73.44,
+  "vol": 0.22
+ },
+ {
+  "id": "ui-confirm",
+  "t": 73.76,
+  "vol": 0.22
+ },
+ {
+  "id": "ui-confirm",
+  "t": 74.08,
+  "vol": 0.22
+ },
+ {
+  "id": "impact-sub-boom",
+  "t": 73.81,
+  "vol": 0.6
+ },
+ {
+  "id": "glitch-zap-02",
+  "t": 73.81,
+  "vol": 0.5
+ },
+ {
+  "id": "glitch-data-whirr",
+  "t": 73.43,
+  "vol": 0.35,
+  "trim": 1.4,
+  "fade": 0.4
+ },
+ {
+  "id": "whoosh-classic-airy",
+  "t": 72.38,
+  "vol": 0.6
+ },
+ {
+  "id": "glitch-stutter-04",
+  "t": 74.86,
+  "vol": 0.7
+ },
+ {
+  "id": "glitch-static-burst-02",
+  "t": 74.9,
+  "vol": 0.5
+ },
+ {
+  "id": "glitch-zap-02",
+  "t": 76.43,
+  "vol": 0.5
+ },
+ {
+  "id": "glitch-tape-stop",
+  "t": 76.6,
+  "vol": 0.45
+ },
+ {
+  "id": "impact-sub-boom",
+  "t": 77.05,
+  "vol": 0.9
+ },
+ {
+  "id": "ui-blip-down",
+  "t": 77.05,
+  "vol": 0.5
+ },
+ {
+  "id": "glitch-stutter-01",
+  "t": 77.05,
+  "vol": 0.5
+ },
+ {
+  "id": "whoosh-classic-airy",
+  "t": 77.47,
+  "vol": 0.8
+ },
+ {
+  "id": "whoosh-designed-generic-air",
+  "t": 79.11,
+  "vol": 0.5
+ },
+ {
+  "id": "ui-blip-down",
+  "t": 79.11,
+  "vol": 0.35
+ },
+ {
+  "id": "ui-confirm",
+  "t": 79.86,
+  "vol": 0.45
+ },
+ {
+  "id": "ui-coin-ding",
+  "t": 79.96,
+  "vol": 0.4
+ },
+ {
+  "id": "ui-blip-down",
+  "t": 79.66,
+  "vol": 0.35
+ },
+ {
+  "id": "ui-confirm",
+  "t": 80.41,
+  "vol": 0.45
+ },
+ {
+  "id": "ui-coin-ding",
+  "t": 80.51,
+  "vol": 0.4
+ },
+ {
+  "id": "ui-blip-down",
+  "t": 80.21,
+  "vol": 0.35
+ },
+ {
+  "id": "ui-confirm",
+  "t": 80.96,
+  "vol": 0.45
+ },
+ {
+  "id": "ui-coin-ding",
+  "t": 81.06,
+  "vol": 0.4
+ },
+ {
+  "id": "ui-coin-ding",
+  "t": 81.69,
+  "vol": 0.3
+ },
+ {
+  "id": "ui-coin-ding",
+  "t": 81.79,
+  "vol": 0.3
+ },
+ {
+  "id": "ui-coin-ding",
+  "t": 81.89,
+  "vol": 0.3
+ },
+ {
+  "id": "ui-coin-ding",
+  "t": 81.99,
+  "vol": 0.3
+ },
+ {
+  "id": "ui-coin-ding",
+  "t": 82.09,
+  "vol": 0.3
+ },
+ {
+  "id": "ui-coin-ding",
+  "t": 82.19,
+  "vol": 0.3
+ },
+ {
+  "id": "ui-coin-ding",
+  "t": 82.29,
+  "vol": 0.3
+ },
+ {
+  "id": "ui-coin-ding",
+  "t": 82.39,
+  "vol": 0.3
+ },
+ {
+  "id": "ui-coin-ding",
+  "t": 82.49,
+  "vol": 0.3
+ },
+ {
+  "id": "whoosh-designed-generic-air",
+  "t": 81.69,
+  "vol": 0.5
+ },
+ {
+  "id": "ui-confirm",
+  "t": 81.89,
+  "vol": 0.55
+ },
+ {
+  "id": "whoosh-wind",
+  "t": 82.67,
+  "vol": 0.65
+ },
+ {
+  "id": "riser-transition-reverse-eerie-fast-short",
+  "t": 81.37,
+  "vol": 0.35
+ },
+ {
+  "id": "whoosh-classic-airy",
+  "t": 83.02,
+  "vol": 0.7
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 83.36,
+  "vol": 0.3
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 83.46,
+  "vol": 0.3
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 83.56,
+  "vol": 0.3
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 83.66,
+  "vol": 0.3
+ },
+ {
+  "id": "whoosh-classic-airy",
+  "t": 84.34,
+  "vol": 0.8
+ },
+ {
+  "id": "impact-sub-boom",
+  "t": 84.64,
+  "vol": 0.9
+ },
+ {
+  "id": "whoosh-designed-generic-air",
+  "t": 84.69,
+  "vol": 0.5
+ },
+ {
+  "id": "ui-confirm",
+  "t": 85.24,
+  "vol": 0.6
+ },
+ {
+  "id": "whoosh-designed-generic-air",
+  "t": 85.24,
+  "vol": 0.5
+ },
+ {
+  "id": "ui-typing-tick",
+  "t": 85.89,
+  "vol": 0.25
+ },
+ {
+  "id": "ui-typing-tick",
+  "t": 85.99,
+  "vol": 0.25
+ },
+ {
+  "id": "ui-typing-tick",
+  "t": 86.09,
+  "vol": 0.25
+ },
+ {
+  "id": "ui-typing-tick",
+  "t": 86.19,
+  "vol": 0.25
+ },
+ {
+  "id": "ui-typing-tick",
+  "t": 86.29,
+  "vol": 0.25
+ },
+ {
+  "id": "ui-typing-tick",
+  "t": 86.39,
+  "vol": 0.25
+ },
+ {
+  "id": "ui-click-02",
+  "t": 86.59,
+  "vol": 0.5
+ },
+ {
+  "id": "ui-notify-ping",
+  "t": 86.58,
+  "vol": 0.6
+ },
+ {
+  "id": "whoosh-designed-generic-air",
+  "t": 87.38,
+  "vol": 0.5
+ },
+ {
+  "id": "whoosh-designed-generic-air",
+  "t": 86.14,
+  "vol": 0.4
+ },
+ {
+  "id": "ui-blip-up",
+  "t": 87.6,
+  "vol": 0.4
+ },
+ {
+  "id": "whoosh-classic-airy",
+  "t": 87.8,
+  "vol": 0.5
+ },
+ {
+  "id": "ui-confirm",
+  "t": 87.85,
+  "vol": 0.5
+ }
+]

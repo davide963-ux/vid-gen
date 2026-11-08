@@ -1,0 +1,347 @@
+      // ===== helpers =====
+      const norm = (s) => s.toLowerCase().replace(/[^a-z0-9$]/g, '');
+      const LS = (n) => WORDS.find((w) => w.line === n).s;
+      const WW = (n, p) => { const x = WORDS.find((w) => w.line === n && norm(w.w).startsWith(p)); if (!x) throw new Error('word not found: L' + n + ' ' + p); return x; };
+      const W = (n, p) => WW(n, p).s;
+      const TOTAL = WORDS[WORDS.length - 1].e + 1.8;
+      const NO_CAPTION_LINES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17];   // brief: no captions
+      const PAL = ['#FF8A4C', '#FF4D9A', '#8B5CFF', '#2DD4FF', '#34E39B', '#FFD84D'];
+      const r01 = (i) => hashH(i * 7.31 + 1.7);
+      const lerp = (a, b, p) => a + (b - a) * p;
+      const clamp = (x, a, b) => Math.min(b, Math.max(a, x));
+      const pop = (sel, t, o = {}) => tl.fromTo(sel, { opacity: 0, scale: o.s === undefined ? 0.6 : o.s, y: o.y === undefined ? 36 : o.y, x: o.x || 0, rotation: o.r || 0 }, { opacity: 1, scale: 1, y: 0, x: 0, rotation: 0, duration: o.d || 0.6, ease: o.e || 'expo.out', immediateRender: false }, t);
+      const out = (sel, t, d) => tl.to(sel, { opacity: 0, duration: d || 0.25, ease: 'power2.in' }, t);
+      const bob = (sel, from, to, amp, per) => { amp = amp || 12; per = per || 2.4; const n = Math.max(2, 2 * Math.round((to - from) / per)); tl.fromTo(sel, { y: 0 }, { y: -amp, duration: (to - from) / n, ease: 'sine.inOut', yoyo: true, repeat: n - 1, immediateRender: false }, from); };
+      const driver = (t0, t1, fn) => { const o = { p: 0 }; tl.to(o, { p: 1, duration: t1 - t0, ease: 'none', onUpdate: () => fn(o.p * (t1 - t0), o.p) }, t0); };
+      const HD = (id, top, size, txt, cls, left, width) => { width = width || 900; size = Math.min(size, Math.floor((width - 40) / (txt.length * 1.04))); return `<div id="${id}" class="abs hd ${cls || ''}" style="left:${left === undefined ? 60 : left}px;top:${top}px;width:${width}px;font-size:${size}px">${txt}</div>`; };
+      const IM = (id, l, t, s, file, cls) => `<div id="${id}" class="tilex ${cls || ''}" style="left:${l}px;top:${t}px;width:${s}px;height:${s}px"><img src="assets/img/${file}.svg"></div>`;
+      const CG = (id, l, t, w, h, icon, label, sub, fs) => `<div id="${id}" class="chg" style="left:${l}px;top:${t}px;width:${w}px;height:${h}px;font-size:${fs || 30}px"><img src="assets/img/ico-${icon}.svg"><div style="white-space:normal">${label}${sub ? '<small>' + sub + '</small>' : ''}</div></div>`;
+      const ringBurst = (sel, t, d, s0, s1) => tl.fromTo(sel, { scale: s0 || 0.5, opacity: 0.85 }, { scale: s1 || 1.6, opacity: 0, duration: d || 1.2, ease: 'power2.out', immediateRender: false }, t);
+      const SC = (n, off, inner) => `<div class="sc" id="s${n}"><div class="shk" id="k${n}"><div class="cam" id="c${n}" style="top:${off}px">${inner}</div></div></div>`;
+      const camMove = (n, t0, t1, a) => tl.fromTo('#c' + n, { scale: a.s0 === undefined ? 1 : a.s0, x: a.x0 || 0, y: a.y0 || 0, rotation: a.r0 || 0 }, { scale: a.s1 === undefined ? 1 : a.s1, x: a.x1 || 0, y: a.y1 || 0, rotation: a.r1 || 0, duration: t1 - t0, ease: a.e || 'none', immediateRender: false }, t0);
+      const shake = (sel, t, amp, dur) => { amp = amp || 14; dur = dur || 0.4; const n = 8; for (let i = 0; i < n; i++) tl.to(sel, { x: (r01(i + Math.floor(t * 10)) - 0.5) * 2 * amp * (1 - i / n), y: (r01(i + 40 + Math.floor(t * 10)) - 0.5) * 2 * amp * (1 - i / n), duration: dur / n, ease: 'none' }, t + i * dur / n); tl.to(sel, { x: 0, y: 0, duration: 0.05 }, t + dur); };
+      const kin = (sel, t, mode, o = {}) => {
+        const el = document.querySelector(sel); const txt = el.textContent; el.setAttribute('aria-label', txt);
+        el.innerHTML = txt.split('').map((c) => `<span class="ch">${c === ' ' ? '&nbsp;' : c}</span>`).join('');
+        const ch = el.querySelectorAll('.ch'); tl.set(sel, { opacity: 1 }, t); const st = o.stagger || 0.03;
+        if (mode === 'up') tl.fromTo(ch, { yPercent: 120, rotationX: -80, opacity: 0, transformPerspective: 700 }, { yPercent: 0, rotationX: 0, opacity: 1, duration: 0.7, ease: 'expo.out', stagger: st, immediateRender: false }, t);
+        else if (mode === 'zoom') tl.fromTo(ch, { scale: 2.8, opacity: 0, filter: 'blur(18px)' }, { scale: 1, opacity: 1, filter: 'blur(0px)', duration: 0.55, ease: 'expo.out', stagger: st, immediateRender: false }, t);
+        else if (mode === 'slide') tl.fromTo(ch, { x: o.dir === 'l' ? -140 : 140, opacity: 0 }, { x: 0, opacity: 1, duration: 0.6, ease: 'expo.out', stagger: st, immediateRender: false }, t);
+        else if (mode === 'glitch') { ch.forEach((c, i) => { const j = r01(i + Math.floor(t * 10)); tl.fromTo(c, { x: (j - 0.5) * 90, opacity: 0, textShadow: '-9px 0 #FF4D9A, 9px 0 #2DD4FF' }, { x: 0, opacity: 1, textShadow: '0px 0 rgba(0,0,0,0), 0px 0 rgba(0,0,0,0)', duration: 0.45, ease: 'steps(5)', immediateRender: false }, t + i * st);
+          tl.fromTo(c, { y: 0 }, { y: (j - 0.5) * 24, duration: 0.06, yoyo: true, repeat: 3, ease: 'none', immediateRender: false }, t + i * st + 0.05); }); }
+        return ch.length; };
+      const rays = (id, cx, cy, t0, o = {}) => { const n = o.n || 34; let h = '';
+        for (let i = 0; i < n; i++) { const a = (i * 360 / n + hashH(i + 3) * 9).toFixed(1), col = PAL[i % 6]; h += `<div class="rw" style="left:${cx}px;top:${cy}px;transform:rotate(${a}deg)"><div id="${id}${i}" class="rb" style="width:${(120 + hashH(i + 11) * 280).toFixed(0)}px;height:${(3 + hashH(i + 5) * 4).toFixed(1)}px;background:linear-gradient(90deg,rgba(255,255,255,0),${col} 60%,#fff)"></div></div>`; }
+        add(h);
+        for (let i = 0; i < n; i++) { const st = t0 + hashH(i + 1) * (o.spread || 0.25), d = o.dur || 0.75, far = 1150 + hashH(i) * 300;
+          if (o.inward) { tl.fromTo('#' + id + i, { x: far, opacity: 0 }, { x: 30, opacity: 1, duration: d, ease: 'power3.in', immediateRender: false }, st); tl.to('#' + id + i, { opacity: 0, duration: 0.12 }, st + d); }
+          else { tl.fromTo('#' + id + i, { x: 40, opacity: 0 }, { x: far, opacity: 1, duration: d, ease: 'power2.in', immediateRender: false }, st); tl.to('#' + id + i, { opacity: 0, duration: 0.2 }, st + d - 0.15); } } };
+      const confetti = (pre, n, cx, cy, t0, o = {}) => { let h = ''; for (let i = 0; i < n; i++) { const sz = 10 + r01(i + 5) * 16; h += `<div id="${pre}${i}" class="dot" style="left:${cx}px;top:${cy}px;width:${sz}px;height:${sz * (i % 3 ? 1 : 0.5)}px;background:${PAL[i % 6]};border-radius:${i % 2 ? '50%' : '3px'}"></div>`; } add(h);
+        for (let i = 0; i < n; i++) { const a = r01(i + 9) * 6.283, d = (o.dist || 500) * (0.4 + r01(i + 3) * 0.9); tl.fromTo('#' + pre + i, { x: 0, y: 0, opacity: 1, scale: 1, rotation: 0 }, { x: Math.cos(a) * d, y: Math.sin(a) * d + (o.grav || 260), opacity: 0, scale: 0.5, rotation: (r01(i) - 0.5) * 900, duration: o.dur || 1.3, ease: 'power3.out', immediateRender: false }, t0 + r01(i + 2) * 0.1); } };
+      const coinRain = (pre, n, t0, o = {}) => { let h = ''; for (let i = 0; i < n; i++) h += `<div id="${pre}${i}" class="tilex" style="left:${60 + r01(i + 4) * 800}px;top:${o.top || 200}px;width:${70 + r01(i) * 40}px;height:${70 + r01(i) * 40}px"><img src="assets/img/ico-coins.svg"></div>`; add(h);
+        for (let i = 0; i < n; i++) tl.fromTo('#' + pre + i, { opacity: 1, y: 0, rotation: (r01(i) - 0.5) * 60 }, { opacity: 0, y: o.fall || 1300, rotation: (r01(i + 6) - 0.5) * 540, duration: 1.3 + r01(i + 1) * 0.6, ease: 'power1.in', immediateRender: false }, t0 + r01(i + 7) * (o.spread || 0.5)); };
+
+      // ===== times =====
+      const T2 = W(1, 'even') - 0.1, TG = LS(2) - 0.1, TH = LS(3) - 0.1, TP = LS(5) - 0.1, TL = LS(6) - 0.1, TF = LS(7) - 0.1, TB = LS(8) - 0.1, TA = LS(9) - 0.1, TC = LS(10) - 0.1, T1X = LS(11) - 0.1, TO = LS(12) - 0.1, TZ = LS(13) - 0.1, TN = LS(14) - 0.1, TS = LS(15) - 0.1, TW = LS(16) - 0.1, TU = LS(17) - 0.1;
+      const CLT = W(2, 'claude');
+
+      // ===== persistent background: colour worlds, drifting colour orbs, particles =====
+      const BG = [['#6D28D9', '#DB2777'], ['#1B1030', '#3A1A22'], ['#312E81', '#0891B2'], ['#047857', '#0E7490'], ['#1D4ED8', '#7C3AED'], ['#EA580C', '#BE185D'], ['#C026D3', '#4338CA'], ['#0E7490', '#15803D'], ['#7F1D1D', '#C2410C'], ['#059669', '#0369A1'], ['#7C3AED', '#EC4899']];
+      add('<div id="bgs">' + BG.map((c, i) => `<div class="bgl" id="bg${i}" style="position:absolute;left:0;top:0;width:1080px;height:1920px;opacity:0;background:linear-gradient(160deg,${c[0]},${c[1]})"></div>`).join('') + '</div>');
+      tl.set('#bg0', { opacity: 1 }, 0);
+      [[1, TG], [2, TH], [3, TP], [4, TF], [5, TA], [6, T1X], [7, TZ], [8, TN], [9, TS], [10, TU - 0.2]].forEach(([i, t]) => tl.to('#bg' + i, { opacity: 1, duration: 0.5, ease: 'power2.inOut' }, t - 0.1));
+      for (let i = 0; i < 5; i++) { add(`<div id="ob${i}" style="position:absolute;left:${r01(i + 30) * 700 - 100}px;top:${r01(i + 40) * 1500 - 100}px;width:700px;height:700px;border-radius:50%;background:radial-gradient(closest-side,${PAL[i]}55,transparent);opacity:0.55"></div>`);
+        tl.fromTo('#ob' + i, { x: 0, y: 0 }, { x: (i % 2 ? -1 : 1) * 260, y: (i % 3 - 1) * 320, duration: TOTAL, ease: 'sine.inOut', yoyo: true, repeat: 1, immediateRender: false }, 0); }
+      for (let i = 0; i < 44; i++) { const sz = 4 + r01(i + 90) * 8; add(`<div id="pt${i}" class="dot" style="left:${r01(i + 50) * 1080}px;top:${300 + r01(i + 70) * 1600}px;width:${sz}px;height:${sz}px;background:${PAL[i % 6]}"></div>`);
+        tl.fromTo('#pt' + i, { y: 0, opacity: 0.2 + r01(i + 20) * 0.5 }, { y: -(500 + r01(i + 110) * 1100), opacity: 0.2 + r01(i + 20) * 0.5, duration: TOTAL, ease: 'none', immediateRender: false }, 0); }
+
+      // ============ S1  HOOK A: AI core + orbiting business icons ============
+      const ORB1 = ['storefront', 'browser', 'coins', 'chart-line-up', 'rocket-launch', 'users-three'];
+      add(SC(1, 0, `<div id="ocore" style="position:absolute;left:340px;top:780px;width:400px;height:400px;opacity:0"><div id="oring" style="position:absolute;left:0;top:0;width:400px;height:400px;border-radius:50%;background:conic-gradient(from 0deg,#FF8A4C,#FF4D9A,#8B5CFF,#2DD4FF,#34E39B,#FFD84D,#FF8A4C);-webkit-mask-image:radial-gradient(circle,transparent 58%,#000 60%);mask-image:radial-gradient(circle,transparent 58%,#000 60%);filter:drop-shadow(0 0 40px rgba(255,138,76,0.7))"></div>${IM('osp', 105, 105, 190, 'ico-sparkle', 'glow')}</div>
+        ${ORB1.map((n, k) => IM('on' + k, 0, 0, 170, 'ico-' + n)).join('')}
+        <div id="orr0" class="ring" style="left:340px;top:780px;width:400px;height:400px;border-color:#FFD84D"></div><div id="orr1" class="ring" style="left:340px;top:780px;width:400px;height:400px;border-color:#FF4D9A"></div>`));
+      rays('r1_', 540, 980, 0.02, { n: 40, dur: 0.9 });
+      tl.set(['#ocore', '#osp'], { opacity: 1 }, 0);
+      tl.fromTo('#oring', { rotation: 0 }, { rotation: 360, duration: 3.2, ease: 'none', repeat: 3, immediateRender: false }, 0);
+      tl.fromTo('#ocore', { scale: 0.9 }, { scale: 1.12, duration: 0.45, ease: 'sine.inOut', yoyo: true, repeat: 11, immediateRender: false }, 0);
+      const orbit1 = (t) => ORB1.forEach((n, k) => { const a = k * 1.0472 + t * (2.0 + t * 0.35), c = (Math.cos(a) + 1) / 2, rx = 400 + 40 * Math.sin(t * 2), sc = 0.55 + 0.6 * c; const el = document.getElementById('on' + k); const born = clamp((t - 0.05 - k * 0.12) / 0.4, 0, 1); el.style.opacity = String(born); el.style.transform = `translate(${540 + rx * Math.sin(a) - 85}px, ${980 - 150 * Math.cos(a) * 0.9 + 60 * Math.sin(a * 0.5) - 85}px) scale(${sc * lerp(0.3, 1, born)})`; el.style.zIndex = String(Math.round(c * 10)); });
+      orbit1(0); driver(0, T2 + 0.3, (t) => orbit1(t));
+      ringBurst('#orr0', 0.1, 1, 0.8, 1.8); ringBurst('#orr1', W(1, 'using') - 0.05, 1, 0.9, 2.2);
+      camMove(1, 0, T2 + 0.2, { s0: 1, s1: 1.18, e: 'power2.in' }); shake('#k1', 0.05, 14, 0.35); shake('#k1', W(1, 'using'), 18, 0.4);
+
+      // ============ S2  HOOK B: "no coding or design experience" ============
+      add(SC(2, 0, `${IM('xc', 150, 330, 280, 'ico-code')}${IM('xp', 650, 330, 280, 'ico-palette')}
+        ${IM('xs1', 150, 330, 280, 'ico-x-circle')}${IM('xs2', 650, 330, 280, 'ico-x-circle')}
+        <div id="ml1" class="abs mono" style="left:90px;top:690px;width:300px;font-size:26px;text-align:left;text-indent:0">Coding</div><div id="mp1" class="abs mono" style="left:700px;top:690px;width:290px;font-size:30px;text-align:right;color:#FFD84D;text-indent:0">0%</div>
+        <div id="mt1" class="meter" style="left:90px;top:740px;width:840px"><i id="mf1" style="background:linear-gradient(90deg,#2DD4FF,#34E39B)"></i></div>
+        <div id="ml2" class="abs mono" style="left:90px;top:830px;width:300px;font-size:26px;text-align:left;text-indent:0">Design</div><div id="mp2" class="abs mono" style="left:700px;top:830px;width:290px;font-size:30px;text-align:right;color:#FFD84D;text-indent:0">0%</div>
+        <div id="mt2" class="meter" style="left:90px;top:880px;width:840px"><i id="mf2" style="background:linear-gradient(90deg,#FF4D9A,#FFD84D)"></i></div>
+        ${IM('xu', 330, 1010, 260, 'ico-user')}${IM('xq', 640, 1050, 200, 'ico-question', 'glow')}`));
+      tl.set(['#xs1', '#xs2'], { opacity: 0 }, 0);
+      pop('#xc', W(1, 'even'), { s: 0.2, r: -30, y: 80 }); pop('#xp', W(1, 'even') + 0.15, { s: 0.2, r: 30, y: 80 }); bob('#xc', W(1, 'even') + 0.8, TG, 12, 1.2); bob('#xp', W(1, 'even') + 0.9, TG, 12, 1.3);
+      ['ml1', 'mt1', 'ml2', 'mt2', 'mp1', 'mp2'].forEach((id, k) => tl.fromTo('#' + id, { opacity: 0, x: -60 }, { opacity: 1, x: 0, duration: 0.5, ease: 'expo.out', immediateRender: false }, W(1, 'absolutely') + k * 0.08));
+      pop('#xu', W(1, 'absolutely') + 0.1, { s: 0.3 });
+      [['#xs1', 'coding', '#xc', 1], ['#xs2', 'design', '#xp', 2]].forEach(([sel, w, tile]) => { const t = W(1, w); tl.fromTo(sel, { opacity: 0, scale: 3.2, rotation: -25 }, { opacity: 1, scale: 1, rotation: 0, duration: 0.3, ease: 'back.out(2)', immediateRender: false }, t); shake('#k2', t + 0.1, 16, 0.3); tl.fromTo(tile, { filter: 'grayscale(0)' }, { filter: 'grayscale(1) brightness(0.6)', duration: 0.3, immediateRender: false }, t + 0.1); });
+      tl.fromTo('#mt1', { boxShadow: '0 0 0 rgba(255,255,255,0)' }, { boxShadow: '0 0 30px rgba(255,216,77,0.9)', duration: 0.2, yoyo: true, repeat: 3, immediateRender: false }, W(1, 'coding')); tl.fromTo('#mt2', { boxShadow: '0 0 0 rgba(255,255,255,0)' }, { boxShadow: '0 0 30px rgba(255,216,77,0.9)', duration: 0.2, yoyo: true, repeat: 3, immediateRender: false }, W(1, 'design'));
+      pop('#xq', W(1, 'experience') - 0.1, { s: 0.2, r: 20 }); tl.fromTo('#xq', { rotation: -10 }, { rotation: 10, duration: 0.3, yoyo: true, repeat: 6, ease: 'sine.inOut', immediateRender: false }, W(1, 'experience') + 0.5);
+      camMove(2, T2, TG, { s0: 1.02, s1: 1.12, y0: 20, y1: -20 });
+
+      // ============ S3  CLAUDE reveal: a glass pane cracks and shatters ============
+      const GCn = 6, GRn = 10, CWd = 1080 / GCn, CHt = 1920 / GRn, IX = 540, IY = 900;
+      let shards = ''; const shardMeta = [];
+      for (let r = 0; r < GRn; r++) for (let c = 0; c < GCn; c++) { const id = r * GCn + c; const j = (k) => (r01(id * 5 + k) - 0.5) * 0.5; const pts = [[0 + j(1) * CWd, 0 + j(2) * CHt], [CWd + 12 + j(3) * CWd, 0 + j(4) * CHt], [CWd + 12 + j(5) * CWd, CHt + 12 + j(6) * CHt], [0 + j(7) * CWd, CHt + 12 + j(8) * CHt]].map((p) => `${Math.max(0, p[0]).toFixed(0)}px ${Math.max(0, p[1]).toFixed(0)}px`).join(',');
+        shards += `<div id="sg${id}" class="shd" style="left:${c * CWd - 6}px;top:${r * CHt - 6}px;width:${CWd + 12}px;height:${CHt + 12}px;background:linear-gradient(${120 + r01(id) * 60}deg,rgba(255,255,255,0.34),rgba(170,210,255,0.14) 55%,rgba(255,255,255,0.28));clip-path:polygon(${pts})"></div>`; shardMeta.push([c * CWd + CWd / 2, r * CHt + CHt / 2]); }
+      let cracks = ''; for (let i = 0; i < 16; i++) { const a = i * 0.3927 + (r01(i) - 0.5) * 0.25; let x = IX, y = IY, pts = `${x},${y}`; const segs = 3 + (i % 3); for (let k = 0; k < segs; k++) { const L = 130 + r01(i * 7 + k) * 260; x += Math.cos(a + (r01(i * 3 + k) - 0.5) * 0.5) * L; y += Math.sin(a + (r01(i * 3 + k) - 0.5) * 0.5) * L; pts += ` ${x.toFixed(0)},${y.toFixed(0)}`; } cracks += `<polyline id="cr${i}" points="${pts}" fill="none" stroke="#fff" stroke-width="${i % 4 ? 3 : 6}" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1600" stroke-dashoffset="1600" opacity="0" style="filter:drop-shadow(0 0 8px rgba(255,255,255,0.9))"/>`; }
+      add(SC(3, 0, `<div id="gorb" style="position:absolute;left:${IX - 420}px;top:${IY - 420}px;width:840px;height:840px;border-radius:50%;background:radial-gradient(closest-side,rgba(255,138,76,0.75),rgba(255,77,154,0.25) 60%,transparent);opacity:0"></div>
+        <div id="clg" style="position:absolute;left:${IX - 230}px;top:${IY - 230}px;width:460px;height:460px;opacity:0"><img id="clm" src="assets/img/claude-mark.svg" style="width:100%;height:100%;filter:drop-shadow(0 0 60px rgba(255,138,76,0.9))"></div>
+        ${[0, 1, 2].map((k) => `<div id="gr${k}" class="ring" style="left:${IX - 260}px;top:${IY - 260}px;width:520px;height:520px;border-color:${['#FF8A4C', '#FFD84D', '#FF4D9A'][k]}"></div>`).join('')}
+        ${HD('cw', 1230, 150, 'Claude', 'y')}
+        ${shards}
+        <div id="gshine" style="position:absolute;top:-200px;left:-400px;width:260px;height:2400px;background:linear-gradient(100deg,transparent,rgba(255,255,255,0.45),transparent);transform:rotate(20deg);opacity:0"></div>
+        <svg id="crk" width="1080" height="1920" style="position:absolute;left:0;top:0">${cracks}</svg>`));
+      confetti('cf3_', 48, IX, IY, CLT, { dist: 650, grav: 320 });
+      tl.fromTo('#gorb', { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1.05, duration: 1.2, ease: 'sine.inOut', immediateRender: false }, TG); tl.fromTo('#gorb', { scale: 1.05 }, { scale: 1.25, duration: CLT - TG - 1.0, ease: 'sine.inOut', yoyo: true, repeat: 3, immediateRender: false }, TG + 1.2);
+      tl.fromTo('#clg', { opacity: 0, scale: 0.7 }, { opacity: 0.55, scale: 0.9, duration: 1.0, ease: 'power2.out', immediateRender: false }, TG + 0.3); tl.fromTo('#clm', { filter: 'blur(14px) drop-shadow(0 0 60px rgba(255,138,76,0.9))' }, { filter: 'blur(9px) drop-shadow(0 0 60px rgba(255,138,76,0.9))', duration: 1, immediateRender: false }, TG + 0.3);
+      shardMeta.forEach(([sx, sy], id) => { const d = Math.hypot(sx - IX, sy - IY); tl.fromTo('#sg' + id, { opacity: 0, scale: 1.12 }, { opacity: 1, scale: 1, duration: 0.45, ease: 'power3.out', immediateRender: false }, TG + 0.05 + d / 2600); });
+      tl.fromTo('#gshine', { x: 0, opacity: 0.9 }, { x: 1800, opacity: 0.9, duration: 1.1, ease: 'power2.inOut', immediateRender: false }, TG + 1.0); tl.fromTo('#gshine', { x: 0, opacity: 0.9 }, { x: 1800, opacity: 0.9, duration: 1.1, ease: 'power2.inOut', immediateRender: false }, TG + 2.3); tl.set('#gshine', { opacity: 0 }, CLT - 0.2);
+      for (let i = 0; i < 16; i++) { tl.set('#cr' + i, { opacity: 1 }, CLT - 0.34 + (i % 4) * 0.025); tl.fromTo('#cr' + i, { attr: { 'stroke-dashoffset': 1600 } }, { attr: { 'stroke-dashoffset': 0 }, duration: 0.24, ease: 'power2.out', immediateRender: false }, CLT - 0.34 + (i % 4) * 0.025); tl.to('#cr' + i, { opacity: 0, duration: 0.15 }, CLT + 0.02); }
+      tl.fromTo('#c3', { x: 0 }, { x: 5, duration: 0.03, yoyo: true, repeat: 7, ease: 'none', immediateRender: false }, CLT - 0.34);
+      shardMeta.forEach(([sx, sy], id) => { const d = Math.hypot(sx - IX, sy - IY) + 40, dx = (sx - IX) / d, dy = (sy - IY) / d, dist = 380 + r01(id + 2) * 620, delay = d / 2400 * 0.35;
+        tl.to('#sg' + id, { x: dx * dist, y: dy * dist + 700 + r01(id) * 500, rotation: (r01(id + 4) - 0.5) * 900, scale: 0.7 + r01(id + 1) * 0.6, opacity: 0, duration: 1.0 + r01(id + 6) * 0.5, ease: 'power2.in' }, CLT + delay); });
+      tl.fromTo('#clg', { opacity: 0.55, scale: 0.9 }, { opacity: 1, scale: 1.0, duration: 0.7, ease: 'back.out(2.2)', immediateRender: false }, CLT); tl.to('#clm', { filter: 'blur(0px) drop-shadow(0 0 70px rgba(255,138,76,1))', duration: 0.45 }, CLT);
+      [0, 1, 2].forEach((k) => ringBurst('#gr' + k, CLT + k * 0.14, 1.2, 0.4, 2.4)); shake('#k3', CLT, 30, 0.55);
+      kin('#cw', CLT + 0.3, 'zoom', { stagger: 0.05 }); bob('#clg', CLT + 0.9, TH, 14, 1.8);
+      camMove(3, TG, CLT, { s0: 1.0, s1: 1.1, e: 'power2.in' }); camMove(3, CLT, TH + 0.2, { s0: 1.18, s1: 1.0, e: 'power3.out' });
+
+      // ============ S4  HUB: what Claude can do (5 capabilities around the logo) ============
+      const CAPS = [['hw', 'browser', 'Websites', '#2DD4FF', 60, 420, 430, 230, 'websites'], ['ha', 'app-window', 'Applications', '#A98BFF', 530, 420, 430, 230, 'applications'], ['hp', 'package', 'Digital products', '#FF8A4C', 60, 1230, 280, 270, 'digital'], ['hm', 'megaphone', 'Marketing content', '#FF4D9A', 400, 1230, 280, 270, 'marketing'], ['hx', 'gear', 'Automation', '#34E39B', 740, 1230, 220, 270, 'automate']];
+      add(SC(4, 0, `${HD('hh1', 250, 120, 'HOW IT WORKS', 'y')}
+        <svg width="1080" height="1920" style="position:absolute;left:0;top:0">${CAPS.map((c, k) => `<line id="hl${k}" x1="510" y1="930" x2="${c[4] + c[6] / 2}" y2="${c[5] + c[7] / 2}" stroke="${c[3]}" stroke-width="5" stroke-linecap="round" stroke-dasharray="1200" stroke-dashoffset="1200" opacity="0.9" style="filter:drop-shadow(0 0 10px ${c[3]})"/>`).join('')}</svg>
+        ${CAPS.map((c, k) => `<div id="hd${k}" class="dot" style="left:0;top:0;width:22px;height:22px;background:${c[3]};box-shadow:0 0 24px ${c[3]}"></div>`).join('')}
+        ${[0, 1].map((k) => `<div id="hr${k}" class="ring" style="left:${510 - 200}px;top:${930 - 200}px;width:400px;height:400px;border-color:${['#FF8A4C', '#FFD84D'][k]}"></div>`).join('')}
+        ${IM('hl', 360, 780, 300, 'app-claude', 'glow')}
+        ${CAPS.map((c) => `<div id="${c[0]}" class="chg" style="left:${c[4]}px;top:${c[5]}px;width:${c[6]}px;height:${c[7]}px;border-color:${c[3]};box-shadow:0 0 50px ${c[3]}66, 0 24px 60px rgba(0,0,0,0.5);${c[6] < 300 ? 'flex-direction:column;justify-content:center;gap:14px;padding:0 10px;text-align:center;' : ''}font-size:${c[6] < 300 ? 26 : 34}px"><img src="assets/img/ico-${c[1]}.svg" style="width:${c[6] < 300 ? 120 : 110}px;height:${c[6] < 300 ? 120 : 110}px"><div>${c[2]}</div></div>`).join('')}`));
+      kin('#hh1', TH + 0.15, 'glitch', { stagger: 0.04 }); tl.to('#hh1', { y: -40, opacity: 0, duration: 0.35, ease: 'power2.in' }, W(4, 'create') - 1.0);
+      tl.fromTo('#hl', { opacity: 0, scale: 2.2, rotation: -20 }, { opacity: 1, scale: 1, rotation: 0, duration: 0.8, ease: 'expo.out', immediateRender: false }, TH + 0.05); bob('#hl', TH + 1, TP, 10, 1.6);
+      ringBurst('#hr0', W(3, 'works') - 0.05, 1.1, 0.5, 2.0); ringBurst('#hr1', W(3, 'works') + 0.2, 1.1, 0.5, 2.4); shake('#k4', W(3, 'works'), 12, 0.3);
+      CAPS.forEach((c, k) => { const t = W(4, c[8]) - 0.3; const cx = c[4] + c[6] / 2 - 510, cy = c[5] + c[7] / 2 - 930;
+        tl.fromTo('#' + c[0], { opacity: 0, x: -cx * 0.9, y: -cy * 0.9, scale: 0.2, rotationY: k % 2 ? 80 : -80, transformPerspective: 900 }, { opacity: 1, x: 0, y: 0, scale: 1, rotationY: 0, duration: 0.75, ease: 'back.out(1.5)', immediateRender: false }, t);
+        tl.fromTo('#hl' + k, { attr: { 'stroke-dashoffset': 1200 } }, { attr: { 'stroke-dashoffset': 0 }, duration: 0.45, ease: 'power2.out', immediateRender: false }, t - 0.1); shake('#k4', t + 0.15, 8, 0.25);
+        tl.fromTo('#' + c[0] + ' img', { rotation: k % 2 ? 200 : -200, scale: 0.4 }, { rotation: 0, scale: 1, duration: 0.8, ease: 'expo.out', immediateRender: false }, t + 0.05); });
+      tl.fromTo('#hx img', { rotation: 0 }, { rotation: 360, duration: 4, ease: 'none', repeat: 3, immediateRender: false }, W(4, 'automate') + 0.5);
+      tl.fromTo('#hm img', { rotation: -8 }, { rotation: 8, duration: 0.18, yoyo: true, repeat: 15, ease: 'sine.inOut', immediateRender: false }, W(4, 'marketing') + 0.6);
+      driver(W(4, 'websites') - 0.2, TP, (t) => CAPS.forEach((c, k) => { const el = document.getElementById('hd' + k), on = t > W(4, c[8]) - 0.3 - (W(4, 'websites') - 0.2) + 0.4; el.style.opacity = on ? '1' : '0'; const p = ((t * 0.7 + k * 0.23) % 1), tx = c[4] + c[6] / 2, ty = c[5] + c[7] / 2; el.style.transform = `translate(${lerp(510, tx, p) - 11}px, ${lerp(930, ty, p) - 11}px)`; }));
+      camMove(4, TH, TP, { s0: 1.0, s1: 1.07, y0: 0, y1: -30 });
+
+      // ============ S5  people are already paying: payment notifications + coins ============
+      const NOTI = [['pn0', 'W(5,\'people\')', 'Website project', '+$120', 'bell', '#34E39B'], ['pn1', 'W(5,\'already\')', 'Landing page', '+$80', 'bell', '#34E39B'], ['pn2', 'W(5,\'paying\')', 'Logo design', '+$100', 'bell', '#34E39B'], ['pn3', 'W(5,\'these\')', 'Client review', '5.0', 'star', '#FFD84D']];
+      add(SC(5, 110, `${HD('pyt', 290, 120, 'GETTING PAID', 'y')}${NOTI.map((n, k) => `<div id="${n[0]}" class="chg" style="left:100px;top:${440 + k * 190}px;width:820px;height:160px;gap:24px;border-color:${n[5]};box-shadow:0 0 40px ${n[5]}55,0 24px 60px rgba(0,0,0,0.5)"><img src="assets/img/ico-${n[4] === 'star' ? 'star' : 'bell'}.svg" style="width:104px;height:104px"><div style="flex:1;white-space:normal"><span style="font-family:'JetBrains Mono';font-size:20px;letter-spacing:0.2em;color:#CFC8F0">${n[4] === 'star' ? 'NEW REVIEW' : 'PAYMENT RECEIVED'}</span><div style="font-family:'Instrument Sans';font-weight:600;font-size:36px;text-transform:none;margin-top:6px">${n[2]}</div></div><div style="font-family:'Syne';font-weight:800;font-size:60px;color:${n[5]}">${n[3]}</div></div>`).join('')}`));
+      kin('#pyt', TP + 0.1, 'zoom', { stagger: 0.04 });
+      [W(5, 'people'), W(5, 'already'), W(5, 'paying'), W(5, 'these')].forEach((t, k) => { tl.fromTo('#pn' + k, { opacity: 0, x: 700, skewX: -20, scale: 0.9 }, { opacity: 1, x: 0, skewX: 0, scale: 1, duration: 0.6, ease: 'back.out(1.3)', immediateRender: false }, t - 0.1); shake('#k5', t + 0.2, 8, 0.25); tl.fromTo('#pn' + k, { scale: 1 }, { scale: 1.04, duration: 0.14, yoyo: true, repeat: 1, immediateRender: false }, t + 0.5); });
+      coinRain('cr5_', 14, W(5, 'paying') - 0.2, { top: 200, fall: 1500 }); camMove(5, TP, TL, { s0: 1.05, s1: 1.0, e: 'power2.out' });
+
+      // ============ S6  make money building websites (laptop builds a site, coins fly to a wallet) ============
+      add(SC(6, 120, `${HD('lt1', 280, 120, 'MAKE MONEY', 'y')}${HD('lt2', 420, 80, 'BUILDING WEBSITES', '')}
+        <div id="lap" class="glass" style="left:120px;top:560px;width:760px;height:500px;border-radius:34px;overflow:hidden;opacity:0">
+          <div style="position:absolute;left:0;top:0;width:100%;height:60px;background:rgba(255,255,255,0.07);border-bottom:1.5px solid rgba(255,255,255,0.18)"></div>${[0, 1, 2].map((k) => `<div style="position:absolute;left:${24 + k * 26}px;top:22px;width:16px;height:16px;border-radius:50%;background:${['#FF5C7A', '#FFD84D', '#34E39B'][k]}"></div>`).join('')}
+          <div id="lp1" style="position:absolute;left:30px;top:90px;width:700px;height:150px;border-radius:20px;background:linear-gradient(135deg,#FF8A4C,#FF4D9A);opacity:0"></div>
+          <div id="lp2" class="sk" style="left:60px;top:120px;width:300px;height:26px;background:rgba(255,255,255,0.85);opacity:0"></div><div id="lp3" class="sk" style="left:60px;top:166px;width:220px;height:18px;opacity:0"></div>
+          <div id="lp4" style="position:absolute;left:30px;top:270px;width:220px;height:170px;border-radius:18px;background:linear-gradient(135deg,#8B5CFF,#2DD4FF);opacity:0"></div>
+          <div id="lp5" style="position:absolute;left:270px;top:270px;width:220px;height:170px;border-radius:18px;background:linear-gradient(135deg,#34E39B,#2DD4FF);opacity:0"></div>
+          <div id="lp6" style="position:absolute;left:510px;top:270px;width:220px;height:170px;border-radius:18px;background:linear-gradient(135deg,#FFD84D,#FF8A4C);opacity:0"></div></div>
+        <div id="lbase" style="position:absolute;left:60px;top:1062px;width:880px;height:34px;border-radius:0 0 40px 40px;background:linear-gradient(#2a2250,#16112f);opacity:0"></div>
+        ${IM('lw', 700, 1150, 230, 'ico-wallet', 'glow')}
+        ${Array.from({ length: 7 }, (_, k) => IM('lc' + k, 0, 0, 90, 'ico-coins')).join('')}`));
+      kin('#lt1', W(6, 'make'), 'zoom', { stagger: 0.05 }); kin('#lt2', W(6, 'building') - 0.1, 'up', { stagger: 0.03 });
+      tl.set('#lap', { transformPerspective: 1400 }, 0); tl.fromTo('#lap', { opacity: 0, rotationX: 40, y: 140, scale: 0.85 }, { opacity: 1, rotationX: 0, y: 0, scale: 1, duration: 0.8, ease: 'expo.out', immediateRender: false }, W(6, 'money')); pop('#lbase', W(6, 'money') + 0.1, { s: 1, y: 20 });
+      ['lp1', 'lp2', 'lp3', 'lp4', 'lp5', 'lp6'].forEach((id, k) => { tl.fromTo('#' + id, { opacity: 0, y: -260 }, { opacity: 1, y: 0, duration: 0.55, ease: 'bounce.out', immediateRender: false }, W(6, 'building') + k * 0.2); shake('#lap', W(6, 'building') + k * 0.2 + 0.4, 5, 0.2); });
+      pop('#lw', W(6, 'websites') - 0.2, { s: 0.3, r: -20 });
+      for (let k = 0; k < 7; k++) { const t0 = W(6, 'websites') + k * 0.11; driver(t0, t0 + 0.7, (t, p) => { const el = document.getElementById('lc' + k); el.style.opacity = p > 0 && p < 0.98 ? '1' : '0'; el.style.transform = `translate(${lerp(480, 800, p) - 45}px, ${lerp(800, 1230, p) - Math.sin(p * Math.PI) * 280 - 45}px) rotate(${p * 420}deg) scale(${lerp(0.6, 1, p)})`; });
+        tl.fromTo('#lw', { scale: 1 }, { scale: 1.12, duration: 0.1, yoyo: true, repeat: 1, immediateRender: false }, t0 + 0.68); }
+      camMove(6, TL, TF, { s0: 1.0, s1: 1.1, r0: -0.8, r1: 0.8 });
+
+      // ============ S7  find small businesses without (or with outdated) websites ============
+      const HUES = [0, 55, 120, 190, 260, 320, 20, 95, 165];
+      add(SC(7, 100, `${HD('fd1', 260, 150, 'FIND', 'y')}${HD('fd2', 410, 80, 'SMALL BUSINESSES', '')}
+        ${HUES.map((h, k) => `<div id="fs${k}" class="tilex" style="left:${200 + (k % 3) * 240}px;top:${540 + Math.floor(k / 3) * 250}px;width:200px;height:200px"><img src="assets/img/ico-storefront.svg" style="filter:hue-rotate(${h}deg) drop-shadow(0 16px 26px rgba(0,0,0,0.5))"></div>`).join('')}
+        ${[1, 4, 7].map((k) => `<div id="fb${k}" class="tilex" style="left:${200 + (k % 3) * 240 + 110}px;top:${540 + Math.floor(k / 3) * 250 - 30}px;width:100px;height:100px"><img src="assets/img/ico-link-break.svg"></div>`).join('')}
+        ${[2, 6].map((k) => `<div id="fw${k}" class="tilex" style="left:${200 + (k % 3) * 240 + 110}px;top:${540 + Math.floor(k / 3) * 250 - 30}px;width:100px;height:100px"><img src="assets/img/ico-warning.svg"></div>`).join('')}
+        ${IM('fm', 0, 0, 210, 'ico-magnifying-glass', 'glow')}
+        <div id="ftg" class="ring" style="left:${200 + 240 - 40}px;top:${540 + 250 - 40}px;width:280px;height:280px;border-color:#FFD84D;border-width:6px"></div>`));
+      kin('#fd1', W(7, 'find'), 'zoom', { stagger: 0.05 }); kin('#fd2', W(7, 'small'), 'slide', { dir: 'r', stagger: 0.025 });
+      HUES.forEach((h, k) => pop('#fs' + k, W(7, 'small') + 0.25 + k * 0.1, { s: 0.2, y: 60, r: (k % 2 ? 1 : -1) * 25, d: 0.6 }));
+      const SNAKE = [0, 1, 2, 5, 4, 3, 6, 7, 8]; tl.set('#fm', { opacity: 0 }, 0);
+      driver(W(7, 'businesses') + 0.2, W(7, 'one') + 0.1, (t, p) => { const q = clamp(p, 0, 1) * (SNAKE.length - 1), i = Math.floor(q), f = q - i, a = SNAKE[i], b = SNAKE[Math.min(i + 1, SNAKE.length - 1)]; const ax = 200 + (a % 3) * 240 + 100, ay = 540 + Math.floor(a / 3) * 250 + 100, bx = 200 + (b % 3) * 240 + 100, by = 540 + Math.floor(b / 3) * 250 + 100; const el = document.getElementById('fm'); el.style.opacity = '1'; el.style.transform = `translate(${lerp(ax, bx, f) - 105 + 40}px, ${lerp(ay, by, f) - 105 + 40}px) scale(${1 + 0.1 * Math.sin(f * 3.14)})`; });
+      [1, 4, 7].forEach((k, i) => { const t = W(7, 'dont') ? 0 : 0; });
+      [1, 4, 7].forEach((k, i) => pop('#fb' + k, W(7, 'don') + 0.1 + i * 0.35, { s: 0.2, r: -40, d: 0.5 }));
+      [2, 6].forEach((k, i) => { pop('#fw' + k, W(7, 'outdated') + i * 0.3, { s: 0.2, r: 40, d: 0.5 }); tl.to('#fs' + k + ' img', { filter: 'grayscale(0.85) drop-shadow(0 16px 26px rgba(0,0,0,0.5))', duration: 0.4 }, W(7, 'outdated') + i * 0.3); });
+      [1, 4, 7].forEach((k) => shake('#k7', W(7, 'website') + 0.1, 8, 0.3));
+      tl.set('#ftg', { opacity: 1 }, W(7, 'one') - 0.1); tl.fromTo('#ftg', { scale: 2, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: 'back.out(2)', immediateRender: false }, W(7, 'one') - 0.1);
+      camMove(7, TF, TB, { s0: 1.0, s1: 1.1, x0: 20, x1: -20 });
+
+      // ============ S8  Claude designs and builds the site (chat prompt + live browser) ============
+      add(SC(8, 0, `<div id="bpn" class="glass" style="left:80px;top:300px;width:860px;height:300px;opacity:0"><img src="assets/img/app-claude.svg" style="position:absolute;left:28px;top:28px;width:92px;height:92px"><div id="bpt" style="position:absolute;left:150px;top:34px;width:660px;font-family:'JetBrains Mono',monospace;font-size:30px;line-height:1.35;color:#fff;clip-path:inset(0 100% 0 0)">Build a professional website for my local bakery.</div>
+          ${['palette:Designing:#FF4D9A', 'code:Building:#2DD4FF', 'seal-check:Ready:#34E39B'].map((s, k) => { const [ic, lb, col] = s.split(':'); return `<div id="bc${k}" class="chg" style="left:${28 + k * 280}px;top:190px;width:262px;height:80px;border-radius:40px;gap:14px;padding:0 20px 0 10px;font-size:24px;border-color:${col}"><img src="assets/img/ico-${ic}.svg" style="width:56px;height:56px">${lb}</div>`; }).join('')}</div>
+        <div id="bwb" class="glass" style="left:80px;top:650px;width:860px;height:800px;border-radius:34px;overflow:hidden;opacity:0">
+          <div style="position:absolute;left:0;top:0;width:100%;height:64px;background:rgba(255,255,255,0.07);border-bottom:1.5px solid rgba(255,255,255,0.18)"></div>${[0, 1, 2].map((k) => `<div style="position:absolute;left:${26 + k * 28}px;top:24px;width:16px;height:16px;border-radius:50%;background:${['#FF5C7A', '#FFD84D', '#34E39B'][k]}"></div>`).join('')}
+          <div style="position:absolute;left:230px;top:14px;width:400px;height:36px;border-radius:18px;background:rgba(0,0,0,0.3);font-family:'JetBrains Mono';font-size:20px;color:#CFC8F0;display:flex;align-items:center;justify-content:center">sweetcrumbs.com</div>
+          <div id="bb1" style="position:absolute;left:34px;top:100px;width:792px;height:250px;border-radius:24px;background:linear-gradient(135deg,#FFB86B,#FF4D9A);opacity:0"></div>
+          <div id="bb2" class="sk" style="left:70px;top:140px;width:380px;height:34px;background:rgba(255,255,255,0.92);opacity:0"></div><div id="bb3" class="sk" style="left:70px;top:196px;width:300px;height:20px;opacity:0"></div>
+          <div id="bb4" style="position:absolute;left:70px;top:260px;width:200px;height:56px;border-radius:28px;background:#fff;opacity:0"></div>
+          <div id="bb5" style="position:absolute;left:34px;top:390px;width:250px;height:300px;border-radius:22px;background:linear-gradient(160deg,#8B5CFF,#2DD4FF);opacity:0"></div>
+          <div id="bb6" style="position:absolute;left:305px;top:390px;width:250px;height:300px;border-radius:22px;background:linear-gradient(160deg,#34E39B,#2DD4FF);opacity:0"></div>
+          <div id="bb7" style="position:absolute;left:576px;top:390px;width:250px;height:300px;border-radius:22px;background:linear-gradient(160deg,#FFD84D,#FF8A4C);opacity:0"></div></div>
+        ${IM('bok', 740, 560, 170, 'ico-seal-check', 'glow')}<div id="bokr" class="ring" style="left:740px;top:560px;width:170px;height:170px;border-color:#34E39B"></div>`));
+      pop('#bpn', W(8, 'use') - 0.15, { s: 0.9, y: -30 }); tl.fromTo('#bpt', { clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 0% 0 0)', duration: 1.7, ease: 'steps(48)', immediateRender: false }, W(8, 'use') + 0.35);
+      ['bc0', 'bc1', 'bc2'].forEach((id, k) => pop('#' + id, [W(8, 'design'), W(8, 'build'), W(8, 'professional')][k] - 0.1, { s: 0.5, y: 20 }));
+      tl.fromTo('#bc0 img', { rotation: 0 }, { rotation: 360, duration: 1.0, ease: 'none', repeat: 1, immediateRender: false }, W(8, 'design')); tl.fromTo('#bc1 img', { rotation: 0 }, { rotation: 360, duration: 0.9, ease: 'none', repeat: 1, immediateRender: false }, W(8, 'build'));
+      tl.set('#bwb', { transformPerspective: 1500 }, 0); tl.fromTo('#bwb', { opacity: 0, rotationY: -30, x: -80, scale: 0.9 }, { opacity: 1, rotationY: 0, x: 0, scale: 1, duration: 0.8, ease: 'expo.out', immediateRender: false }, W(8, 'design') - 0.2);
+      ['bb1', 'bb2', 'bb3', 'bb4'].forEach((id, k) => tl.fromTo('#' + id, { opacity: 0, y: -60, scale: 0.9 }, { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: 'back.out(1.5)', immediateRender: false }, W(8, 'design') + 0.3 + k * 0.18));
+      ['bb5', 'bb6', 'bb7'].forEach((id, k) => { tl.fromTo('#' + id, { opacity: 0, y: 90, rotation: 8 }, { opacity: 1, y: 0, rotation: 0, duration: 0.55, ease: 'back.out(1.6)', immediateRender: false }, W(8, 'build') + 0.2 + k * 0.22); shake('#bwb', W(8, 'build') + 0.5 + k * 0.22, 5, 0.2); });
+      pop('#bok', W(8, 'website') - 0.05, { s: 0.1, r: -90 }); ringBurst('#bokr', W(8, 'website'), 0.9, 0.8, 2.6); confetti('cf8_', 32, 825, 645, W(8, 'website') - 0.05, { dist: 420, grav: 200 });
+      camMove(8, TB, TA, { s0: 1.0, s1: 1.07, y0: 0, y1: -30 });
+
+      // ============ S9  approach the business (DM chat) + customers flow in ============
+      add(SC(9, 0, `<div id="ahd" class="glass" style="left:80px;top:290px;width:860px;height:110px;opacity:0"><img src="assets/img/ico-user.svg" style="position:absolute;left:20px;top:15px;width:80px;height:80px"><div style="position:absolute;left:125px;top:20px;font-family:'Syne';font-weight:700;font-size:30px;text-transform:uppercase">Business owner</div><div style="position:absolute;left:125px;top:64px;font-family:'JetBrains Mono';font-size:18px;letter-spacing:0.2em;color:#34E39B">ONLINE</div></div>
+        <div id="am1" class="bub me" style="left:230px;top:450px;width:690px">Hi! I built a website for your business.</div>
+        <div id="alk" class="glass" style="left:330px;top:640px;width:590px;height:130px;opacity:0;background:rgba(255,255,255,0.14)"><img src="assets/img/ico-browser.svg" style="position:absolute;left:20px;top:15px;width:100px;height:100px"><div style="position:absolute;left:140px;top:28px;font-family:'Syne';font-weight:700;font-size:28px;text-transform:uppercase">Your new site</div><div style="position:absolute;left:140px;top:72px;font-family:'JetBrains Mono';font-size:22px;color:#2DD4FF">yourshop.com</div></div>
+        <div id="am2" class="bub you" style="left:80px;top:810px;width:560px">Wow, I love it!</div>
+        ${IM('ahs', 60, 1050, 150, 'ico-handshake', 'glow')}${IM('ast', 700, 1000, 240, 'ico-storefront', 'glow')}
+        ${Array.from({ length: 6 }, (_, k) => IM('acu' + k, 0, 0, 96, 'ico-user', '')).join('')}
+        ${Array.from({ length: 6 }, (_, k) => `<div id="ap${k}" class="abs hd g" style="left:720px;top:960px;width:200px;font-size:46px">+1</div>`).join('')}
+        ${[0, 1, 2, 3, 4].map((k) => `<div id="abr${k}" style="position:absolute;left:${300 + k * 74}px;top:${1430 - (60 + k * 40)}px;width:56px;height:${60 + k * 40}px;border-radius:10px 10px 0 0;background:linear-gradient(#34E39B,#2DD4FF);opacity:0;transform-origin:bottom"></div>`).join('')}`));
+      pop('#ahd', TA + 0.1, { s: 0.9, y: -30 }); pop('#am1', W(9, 'approach') - 0.1, { x: 120, y: 0, s: 0.8 }); pop('#alk', W(9, 'create') - 0.1, { x: 120, y: 0, s: 0.8 });
+      pop('#am2', W(9, 'helps') - 0.3, { x: -120, y: 0, s: 0.8 }); pop('#ahs', W(9, 'helps') - 0.1, { s: 0.2, r: -30 }); pop('#ast', W(9, 'attract') - 0.5, { s: 0.3 });
+      for (let k = 0; k < 6; k++) { const t0 = W(9, 'attract') + k * 0.26; driver(t0, t0 + 0.8, (t, p) => { const el = document.getElementById('acu' + k); el.style.opacity = p > 0 && p < 0.93 ? '1' : '0'; el.style.transform = `translate(${lerp(-100, 760, p)}px, ${1130 + Math.sin(p * 6.28 + k) * 22}px) scale(${lerp(1, 0.5, p * p)})`; });
+        tl.fromTo('#ap' + k, { opacity: 0, y: 0, scale: 0.5 }, { opacity: 1, y: -90, scale: 1, duration: 0.5, ease: 'expo.out', immediateRender: false }, t0 + 0.7); tl.to('#ap' + k, { opacity: 0, duration: 0.25 }, t0 + 1.1); tl.fromTo('#ast', { scale: 1 }, { scale: 1.1, duration: 0.1, yoyo: true, repeat: 1, immediateRender: false }, t0 + 0.78); }
+      [0, 1, 2, 3, 4].forEach((k) => tl.fromTo('#abr' + k, { opacity: 1, scaleY: 0 }, { scaleY: 1, duration: 0.5, ease: 'back.out(1.7)', immediateRender: false }, W(9, 'attract') + 0.3 + k * 0.3));
+      camMove(9, TA, TC, { s0: 1.0, s1: 1.08, r0: 0.5, r1: -0.5 });
+
+      // ============ S10  the price: $300, $500, or more (price card flips, meters rise) ============
+      add(SC(10, 80, `<div id="qpc" class="glass" style="left:110px;top:330px;width:800px;height:560px;border-radius:44px;border-color:#FFD84D;box-shadow:0 0 90px rgba(255,216,77,0.45),0 30px 80px rgba(0,0,0,0.5);opacity:0">
+          <div class="mono" style="position:absolute;left:0;top:34px;width:800px;font-size:26px;color:#FFD84D">Your price</div>
+          ${IM('qci', 330, 90, 140, 'ico-coins', 'glow')}</div>
+        <div id="qt1" class="abs hd y" style="left:110px;top:500px;width:800px;font-size:230px">$300</div><div id="qt2" class="abs hd o" style="left:110px;top:500px;width:800px;font-size:230px">$500</div><div id="qt3" class="abs hd p" style="left:110px;top:500px;width:800px;font-size:200px">$500+</div>
+        ${IM('qar', 790, 280, 170, 'ico-trend-up', 'glow')}
+        <div id="ql1" class="abs mono" style="left:80px;top:1010px;width:420px;font-size:24px;text-align:left;text-indent:0">Complexity</div><div id="qm1" class="meter" style="left:80px;top:1060px;width:860px;height:34px;border-radius:17px"><i id="qf1" style="background:linear-gradient(90deg,#FFD84D,#FF4D9A)"></i></div>
+        <div id="ql2" class="abs mono" style="left:80px;top:1150px;width:420px;font-size:24px;text-align:left;text-indent:0">Value you provide</div><div id="qm2" class="meter" style="left:80px;top:1200px;width:860px;height:34px;border-radius:17px"><i id="qf2" style="background:linear-gradient(90deg,#34E39B,#2DD4FF)"></i></div>
+        ${IM('qi1', 840, 985, 90, 'ico-puzzle-piece')}${IM('qi2', 840, 1125, 90, 'ico-seal-check')}<div id="qrg" class="ring" style="left:110px;top:330px;width:800px;height:560px;border-radius:44px;border-color:#FFD84D"></div>`));
+      tl.set('#qpc', { transformPerspective: 1300 }, 0); tl.set(['#qt1', '#qt2', '#qt3'], { transformPerspective: 1000 }, 0);
+      tl.fromTo('#qpc', { opacity: 0, scale: 3, rotationX: 30 }, { opacity: 1, scale: 1, rotationX: 0, duration: 0.55, ease: 'expo.out', immediateRender: false }, W(10, 'charge') - 0.1); shake('#k10', W(10, 'charge') + 0.35, 20, 0.4); pop('#qci', W(10, 'charge') + 0.2, { s: 0.2, r: -40 });
+      tl.fromTo('#qt1', { opacity: 0, rotationX: -90, scale: 1.4 }, { opacity: 1, rotationX: 0, scale: 1, duration: 0.5, ease: 'back.out(1.7)', immediateRender: false }, W(10, '$300') - 0.05); tl.to('#qt1', { opacity: 0, rotationX: 90, duration: 0.25, ease: 'power2.in' }, W(10, '$500') - 0.2);
+      tl.fromTo('#qt2', { opacity: 0, rotationX: -90, scale: 1.4 }, { opacity: 1, rotationX: 0, scale: 1, duration: 0.5, ease: 'back.out(1.7)', immediateRender: false }, W(10, '$500') - 0.05); tl.to('#qt2', { opacity: 0, rotationX: 90, duration: 0.25, ease: 'power2.in' }, W(10, 'even') - 0.1);
+      tl.fromTo('#qt3', { opacity: 0, rotationX: -90, scale: 1.6 }, { opacity: 1, rotationX: 0, scale: 1, duration: 0.55, ease: 'back.out(2)', immediateRender: false }, W(10, 'even')); pop('#qar', W(10, 'more') - 0.2, { s: 0.2, r: 30 }); bob('#qar', W(10, 'more') + 0.6, TO, 14, 1.0);
+      [W(10, '$300'), W(10, '$500'), W(10, 'even')].forEach((t, k) => { shake('#k10', t, 16, 0.35); ringBurst('#qrg', t, 0.8, 0.95, 1.3); confetti('cf10_' + k + '_', 22, 510, 600, t, { dist: 520, grav: 240, dur: 1.1 }); });
+      coinRain('cr10a_', 12, W(10, '$300'), { top: 180, fall: 1500 }); coinRain('cr10b_', 14, W(10, '$500'), { top: 180, fall: 1500 });
+      ['ql1', 'qm1', 'qi1', 'ql2', 'qm2', 'qi2'].forEach((id, k) => pop('#' + id, [W(10, 'depending'), W(10, 'depending'), W(10, 'depending'), W(10, 'value') - 0.6, W(10, 'value') - 0.6, W(10, 'value') - 0.6][k], { s: 0.8, y: 30, d: 0.5 }));
+      tl.fromTo('#qf1', { width: '0%' }, { width: '84%', duration: 1.4, ease: 'power3.out', immediateRender: false }, W(10, 'complexity')); tl.fromTo('#qf2', { width: '0%' }, { width: '92%', duration: 1.3, ease: 'power3.out', immediateRender: false }, W(10, 'value'));
+      camMove(10, TC, T1X, { s0: 1.06, s1: 1.0, e: 'power2.out' });
+
+      // ============ S11  "just one example": the website card zooms out to a whole grid of ideas ============
+      const OTH = ['package', 'gear', 'robot', 'film-strip', 'megaphone', 'palette', 'calendar-check', 'chat-circle-dots'];
+      add(SC(11, 0, `${HD('jx1', 280, 110, 'JUST ONE', 'y')}${HD('jx2', 420, 110, 'EXAMPLE', '')}
+        ${OTH.map((n, k) => { const pos = [0, 1, 2, 3, 5, 6, 7, 8][k]; return IM('jt' + k, 155 + (pos % 3) * 270, 640 + Math.floor(pos / 3) * 270, 230, 'ico-' + n); }).join('')}${IM('jc', 425, 910, 230, 'ico-browser', 'glow')}<div id="jcr" class="ring" style="left:425px;top:910px;width:230px;height:230px;border-color:#FFD84D"></div>
+        <div id="jb" class="abs hd y" style="left:540px;top:880px;width:140px;font-size:80px">1</div>`));
+      kin('#jx1', T1X + 0.15, 'slide', { dir: 'l', stagger: 0.04 }); kin('#jx2', W(11, 'one') - 0.2, 'zoom', { stagger: 0.04 });
+      tl.fromTo('#jc', { opacity: 0, scale: 2.8 }, { opacity: 1, scale: 1.0, duration: 0.7, ease: 'expo.out', immediateRender: false }, T1X + 0.05);
+      OTH.forEach((n, k) => { const pos = [0, 1, 2, 3, 5, 6, 7, 8][k], dx = ((pos % 3) - 1), dy = (Math.floor(pos / 3) - 1); tl.fromTo('#jt' + k, { opacity: 0, x: -dx * 270, y: -dy * 270, scale: 0.2, rotation: (k % 2 ? 1 : -1) * 120 }, { opacity: 1, x: 0, y: 0, scale: 1, rotation: 0, duration: 0.7, ease: 'back.out(1.5)', immediateRender: false }, W(11, 'example') - 0.2 + k * 0.07); });
+      ringBurst('#jcr', W(11, 'example'), 1.0, 0.6, 4); shake('#k11', W(11, 'example') + 0.1, 12, 0.3); camMove(11, T1X, TO, { s0: 1.5, s1: 1.0, e: 'expo.out' });
+
+      // ============ S12  more ways: digital products, business tools, AI chatbots, content ============
+      const OPT = [['oc0', 'package', 'Digital products', '#FF8A4C', 60, 330, 'digital'], ['oc1', 'gear', 'Business tools', '#34E39B', 530, 330, 'business'], ['oc2', 'robot', 'AI chatbots', '#A98BFF', 60, 800, 'ai'], ['oc3', 'film-strip', 'Content creation', '#FF4D9A', 530, 800, 'content']];
+      add(SC(12, 150, `${OPT.map((o) => `<div id="${o[0]}" class="chg" style="left:${o[4]}px;top:${o[5]}px;width:430px;height:430px;flex-direction:column;justify-content:center;gap:18px;padding:0;text-align:center;border-color:${o[3]};box-shadow:0 0 60px ${o[3]}66,0 24px 60px rgba(0,0,0,0.5);font-size:32px"><img src="assets/img/ico-${o[1]}.svg" style="width:190px;height:190px"><div>${o[2]}</div></div>`).join('')}
+        ${[0, 1, 2].map((k) => IM('of' + k, 170 + k * 60, 520, 70, 'ico-file-text')).join('')}
+        <div id="obb" style="position:absolute;left:290px;top:830px;width:180px;height:70px;border-radius:32px 32px 32px 8px;background:#fff;opacity:0;display:flex;align-items:center;justify-content:center;gap:12px">${[0, 1, 2].map((k) => `<i id="od${k}" style="display:block;width:16px;height:16px;border-radius:50%;background:#8B5CFF"></i>`).join('')}</div>
+        ${[0, 1, 2].map((k) => IM('oi' + k, 580 + k * 80, 830, 66, 'ico-image')).join('')}`));
+      OPT.forEach((o, k) => { const t = W(12, o[6]) - 0.25; tl.fromTo('#' + o[0], { opacity: 0, x: (k % 2 ? 300 : -300), rotationY: k % 2 ? -70 : 70, scale: 0.7, transformPerspective: 1000 }, { opacity: 1, x: 0, rotationY: 0, scale: 1, duration: 0.7, ease: 'back.out(1.4)', immediateRender: false }, t);
+        tl.fromTo('#' + o[0] + ' img', { rotation: k % 2 ? 180 : -180, scale: 0.4 }, { rotation: 0, scale: 1, duration: 0.8, ease: 'expo.out', immediateRender: false }, t + 0.05); shake('#k12', t + 0.2, 10, 0.3);});
+      tl.fromTo('#oc1 img', { rotation: 0 }, { rotation: 360, duration: 3, ease: 'none', repeat: 2, immediateRender: false }, W(12, 'business') + 0.7);
+      [0, 1, 2].forEach((k) => { tl.fromTo('#of' + k, { opacity: 0, y: 120, scale: 0.3 }, { opacity: 1, y: -60 - k * 30, scale: 1, duration: 0.6, ease: 'back.out(1.8)', immediateRender: false }, W(12, 'digital') + 0.5 + k * 0.15); tl.to('#of' + k, { opacity: 0, duration: 0.3 }, W(12, 'business') - 0.3); });
+      pop('#obb', W(12, 'ai') + 0.2, { s: 0.4, x: -30, y: 0 }); [0, 1, 2].forEach((k) => tl.fromTo('#od' + k, { y: 0 }, { y: -14, duration: 0.25, yoyo: true, repeat: 7, ease: 'sine.inOut', immediateRender: false }, W(12, 'ai') + 0.4 + k * 0.1));
+      [0, 1, 2].forEach((k) => tl.fromTo('#oi' + k, { opacity: 0, rotationY: 90, scale: 0.5, transformPerspective: 600 }, { opacity: 1, rotationY: 0, scale: 1, duration: 0.5, ease: 'back.out(1.6)', immediateRender: false }, W(12, 'creation') - 0.2 + k * 0.15));
+      camMove(12, TO, TZ, { s0: 1.0, s1: 1.07, x0: 15, x1: -15 });
+
+      // ============ S13  don't do it all yourself: tasks pile up, then ride a conveyor past Claude and get done ============
+      const TASKS = [['Design', 'palette', '#FF4D9A'], ['Code', 'code', '#2DD4FF'], ['Write', 'pen', '#FFD84D'], ['Publish', 'rocket-launch', '#34E39B'], ['Design', 'palette', '#A98BFF'], ['Write', 'pen', '#FF8A4C']];
+      add(SC(13, 0, `${IM('zu', 60, 560, 230, 'ico-user')}
+        <div id="zbelt" style="position:absolute;left:0;top:1010px;width:1080px;height:100px;opacity:0;background:repeating-linear-gradient(90deg,rgba(255,255,255,0.18) 0 4px,transparent 4px 60px),linear-gradient(rgba(255,255,255,0.12),rgba(255,255,255,0.04));border-top:2px solid rgba(255,255,255,0.3);border-bottom:2px solid rgba(255,255,255,0.3)"></div>
+        ${IM('zcl', 380, 700, 300, 'app-claude', 'glow')}<div id="zclr" class="ring" style="left:380px;top:700px;width:300px;height:300px;border-color:#FFD84D"></div>
+        ${TASKS.map((t, k) => `<div id="zt${k}" class="chg" style="left:0;top:0;width:250px;height:100px;border-radius:26px;padding:0 16px 0 10px;gap:12px;font-size:26px;border-color:${t[2]}"><img src="assets/img/ico-${t[1]}.svg" style="width:70px;height:70px">${t[0]}</div>`).join('')}
+        ${TASKS.map((t, k) => `<div id="zd${k}" class="tilex" style="left:0;top:0;width:90px;height:90px"><img src="assets/img/ico-check-circle.svg"></div>`).join('')}
+        ${HD('zf', 1250, 160, 'FASTER', 'g')}${IM('zck', 780, 300, 190, 'ico-timer', 'glow')}
+        ${Array.from({ length: 10 }, (_, k) => `<div id="zs${k}" class="rb" style="left:0;top:${380 + k * 120}px;width:420px;height:6px;background:linear-gradient(90deg,rgba(255,255,255,0),${PAL[k % 6]})"></div>`).join('')}`));
+      pop('#zu', W(13, 'need') - 0.3, { s: 0.3, y: 50 }); tl.fromTo('#zu', { rotation: -6 }, { rotation: 6, duration: 0.2, yoyo: true, repeat: 9, ease: 'sine.inOut', immediateRender: false }, W(13, 'do') + 0.1);
+      TASKS.forEach((t, k) => { const tt = W(13, 'do') + k * 0.16; tl.fromTo('#zt' + k, { opacity: 0, x: 60 + (k % 2) * 40, y: 640 - k * 40 - 200, scale: 0.4, rotation: 0 }, { opacity: 1, x: 60 + (k % 2) * 40, y: 660 - k * 64, scale: 1, rotation: (k % 2 ? 1 : -1) * 4, duration: 0.5, ease: 'bounce.out', immediateRender: false }, tt); });
+      pop('#zcl', W(13, 'claude') - 0.2, { s: 0.2, y: -200, r: 40 }); ringBurst('#zclr', W(13, 'claude'), 1.0, 0.5, 2.6); shake('#k13', W(13, 'claude'), 18, 0.4);
+      tl.fromTo('#zbelt', { opacity: 0 }, { opacity: 1, duration: 0.3, immediateRender: false }, W(13, 'claude') - 0.3); tl.fromTo('#zbelt', { backgroundPosition: '0px 0px' }, { backgroundPosition: '-1200px 0px', duration: 4, ease: 'none', immediateRender: false }, W(13, 'claude') - 0.3);
+      TASKS.forEach((t, k) => { const t0 = W(13, 'claude') + 0.3 + k * 0.32; driver(t0, t0 + 1.6, (tt, p) => { const x = lerp(-280, 1120, p); const el = document.getElementById('zt' + k), dn = document.getElementById('zd' + k); const crossed = x > 420; el.style.opacity = p > 0 && p < 0.99 ? '1' : (tt < 0.01 ? el.style.opacity : '0'); el.style.transform = `translate(${x}px, ${930 - (crossed ? 0 : 0)}px) rotate(0deg) scale(1)`; el.style.borderColor = crossed ? '#34E39B' : t[2]; dn.style.opacity = crossed && p < 0.99 ? '1' : '0'; dn.style.transform = `translate(${x + 190}px, ${900 - Math.max(0, x - 420) * 0.05}px) scale(${crossed ? 1 : 0.2})`; }); });
+      TASKS.forEach((t, k) => { const t0 = W(13, 'claude') + 0.3 + k * 0.32; tl.set('#zt' + k, { x: 0, y: 0 }, t0 - 0.001); });
+      kin('#zf', W(13, 'faster') - 0.2, 'zoom', { stagger: 0.06 }); pop('#zck', W(13, 'much'), { s: 0.2, r: -90 }); tl.fromTo('#zck img', { rotation: 0 }, { rotation: 720, duration: 1.6, ease: 'power2.inOut', immediateRender: false }, W(13, 'much'));
+      for (let k = 0; k < 10; k++) { tl.fromTo('#zs' + k, { x: -500, opacity: 0 }, { x: 1300, opacity: 1, duration: 0.6, ease: 'power2.in', immediateRender: false }, W(13, 'produce') + k * 0.1); tl.to('#zs' + k, { opacity: 0, duration: 0.1 }, W(13, 'produce') + k * 0.1 + 0.55); }
+      camMove(13, TZ, TN, { s0: 1.0, s1: 1.08, r0: -0.6, r1: 0.6 });
+
+      // ============ S14  the opportunity isn't selling AI (struck out) ============
+      add(SC(14, 0, `${HD('nt1', 330, 100, 'THE OPPORTUNITY', 'v')}${HD('nt2', 480, 150, 'SELLING AI', '')}<div id="nst" style="position:absolute;left:90px;top:560px;width:900px;height:22px;border-radius:12px;background:#FF3B5C;transform-origin:left;transform:scaleX(0);box-shadow:0 0 40px rgba(255,59,92,0.9)"></div>
+        ${IM('nai', 330, 800, 220, 'ico-sparkle', 'glow')}${IM('nx', 560, 820, 220, 'ico-x-circle', 'glow')}`));
+      kin('#nt1', TN + 0.1, 'up', { stagger: 0.03 }); kin('#nt2', W(14, 'selling') - 0.1, 'glitch', { stagger: 0.05 }); pop('#nai', W(14, 'selling') - 0.1, { s: 0.3, r: -40 });
+      tl.fromTo('#nst', { scaleX: 0 }, { scaleX: 1, duration: 0.25, ease: 'power3.out', immediateRender: false }, W(14, 'ai') + 0.05); tl.fromTo('#nx', { opacity: 0, scale: 3.5, rotation: -40 }, { opacity: 1, scale: 1, rotation: 0, duration: 0.3, ease: 'back.out(2)', immediateRender: false }, W(14, 'ai') + 0.1); shake('#k14', W(14, 'ai') + 0.12, 26, 0.45);
+      tl.to('#nt2', { opacity: 0.45, duration: 0.3 }, W(14, 'ai') + 0.4); camMove(14, TN, TS, { s0: 1.0, s1: 1.1 });
+
+      // ============ S15  it's solving problems people will pay for (problem -> Claude -> solved + paid) ============
+      const PRB = [['warning', 560], ['question', 780], ['puzzle-piece', 1000]];
+      add(SC(15, 0, `${HD('vt1', 280, 110, 'SOLVE PROBLEMS', '')}
+        ${IM('vg', 365, 700, 350, 'app-claude', 'glow')}<div id="vr" class="ring" style="left:340px;top:675px;width:400px;height:400px;border-color:#FFD84D"></div>
+        ${PRB.map((p, k) => IM('vp' + k, 0, 0, 170, 'ico-' + p[0])).join('')}${PRB.map((p, k) => IM('vs' + k, 0, 0, 170, 'ico-check-circle')).join('')}${PRB.map((p, k) => IM('vc' + k, 0, 0, 110, 'ico-coins')).join('')}
+        ${HD('vt2', 1330, 150, 'GET PAID', 'g')}`));
+      kin('#vt1', W(15, 'solve') - 0.1, 'zoom', { stagger: 0.04 }); pop('#vg', TS + 0.05, { s: 0.3 }); bob('#vg', TS + 0.8, TW, 12, 1.5); tl.fromTo('#vr', { opacity: 0.9, scale: 0.8 }, { opacity: 0.5, scale: 1.1, duration: 0.6, yoyo: true, repeat: 7, ease: 'sine.inOut', immediateRender: false }, TS + 0.2);
+      PRB.forEach((p, k) => { const t0 = W(15, 'solve') - 0.1 + k * 0.55; driver(t0, t0 + 1.5, (t, pp) => { const y = [600, 760, 920][k]; const a = document.getElementById('vp' + k), s = document.getElementById('vs' + k), c = document.getElementById('vc' + k); const pre = clamp(pp / 0.5, 0, 1), post = clamp((pp - 0.5) / 0.5, 0, 1);
+        a.style.opacity = pp > 0 && pp < 0.55 ? String(1 - post * 2) : '0'; a.style.transform = `translate(${lerp(40, 420, pre)}px, ${y}px) scale(${lerp(1, 0.5, pre)}) rotate(${pre * 90}deg)`;
+        s.style.opacity = pp >= 0.5 ? '1' : '0'; s.style.transform = `translate(${lerp(420, 770, post)}px, ${y}px) scale(${lerp(0.5, 1, post)})`;
+        c.style.opacity = pp >= 0.8 ? String(1 - clamp((pp - 0.95) / 0.05, 0, 1)) : '0'; c.style.transform = `translate(${lerp(770, 880, post)}px, ${y - Math.sin(post * 3.14) * 120}px) rotate(${post * 360}deg)`; });
+        ringBurst('#vr', t0 + 0.7, 0.7, 0.7, 1.4); shake('#k15', t0 + 0.75, 8, 0.2); });
+      kin('#vt2', W(15, 'pay') - 0.2, 'zoom', { stagger: 0.05 }); coinRain('cr15_', 16, W(15, 'pay') - 0.2, { top: 200, fall: 1500 }); confetti('cf15_', 36, 540, 1400, W(15, 'pay'), { dist: 480 });
+      camMove(15, TS, TW, { s0: 1.05, s1: 1.0, e: 'power2.out' });
+
+      // ============ S16  "want to learn how to do it?" ============
+      add(SC(16, 0, `<div id="wr0" class="ring" style="left:${540 - 300}px;top:${960 - 300}px;width:600px;height:600px;border-color:#FF4D9A"></div><div id="wr1" class="ring" style="left:${540 - 300}px;top:${960 - 300}px;width:600px;height:600px;border-color:#FFD84D"></div>
+        ${IM('wp', 340, 780, 400, 'ico-play-circle', 'glow')}${IM('wg', 140, 520, 190, 'ico-graduation-cap')}${IM('wq', 760, 560, 180, 'ico-question', 'glow')}${IM('wl', 760, 1240, 170, 'ico-lightbulb')}${IM('ws', 140, 1210, 170, 'ico-sparkle')}`));
+      rays('r16_', 540, 980, TW + 0.05, { n: 36, dur: 0.8 }); pop('#wp', TW + 0.05, { s: 0.2, r: -30 }); tl.fromTo('#wp', { scale: 1 }, { scale: 1.1, duration: 0.35, yoyo: true, repeat: 3, ease: 'sine.inOut', immediateRender: false }, TW + 0.7);
+      ['wg', 'wq', 'wl', 'ws'].forEach((id, k) => { pop('#' + id, W(16, 'learn') + k * 0.1, { s: 0.2, r: (k % 2 ? 1 : -1) * 60 }); bob('#' + id, W(16, 'learn') + 0.8, TU, 14, 1.2 + k * 0.1); });
+      ringBurst('#wr0', TW + 0.1, 1.0, 0.5, 1.7); ringBurst('#wr1', TW + 0.45, 1.0, 0.5, 1.7); camMove(16, TW, TU, { s0: 1.0, s1: 1.15, e: 'power2.in' });
+
+      // ============ S17  CTA: comment "CLAUDE" -> DM ============
+      add(SC(17, 0, `${HD('um1', 220, 150, 'COMMENT', 'y')}<div id="ub" class="btnx" style="left:140px;top:420px;width:800px;height:230px;font-size:128px">CLAUDE</div>
+        ${HD('um2', 720, 80, 'TO RECEIVE THE TUTORIAL', '')}
+        <div id="uch" class="chg" style="left:190px;top:840px;width:640px;height:130px;font-size:48px;border-color:#FFD84D"><img src="assets/img/ico-envelope.svg" style="width:96px;height:96px">IN YOUR DMs</div>
+        <div id="uth" class="glass" style="left:80px;top:1060px;width:860px;height:430px;opacity:0">
+          <div style="position:absolute;left:30px;top:30px;width:80px;height:80px"><img src="assets/img/ico-user.svg" style="width:80px;height:80px"></div>
+          <div style="position:absolute;left:130px;top:30px;width:560px;height:80px;border-radius:40px;background:rgba(255,255,255,0.14);overflow:hidden"><div id="utx" style="position:absolute;left:30px;top:0;height:80px;display:flex;align-items:center;font-family:'Instrument Sans';font-weight:700;font-size:40px;clip-path:inset(0 100% 0 0)">CLAUDE</div></div>
+          <div id="usd" style="position:absolute;left:720px;top:30px;width:100px;height:80px;border-radius:40px;background:linear-gradient(135deg,#2DD4FF,#2A6BFF);display:flex;align-items:center;justify-content:center"><img src="assets/img/glyph-paper-plane-tilt.svg" style="width:48px;height:48px"></div>
+          <div id="urp" style="position:absolute;left:30px;top:170px;width:800px;height:210px;opacity:0"><div style="display:flex;align-items:center;gap:20px"><img src="assets/img/app-claude.svg" style="width:90px;height:90px"><div style="font-family:'Instrument Sans';font-weight:600;font-size:38px;line-height:1.15;background:#fff;color:#1A1330;padding:22px 30px;border-radius:36px 36px 36px 10px">Sent! Check your DMs</div></div><div style="margin-top:20px;margin-left:110px;display:flex;gap:14px">${['#FF8A4C', '#FF4D9A', '#8B5CFF', '#2DD4FF', '#34E39B'].map((c) => `<span style="width:52px;height:10px;border-radius:5px;background:${c}"></span>`).join('')}</div></div></div>
+        ${IM('upl', 800, 1010, 150, 'ico-paper-plane-tilt', 'glow')}`));
+      kin('#um1', W(17, 'comment') - 0.05, 'zoom', { stagger: 0.05 }); tl.fromTo('#ub', { opacity: 0, scale: 0.3, rotation: -10 }, { opacity: 1, scale: 1, rotation: 0, duration: 0.6, ease: 'back.out(2)', immediateRender: false }, W(17, 'claude') - 0.15);
+      tl.fromTo('#ub', { scale: 1 }, { scale: 1.06, duration: 0.4, yoyo: true, repeat: 9, ease: 'sine.inOut', immediateRender: false }, W(17, 'claude') + 0.6);
+      kin('#um2', W(17, 'receive') - 0.1, 'up', { stagger: 0.02 }); pop('#uch', W(17, 'in') - 0.1, { s: 0.5, y: 30 });
+      pop('#uth', W(17, 'claude') + 0.1, { s: 0.9, y: 60 }); tl.fromTo('#utx', { clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 0% 0 0)', duration: 0.6, ease: 'steps(6)', immediateRender: false }, W(17, 'claude') + 0.5);
+      tl.fromTo('#usd', { scale: 1 }, { scale: 0.85, duration: 0.1, yoyo: true, repeat: 1, immediateRender: false }, W(17, 'claude') + 1.2); tl.fromTo('#urp', { opacity: 0, x: -80 }, { opacity: 1, x: 0, duration: 0.5, ease: 'back.out(1.5)', immediateRender: false }, W(17, 'tutorial') - 0.2);
+      pop('#upl', W(17, 'tutorial') - 0.2, { s: 0.2, r: -40 }); tl.fromTo('#upl', { x: 0, y: 0 }, { x: 150, y: -200, rotation: 25, duration: 0.8, ease: 'power2.in', immediateRender: false }, W(17, 'tutorial') + 0.6); tl.to('#upl', { opacity: 0, duration: 0.2 }, W(17, 'your') + 0.1);
+      confetti('cf17a_', 60, 540, 540, W(17, 'claude'), { dist: 700, grav: 300 }); confetti('cf17b_', 60, 540, 540, W(17, 'dms') ? W(17, 'your') : 0, { dist: 760, grav: 320 }); rays('r17_', 540, 540, W(17, 'claude') - 0.1, { n: 36, dur: 0.9 });
+      camMove(17, TU, TOTAL, { s0: 1.05, s1: 1.0, e: 'power2.out' });
+
+      // ============ balance HUD (reference 06 style): grows with the prices mentioned ============
+      add(`<div id="hud" class="chg" style="left:270px;top:130px;width:540px;height:100px;z-index:61;gap:16px;padding:0 26px 0 14px;border-color:#34E39B;box-shadow:0 0 40px rgba(52,227,155,0.4),0 20px 50px rgba(0,0,0,0.5)"><img src="assets/img/ico-wallet.svg" style="width:76px;height:76px"><div style="flex:1"><div style="font-family:'JetBrains Mono';font-size:18px;letter-spacing:0.3em;color:#CFC8F0">BALANCE</div><div style="font-family:'Syne';font-weight:800;font-size:46px;line-height:1.05"><span id="hudv">$0</span><span id="hudp" style="opacity:0;color:#34E39B">+</span></div></div></div>`);
+      const HV = { v: 0 }; const hudSet = () => { document.getElementById('hudv').textContent = '$' + Math.round(HV.v).toLocaleString('en-US'); };
+      tl.fromTo('#hud', { opacity: 0, y: -40 }, { opacity: 1, y: 0, duration: 0.5, ease: 'back.out(1.6)', immediateRender: false }, TP + 0.2); tl.to('#hud', { opacity: 0, y: -40, duration: 0.3 }, TW - 0.1);
+      [[W(5, 'people'), 120], [W(5, 'already'), 200], [W(5, 'paying'), 300], [W(10, '$300'), 600], [W(10, '$500'), 1100]].forEach(([t, v]) => tl.to(HV, { v: v, duration: 0.6, ease: 'power2.out', onUpdate: hudSet }, t));
+      tl.to('#hudp', { opacity: 1, duration: 0.2 }, W(10, 'even') + 0.1);
+
+      // ===== transitions between scenes =====
+      add('<div id="glx" style="position:absolute;left:0;top:0;width:1080px;height:1920px;z-index:70;pointer-events:none">' + Array.from({ length: 10 }, (_, k) => `<div id="gb${k}" class="gb"></div>`).join('') + '</div><div id="fl" style="position:absolute;left:0;top:0;width:1080px;height:1920px;z-index:71;background:#ffffff;opacity:0;pointer-events:none"></div><div style="position:absolute;left:0;top:0;width:1080px;height:1920px;z-index:80;pointer-events:none;background:radial-gradient(closest-side at 50% 50%,transparent 68%,rgba(5,3,14,0.5))"></div>');
+      const GCOL = ['#FF4D9A', '#2DD4FF', '#FFD84D', '#34E39B'];
+      const glitch = (t, seed, heavy) => { const fr = heavy ? 8 : 6; for (let f = 0; f < fr; f++) { const tt = t + f * 0.042; for (let k = 0; k < 10; k++) { const j = r01(seed * 31 + f * 13 + k); tl.set('#gb' + k, { top: Math.round(r01(seed + f * 7 + k * 3) * 1800), height: Math.round(10 + j * (heavy ? 150 : 70)), x: Math.round((r01(seed + k + f) - 0.5) * 220), opacity: j > 0.35 ? 0.4 + j * 0.3 : 0, backgroundColor: GCOL[(k + f) % 4] }, tt); } } for (let k = 0; k < 10; k++) tl.set('#gb' + k, { opacity: 0 }, t + fr * 0.042); };
+      const flash = (t, a) => { tl.fromTo('#fl', { opacity: 0 }, { opacity: a || 0.7, duration: 0.05, immediateRender: false }, t); tl.to('#fl', { opacity: 0, duration: 0.3, ease: 'power2.out' }, t + 0.05); };
+      const whip = (a, b, t, dir) => { const ax = dir === 'l' ? -1080 : dir === 'r' ? 1080 : 0, ay = dir === 'u' ? -1920 : 0; tl.to('#s' + a, { x: ax, y: ay, filter: 'blur(26px)', duration: 0.45, ease: 'power4.in' }, t - 0.25); tl.set('#s' + a, { opacity: 0 }, t + 0.25); tl.fromTo('#s' + b, { x: -ax, y: -ay, filter: 'blur(26px)' }, { x: 0, y: 0, filter: 'blur(0px)', duration: 0.55, ease: 'power4.out', immediateRender: false }, t - 0.1); };
+      const zoomX = (a, b, t) => { tl.to('#s' + a, { scale: 2.6, opacity: 0, filter: 'blur(18px)', duration: 0.4, ease: 'power3.in' }, t - 0.3); tl.fromTo('#s' + b, { scale: 0.5, opacity: 0, filter: 'blur(16px)' }, { scale: 1, opacity: 1, filter: 'blur(0px)', duration: 0.55, ease: 'expo.out', immediateRender: false }, t - 0.05); };
+      const gcut = (a, b, t, heavy) => { tl.set('#s' + a, { opacity: 0 }, t - 0.02); glitch(t - 0.12, a, heavy); shake('#k' + b, t, heavy ? 22 : 14, 0.4); };
+      gcut(1, 2, T2, false); zoomX(2, 3, TG); whip(3, 4, TH, 'l'); gcut(4, 5, TP, true); whip(5, 6, TL, 'r'); zoomX(6, 7, TF); gcut(7, 8, TB, false); whip(8, 9, TA, 'l');
+      zoomX(9, 10, TC); flash(TC - 0.05, 0.6); gcut(10, 11, T1X, false); whip(11, 12, TO, 'u'); whip(12, 13, TZ, 'r'); gcut(13, 14, TN, true); flash(TN - 0.05, 0.5); zoomX(14, 15, TS); whip(15, 16, TW, 'u'); zoomX(16, 17, TU); flash(TU - 0.05, 0.8);
