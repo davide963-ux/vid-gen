@@ -16,7 +16,7 @@ extra_map = json.load(open(sys.argv[5], encoding="utf-8")) if len(sys.argv) > 5 
 # pronunciations for words missing from cmudict (ARPAbet)
 PHONES = {
     "tiktok": "T IH K T AA K", "fiverr": "F AY V ER", "upwork": "AH P W ER K", "canva": "K AE N V AH",
-    "chatgpt": "CH AE T JH IY P IY T IY", "chatbots": "CH AE T B AA T S", "dm": "D IY EH M", "ai": "EY AY",
+    "chatgpt": "CH AE T JH IY P IY T IY", "chatbots": "CH AE T B AA T S", "lovable": "L AH V AH B AH L", "zapier": "Z EY P IY ER", "capcut": "K AE P K AH T", "dm": "D IY EH M", "ai": "EY AY",
 }
 SPOKEN = {"1:": "one", "2:": "two", "3:": "three", "4:": "four", "2": "two", "3": "three", "4": "four", "100$": "one hundred dollars", "$100": "one hundred dollars",
           "$25": "twenty five dollars", "25": "twenty five"}
