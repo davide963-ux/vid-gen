@@ -6,16 +6,16 @@
 #root { background: linear-gradient(180deg, #F9F7F1, #EDE9DB) !important; font-family: 'Instrument Sans', sans-serif; color: #111827; }
 .shk, .cam { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
 .sc { z-index: 2; }
-.hd { font-family: 'Syne', sans-serif; font-weight: 800; color: #111827; text-align: center; white-space: nowrap; line-height: 1.02; letter-spacing: -0.01em; text-transform: uppercase; }
+.hd { font-family: 'Space Grotesk', sans-serif; font-weight: 700; color: #111827; text-align: center; white-space: nowrap; line-height: 1.04; letter-spacing: -0.02em; text-transform: uppercase; }
 .hd.g { color: #15803D; } .hd.a { color: #D97706; } .hd.m { color: #6B7280; } .hd.w { color: #fff; }
-.hd.x3 { text-shadow: 0 2px 0 #0E5C2B, 0 4px 0 #0E5C2B, 0 6px 0 #0E5C2B, 0 8px 0 #0C4F25, 0 10px 0 #0C4F25, 0 12px 0 #0A431F, 0 26px 30px rgba(17,24,39,0.25); }
-.hd.x3k { text-shadow: 0 2px 0 #374151, 0 4px 0 #2B3342, 0 6px 0 #1F2633, 0 8px 0 #151B27, 0 10px 0 #0B0F18, 0 26px 30px rgba(17,24,39,0.28); }
+  .hd.x3 { text-shadow: none; }
+.hd.x3k { text-shadow: none; }
 .mono { font-family: 'JetBrains Mono', monospace; font-weight: 500; letter-spacing: 0.28em; text-transform: uppercase; color: #6B7280; text-align: center; white-space: nowrap; text-indent: 0.28em; }
-.card3 { position: absolute; background: #FFFFFF; border: 1px solid rgba(17,24,39,0.07); border-radius: 30px; box-shadow: 0 2px 0 #ECE8DA, 0 4px 0 #E6E1D2, 0 6px 0 #E0DBCB, 0 8px 0 #DAD5C4, 0 28px 44px rgba(17,24,39,0.18); }
+.card3 { position: absolute; background: #FFFFFF; border: 1px solid rgba(17,24,39,0.07); border-radius: 30px; box-shadow: 0 1px 2px rgba(17,24,39,0.06), 0 18px 40px rgba(17,24,39,0.12); }
 .tilex { position: absolute; opacity: 0; will-change: transform; }
 .tilex img { width: 100%; height: 100%; display: block; filter: drop-shadow(0 2px 0 rgba(17,24,39,0.30)) drop-shadow(0 4px 0 rgba(17,24,39,0.24)) drop-shadow(0 6px 0 rgba(17,24,39,0.18)) drop-shadow(0 16px 22px rgba(17,24,39,0.28)); }
 .tilex.flat img { filter: drop-shadow(0 8px 14px rgba(17,24,39,0.22)); }
-.chip3 { position: absolute; opacity: 0; display: flex; align-items: center; gap: 20px; padding: 0 26px 0 18px; background: #fff; border: 1px solid rgba(17,24,39,0.07); border-radius: 28px; box-shadow: 0 2px 0 #ECE8DA, 0 4px 0 #E6E1D2, 0 6px 0 #E0DBCB, 0 20px 34px rgba(17,24,39,0.16); font-family: 'Instrument Sans', sans-serif; font-weight: 700; font-size: 34px; color: #111827; line-height: 1.12; }
+.chip3 { position: absolute; opacity: 0; display: flex; align-items: center; gap: 20px; padding: 0 26px 0 18px; background: #fff; border: 1px solid rgba(17,24,39,0.07); border-radius: 28px; box-shadow: 0 1px 2px rgba(17,24,39,0.06), 0 14px 30px rgba(17,24,39,0.12); font-family: 'Instrument Sans', sans-serif; font-weight: 700; font-size: 34px; color: #111827; line-height: 1.12; }
 .chip3 img { width: 84px; height: 84px; flex: none; }
 .sk { position: absolute; border-radius: 10px; background: rgba(17,24,39,0.10); }
 .rw { position: absolute; width: 0; height: 0; }
@@ -26,6 +26,6 @@
 .shd { position: absolute; opacity: 0; will-change: transform; }
 .shadow { position: absolute; opacity: 0; border-radius: 50%; background: radial-gradient(closest-side, rgba(17,24,39,0.30), transparent); }
 .bub { position: absolute; opacity: 0; padding: 22px 30px; border-radius: 34px; font-weight: 600; font-size: 34px; line-height: 1.2; }
-.btn3 { position: absolute; opacity: 0; display: flex; align-items: center; justify-content: center; border-radius: 120px; background: linear-gradient(180deg, #22A65A, #15803D); color: #fff; font-family: 'Syne', sans-serif; font-weight: 800; box-shadow: 0 4px 0 #0E5C2B, 0 8px 0 #0C4F25, 0 12px 0 #0A431F, 0 30px 40px rgba(17,24,39,0.30); white-space: nowrap; }
+.btn3 { position: absolute; opacity: 0; display: flex; align-items: center; justify-content: center; border-radius: 120px; background: linear-gradient(180deg, #22A65A, #15803D); color: #fff; font-family: 'Space Grotesk', sans-serif; font-weight: 700; box-shadow: 0 4px 0 #0E5C2B, 0 8px 0 #0C4F25, 0 12px 0 #0A431F, 0 30px 40px rgba(17,24,39,0.30); white-space: nowrap; }
 .meter { position: absolute; opacity: 0; border-radius: 14px; background: rgba(17,24,39,0.10); overflow: hidden; }
 .meter > i { position: absolute; left: 0; top: 0; height: 100%; width: 0; border-radius: 14px; }
