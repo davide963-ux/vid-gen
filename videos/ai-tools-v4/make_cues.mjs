@@ -1,0 +1,83 @@
+// SFX cues + music moments for the AI-tools video (same timing constants as src/scenes.js).
+//   node videos/ai-tools-v4/make_cues.mjs   (from the repo root)
+import fs from 'node:fs';
+const dir = new URL('.', import.meta.url).pathname;
+const WORDS = JSON.parse(fs.readFileSync(dir + 'words.json', 'utf8'));
+const norm = (s) => s.toLowerCase().replace(/[^a-z0-9$]/g, '');
+const LS = (n) => WORDS.find((w) => w.line === n).s;
+const W = (n, p) => { const x = WORDS.find((w) => w.line === n && norm(w.w).startsWith(p)); if (!x) throw new Error(`word not found L${n} ${p}`); return x.s; };
+const cues = []; const c = (id, t, vol = 0.6, extra = {}) => cues.push({ id, t: +Math.max(0, t).toFixed(3), vol: +Math.min(1, vol * 1.35).toFixed(2), ...extra });
+const POP = 'cartoon-pop-mouth-finger', POPV = 'cartoon-pop-various';
+const UI = 'whoosh-designed-generic-air', CK1 = 'ui-click-01', CK2 = 'ui-click-02', TICK = 'ui-typing-tick', UP = 'ui-blip-up', DN = 'ui-blip-down', OK = 'ui-confirm', COIN = 'ui-coin-ding', PING = 'ui-notify-ping';
+const BOOM = 'impact-sub-boom', SHAT = 'impact-glass-shatter', CRK = 'impact-glass-crack', AIRY = 'whoosh-classic-airy', WIND = 'whoosh-wind', SOFT = 'whoosh-softs', MID = 'whoosh-mids', WHIRR = 'glitch-data-whirr';
+const TG = W(1, 'experience') + 0.25, SHT = W(2, 'five') + 0.05;
+const T3 = LS(3) - 0.1, T4 = LS(4) - 0.1, T5 = LS(5) - 0.1, T6 = LS(6) - 0.1, T7 = LS(7) - 0.1, T8 = LS(8) - 0.1, T9 = LS(9) - 0.1, T10 = LS(10) - 0.1, T11 = LS(11) - 0.1, T12 = LS(12) - 0.1, T13 = LS(13) - 0.1;
+// S1 hook (spotlight, streaks, coins, crossed-out skills)
+c(AIRY, 0.0, 0.6); c(BOOM, 0.05, 0.5); c(SOFT, 0.1, 0.4); for (let k = 0; k < 3; k++) c(POP, W(1, ['making', 'money', 'online'][k]) - 0.05, 0.5);
+c(UI, W(1, 'using'), 0.55); c(OK, W(1, 'using'), 0.55); c(BOOM, W(1, 'using') + 0.05, 0.4);
+c(SOFT, W(1, 'even') - 0.1, 0.55); c(CK1, W(1, 'even') - 0.05, 0.45); c(CK1, W(1, 'even') + 0.15, 0.45);
+c('riser-transition-reverse-eerie-fast-short', W(1, 'absolutely'), 0.45);
+['coding', 'design'].forEach((p) => { c(BOOM, W(1, p), 0.7); c(CK2, W(1, p), 0.55); c(DN, W(1, p) + 0.05, 0.55); });
+// S2 glass break -> five tools
+c(MID, TG - 0.1, 0.55); c(UP, TG + 0.1, 0.3); c(SOFT, TG + 0.5, 0.3);
+c('riser-string', SHT - 3.2, 0.5);
+c(CRK, SHT - 0.34, 0.85); c(CRK, SHT - 0.2, 0.75); c(SHAT, SHT, 1.0); c(BOOM, SHT, 1.0); c(AIRY, SHT, 0.8);
+for (let k = 0; k < 5; k++) { c(UP, SHT + 0.25 + k * 0.1, 0.4); c(UI, SHT + 0.25 + k * 0.1, 0.25); }
+c(UI, W(2, 'tools') - 0.1, 0.45); c(CK1, W(2, 'skills') - 0.3, 0.4); c(SOFT, W(2, 'into') - 0.1, 0.4); c(OK, W(2, 'business') - 0.1, 0.5);
+// tool scenes
+const tool = (T, line, nameWord, items, extra) => { const t0 = W(line, nameWord);
+  c(MID, T - 0.35, 0.6); c(UI, t0 - 0.75, 0.45); c(BOOM, t0 + 0.05, 0.5); c(SOFT, t0 - 0.05, 0.4); c(UP, T + 0.15, 0.35);
+  items.forEach((p) => { const t = W(line, p) - 0.15; c(UI, t, 0.4); c(CK1, t + 0.1, 0.4); c(UP, t + 0.25, 0.3); }); extra && extra(); };
+tool(T3, 3, 'chatgpt', ['write', 'research', 'marketing', 'everyday'], () => { [W(3, 'write') - 0.05, W(3, 'write') + 0.6, W(3, 'research') - 0.05, W(3, 'marketing') - 0.05, W(3, 'everyday') - 0.05].forEach((t) => c(PING, t, 0.5)); for (let k = 0; k < 4; k++) c(UP, W(3, 'marketing') + 0.2 + k * 0.1, 0.25); });
+tool(T4, 4, 'canva', ['social', 'presentations', 'advertisements', 'digital'], () => { ['social', 'presentations', 'advertisements', 'digital'].forEach((p) => { c(CK1, W(4, p) - 0.1, 0.4); c(CK2, W(4, p) + 0.5, 0.4); c(UI, W(4, p) - 0.1, 0.35); }); });
+tool(T5, 5, 'capcut', ['short', 'businesses', 'content'], () => { for (let k = 0; k < 7; k++) c(CK1, W(5, 'offer') + 0.1 + k * 0.1, 0.25); c(CK2, W(5, 'editing') + 0.05, 0.6); c(UI, W(5, 'editing') + 0.05, 0.5); c(CRK, W(5, 'editing') + 0.05, 0.4); c(WHIRR, W(5, 'short'), 0.25, { trim: 1.5, fade: 0.5 }); });
+tool(T6, 6, 'lovable', ['websites', 'simple', 'experienced'], () => { for (let i = 0; i < 14; i++) c(TICK, W(6, 'build') + 0.1 + i * 0.08, 0.22); for (let k = 0; k < 6; k++) c(CK1, W(6, 'websites') + 0.1 + k * 0.18, 0.35); c(UI, W(6, 'applications') - 0.2, 0.45); c(OK, W(6, 'experienced') - 0.4, 0.55); c(BOOM, W(6, 'experienced') - 0.35, 0.45); });
+tool(T7, 7, 'zapier', ['automate', 'connect', 'save'], () => { for (let k = 0; k < 3; k++) { c(UP, W(7, 'connect') + k * 0.2, 0.4); c(WHIRR, W(7, 'connect') + 0.15 + k * 0.2, 0.18, { trim: 0.4, fade: 0.15 }); } c(UI, W(7, 'automate'), 0.4); c(OK, W(7, 'save') + 0.5, 0.55); for (let k = 0; k < 5; k++) c(COIN, W(7, 'work') - 0.1 + k * 0.1, 0.3); });
+// S8 interesting part
+c(AIRY, T8 - 0.3, 0.8); c(BOOM, T8 + 0.5, 0.55); c(OK, T8 + 0.8, 0.5); c(UI, W(8, 'interesting') - 0.1, 0.4); c(UI, W(8, 'part') - 0.15, 0.45);
+// S9 master all five
+c(WIND, T9 - 0.3, 0.65); for (let k = 0; k < 5; k++) c(UP, T9 + 0.25 + k * 0.08, 0.3); c(UI, W(9, 'five') - 0.1, 0.45); c(CK2, W(9, 'five') - 0.1, 0.5); c(BOOM, W(9, 'tools') - 0.05, 0.8); c(DN, W(9, 'tools') - 0.05, 0.5);
+// S10 four steps
+c(MID, T10 - 0.35, 0.6); ['pick', 'learn', 'create', 'offering'].forEach((p, k) => { const t = W(10, p) - 0.2; c(UI, t, 0.45); c(CK1, t + 0.1, 0.4); c(UP, t + 0.3, 0.3); if (k) c(UP, t + 0.1, 0.25); }); c(OK, W(10, 'businesses') + 0.2, 0.6); for (let k = 0; k < 6; k++) c(COIN, W(10, 'businesses') + 0.25 + k * 0.1, 0.3);
+// S11 not selling AI
+c(AIRY, T11 - 0.3, 0.8); c(UI, W(11, 'selling') - 0.1, 0.4); c(BOOM, W(11, 'ai') + 0.1, 0.8); c(DN, W(11, 'ai') + 0.1, 0.5); c(CRK, W(11, 'ai') + 0.1, 0.4);
+c(POPV, W(11, 'selling') + 0.5, 0.5); c(UP, W(11, 'selling') + 0.8, 0.45); c(POPV, W(11, 'selling') + 1.0, 0.5); c(CK1, W(11, 'selling') + 1.0, 0.4); c(UI, W(11, 'solution') - 0.1, 0.5);
+c(BOOM, W(11, 'solution') + 0.5, 0.8); c(CK2, W(11, 'solution') + 0.5, 0.6); c(OK, W(11, 'solution') + 0.55, 0.7); for (let k = 0; k < 8; k++) c(COIN, W(11, 'solution') + 0.6 + k * 0.1, 0.3);
+// S12 overnight / doors
+c(WIND, T12 - 0.3, 0.65); c(UI, T12 + 0.15, 0.4); for (let i = 0; i < 10; i++) c(TICK, W(12, 'make') + 0.3 + i * 0.18, 0.2);
+c(BOOM, W(12, 'overnight') + 0.4, 0.8); c(DN, W(12, 'overnight') + 0.4, 0.5); c(UI, W(12, 'learning') - 0.1, 0.5);
+c('riser-transition-whoosh-fast-short-01', W(12, 'open') - 2.2, 0.5); c(AIRY, W(12, 'open') - 0.05, 0.8); c(MID, W(12, 'open') - 0.05, 0.5); c(BOOM, W(12, 'open') + 0.5, 0.55); c(OK, W(12, 'open') + 0.3, 0.5);
+for (let k = 0; k < 5; k++) { const t = W(12, 'opportunities') + k * 0.12; c(UI, t, 0.45); c(UP, t + 0.4, 0.4); } c(UI, W(12, 'exist') - 0.1, 0.45);
+// S13 CTA
+c('riser-reversed-no-hit', T13 - 3.6, 0.4, { trim: 3.6, fade: 0.2 }); c(MID, T13 - 0.35, 0.7); c(BOOM, T13 - 0.04, 0.7); c(UI, W(13, 'comment') - 0.05, 0.5); c(OK, W(13, 'ai') - 0.1, 0.65); c(UI, W(13, 'ai') - 0.1, 0.5);
+for (let i = 0; i < 3; i++) c(TICK, W(13, 'ai') + 0.5 + i * 0.12, 0.25); c(CK2, W(13, 'ai') + 1.1, 0.5); c(PING, W(13, 'tutorial') - 0.1, 0.6); c(UI, W(13, 'tutorial') + 0.7, 0.5);
+c(UI, W(13, 'step') - 0.2, 0.45); c(CK1, W(13, 'step') - 0.1, 0.4); c(UI, W(13, 'in') - 0.15, 0.45); c(CK1, W(13, 'in') - 0.05, 0.4);
+for (let k = 0; k < 5; k++) c(UP, W(13, 'your') + k * 0.08, 0.3); c(AIRY, W(13, 'your'), 0.5); c(OK, W(13, 'your') + 0.05, 0.5);
+const IDS = new Set(JSON.parse(fs.readFileSync(new URL('../../sound-effects/index.json', import.meta.url))).sounds.map((s) => s.id));
+for (const q of cues) if (!IDS.has(q.id)) throw new Error('unknown sound id ' + q.id);
+fs.writeFileSync(dir + 'sfx_cues.json', JSON.stringify(cues, null, 1));
+// ---- v4 extras: digital zoom, swarm, route, git city, deep time, global arcs ----
+[T3, T6, T8, T12].forEach((t) => { c(AIRY, t - 0.2, 0.7); c(UP, t + 0.05, 0.5); c(CK2, t + 0.3, 0.4); });
+for (let k = 0; k < 12; k++) c(TICK, W(1, 'making') - 0.1 + k * 0.09, 0.4);
+['pick', 'learn', 'create', 'offer'].forEach((p) => { c(POPV, W(10, p) - 0.1, 0.6); c(OK, W(10, p) + 0.05, 0.45); });
+for (let k = 0; k < 10; k++) c(k % 2 ? CK1 : CK2, W(11, 'solution') - 0.1 + k * 0.09, 0.35);
+c(BOOM, W(11, 'problem') + 0.3, 0.6); c(UP, W(11, 'problem') + 1.2, 0.5);
+for (let k = 0; k < 7; k++) c(TICK, W(12, 'open') + 0.3 + k * 0.17, 0.5);
+for (let k = 0; k < 5; k++) { c(UI, W(13, 'ai') + 1.0 + k * 0.62, 0.45); c(PING, W(13, 'ai') + 1.8 + k * 0.62, 0.45); }
+// music follows the tone of the voice: curious -> tense -> bright reveal -> upbeat tools -> hush -> reassuring -> motivated -> insightful -> sober -> hopeful uplift -> inspired -> energetic CTA
+const m = [
+  [0, 'soft', { gain: 0.85, bright: 0.5 }],                         // curious hook
+  [W(1, 'absolutely'), 'swell', { gain: 0.9 }],                      // tension: "no coding or design experience"
+  [SHT, 'groove', { gain: 1.0 }],                                    // bright reveal: five tools
+  [T3, 'build', { gain: 0.95 }], [T4, 'tech', { gain: 1.0 }], [T5, 'build', { gain: 0.95 }], [T6, 'lift', { gain: 1.0 }], [T7, 'tech', { gain: 1.05 }],
+  [T8, 'soft', { gain: 0.4, bright: 0.4 }],                          // "Here's the interesting part": hush
+  [T9, 'intro', { gain: 0.9, bright: 0.6 }],                         // reassuring: "you don't need to master all five"
+  [T10, 'hopeful', { gain: 0.95 }],                                  // practical, motivating steps
+  [T11, 'lift', { gain: 1.05 }],                                     // confident insight
+  [T12, 'soft', { gain: 0.5, bright: 0.4 }],                         // sober: "AI isn't going to make you rich overnight"
+  [W(12, 'but'), 'swell', { gain: 0.9 }],                            // hopeful lift: "but it could open doors"
+  [W(12, 'opportunities'), 'climb', { gain: 1.1 }],                  // inspired
+  [T13, 'peak', { gain: 1.15 }]                                      // energetic call to action
+].map(([t, style, o]) => ({ t: +t.toFixed(2), style, override: { bright: 0.65, ...o } }));
+fs.writeFileSync(dir + 'moments.json', JSON.stringify(m, null, 1));
+console.log(cues.length, 'cues;', m.length, 'music sections');

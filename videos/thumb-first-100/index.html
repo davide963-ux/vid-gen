@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080, height=1920" />
+<title>thumb-first-100</title>
+<script src="assets/vendor/gsap.min.js"></script>
+<style>
+@font-face { font-family: 'Space Grotesk'; font-weight: 700; src: url('assets/fonts/space-grotesk-latin-700-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Space Grotesk'; font-weight: 600; src: url('assets/fonts/space-grotesk-latin-600-normal.woff2') format('woff2'); }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 1080px; height: 1920px; overflow: hidden; background: #1A0B3B; }
+#root { position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: 'Space Grotesk', sans-serif; color: #fff;
+  background: radial-gradient(900px 700px at 50% 38%, rgba(255,210,63,0.30), transparent 70%), linear-gradient(165deg, #FF2E86 0%, #A02BE8 55%, #5B22E8 100%); }
+#stage { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; }
+.rays { position: absolute; left: -400px; top: -300px; width: 1880px; height: 1880px; background: repeating-conic-gradient(from 0deg at 50% 50%, rgba(255,255,255,0.10) 0deg 7deg, transparent 7deg 20deg); -webkit-mask-image: radial-gradient(closest-side, #000 20%, transparent 80%); mask-image: radial-gradient(closest-side, #000 20%, transparent 80%); }
+.dots { position: absolute; inset: 0; background-image: radial-gradient(rgba(255,255,255,0.16) 3px, transparent 3px); background-size: 64px 64px; }
+.t { position: absolute; left: 0; width: 1080px; text-align: center; font-weight: 700; letter-spacing: -0.035em; line-height: 1; white-space: nowrap; }
+.pill { position: absolute; left: 0; width: 1080px; display: flex; justify-content: center; }
+.pill > div { padding: 22px 54px; border-radius: 100px; background: #1A0B3B; color: #fff; font-weight: 700; font-size: 58px; letter-spacing: 0.04em; box-shadow: 0 12px 0 rgba(0,0,0,0.28); white-space: nowrap; }
+.pill > div b { color: #2EE59D; }
+.big { color: #FFD23F; -webkit-text-stroke: 22px #1A0B3B; paint-order: stroke fill; text-shadow: 0 14px 0 #1A0B3B, 0 30px 70px rgba(0,0,0,0.45); }
+.tile { position: absolute; width: 250px; height: 250px; filter: drop-shadow(0 20px 0 rgba(0,0,0,0.28)); }
+.tile img { width: 100%; height: 100%; display: block; }
+.badge { position: absolute; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: #2EE59D; color: #07331F; font-weight: 700; text-align: center; line-height: 1; box-shadow: 0 14px 0 rgba(0,0,0,0.28); }
+.arrowline { position: absolute; left: 0; width: 1080px; text-align: center; font-weight: 700; font-size: 44px; letter-spacing: 0.1em; color: #fff; opacity: 0.95; }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="2" data-width="1080" data-height="1920">
+  <div id="stage" class="clip" data-start="0" data-duration="2" data-track-index="0">
+    <div class="rays"></div><div class="dots"></div>
+
+    <div class="pill" style="top:240px"><div>NO <b>EXPERIENCE</b> NEEDED</div></div>
+    <div class="t" style="top:385px;font-size:120px;text-shadow:0 8px 0 rgba(0,0,0,0.25)">MAKE YOUR FIRST</div>
+    <div class="t big" style="top:505px;font-size:430px;transform:rotate(-3deg)">$100</div>
+    <div class="t" style="top:1010px;font-size:180px;text-shadow:0 10px 0 rgba(0,0,0,0.25)">ONLINE</div>
+
+    <div class="badge" style="left:835px;top:955px;width:190px;height:190px;font-size:42px;transform:rotate(12deg)">4<br>STEPS</div>
+
+    <div class="arrowline" style="top:1290px">FREE TOOLS YOU CAN USE TODAY</div>
+    <div class="tile" style="left:70px;top:1410px;transform:rotate(-7deg)"><img src="assets/img/logo-chatgpt.svg"></div>
+    <div class="tile" style="left:310px;top:1380px;transform:rotate(4deg)"><img src="assets/img/logo-canva.svg"></div>
+    <div class="tile" style="left:550px;top:1410px;transform:rotate(-4deg)"><img src="assets/img/logo-tiktok.svg"></div>
+    <div class="tile" style="left:790px;top:1380px;transform:rotate(7deg)"><img src="assets/img/logo-instagram.svg"></div>
+  </div>
+</div>
+<script>
+  window.__timelines = window.__timelines || {};
+  const tl = gsap.timeline({ paused: true });
+  tl.to('#stage', { opacity: 1, duration: 0.01 }, 0);
+  window.__timelines['main'] = tl;
+</script>
+</body>
+</html>

@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script src="assets/vendor/lottie.min.js"></script>
+    <style>
+      /* THEME: change these six values to restyle the whole video */
+      :root { --bg: #0B1220; --ink: #F1F3F8; --accent: #E9B949; --panel: #131D33; --line: #2A3A5C; --muted: #8C97AD; --good: #67E3AE; --bad: #F0616D; --on-accent: #0B1220; --dots: rgba(233,185,73,0.10); --glow: rgba(233,185,73,0.12); }
+      :root { --bg: #1A0B3B; --ink: #FFFFFF; --accent: #FFD23F; --panel: #2A1466; --line: #5B3BD0; --muted: #CFC3FF; --good: #2EE59D; --bad: #FF3D6E; --on-accent: #1A0B3B; --dots: rgba(255,255,255,0.07); --glow: rgba(255,255,255,0.0); }
+.cg .pill { background: rgba(26,11,59,0.88) !important; border-color: rgba(255,255,255,0.35) !important; }
+#bgs, .bgl { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+.bgl { opacity: 0; }
+.deco { position: absolute; border-radius: 50%; opacity: 0.0; }
+.sc { z-index: 2; }
+.headline { font-weight: 700; font-size: 150px; line-height: 1.0; letter-spacing: -0.035em; text-align: center; color: #fff; text-shadow: 0 8px 0 rgba(0,0,0,0.22); white-space: nowrap; }
+.sub { font-weight: 600; font-size: 54px; letter-spacing: 0.02em; text-align: center; color: #fff; white-space: nowrap; text-shadow: 0 5px 0 rgba(0,0,0,0.2); }
+.badge { position: absolute; opacity: 0; display: flex; align-items: center; gap: 24px; padding: 16px 50px 16px 16px; border-radius: 110px; background: #fff; box-shadow: 0 14px 0 rgba(0,0,0,0.22); color: var(--bc); font-weight: 700; font-size: 66px; letter-spacing: 0.06em; white-space: nowrap; }
+.badge .n { width: 104px; height: 104px; border-radius: 50%; background: var(--bc); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 72px; letter-spacing: 0; }
+.cardx { position: absolute; opacity: 0; display: flex; align-items: center; gap: 30px; padding: 0 36px 0 30px; border-radius: 44px; background: #fff; color: #1A0B3B; box-shadow: 0 16px 0 rgba(0,0,0,0.2), 0 30px 60px rgba(0,0,0,0.25); font-weight: 700; font-size: 58px; line-height: 1.05; letter-spacing: -0.02em; }
+.cardx img { width: 130px; height: 130px; flex: none; }
+.cardx small { display: block; font-weight: 600; font-size: 34px; letter-spacing: 0; color: #6B5C99; margin-top: 8px; }
+.chipx { position: absolute; opacity: 0; display: flex; align-items: center; justify-content: center; gap: 18px; border-radius: 100px; font-weight: 700; font-size: 52px; letter-spacing: 0.02em; white-space: nowrap; color: #fff; box-shadow: 0 12px 0 rgba(0,0,0,0.22); }
+.chipx img { width: 76px; height: 76px; }
+.tilex { position: absolute; opacity: 0; }
+.tilex img { width: 100%; height: 100%; display: block; filter: drop-shadow(0 22px 0 rgba(0,0,0,0.22)); }
+.lbl { position: absolute; opacity: 0; font-weight: 700; font-size: 54px; color: #fff; text-align: center; text-shadow: 0 5px 0 rgba(0,0,0,0.25); white-space: nowrap; }
+.emo { position: absolute; opacity: 0; }
+.emo img { width: 100%; height: 100%; display: block; filter: drop-shadow(0 14px 0 rgba(0,0,0,0.2)); }
+.c3d { position: absolute; opacity: 0; perspective: 1400px; }
+.c3d-in { position: absolute; left: 0; top: 0; width: 100%; height: 100%; transform-style: preserve-3d; }
+.c3d-in .l { position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: url('assets/img/logo-canva.svg') center / 100% 100% no-repeat; }
+.bub { position: absolute; opacity: 0; padding: 34px 44px; border-radius: 50px; font-weight: 700; font-size: 54px; line-height: 1.12; letter-spacing: -0.01em; box-shadow: 0 14px 0 rgba(0,0,0,0.2); }
+.bub.me { background: #fff; color: #1A0B3B; border-bottom-left-radius: 14px; }
+.bub.you { background: #2EE59D; color: #07331F; border-bottom-right-radius: 14px; }
+.btn { position: absolute; opacity: 0; display: flex; align-items: center; justify-content: center; border-radius: 120px; background: linear-gradient(90deg, #FFD23F, #FF8A3D); color: #1A0B3B; font-weight: 700; letter-spacing: 0.02em; box-shadow: 0 18px 0 rgba(0,0,0,0.25), 0 0 80px rgba(255,210,63,0.55); white-space: nowrap; }
+.strikeR { position: absolute; height: 16px; border-radius: 10px; background: #FF3D6E; transform-origin: left center; transform: scaleX(0); box-shadow: 0 5px 0 rgba(0,0,0,0.25); }
+
+      @font-face { font-family: 'Space Grotesk'; font-weight: 500; src: url('assets/fonts/space-grotesk-latin-500-normal.woff2') format('woff2'); }
+      @font-face { font-family: 'Space Grotesk'; font-weight: 600; src: url('assets/fonts/space-grotesk-latin-600-normal.woff2') format('woff2'); }
+      @font-face { font-family: 'Space Grotesk'; font-weight: 700; src: url('assets/fonts/space-grotesk-latin-700-normal.woff2') format('woff2'); }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background-color: var(--bg); background-image: radial-gradient(var(--dots) 2.5px, transparent 2.5px); background-size: 60px 60px; font-family: 'Space Grotesk', sans-serif; color: var(--ink); }
+      #stage { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; }
+      #glow { position: absolute; left: -200px; top: -300px; width: 1480px; height: 1100px; pointer-events: none; background: radial-gradient(closest-side, var(--glow), transparent); }
+      /* SAFE AREA (1080x1920): keep content at x 60..960 and y 120..1600. Right ~120px and bottom ~320px belong to TikTok's UI. */
+      .abs { position: absolute; opacity: 0; }
+      .sc { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; }
+      .sp { position: absolute; opacity: 0; will-change: transform; }
+      .lot { position: absolute; opacity: 0; }
+      .big { font-weight: 700; letter-spacing: -0.035em; line-height: 1.02; text-align: center; white-space: nowrap; }
+      .ac { color: var(--accent); } .gn { color: var(--good); } .rd { color: var(--bad); }
+      .tag { font-weight: 600; font-size: 30px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); text-align: center; white-space: nowrap; }
+      .chip { display: inline-block; padding: 12px 30px; border-radius: 100px; background: rgba(233,185,73,0.10); border: 1.5px solid rgba(233,185,73,0.45); color: var(--accent); font-weight: 600; font-size: 28px; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; }
+      .card { background: var(--panel); border: 1.5px solid var(--line); border-radius: 28px; box-shadow: 0 24px 60px rgba(0,0,0,0.45); }
+      .strike { position: absolute; height: 10px; border-radius: 6px; background: var(--bad); transform-origin: left center; transform: scaleX(0); }
+      .mw { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: 0.14em; margin-bottom: -0.14em; }
+      .mi { display: inline-block; will-change: transform; }
+      #prog { position: absolute; left: 0; bottom: 0; width: 1080px; height: 6px; background: var(--accent); transform-origin: left center; }
+      #caps { position: absolute; left: 0; top: 1392px; width: 1080px; height: 190px; }
+      .cg { position: absolute; left: 90px; top: 0; width: 900px; text-align: center; opacity: 0; }
+      .cg .pill { display: inline-block; padding: 14px 30px 16px; border-radius: 34px; background: var(--panel); border: 1.5px solid var(--line); box-shadow: 0 8px 30px rgba(0,0,0,0.5); font-weight: 600; font-size: 50px; line-height: 1.2; letter-spacing: -0.01em; color: var(--ink); }
+      .cw { display: inline-block; margin: 0 4px; padding: 0 10px; border-radius: 12px; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="86.76" data-width="1080" data-height="1920">
+      <div id="stage" class="clip" data-start="0" data-duration="86.76" data-track-index="0">
+        <div id="glow"></div>
+        <div id="dyn"></div>
+        <!-- scene elements are created in src/scenes.js; add static elements here if needed -->
+
+        <div id="caps"></div>
+        <div id="prog"></div>
+      </div>
+    </div>
+
+    <script>
+      const WORDS = [{"w":"Want","s":0,"e":0.25,"line":1},{"w":"to","s":0.25,"e":0.33,"line":1},{"w":"make","s":0.33,"e":0.54,"line":1},{"w":"your","s":0.54,"e":0.69,"line":1},{"w":"first","s":0.69,"e":1.14,"line":1},{"w":"$100","s":1.14,"e":2.07,"line":1},{"w":"online","s":2.07,"e":2.66,"line":1},{"w":"but","s":2.66,"e":2.84,"line":1},{"w":"have","s":2.84,"e":3.07,"line":1},{"w":"no","s":3.07,"e":3.41,"line":1},{"w":"experience?","s":3.41,"e":4.33,"line":1},{"w":"Here's","s":4.47,"e":4.77,"line":2},{"w":"exactly","s":4.77,"e":5.5,"line":2},{"w":"how","s":5.5,"e":5.72,"line":2},{"w":"you","s":5.72,"e":5.86,"line":2},{"w":"can","s":5.86,"e":6.02,"line":2},{"w":"start.","s":6.02,"e":6.61,"line":2},{"w":"Step","s":7.09,"e":7.49,"line":3},{"w":"1:","s":7.49,"e":7.91,"line":3},{"w":"Choose","s":8.16,"e":8.58,"line":3},{"w":"one","s":8.58,"e":9.04,"line":3},{"w":"simple","s":9.04,"e":9.53,"line":3},{"w":"service.","s":9.53,"e":10.3,"line":3},{"w":"You","s":10.58,"e":10.73,"line":4},{"w":"don't","s":10.73,"e":10.96,"line":4},{"w":"need","s":10.96,"e":11.25,"line":4},{"w":"to","s":11.25,"e":11.35,"line":4},{"w":"be","s":11.35,"e":11.51,"line":4},{"w":"an","s":11.51,"e":11.6,"line":4},{"w":"expert.","s":11.6,"e":12.41,"line":4},{"w":"Start","s":12.41,"e":12.79,"line":5},{"w":"with","s":12.79,"e":12.94,"line":5},{"w":"something","s":12.94,"e":13.43,"line":5},{"w":"like","s":13.43,"e":13.87,"line":5},{"w":"editing","s":13.87,"e":14.33,"line":5},{"w":"TikTok","s":14.33,"e":14.82,"line":5},{"w":"videos,","s":14.82,"e":15.48,"line":5},{"w":"designing","s":15.64,"e":16.25,"line":5},{"w":"Instagram","s":16.25,"e":16.86,"line":5},{"w":"posts,","s":16.86,"e":17.46,"line":5},{"w":"writing","s":17.76,"e":18.16,"line":5},{"w":"product","s":18.16,"e":18.52,"line":5},{"w":"descriptions,","s":18.52,"e":19.35,"line":5},{"w":"or","s":19.53,"e":19.72,"line":5},{"w":"creating","s":19.72,"e":20.29,"line":5},{"w":"simple","s":20.29,"e":20.74,"line":5},{"w":"websites.","s":20.74,"e":21.59,"line":5},{"w":"Step","s":22.17,"e":22.55,"line":6},{"w":"2:","s":22.55,"e":23.04,"line":6},{"w":"Use","s":23.25,"e":23.68,"line":6},{"w":"free","s":23.68,"e":24.25,"line":6},{"w":"AI","s":24.25,"e":24.64,"line":6},{"w":"tools.","s":24.64,"e":25.34,"line":6},{"w":"Tools","s":25.61,"e":26.02,"line":7},{"w":"like","s":26.02,"e":26.33,"line":7},{"w":"ChatGPT","s":26.33,"e":27.45,"line":7},{"w":"and","s":27.45,"e":27.64,"line":7},{"w":"Canva","s":27.64,"e":28.26,"line":7},{"w":"can","s":28.47,"e":28.65,"line":7},{"w":"help","s":28.65,"e":28.9,"line":7},{"w":"you","s":28.9,"e":29.04,"line":7},{"w":"create","s":29.04,"e":29.48,"line":7},{"w":"content,","s":29.48,"e":30.18,"line":7},{"w":"generate","s":30.34,"e":30.93,"line":7},{"w":"ideas,","s":30.93,"e":31.77,"line":7},{"w":"design","s":31.77,"e":32.23,"line":7},{"w":"graphics,","s":32.23,"e":32.86,"line":7},{"w":"and","s":33.07,"e":33.26,"line":7},{"w":"improve","s":33.26,"e":33.79,"line":7},{"w":"your","s":33.79,"e":33.92,"line":7},{"w":"work.","s":33.92,"e":34.57,"line":7},{"w":"Learn","s":34.73,"e":35.06,"line":8},{"w":"the","s":35.06,"e":35.14,"line":8},{"w":"basics","s":35.14,"e":35.79,"line":8},{"w":"and","s":36.03,"e":36.17,"line":8},{"w":"create","s":36.17,"e":36.63,"line":8},{"w":"2","s":36.63,"e":37.12,"line":8},{"w":"or","s":37.12,"e":37.32,"line":8},{"w":"3","s":37.32,"e":37.64,"line":8},{"w":"examples","s":37.64,"e":38.47,"line":8},{"w":"to","s":38.47,"e":38.67,"line":8},{"w":"show","s":38.67,"e":39.01,"line":8},{"w":"potential","s":39.01,"e":39.52,"line":8},{"w":"clients.","s":39.52,"e":40.24,"line":8},{"w":"Step","s":40.77,"e":41.13,"line":9},{"w":"3:","s":41.13,"e":41.64,"line":9},{"w":"Find","s":41.87,"e":42.36,"line":9},{"w":"your","s":42.36,"e":42.56,"line":9},{"w":"first","s":42.56,"e":43.08,"line":9},{"w":"customers.","s":43.08,"e":43.91,"line":9},{"w":"Go","s":44.15,"e":44.34,"line":10},{"w":"to","s":44.34,"e":44.49,"line":10},{"w":"Instagram,","s":44.49,"e":45.38,"line":10},{"w":"Facebook,","s":45.38,"e":46.2,"line":10},{"w":"Fiverr,","s":46.2,"e":46.81,"line":10},{"w":"or","s":47.05,"e":47.24,"line":10},{"w":"Upwork.","s":47.24,"e":47.96,"line":10},{"w":"Search","s":48.16,"e":48.59,"line":11},{"w":"for","s":48.59,"e":48.7,"line":11},{"w":"small","s":48.7,"e":49.13,"line":11},{"w":"businesses","s":49.13,"e":49.74,"line":11},{"w":"that","s":49.74,"e":49.87,"line":11},{"w":"have","s":49.87,"e":50.06,"line":11},{"w":"poor","s":50.06,"e":50.49,"line":11},{"w":"social","s":50.49,"e":50.91,"line":11},{"w":"media","s":50.91,"e":51.32,"line":11},{"w":"content","s":51.32,"e":51.95,"line":11},{"w":"or","s":52.12,"e":52.37,"line":11},{"w":"don't","s":52.37,"e":52.68,"line":11},{"w":"have","s":52.68,"e":52.83,"line":11},{"w":"a","s":52.83,"e":52.91,"line":11},{"w":"website.","s":52.86,"e":53.58,"line":11},{"w":"Contact","s":53.72,"e":54.24,"line":12},{"w":"them","s":54.24,"e":54.58,"line":12},{"w":"and","s":54.68,"e":54.81,"line":12},{"w":"explain","s":54.81,"e":55.36,"line":12},{"w":"how","s":55.36,"e":55.59,"line":12},{"w":"your","s":55.59,"e":55.91,"line":12},{"w":"service","s":55.91,"e":56.58,"line":12},{"w":"could","s":56.58,"e":56.85,"line":12},{"w":"help","s":56.85,"e":57.26,"line":12},{"w":"their","s":57.26,"e":57.47,"line":12},{"w":"business.","s":57.47,"e":58.16,"line":12},{"w":"Step","s":58.8,"e":59.15,"line":13},{"w":"4:","s":59.15,"e":59.6,"line":13},{"w":"Get","s":59.85,"e":60.12,"line":13},{"w":"paid.","s":60.12,"e":60.72,"line":13},{"w":"Start","s":60.99,"e":61.42,"line":14},{"w":"with","s":61.42,"e":61.57,"line":14},{"w":"an","s":61.57,"e":61.66,"line":14},{"w":"affordable","s":61.66,"e":62.21,"line":14},{"w":"offer,","s":62.21,"e":62.52,"line":14},{"w":"like","s":62.92,"e":63.25,"line":14},{"w":"$25","s":63.25,"e":64.46,"line":14},{"w":"for","s":64.46,"e":64.61,"line":14},{"w":"a","s":64.61,"e":64.69,"line":14},{"w":"small","s":64.64,"e":65.03,"line":14},{"w":"project.","s":65.03,"e":65.77,"line":14},{"w":"Just","s":65.97,"e":66.3,"line":15},{"w":"four","s":66.3,"e":66.64,"line":15},{"w":"clients","s":66.64,"e":67.2,"line":15},{"w":"paying","s":67.2,"e":67.55,"line":15},{"w":"$25","s":67.55,"e":68.71,"line":15},{"w":"each","s":68.71,"e":69.18,"line":15},{"w":"gets","s":69.43,"e":69.69,"line":15},{"w":"you","s":69.69,"e":69.81,"line":15},{"w":"to","s":69.81,"e":69.91,"line":15},{"w":"your","s":69.91,"e":70.08,"line":15},{"w":"first","s":70.08,"e":70.64,"line":15},{"w":"$100.","s":70.64,"e":72.17,"line":15},{"w":"You","s":72.4,"e":72.59,"line":16},{"w":"don't","s":72.59,"e":72.84,"line":16},{"w":"need","s":72.84,"e":73.1,"line":16},{"w":"to","s":73.1,"e":73.19,"line":16},{"w":"get","s":73.19,"e":73.38,"line":16},{"w":"rich","s":73.38,"e":73.83,"line":16},{"w":"overnight.","s":73.83,"e":74.7,"line":16},{"w":"You","s":74.7,"e":74.85,"line":17},{"w":"just","s":74.85,"e":75.11,"line":17},{"w":"need","s":75.11,"e":75.28,"line":17},{"w":"to","s":75.28,"e":75.36,"line":17},{"w":"get","s":75.36,"e":75.58,"line":17},{"w":"started,","s":75.58,"e":76.27,"line":17},{"w":"build","s":76.43,"e":76.83,"line":17},{"w":"your","s":76.83,"e":77.02,"line":17},{"w":"first","s":77.02,"e":77.56,"line":17},{"w":"skill,","s":77.56,"e":78.16,"line":17},{"w":"and","s":78.33,"e":78.51,"line":17},{"w":"land","s":78.51,"e":78.92,"line":17},{"w":"your","s":78.92,"e":79.1,"line":17},{"w":"first","s":79.1,"e":79.63,"line":17},{"w":"customer.","s":79.63,"e":80.31,"line":17},{"w":"COMMENT","s":80.96,"e":81.51,"line":18},{"w":"\"100$\"","s":81.51,"e":82.84,"line":18},{"w":"TO","s":82.84,"e":83.03,"line":18},{"w":"RECEIVE","s":83.03,"e":83.47,"line":18},{"w":"THE","s":83.47,"e":83.57,"line":18},{"w":"TUTORIAL","s":83.57,"e":84.33,"line":18},{"w":"IN","s":84.33,"e":84.54,"line":18},{"w":"DM.","s":84.54,"e":85.16,"line":18}];
+      window.__timelines = window.__timelines || {};
+      const wd = (l, k) => WORDS.filter((w) => w.line === l)[k].s;     // start time of word k in script line l
+      const tl = gsap.timeline({ paused: true });
+      const E = 'power3.out', IO = 'power2.inOut';
+      const $ = (s) => document.querySelector(s);
+      const R = (el, t, from, to) => tl.fromTo(el, Object.assign({ opacity: 0, y: 30 }, from || {}), Object.assign({ opacity: 1, y: 0, duration: 0.5, ease: E, immediateRender: false }, to || {}), t);
+      const X = (el, t, d) => tl.to(el, { opacity: 0, duration: d || 0.25, ease: 'none' }, t);
+      const POP = { scale: 0.6, y: 24 }, POPTO = { scale: 1, duration: 0.5 };
+      const STRIKE = (sel, t) => tl.fromTo(sel, { scaleX: 0 }, { scaleX: 1, duration: 0.3, ease: 'power2.out', immediateRender: false }, t);
+      const add = (h) => $('#dyn').insertAdjacentHTML('beforeend', h);
+      const money = (v) => '$' + Math.round(v).toLocaleString('en-US');
+      const count = (sel, t, from, to, dur) => { const o = { v: from }; tl.to(o, { v: to, duration: dur, ease: 'power3.out', onUpdate() { $(sel).textContent = money(o.v); } }, t); };
+      // Paste-in helpers for HyperFrames templates (classic <script>, GSAP timeline `tl`, `$` = querySelector).
+// Ideas adapted (rewritten for our stack) from the MIT-licensed iart-ai/tiktok-video-skills + kinetic-typography-skills.
+// Everything is seek-safe: tweens only, no timers, no randomness except the seeded hash().
+//
+// Needs this CSS in the template:
+//   .mw { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: 0.14em; margin-bottom: -0.14em; }
+//   .mi { display: inline-block; will-change: transform; }
+
+const SAFE = { left: 60, right: 960, top: 120, bottom: 1600 };   // 1080x1920: keep text/cards inside; TikTok UI sits outside (right ~120px, bottom ~320px)
+
+const hashH = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+
+// Split a PLAIN-TEXT element into masked words (screen-reader label kept). Returns the inner word nodes.
+const splitWords = (sel) => {
+  const el = document.querySelector(sel); const txt = el.textContent.trim();
+  el.setAttribute('aria-label', txt);
+  el.innerHTML = txt.split(/\s+/).map((w) => `<span class="mw"><span class="mi">${w}</span></span>`).join(' ');
+  return el.querySelectorAll('.mi');
+};
+
+// 1) Mask reveal: each word rises out of a clipped line. ~0.6s per word, 60ms stagger, expo ease (keep the whole reveal under ~0.8-1.0s).
+//    Use for headlines that appear mid-video (NOT the hook; see hookNow).
+const maskReveal = (tl, sel, t, o = {}) => {
+  const items = splitWords(sel);
+  tl.set(sel, { opacity: 1 }, t);
+  tl.fromTo(items, { yPercent: 115 }, { yPercent: 0, duration: o.dur || 0.6, ease: 'expo.out', stagger: o.stagger || 0.06, immediateRender: false }, t);
+  return items.length;
+};
+// matching exit: words drop back down (use instead of a plain fade when a headline leaves)
+const maskHide = (tl, sel, t, o = {}) => {
+  const items = document.querySelectorAll(sel + ' .mi');
+  tl.to(items, { yPercent: -115, duration: o.dur || 0.35, ease: 'power3.in', stagger: o.stagger || 0.03 }, t);
+  tl.set(sel, { opacity: 0 }, t + (o.dur || 0.35) + 0.03 * items.length);
+};
+
+// 2) Hook on frame 1: the hook text is fully visible at t=0 (no fade-up, no fade from black); only a tiny settle motion.
+const hookNow = (tl, sels) => { sels.forEach((s) => { tl.set(s, { opacity: 1 }, 0); tl.fromTo(s, { scale: 1.05 }, { scale: 1, duration: 0.6, ease: 'power3.out', immediateRender: false }, 0); }); };
+
+// 3) Pattern interrupt: a quick punch-in pulse on an element (use on long holds).
+const punch = (tl, sel, t, o = {}) => {
+  tl.fromTo(sel, { scale: 1 }, { scale: o.scale || 1.07, duration: o.dur || 0.18, ease: 'power2.out', immediateRender: false }, t);
+  tl.to(sel, { scale: 1, duration: 0.45, ease: 'power2.inOut' }, t + (o.dur || 0.18));
+};
+// Pulse an element every ~3s (uneven: 2.2s-3.8s gaps) between `from` and `to`. Never use a metronome gap.
+const heartbeat = (tl, sel, from, to, o = {}) => { let t = from + 1.2; let i = 0; while (t < to - 0.8) { punch(tl, sel, t, o); t += 2.2 + hashH(i++ + (o.seed || 0)) * 1.6; } };
+
+// 4) Optional seamless loop: end on the same first-frame look. Fade the final card out to the hook's background in the last 0.5s
+//    and make the last spoken line read as the lead-in to the first line ("...and that is why" -> hook).
+
+// 5) Scene wipe: each scene is a full-frame container (.sc, own background colour). The next one slides/zooms in over the previous.
+//    Initial offsets: tl.set('#sc2', { x: 1080 }, 0)  or { y: 1920 } / { x: -1080 } / { scale: 1.5, opacity: 0 } (zoom-in). Example: sceneCut(tl, '#sc1', '#sc2', 2.45, { x: 1080 });
+//    CSS: .sc { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:hidden; }
+const sceneCut = (tl, prev, next, t, from, d = 0.5) => {
+  tl.fromTo(next, from, { x: 0, y: 0, scale: 1, opacity: 1, duration: d, ease: 'power4.out', immediateRender: false }, t);
+  tl.to(prev, { x: from.x ? -from.x * 0.25 : 0, y: from.y ? -from.y * 0.2 : 0, duration: d, ease: 'power4.out' }, t);
+  tl.set(prev, { opacity: 0 }, t + d + 0.05);
+};
+// 6) Slow push-in on a scene container (camera feel): pushIn(tl, '#sc2', 2.5, 5.5)
+const pushIn = (tl, sel, a, b, s = 1.05) => tl.fromTo(sel, { scale: 1 }, { scale: s, duration: b - a, ease: 'none', immediateRender: false }, a + 0.01);
+
+
+      // ================= SCENES (src/scenes.js) =================
+      // ===== helpers =====
+      const norm = (s) => s.toLowerCase().replace(/[^a-z0-9$]/g, '');
+      const LS = (n) => WORDS.find((w) => w.line === n).s;
+      const LE = (n) => WORDS.filter((w) => w.line === n).slice(-1)[0].e;
+      const WW = (n, p) => { const x = WORDS.find((w) => w.line === n && norm(w.w).startsWith(p)); if (!x) throw new Error('word not found: L' + n + ' ' + p); return x; };
+      const W = (n, p) => WW(n, p).s;
+      const TOTAL = WORDS[WORDS.length - 1].e + 1.6;
+      const NO_CAPTION_LINES = [18];
+      const pop = (sel, t, o = {}) => tl.fromTo(sel, { opacity: 0, scale: o.s || 0.5, y: o.y === undefined ? 40 : o.y, x: o.x || 0, rotation: o.r === undefined ? -6 : o.r }, { opacity: 1, scale: 1, y: 0, x: 0, rotation: 0, duration: o.d || 0.55, ease: o.e || 'back.out(1.9)', immediateRender: false }, t);
+      const out = (sel, t, d) => tl.to(sel, { opacity: 0, scale: 0.92, duration: d || 0.25, ease: 'power2.in' }, t);
+      const bob = (sel, from, to, amp, per) => { amp = amp || 14; per = per || 2.2; const n = Math.max(2, 2 * Math.round((to - from) / per)); tl.fromTo(sel, { y: 0 }, { y: -amp, duration: (to - from) / n, ease: 'sine.inOut', yoyo: true, repeat: n - 1, immediateRender: false }, from); };
+      const ctr = (top, inner, h) => `<div class="ctr" style="position:absolute;left:60px;top:${top}px;width:900px;${h ? 'height:' + h + 'px;' : ''}display:flex;justify-content:center;align-items:center;gap:26px">${inner}</div>`;
+      const H = (id, top, size, txt, color) => `<div id="${id}" class="abs headline" style="left:60px;top:${top}px;width:900px;font-size:${size}px;${color ? 'color:' + color + ';' : ''}">${txt}</div>`;
+      const EMO = (id, l, t, s, f) => `<div id="${id}" class="emo" style="left:${l}px;top:${t}px;width:${s}px;height:${s}px"><img src="assets/img/ico-${f}.svg"></div>`;
+      const BADGE = (id, top, n, col) => ctr(top, `<div id="${id}" class="badge" style="--bc:${col};position:relative;opacity:0"><span class="n">${n}</span><span>STEP ${n}</span></div>`);
+      const lot = (id, file, l, t, w, h, t0, dur) => { add(`<div id="${id}" class="lot" style="left:${l}px;top:${t}px;width:${w}px;height:${h}px"></div>`);
+        tl.fromTo('#' + id, { opacity: 0 }, { opacity: 1, duration: 0.01, immediateRender: false }, t0); tl.to('#' + id, { opacity: 0, duration: 0.01 }, t0 + dur);
+        const a = lottie.loadAnimation({ container: document.getElementById(id), renderer: 'svg', loop: false, autoplay: false, path: 'assets/lottie/' + file, rendererSettings: { preserveAspectRatio: 'xMidYMid meet' } }); (window.__hfLottie = window.__hfLottie || []).push(a); };
+
+      // ===== backgrounds: one colour world per step, cross-faded =====
+      const BG = [['#FF2E86', '#6B22F0'], ['#F2641A', '#D1206B'], ['#0E8FD6', '#4A2BC9'], ['#0A9B6B', '#0B5A8A'], ['#F0701A', '#C81E5E'], ['#7A44F0', '#E02F86']];
+      add('<div id="bgs">' + BG.map((c, i) => `<div class="bgl" id="bg${i}" style="background:linear-gradient(160deg,${c[0]},${c[1]})"></div>`).join('') + '<div class="bgl" id="bgdots" style="opacity:1;background-image:radial-gradient(rgba(255,255,255,0.16) 3px, transparent 3px);background-size:64px 64px"></div></div>');
+      tl.set('#bg0', { opacity: 1 }, 0);
+      [[1, LS(3) - 0.15], [2, LS(6) - 0.15], [3, LS(9) - 0.15], [4, LS(13) - 0.15], [5, LS(16) - 0.15]].forEach(([i, t]) => tl.to('#bg' + i, { opacity: 1, duration: 0.5, ease: 'power2.inOut' }, t));
+      // drifting colour blobs (deterministic)
+      const BC = ['#FFFFFF', '#FFD23F', '#FF3D8B', '#19D3F3', '#2EE59D', '#8B5CFF'];
+      for (let i = 0; i < 14; i++) { const sz = 60 + hashH(i) * 190, l = hashH(i + 20) * 1000 - 40, tp = hashH(i + 40) * 1800 - 40; const ring = i % 3 === 0;
+        add(`<div id="dc${i}" class="deco" style="width:${sz}px;height:${sz}px;left:${l}px;top:${tp}px;${ring ? 'border:10px solid ' + BC[i % 6] : 'background:' + BC[i % 6]}"></div>`);
+        tl.fromTo('#dc' + i, { opacity: 0.0, y: 0 }, { opacity: ring ? 0.35 : 0.18, y: (i % 2 ? -1 : 1) * (120 + hashH(i + 7) * 200), duration: TOTAL, ease: 'none', immediateRender: false }, 0); }
+
+      // ============ S0 HOOK (L1) ============
+      add(`<div class="sc" id="s0">${H('h1', 190, 100, 'WANT YOUR FIRST')}${H('h2', 300, 372, '$100', '#FFD23F')}${H('h3', 800, 150, 'ONLINE?')}
+        ${EMO('h4', 70, 1000, 250, 'money')}${EMO('h5', 700, 980, 250, 'coins')}
+        <div id="h6" class="chipx" style="left:200px;top:1130px;width:620px;height:130px;background:#FF3D6E;font-size:56px">NO EXPERIENCE?</div></div>`);
+      hookNow(tl, ['#h1', '#h2', '#h3', '#h4', '#h5']);
+      bob('#h4', 0.8, LS(2), 20, 1.6); bob('#h5', 0.8, LS(2), 20, 1.9);
+      punch(tl, '#h2', W(1, '$100'), { scale: 1.1 });
+      pop('#h6', W(1, 'experience'), { s: 0.4, r: -10 }); tl.to('#h6', { rotation: 2, duration: 0.12, yoyo: true, repeat: 3, ease: 'sine.inOut' }, W(1, 'experience') + 0.55);
+      out('#s0', LS(2) - 0.12);
+
+      // ============ S1 INTRO (L2) ============
+      add(`<div class="sc" id="s1">${H('i1', 260, 104, 'HERE\'S EXACTLY')}${H('i2', 390, 230, 'HOW TO', '#FFD23F')}${H('i3', 620, 280, 'START')}
+        ${[0, 1, 2, 3].map((k) => `<div id="d${k}" class="abs" style="left:${120 + k * 210}px;top:1000px;width:150px;height:150px;border-radius:50%;background:${['#FFD23F', '#2EE59D', '#19D3F3', '#FF3D8B'][k]};color:#1A0B3B;font-weight:700;font-size:96px;display:flex;align-items:center;justify-content:center;box-shadow:0 12px 0 rgba(0,0,0,.22)">${k + 1}</div>`).join('')}
+        <div id="d4" class="chipx" style="left:260px;top:880px;width:500px;height:96px;background:#1A0B3B;font-size:44px">4 SIMPLE STEPS</div></div>`);
+      maskReveal(tl, '#i1', LS(2)); maskReveal(tl, '#i2', W(2, 'how')); maskReveal(tl, '#i3', W(2, 'start') - 0.1);
+      pop('#d4', W(2, 'exactly'), { s: 0.6 });
+      ['exactly', 'how', 'can', 'start'].forEach((p, k) => pop('#d' + k, W(2, p) + 0.05, { s: 0.3, y: 60 }));
+      out('#s1', LS(3) - 0.12);
+
+      // ============ S2 STEP 1 (L3-L4) ============
+      add(`<div class="sc" id="s2">${BADGE('b1', 230, 1, '#FF5A1F')}${H('a1', 470, 146, 'ONE SIMPLE')}${H('a2', 640, 210, 'SERVICE', '#FFD23F')}${EMO('a3', 390, 900, 300, 'storefront')}
+        ${H('e1', 440, 150, 'YOU DON\'T')}${H('e2', 600, 150, 'NEED TO BE')}${H('e3', 760, 150, 'AN EXPERT', '#FFD23F')}<div id="ex" class="strikeR" style="left:112px;top:850px;width:796px"></div>${EMO('e4', 390, 960, 270, 'graduation-cap')}</div>`);
+      pop('#b1', LS(3), { s: 0.4, y: 0, r: 0 });
+      maskReveal(tl, '#a1', W(3, 'choose')); maskReveal(tl, '#a2', W(3, 'simple'));
+      pop('#a3', W(3, 'service') - 0.2, { s: 0.3 }); bob('#a3', W(3, 'service'), LS(4) - 0.2, 16, 1.4);
+      out('#b1', LS(4) - 0.25); ['#a1', '#a2'].forEach((s) => maskHide(tl, s, LS(4) - 0.3)); out('#a3', LS(4) - 0.3);
+      maskReveal(tl, '#e1', LS(4)); maskReveal(tl, '#e2', W(4, 'need')); maskReveal(tl, '#e3', W(4, 'be'));
+      tl.to('#ex', { scaleX: 1, duration: 0.3, ease: 'power2.out' }, WW(4, 'expert').s + 0.35);
+      pop('#e4', W(4, 'expert') + 0.4, { s: 0.3 });
+      out('#s2', LS(5) - 0.12);
+
+      // ============ S3 IDEAS LIST (L5) ============
+      const CARDS = [['tiktok', 'logo-tiktok', 'Edit TikTok videos', 'short-form editing', '#FF3D8B', 'editing'], ['insta', 'logo-instagram', 'Design Instagram posts', 'graphics & feeds', '#FF8A3D', 'designing'], ['desc', 'ico-note-pencil', 'Write product descriptions', 'words that sell', '#8B5CFF', 'writing'], ['web', 'ico-globe', 'Build simple websites', 'small business sites', '#19D3F3', 'creating']];
+      add(`<div class="sc" id="s3"><div id="lh" class="abs sub" style="left:60px;top:170px;width:900px">PICK <span style="color:#FFD23F">ONE</span> OF THESE</div>${CARDS.map((c, k) => `<div id="c_${c[0]}" class="cardx" style="left:70px;top:${290 + k * 255}px;width:880px;height:215px;border-left:22px solid ${c[4]}"><img src="assets/img/${c[1]}.svg"><div>${c[2]}<small>${c[3]}</small></div></div>`).join('')}</div>`);
+      pop('#lh', LS(5), { s: 0.8, y: 20, r: 0 });
+      CARDS.forEach((c, k) => { pop('#c_' + c[0], W(5, c[5]) - 0.1, { x: k % 2 ? 260 : -260, y: 0, s: 0.7, r: k % 2 ? 4 : -4, e: 'back.out(1.5)' }); });
+      out('#s3', LS(6) - 0.12);
+
+      // ============ S4 STEP 2 (L6) ============
+      add(`<div class="sc" id="s4">${BADGE('b2', 230, 2, '#0A8CAD')}${H('f1', 440, 100, 'USE')}${H('f2', 540, 330, 'FREE', '#FFD23F')}${H('f3', 860, 190, 'AI TOOLS')}${EMO('f4', 90, 1100, 220, 'sparkle')}${EMO('f5', 710, 1090, 230, 'lightbulb')}</div>`);
+      pop('#b2', LS(6), { s: 0.4, y: 0, r: 0 });
+      maskReveal(tl, '#f1', W(6, 'use')); maskReveal(tl, '#f2', W(6, 'free')); maskReveal(tl, '#f3', W(6, 'ai'));
+      pop('#f4', W(6, 'ai'), { s: 0.3 }); pop('#f5', W(6, 'tools'), { s: 0.3 }); bob('#f4', W(6, 'ai') + 0.5, LS(7), 18, 1.3); bob('#f5', W(6, 'tools') + 0.5, LS(7), 18, 1.5);
+      out('#s4', LS(7) - 0.12);
+
+      // ============ S5 CHATGPT + CANVA (L7) ============
+      const CH = [['content', 'CONTENT', 'device-mobile', '#FF3D8B'], ['ideas', 'IDEAS', 'lightbulb', '#F29A1F'], ['graphics', 'GRAPHICS', 'paint-brush', '#8B5CFF'], ['improve', 'IMPROVE', 'trend-up', '#14B86B']];
+      const LAY = Array.from({ length: 16 }, (_, k) => `<div class="l" style="transform:translateZ(${(k - 7.5) * 3.2}px);${k === 15 || k === 0 ? '' : 'filter:brightness(' + (0.55 + 0.02 * k).toFixed(2) + ')'}"></div>`).join('');
+      add(`<div class="sc" id="s5"><div id="gt" class="tilex" style="left:100px;top:240px;width:360px;height:360px"><img src="assets/img/logo-chatgpt.svg"></div><div id="gl" class="lbl" style="left:100px;top:625px;width:360px">ChatGPT</div>
+        <div id="cv" class="c3d" style="left:560px;top:240px;width:360px;height:360px"><div class="c3d-in" id="cvi">${LAY}</div></div><div id="cl" class="lbl" style="left:560px;top:625px;width:360px">Canva</div>
+        <div id="plus" class="abs headline" style="left:445px;top:330px;width:130px;font-size:130px;color:#FFD23F">+</div>
+        ${CH.map((c, k) => `<div id="ch_${c[0]}" class="chipx" style="left:${70 + (k % 2) * 460}px;top:${790 + Math.floor(k / 2) * 240}px;width:420px;height:190px;background:${c[3]};font-size:50px"><img style="width:104px;height:104px" src="assets/img/glyph-${c[2]}.svg">${c[1]}</div>`).join('')}</div>`);
+      pop('#gt', W(7, 'chatgpt'), { s: 0.2, r: -25 }); pop('#gl', W(7, 'chatgpt') + 0.25, { s: 0.7, y: 20, r: 0 });
+      tl.fromTo('#gt', { rotation: 0 }, { rotation: 5, duration: 1.1, ease: 'sine.inOut', yoyo: true, repeat: 6, immediateRender: false }, W(7, 'chatgpt') + 0.7);
+      pop('#plus', W(7, 'and') - 0.02, { s: 0.2, y: 0, r: 0 });
+      tl.fromTo('#cv', { opacity: 0, scale: 0.2, y: 60 }, { opacity: 1, scale: 1, y: 0, duration: 0.6, ease: 'back.out(1.7)', immediateRender: false }, W(7, 'canva'));
+      tl.fromTo('#cvi', { rotationY: -200, rotationX: 14 }, { rotationY: 520, rotationX: 14, duration: LS(8) - W(7, 'canva') - 0.1, ease: 'none', immediateRender: false }, W(7, 'canva'));
+      pop('#cl', W(7, 'canva') + 0.3, { s: 0.7, y: 20, r: 0 });
+      CH.forEach((c) => pop('#ch_' + c[0], W(7, c[0]) - 0.05, { s: 0.4, y: 50 }));
+      out('#s5', LS(8) - 0.12);
+
+      // ============ S6 EXAMPLES (L8) ============
+      add(`<div class="sc" id="s6"><div id="g0" class="abs sub" style="left:60px;top:200px;width:900px">LEARN THE BASICS, THEN MAKE</div>
+        <div id="g1" class="abs headline" style="left:70px;top:330px;width:300px;font-size:420px;color:#FFD23F">2</div><div id="g2" class="abs headline" style="left:380px;top:430px;width:260px;font-size:110px">OR</div><div id="g3" class="abs headline" style="left:650px;top:330px;width:300px;font-size:420px;color:#FFD23F">3</div>
+        ${H('g4', 790, 160, 'EXAMPLES')}<div id="g5" class="chipx" style="left:90px;top:1000px;width:840px;height:130px;background:#1A0B3B;font-size:46px">SHOW THEM TO POTENTIAL CLIENTS</div>${EMO('g6', 380, 1150, 220, 'handshake')}</div>`);
+      pop('#g0', LS(8), { s: 0.8, y: 20, r: 0 });
+      pop('#g1', W(8, '2'), { s: 0.2, r: -12 }); pop('#g2', W(8, 'or'), { s: 0.3, r: 0 }); pop('#g3', W(8, '3'), { s: 0.2, r: 12 });
+      maskReveal(tl, '#g4', W(8, 'examples'));
+      pop('#g5', W(8, 'show'), { s: 0.5, y: 30, r: 0 }); pop('#g6', W(8, 'potential'), { s: 0.3 });
+      out('#s6', LS(9) - 0.12);
+
+      // ============ S7 STEP 3 (L9) ============
+      add(`<div class="sc" id="s7">${BADGE('b3', 230, 3, '#0B8F68')}${H('j1', 470, 150, 'FIND YOUR')}${H('j2', 640, 280, 'FIRST', '#FFD23F')}${H('j3', 940, 150, 'CUSTOMERS')}${EMO('j4', 110, 1130, 200, 'handshake')}${EMO('j5', 770, 1130, 200, 'users-three')}</div>`);
+      pop('#b3', LS(9), { s: 0.4, y: 0, r: 0 });
+      maskReveal(tl, '#j1', W(9, 'find')); maskReveal(tl, '#j2', W(9, 'first') - 0.1); maskReveal(tl, '#j3', W(9, 'customers') - 0.3);
+      pop('#j4', W(9, 'customers'), { s: 0.3 }); pop('#j5', W(9, 'customers') + 0.15, { s: 0.3 }); bob('#j4', W(9, 'customers') + 0.6, LS(10), 16, 1.4); bob('#j5', W(9, 'customers') + 0.7, LS(10), 16, 1.6);
+      out('#s7', LS(10) - 0.12);
+
+      // ============ S8 PLATFORMS (L10) ============
+      const PL = [['insta', 'logo-instagram', 'Instagram', 'instagram'], ['fb', 'logo-facebook', 'Facebook', 'facebook'], ['fiv', 'logo-fiverr', 'Fiverr', 'fiverr'], ['up', 'logo-upwork', 'Upwork', 'upwork']];
+      add(`<div class="sc" id="s8"><div id="pg" class="abs sub" style="left:60px;top:170px;width:900px">GO TO</div>${PL.map((p, k) => `<div id="pt_${p[0]}" class="tilex" style="left:${80 + (k % 2) * 450}px;top:${260 + Math.floor(k / 2) * 480}px;width:370px;height:370px"><img src="assets/img/${p[1]}.svg"></div><div id="pl_${p[0]}" class="lbl" style="left:${80 + (k % 2) * 450}px;top:${640 + Math.floor(k / 2) * 480}px;width:370px;font-size:50px">${p[2]}</div>`).join('')}</div>`);
+      pop('#pg', LS(10), { s: 0.8, y: 20, r: 0 });
+      PL.forEach((p, k) => { const t = W(10, p[3]); pop('#pt_' + p[0], t - 0.05, { s: 0.2, r: k % 2 ? 14 : -14 }); pop('#pl_' + p[0], t + 0.2, { s: 0.7, y: 16, r: 0 }); tl.fromTo('#pt_' + p[0], { rotation: 0 }, { rotation: k % 2 ? -3 : 3, duration: 0.9, ease: 'sine.inOut', yoyo: true, repeat: 5, immediateRender: false }, t + 0.7); });
+      out('#s8', LS(11) - 0.12);
+
+      // ============ S9 SMALL BUSINESSES (L11) ============
+      add(`<div class="sc" id="s9">${H('k1', 230, 270, 'SMALL', '#FFD23F')}${H('k2', 510, 156, 'BUSINESSES')}${EMO('k3', 70, 760, 330, 'storefront')}
+        <div id="k4" class="chipx" style="left:420px;top:790px;width:520px;height:130px;background:#FF3D6E;font-size:48px">POOR CONTENT</div><div id="k5" class="chipx" style="left:420px;top:970px;width:520px;height:130px;background:#FF3D6E;font-size:48px">NO WEBSITE</div>${EMO('k6', 450, 1130, 190, 'warning')}</div>`);
+      maskReveal(tl, '#k1', LS(11)); maskReveal(tl, '#k2', W(11, 'businesses') - 0.05);
+      pop('#k3', W(11, 'businesses') + 0.2, { s: 0.3 });
+      pop('#k4', W(11, 'poor') - 0.05, { x: 200, y: 0, s: 0.7, r: 3 }); pop('#k5', W(11, 'don') - 0.05, { x: 200, y: 0, s: 0.7, r: -3 });
+      pop('#k6', W(11, 'website'), { s: 0.3 });
+      tl.fromTo('#k5', { x: 0 }, { x: 10, duration: 0.07, yoyo: true, repeat: 5, ease: 'none', immediateRender: false }, W(11, 'don') + 0.6);
+      out('#s9', LS(12) - 0.12);
+
+      // ============ S10 CONTACT THEM (L12) ============
+      add(`<div class="sc" id="s10"><div id="m0" class="abs sub" style="left:60px;top:170px;width:900px">SEND THEM A MESSAGE</div>
+        <div id="m1" class="bub me" style="left:70px;top:290px;width:760px">Hi! I can make your Instagram posts look amazing.</div>
+        <div id="m2" class="bub you" style="left:300px;top:640px;width:650px">Interesting! Tell me more.</div>
+        <div id="m3" class="bub me" style="left:70px;top:900px;width:760px">I can help you get more customers.</div>${EMO('m4', 700, 1120, 220, 'handshake')}</div>`);
+      pop('#m0', LS(12), { s: 0.8, y: 20, r: 0 });
+      pop('#m1', W(12, 'contact'), { s: 0.5, x: -80, y: 20, r: 0 }); pop('#m2', W(12, 'how'), { s: 0.5, x: 80, y: 20, r: 0 }); pop('#m3', W(12, 'could'), { s: 0.5, x: -80, y: 20, r: 0 });
+      pop('#m4', W(12, 'business'), { s: 0.3 }); bob('#m4', W(12, 'business') + 0.5, LS(13), 12, 1.0);
+      out('#s10', LS(13) - 0.12);
+
+      // ============ S11 STEP 4 (L13) ============
+      add(`<div class="sc" id="s11">${BADGE('b4', 230, 4, '#E8590C')}${H('n1', 470, 190, 'GET PAID')}${EMO('n2', 330, 760, 420, 'money')}</div>`);
+      pop('#b4', LS(13), { s: 0.4, y: 0, r: 0 });
+      maskReveal(tl, '#n1', W(13, 'get') - 0.1); pop('#n2', W(13, 'get') + 0.1, { s: 0.2, r: -15 }); bob('#n2', W(13, 'get') + 0.7, LS(14), 20, 1.2);
+      out('#s11', LS(14) - 0.12);
+
+      // ============ S12 AFFORDABLE OFFER (L14) ============
+      add(`<div class="sc" id="s12"><div id="o0" class="abs sub" style="left:60px;top:170px;width:900px">START WITH AN AFFORDABLE OFFER</div>${H('o1', 300, 440, '$0', '#1A0B3B')}
+        <div id="o2" class="chipx" style="left:190px;top:900px;width:700px;height:130px;background:#1A0B3B;font-size:50px">SMALL PROJECT</div></div>`);
+      pop('#o0', LS(14), { s: 0.8, y: 20, r: 0 });
+      tl.set('#o1', { opacity: 1 }, W(14, '$25') - 0.05);
+      tl.fromTo('#o1', { scale: 0.3 }, { scale: 1, duration: 0.5, ease: 'back.out(2)', immediateRender: false }, W(14, '$25') - 0.05);
+      count('#o1', W(14, '$25') - 0.05, 0, 25, 0.7);
+      pop('#o2', W(14, 'small') - 0.05, { s: 0.5, y: 30, r: 0 });
+      lot('mon', 'money-stack-s.json', 330, 1030, 420, 331, W(14, 'small'), 2.8);
+      out('#s12', LS(15) - 0.12);
+
+      // ============ S13 FOUR x $25 = $100 (L15) ============
+      add(`<div class="sc" id="s13"><div id="q0" class="abs sub" style="left:60px;top:170px;width:900px">4 CLIENTS × $25</div>
+        ${[0, 1, 2, 3].map((k) => `<div id="q${k + 1}" class="abs" style="left:${65 + k * 232}px;top:300px;width:200px;height:200px;border-radius:50px;background:#fff;color:#E8590C;font-weight:700;font-size:72px;display:flex;align-items:center;justify-content:center;box-shadow:0 14px 0 rgba(0,0,0,.2)">$25</div>`).join('')}
+        ${H('q5', 620, 380, '$0', '#1A0B3B')}<div id="q6" class="chipx" style="left:130px;top:1090px;width:780px;height:130px;background:#2EE59D;color:#07331F;font-size:50px">YOUR FIRST $100</div></div>`);
+      pop('#q0', W(15, 'four') - 0.1, { s: 0.8, y: 20, r: 0 });
+      [W(15, 'four'), W(15, 'clients'), W(15, 'paying'), W(15, '$25')].forEach((t, k) => pop('#q' + (k + 1), t, { s: 0.3, y: 60 }));
+      const tg = W(15, 'gets'); const tfin = W(15, '$100');
+      [1, 2, 3, 4].forEach((k) => tl.to('#q' + k, { y: 330 + (k - 2.5) * 0, x: (2.5 - k) * 232 * 0.9, scale: 0.35, opacity: 0, duration: 0.5, ease: 'power3.in' }, tg + k * 0.07));
+      tl.set('#q5', { opacity: 1 }, tg + 0.35);
+      tl.fromTo('#q5', { scale: 0.4 }, { scale: 1, duration: 0.4, ease: 'back.out(1.8)', immediateRender: false }, tg + 0.35);
+      count('#q5', tg + 0.35, 0, 100, Math.max(0.5, tfin - tg - 0.35));
+      punch(tl, '#q5', tfin, { scale: 1.12 }); pop('#q6', tfin + 0.05, { s: 0.4, y: 30, r: 0 });
+      lot('cf1', 'confetti-a.json', 90, 330, 900, 900, tfin, 2.2);
+      out('#s13', LS(16) - 0.12);
+
+      // ============ S14 NOT OVERNIGHT (L16) ============
+      add(`<div class="sc" id="s14">${H('r1', 380, 190, 'GET RICH')}${H('r2', 610, 156, 'OVERNIGHT?', '#FFD23F')}<div id="rx" class="strikeR" style="left:95px;top:690px;width:830px"></div>${EMO('r3', 380, 900, 300, 'currency-dollar')}</div>`);
+      maskReveal(tl, '#r1', W(16, 'get') - 0.05); maskReveal(tl, '#r2', W(16, 'rich'));
+      pop('#r3', W(16, 'rich') + 0.1, { s: 0.3 });
+      tl.to('#rx', { scaleX: 1, duration: 0.3, ease: 'power2.out' }, W(16, 'overnight') + 0.45);
+      tl.to('#r3', { rotation: 8, y: 30, opacity: 0.35, duration: 0.5 }, W(16, 'overnight') + 0.5);
+      out('#s14', LS(17) - 0.12);
+
+      // ============ S15 THREE ACTIONS (L17) ============
+      const AC = [['u1', 'GET STARTED', 'rocket-launch', '#FF3D8B', 'started'], ['u2', 'BUILD YOUR SKILL', 'hammer', '#8B5CFF', 'build'], ['u3', 'LAND CUSTOMER #1', 'target', '#14B86B', 'land']];
+      add(`<div class="sc" id="s15">${AC.map((a, k) => `<div id="${a[0]}" class="chipx" style="left:70px;top:${300 + k * 300}px;width:880px;height:230px;background:${a[3]};font-size:68px;justify-content:flex-start;padding-left:40px;gap:28px"><img style="width:140px;height:140px" src="assets/img/ico-${a[2]}.svg">${a[1]}</div>`).join('')}</div>`);
+      AC.forEach((a, k) => pop('#' + a[0], W(17, a[4]) - 0.15, { x: -300, y: 0, s: 0.8, r: 0, e: 'back.out(1.4)' }));
+      out('#s15', LS(18) - 0.12);
+
+      // ============ S16 CTA (L18) ============
+      add(`<div class="sc" id="s16">${H('t1', 220, 170, 'COMMENT')}<div id="t2" class="btn" style="left:130px;top:470px;width:780px;height:320px;font-size:210px">"100$"</div>
+        ${H('t3', 900, 84, 'TO GET THE TUTORIAL')}<div id="t4" class="chipx" style="left:210px;top:1050px;width:620px;height:150px;background:#1A0B3B;font-size:62px"><img style="width:100px;height:100px" src="assets/img/glyph-chat-circle-dots.svg">IN YOUR DMs</div></div>`);
+      maskReveal(tl, '#t1', LS(18));
+      pop('#t2', W(18, '100'), { s: 0.2, r: -8 }); heartbeat(tl, '#t2', W(18, '100') + 0.8, TOTAL);
+      maskReveal(tl, '#t3', W(18, 'receive')); pop('#t4', W(18, 'in'), { s: 0.4, y: 30, r: 0 });
+      lot('cf2', 'confetti-b.json', 90, 250, 900, 900, W(18, '100'), 2.2);
+
+
+      // ================= captions (word-timed karaoke) =================
+      const css = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+      const hexA = (h, a) => { const n = parseInt(h.replace('#', ''), 16); return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${a})`; };
+      const ACC = css('--accent'), INK = css('--ink'), ONACC = css('--on-accent');
+      const capsEl = $('#caps');
+      const groups = []; let cur = [];
+      WORDS.forEach((w, i) => { cur.push(w); const nx = WORDS[i + 1]; const endS = /[.!?]$/.test(w.w); const endC = /,$/.test(w.w) && cur.length >= 2; if (!nx || endS || endC || cur.length >= 4 || (nx && nx.s - w.e > 0.5)) { groups.push(cur); cur = []; } });
+      groups.forEach((g, gi) => {
+        if (typeof NO_CAPTION_LINES !== 'undefined' && NO_CAPTION_LINES.includes(g[0].line)) return;
+        const d = document.createElement('div'); d.className = 'cg'; const pill = document.createElement('div'); pill.className = 'pill'; d.appendChild(pill);
+        g.forEach((w, wi) => { const s = document.createElement('span'); s.className = 'cw'; s.id = `cw${gi}_${wi}`; s.textContent = w.w; pill.appendChild(s); });
+        capsEl.appendChild(d);
+        const a0 = g[0].s - 0.03, nextS = groups[gi + 1] ? groups[gi + 1][0].s : 1e9, b = Math.min(g[g.length - 1].e + 0.2, nextS - 0.08);
+        tl.fromTo(d, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.1, ease: 'power2.out', immediateRender: false }, Math.max(0, a0));
+        tl.to(d, { opacity: 0, duration: 0.06, ease: 'none' }, b);
+        g.forEach((w, wi) => { const sp = `#cw${gi}_${wi}`;
+          tl.fromTo(sp, { backgroundColor: hexA(ACC, 0), color: INK }, { backgroundColor: ACC, color: ONACC, duration: 0.06, ease: 'none', immediateRender: false }, w.s);
+          tl.to(sp, { backgroundColor: hexA(ACC, 0), color: INK, duration: 0.06, ease: 'none' }, Math.max(w.e, w.s + 0.1)); });
+      });
+      tl.fromTo('#prog', { scaleX: 0 }, { scaleX: 1, duration: 86.76, ease: 'none', immediateRender: false }, 0);
+      window.__timelines['main'] = tl;
+      tl.seek(0);
+    </script>
+
+  </body>
+</html>

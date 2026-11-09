@@ -1,0 +1,50 @@
+[
+ {
+  "t": 0,
+  "style": "intro"
+ },
+ {
+  "t": 6.99,
+  "style": "groove"
+ },
+ {
+  "t": 22.07,
+  "style": "tech"
+ },
+ {
+  "t": 40.67,
+  "style": "build"
+ },
+ {
+  "t": 48.06,
+  "style": "soft"
+ },
+ {
+  "t": 53.62,
+  "style": "hopeful"
+ },
+ {
+  "t": 58.7,
+  "style": "lift"
+ },
+ {
+  "t": 69.33,
+  "style": "swell"
+ },
+ {
+  "t": 70.64,
+  "style": "peak"
+ },
+ {
+  "t": 72.3,
+  "style": "play"
+ },
+ {
+  "t": 74.6,
+  "style": "climb"
+ },
+ {
+  "t": 80.86,
+  "style": "cta"
+ }
+]

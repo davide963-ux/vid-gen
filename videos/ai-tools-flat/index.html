@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script src="assets/vendor/lottie.min.js"></script>
+    <style>
+      /* THEME: change these six values to restyle the whole video */
+      :root { --bg: #0B1220; --ink: #F1F3F8; --accent: #E9B949; --panel: #131D33; --line: #2A3A5C; --muted: #8C97AD; --good: #67E3AE; --bad: #F0616D; --on-accent: #0B1220; --dots: rgba(233,185,73,0.10); --glow: rgba(233,185,73,0.12); }
+      :root { --bg: #F7F5EF; --ink: #111827; --accent: #15803D; --panel: #FFFFFF; --line: rgba(17,24,39,0.10); --muted: #6B7280; --good: #15803D; --bad: #111827; --on-accent: #FFFFFF; --dots: rgba(17,24,39,0.04); --glow: rgba(0,0,0,0); }
+@font-face { font-family: 'JetBrains Mono'; font-weight: 400 700; src: url('assets/fonts/jbmono.woff2') format('woff2'); }
+@font-face { font-family: 'Instrument Sans'; font-weight: 400 700; src: url('assets/fonts/instrument.woff2') format('woff2'); }
+#prog, #caps { display: none; }
+#root { background: #F7F5EF !important; font-family: 'Instrument Sans', sans-serif; color: #111827; }
+.shk, .cam { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+.sc { z-index: 2; display: none; background: radial-gradient(rgba(17,24,39,0.07) 1.4px, transparent 1.6px) 0 0 / 60px 60px, radial-gradient(900px 900px at 92% -6%, rgba(34,166,90,0.11), transparent 62%), radial-gradient(900px 900px at -4% 102%, rgba(245,158,11,0.10), transparent 62%), #F7F5EF; }
+.hd { font-family: 'Space Grotesk', sans-serif; font-weight: 700; color: #111827; text-align: center; white-space: nowrap; line-height: 1.04; letter-spacing: -0.02em; text-transform: uppercase; }
+.hd.g { color: #15803D; } .hd.a { color: #D97706; } .hd.m { color: #6B7280; } .hd.w { color: #fff; }
+.mono { font-family: 'JetBrains Mono', monospace; font-weight: 500; letter-spacing: 0.26em; text-transform: uppercase; color: #6B7280; text-align: center; white-space: nowrap; text-indent: 0.26em; }
+.card3 { position: absolute; background: #FFFFFF; border: 1px solid rgba(17,24,39,0.08); border-radius: 28px; box-shadow: 0 1px 2px rgba(17,24,39,0.06), 0 16px 36px rgba(17,24,39,0.10); }
+.tilex { position: absolute; opacity: 0; will-change: transform; }
+.tilex img { width: 100%; height: 100%; display: block; filter: drop-shadow(0 8px 14px rgba(17,24,39,0.18)); }
+.lg3 { position: absolute; opacity: 0; perspective: 1100px; }
+.lg3i { position: absolute; left: 0; top: 0; width: 100%; height: 100%; transform-style: preserve-3d; }
+.lg3i img { position: absolute; left: 0; top: 0; width: 100%; height: 100%; display: block; }
+.sk { position: absolute; border-radius: 10px; background: rgba(17,24,39,0.10); }
+.rw { position: absolute; width: 0; height: 0; }
+.rb { position: absolute; left: 0; top: -2px; height: 4px; border-radius: 4px; opacity: 0; }
+.ring { position: absolute; border-radius: 50%; border: 4px solid rgba(21,128,61,0.55); opacity: 0; }
+.dot { position: absolute; border-radius: 50%; opacity: 0; }
+.shadow { position: absolute; opacity: 0; border-radius: 50%; background: radial-gradient(closest-side, rgba(17,24,39,0.24), transparent); }
+.bub { position: absolute; opacity: 0; padding: 20px 28px; border-radius: 30px; font-weight: 600; font-size: 32px; line-height: 1.2; }
+.btn3 { position: absolute; opacity: 0; display: flex; align-items: center; justify-content: center; border-radius: 120px; background: #15803D; color: #fff; font-family: 'Space Grotesk', sans-serif; font-weight: 700; box-shadow: 0 10px 0 #0E5C2B, 0 22px 30px rgba(17,24,39,0.22); white-space: nowrap; }
+.pill { position: absolute; opacity: 0; display: flex; align-items: center; justify-content: center; border-radius: 40px; font-family: 'JetBrains Mono', monospace; font-weight: 600; letter-spacing: 0.14em; }
+.meter { position: absolute; opacity: 0; border-radius: 14px; background: rgba(17,24,39,0.10); overflow: hidden; }
+.meter > i { position: absolute; left: 0; top: 0; height: 100%; width: 0; border-radius: 14px; }
+.row3 { position: absolute; opacity: 0; display: flex; align-items: center; gap: 20px; font-weight: 700; font-size: 36px; color: #111827; }
+
+      @font-face { font-family: 'Space Grotesk'; font-weight: 500; src: url('assets/fonts/space-grotesk-latin-500-normal.woff2') format('woff2'); }
+      @font-face { font-family: 'Space Grotesk'; font-weight: 600; src: url('assets/fonts/space-grotesk-latin-600-normal.woff2') format('woff2'); }
+      @font-face { font-family: 'Space Grotesk'; font-weight: 700; src: url('assets/fonts/space-grotesk-latin-700-normal.woff2') format('woff2'); }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background-color: var(--bg); background-image: radial-gradient(var(--dots) 2.5px, transparent 2.5px); background-size: 60px 60px; font-family: 'Space Grotesk', sans-serif; color: var(--ink); }
+      #stage { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; }
+      #glow { position: absolute; left: -200px; top: -300px; width: 1480px; height: 1100px; pointer-events: none; background: radial-gradient(closest-side, var(--glow), transparent); }
+      /* SAFE AREA (1080x1920): keep content at x 60..960 and y 120..1600. Right ~120px and bottom ~320px belong to TikTok's UI. */
+      .abs { position: absolute; opacity: 0; }
+      .sc { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; }
+      .sp { position: absolute; opacity: 0; will-change: transform; }
+      .lot { position: absolute; opacity: 0; }
+      .big { font-weight: 700; letter-spacing: -0.035em; line-height: 1.02; text-align: center; white-space: nowrap; }
+      .ac { color: var(--accent); } .gn { color: var(--good); } .rd { color: var(--bad); }
+      .tag { font-weight: 600; font-size: 30px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); text-align: center; white-space: nowrap; }
+      .chip { display: inline-block; padding: 12px 30px; border-radius: 100px; background: rgba(233,185,73,0.10); border: 1.5px solid rgba(233,185,73,0.45); color: var(--accent); font-weight: 600; font-size: 28px; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; }
+      .card { background: var(--panel); border: 1.5px solid var(--line); border-radius: 28px; box-shadow: 0 24px 60px rgba(0,0,0,0.45); }
+      .strike { position: absolute; height: 10px; border-radius: 6px; background: var(--bad); transform-origin: left center; transform: scaleX(0); }
+      .mw { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: 0.14em; margin-bottom: -0.14em; }
+      .mi { display: inline-block; will-change: transform; }
+      #prog { position: absolute; left: 0; bottom: 0; width: 1080px; height: 6px; background: var(--accent); transform-origin: left center; }
+      #caps { position: absolute; left: 0; top: 1392px; width: 1080px; height: 190px; }
+      .cg { position: absolute; left: 90px; top: 0; width: 900px; text-align: center; opacity: 0; }
+      .cg .pill { display: inline-block; padding: 14px 30px 16px; border-radius: 34px; background: var(--panel); border: 1.5px solid var(--line); box-shadow: 0 8px 30px rgba(0,0,0,0.5); font-weight: 600; font-size: 50px; line-height: 1.2; letter-spacing: -0.01em; color: var(--ink); }
+      .cw { display: inline-block; margin: 0 4px; padding: 0 10px; border-radius: 12px; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="88.08" data-width="1080" data-height="1920">
+      <div id="stage" class="clip" data-start="0" data-duration="88.08" data-track-index="0">
+        <div id="glow"></div>
+        <div id="dyn"></div>
+        <!-- scene elements are created in src/scenes.js; add static elements here if needed -->
+
+        <div id="caps"></div>
+        <div id="prog"></div>
+      </div>
+    </div>
+
+    <script>
+      const WORDS = [{"w":"What","s":0,"e":0.24,"line":1},{"w":"if","s":0.24,"e":0.38,"line":1},{"w":"I","s":0.38,"e":0.47,"line":1},{"w":"told","s":0.47,"e":0.81,"line":1},{"w":"you","s":0.81,"e":1.07,"line":1},{"w":"that","s":1.07,"e":1.27,"line":1},{"w":"you","s":1.27,"e":1.36,"line":1},{"w":"could","s":1.36,"e":1.52,"line":1},{"w":"start","s":1.52,"e":1.91,"line":1},{"w":"making","s":1.91,"e":2.28,"line":1},{"w":"money","s":2.28,"e":2.59,"line":1},{"w":"online","s":2.59,"e":3.11,"line":1},{"w":"using","s":3.11,"e":3.56,"line":1},{"w":"AI,","s":3.56,"e":4.31,"line":1},{"w":"even","s":4.49,"e":4.78,"line":1},{"w":"if","s":4.78,"e":4.89,"line":1},{"w":"you","s":4.89,"e":5.01,"line":1},{"w":"have","s":5.01,"e":5.22,"line":1},{"w":"absolutely","s":5.22,"e":5.95,"line":1},{"w":"no","s":5.95,"e":6.3,"line":1},{"w":"coding","s":6.3,"e":6.79,"line":1},{"w":"or","s":6.79,"e":7.02,"line":1},{"w":"design","s":7.02,"e":7.42,"line":1},{"w":"experience?","s":7.42,"e":8.26,"line":1},{"w":"Here","s":8.8,"e":9.11,"line":2},{"w":"are","s":9.11,"e":9.19,"line":2},{"w":"five","s":9.16,"e":9.68,"line":2},{"w":"AI","s":9.68,"e":10.05,"line":2},{"w":"tools","s":10.05,"e":10.44,"line":2},{"w":"that","s":10.44,"e":10.56,"line":2},{"w":"can","s":10.56,"e":10.68,"line":2},{"w":"help","s":10.68,"e":10.91,"line":2},{"w":"you","s":10.91,"e":11.05,"line":2},{"w":"turn","s":11.05,"e":11.36,"line":2},{"w":"your","s":11.36,"e":11.51,"line":2},{"w":"skills","s":11.51,"e":12.06,"line":2},{"w":"into","s":12.06,"e":12.5,"line":2},{"w":"a","s":12.5,"e":12.58,"line":2},{"w":"business.","s":12.54,"e":13.21,"line":2},{"w":"First,","s":13.56,"e":14.29,"line":3},{"w":"ChatGPT.","s":14.29,"e":15.4,"line":3},{"w":"Use","s":15.7,"e":15.97,"line":3},{"w":"it","s":15.97,"e":16.07,"line":3},{"w":"to","s":16.07,"e":16.16,"line":3},{"w":"write","s":16.16,"e":16.43,"line":3},{"w":"content,","s":16.43,"e":17.21,"line":3},{"w":"research","s":17.21,"e":17.73,"line":3},{"w":"ideas,","s":17.73,"e":18.21,"line":3},{"w":"create","s":18.42,"e":18.86,"line":3},{"w":"marketing","s":18.86,"e":19.37,"line":3},{"w":"strategies,","s":19.37,"e":20.01,"line":3},{"w":"and","s":20.2,"e":20.34,"line":3},{"w":"help","s":20.34,"e":20.59,"line":3},{"w":"businesses","s":20.59,"e":21.19,"line":3},{"w":"with","s":21.19,"e":21.38,"line":3},{"w":"everyday","s":21.38,"e":21.99,"line":3},{"w":"tasks.","s":21.99,"e":22.72,"line":3},{"w":"Second,","s":23.1,"e":23.83,"line":4},{"w":"Canva.","s":23.96,"e":24.57,"line":4},{"w":"Create","s":24.77,"e":25.21,"line":4},{"w":"professional","s":25.21,"e":25.84,"line":4},{"w":"social","s":25.84,"e":26.21,"line":4},{"w":"media","s":26.21,"e":26.58,"line":4},{"w":"designs,","s":26.58,"e":27.27,"line":4},{"w":"presentations,","s":27.27,"e":28.26,"line":4},{"w":"advertisements,","s":28.26,"e":29.14,"line":4},{"w":"and","s":29.38,"e":29.58,"line":4},{"w":"digital","s":29.58,"e":29.93,"line":4},{"w":"products","s":29.93,"e":30.43,"line":4},{"w":"that","s":30.43,"e":30.59,"line":4},{"w":"you","s":30.59,"e":30.75,"line":4},{"w":"can","s":30.75,"e":30.93,"line":4},{"w":"sell.","s":30.93,"e":31.49,"line":4},{"w":"Third,","s":31.91,"e":32.55,"line":5},{"w":"CapCut.","s":32.72,"e":33.5,"line":5},{"w":"Offer","s":33.7,"e":34,"line":5},{"w":"short-form","s":34,"e":34.82,"line":5},{"w":"video","s":34.82,"e":35.19,"line":5},{"w":"editing","s":35.19,"e":35.56,"line":5},{"w":"services","s":35.56,"e":36.17,"line":5},{"w":"to","s":36.17,"e":36.31,"line":5},{"w":"businesses","s":36.31,"e":37.04,"line":5},{"w":"and","s":37.04,"e":37.22,"line":5},{"w":"content","s":37.22,"e":37.7,"line":5},{"w":"creators.","s":37.7,"e":38.51,"line":5},{"w":"Fourth,","s":38.88,"e":39.61,"line":6},{"w":"Lovable.","s":39.77,"e":40.47,"line":6},{"w":"Build","s":40.68,"e":41.05,"line":6},{"w":"websites","s":41.05,"e":41.78,"line":6},{"w":"and","s":41.78,"e":41.95,"line":6},{"w":"simple","s":41.95,"e":42.41,"line":6},{"w":"applications","s":42.41,"e":43.19,"line":6},{"w":"using","s":43.19,"e":43.58,"line":6},{"w":"AI,","s":43.58,"e":44.2,"line":6},{"w":"even","s":44.51,"e":44.77,"line":6},{"w":"if","s":44.77,"e":44.89,"line":6},{"w":"you're","s":44.89,"e":45.08,"line":6},{"w":"not","s":45.08,"e":45.42,"line":6},{"w":"an","s":45.42,"e":45.51,"line":6},{"w":"experienced","s":45.51,"e":46.29,"line":6},{"w":"programmer.","s":46.29,"e":47,"line":6},{"w":"And","s":47.44,"e":47.64,"line":7},{"w":"fifth,","s":47.64,"e":48.36,"line":7},{"w":"Zapier.","s":48.36,"e":49.02,"line":7},{"w":"Help","s":49.32,"e":49.66,"line":7},{"w":"businesses","s":49.66,"e":50.23,"line":7},{"w":"automate","s":50.23,"e":50.82,"line":7},{"w":"repetitive","s":50.82,"e":51.45,"line":7},{"w":"tasks,","s":51.45,"e":52.08,"line":7},{"w":"connect","s":52.29,"e":52.73,"line":7},{"w":"their","s":52.73,"e":52.86,"line":7},{"w":"apps,","s":52.86,"e":53.35,"line":7},{"w":"and","s":53.6,"e":53.75,"line":7},{"w":"save","s":53.75,"e":54.23,"line":7},{"w":"hours","s":54.23,"e":54.71,"line":7},{"w":"of","s":54.71,"e":54.79,"line":7},{"w":"manual","s":54.79,"e":55.2,"line":7},{"w":"work.","s":55.2,"e":55.81,"line":7},{"w":"Here's","s":56.25,"e":56.59,"line":8},{"w":"the","s":56.59,"e":56.75,"line":8},{"w":"interesting","s":56.75,"e":57.25,"line":8},{"w":"part.","s":57.25,"e":57.7,"line":8},{"w":"You","s":57.91,"e":58.07,"line":9},{"w":"don't","s":58.07,"e":58.29,"line":9},{"w":"need","s":58.29,"e":58.47,"line":9},{"w":"to","s":58.47,"e":58.57,"line":9},{"w":"master","s":58.57,"e":59.06,"line":9},{"w":"all","s":59.06,"e":59.49,"line":9},{"w":"five","s":59.49,"e":59.91,"line":9},{"w":"tools.","s":59.91,"e":60.51,"line":9},{"w":"Pick","s":60.7,"e":61.03,"line":10},{"w":"one,","s":61.03,"e":61.5,"line":10},{"w":"learn","s":61.64,"e":61.93,"line":10},{"w":"how","s":61.93,"e":62.1,"line":10},{"w":"to","s":62.1,"e":62.22,"line":10},{"w":"use","s":62.22,"e":62.54,"line":10},{"w":"it,","s":62.54,"e":62.79,"line":10},{"w":"create","s":63.03,"e":63.44,"line":10},{"w":"a","s":63.44,"e":63.52,"line":10},{"w":"few","s":63.49,"e":63.72,"line":10},{"w":"examples,","s":63.72,"e":64.41,"line":10},{"w":"and","s":64.65,"e":64.81,"line":10},{"w":"start","s":64.81,"e":65.19,"line":10},{"w":"offering","s":65.19,"e":65.63,"line":10},{"w":"that","s":65.63,"e":65.91,"line":10},{"w":"service","s":65.91,"e":66.39,"line":10},{"w":"to","s":66.39,"e":66.5,"line":10},{"w":"businesses.","s":66.5,"e":67.28,"line":10},{"w":"Instead","s":67.55,"e":68.01,"line":11},{"w":"of","s":68.01,"e":68.1,"line":11},{"w":"selling","s":68.1,"e":68.49,"line":11},{"w":"AI,","s":68.49,"e":69.08,"line":11},{"w":"you're","s":69.31,"e":69.46,"line":11},{"w":"selling","s":69.46,"e":69.85,"line":11},{"w":"a","s":69.85,"e":69.93,"line":11},{"w":"solution","s":69.88,"e":70.52,"line":11},{"w":"to","s":70.52,"e":70.74,"line":11},{"w":"a","s":70.74,"e":70.82,"line":11},{"w":"real","s":70.77,"e":71.24,"line":11},{"w":"problem.","s":71.24,"e":71.85,"line":11},{"w":"AI","s":72.28,"e":72.69,"line":12},{"w":"isn't","s":72.69,"e":73.03,"line":12},{"w":"going","s":73.03,"e":73.26,"line":12},{"w":"to","s":73.26,"e":73.36,"line":12},{"w":"make","s":73.36,"e":73.59,"line":12},{"w":"you","s":73.59,"e":73.74,"line":12},{"w":"rich","s":73.74,"e":74.16,"line":12},{"w":"overnight,","s":74.16,"e":74.89,"line":12},{"w":"but","s":75.17,"e":75.36,"line":12},{"w":"learning","s":75.36,"e":75.78,"line":12},{"w":"how","s":75.78,"e":75.96,"line":12},{"w":"to","s":75.96,"e":76.09,"line":12},{"w":"use","s":76.09,"e":76.41,"line":12},{"w":"it","s":76.41,"e":76.61,"line":12},{"w":"could","s":76.61,"e":76.82,"line":12},{"w":"open","s":76.82,"e":77.2,"line":12},{"w":"doors","s":77.2,"e":77.53,"line":12},{"w":"to","s":77.53,"e":77.62,"line":12},{"w":"opportunities","s":77.62,"e":78.5,"line":12},{"w":"that","s":78.7,"e":78.88,"line":12},{"w":"didn't","s":78.88,"e":79.2,"line":12},{"w":"exist","s":79.2,"e":79.75,"line":12},{"w":"a","s":79.75,"e":79.83,"line":12},{"w":"few","s":79.79,"e":80.07,"line":12},{"w":"years","s":80.07,"e":80.41,"line":12},{"w":"ago.","s":80.41,"e":80.85,"line":12},{"w":"COMMENT","s":81.47,"e":82.13,"line":13},{"w":"\"AI\"","s":82.13,"e":82.75,"line":13},{"w":"TO","s":82.75,"e":82.89,"line":13},{"w":"RECEIVE","s":82.89,"e":83.29,"line":13},{"w":"A","s":83.29,"e":83.37,"line":13},{"w":"STEP-BY-STEP","s":83.33,"e":84.3,"line":13},{"w":"TUTORIAL","s":84.3,"e":85.1,"line":13},{"w":"IN","s":85.1,"e":85.38,"line":13},{"w":"YOUR","s":85.38,"e":85.58,"line":13},{"w":"DMs!","s":85.58,"e":86.27,"line":13}];
+      window.__timelines = window.__timelines || {};
+      const wd = (l, k) => WORDS.filter((w) => w.line === l)[k].s;     // start time of word k in script line l
+      const tl = gsap.timeline({ paused: true });
+      const E = 'power3.out', IO = 'power2.inOut';
+      const $ = (s) => document.querySelector(s);
+      const R = (el, t, from, to) => tl.fromTo(el, Object.assign({ opacity: 0, y: 30 }, from || {}), Object.assign({ opacity: 1, y: 0, duration: 0.5, ease: E, immediateRender: false }, to || {}), t);
+      const X = (el, t, d) => tl.to(el, { opacity: 0, duration: d || 0.25, ease: 'none' }, t);
+      const POP = { scale: 0.6, y: 24 }, POPTO = { scale: 1, duration: 0.5 };
+      const STRIKE = (sel, t) => tl.fromTo(sel, { scaleX: 0 }, { scaleX: 1, duration: 0.3, ease: 'power2.out', immediateRender: false }, t);
+      const add = (h) => $('#dyn').insertAdjacentHTML('beforeend', h);
+      const money = (v) => '$' + Math.round(v).toLocaleString('en-US');
+      const count = (sel, t, from, to, dur) => { const o = { v: from }; tl.to(o, { v: to, duration: dur, ease: 'power3.out', onUpdate() { $(sel).textContent = money(o.v); } }, t); };
+      // Paste-in helpers for HyperFrames templates (classic <script>, GSAP timeline `tl`, `$` = querySelector).
+// Ideas adapted (rewritten for our stack) from the MIT-licensed iart-ai/tiktok-video-skills + kinetic-typography-skills.
+// Everything is seek-safe: tweens only, no timers, no randomness except the seeded hash().
+//
+// Needs this CSS in the template:
+//   .mw { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: 0.14em; margin-bottom: -0.14em; }
+//   .mi { display: inline-block; will-change: transform; }
+
+const SAFE = { left: 60, right: 960, top: 120, bottom: 1600 };   // 1080x1920: keep text/cards inside; TikTok UI sits outside (right ~120px, bottom ~320px)
+
+const hashH = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+
+// Split a PLAIN-TEXT element into masked words (screen-reader label kept). Returns the inner word nodes.
+const splitWords = (sel) => {
+  const el = document.querySelector(sel); const txt = el.textContent.trim();
+  el.setAttribute('aria-label', txt);
+  el.innerHTML = txt.split(/\s+/).map((w) => `<span class="mw"><span class="mi">${w}</span></span>`).join(' ');
+  return el.querySelectorAll('.mi');
+};
+
+// 1) Mask reveal: each word rises out of a clipped line. ~0.6s per word, 60ms stagger, expo ease (keep the whole reveal under ~0.8-1.0s).
+//    Use for headlines that appear mid-video (NOT the hook; see hookNow).
+const maskReveal = (tl, sel, t, o = {}) => {
+  const items = splitWords(sel);
+  tl.set(sel, { opacity: 1 }, t);
+  tl.fromTo(items, { yPercent: 115 }, { yPercent: 0, duration: o.dur || 0.6, ease: 'expo.out', stagger: o.stagger || 0.06, immediateRender: false }, t);
+  return items.length;
+};
+// matching exit: words drop back down (use instead of a plain fade when a headline leaves)
+const maskHide = (tl, sel, t, o = {}) => {
+  const items = document.querySelectorAll(sel + ' .mi');
+  tl.to(items, { yPercent: -115, duration: o.dur || 0.35, ease: 'power3.in', stagger: o.stagger || 0.03 }, t);
+  tl.set(sel, { opacity: 0 }, t + (o.dur || 0.35) + 0.03 * items.length);
+};
+
+// 2) Hook on frame 1: the hook text is fully visible at t=0 (no fade-up, no fade from black); only a tiny settle motion.
+const hookNow = (tl, sels) => { sels.forEach((s) => { tl.set(s, { opacity: 1 }, 0); tl.fromTo(s, { scale: 1.05 }, { scale: 1, duration: 0.6, ease: 'power3.out', immediateRender: false }, 0); }); };
+
+// 3) Pattern interrupt: a quick punch-in pulse on an element (use on long holds).
+const punch = (tl, sel, t, o = {}) => {
+  tl.fromTo(sel, { scale: 1 }, { scale: o.scale || 1.07, duration: o.dur || 0.18, ease: 'power2.out', immediateRender: false }, t);
+  tl.to(sel, { scale: 1, duration: 0.45, ease: 'power2.inOut' }, t + (o.dur || 0.18));
+};
+// Pulse an element every ~3s (uneven: 2.2s-3.8s gaps) between `from` and `to`. Never use a metronome gap.
+const heartbeat = (tl, sel, from, to, o = {}) => { let t = from + 1.2; let i = 0; while (t < to - 0.8) { punch(tl, sel, t, o); t += 2.2 + hashH(i++ + (o.seed || 0)) * 1.6; } };
+
+// 4) Optional seamless loop: end on the same first-frame look. Fade the final card out to the hook's background in the last 0.5s
+//    and make the last spoken line read as the lead-in to the first line ("...and that is why" -> hook).
+
+// 5) Scene wipe: each scene is a full-frame container (.sc, own background colour). The next one slides/zooms in over the previous.
+//    Initial offsets: tl.set('#sc2', { x: 1080 }, 0)  or { y: 1920 } / { x: -1080 } / { scale: 1.5, opacity: 0 } (zoom-in). Example: sceneCut(tl, '#sc1', '#sc2', 2.45, { x: 1080 });
+//    CSS: .sc { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:hidden; }
+const sceneCut = (tl, prev, next, t, from, d = 0.5) => {
+  tl.fromTo(next, from, { x: 0, y: 0, scale: 1, opacity: 1, duration: d, ease: 'power4.out', immediateRender: false }, t);
+  tl.to(prev, { x: from.x ? -from.x * 0.25 : 0, y: from.y ? -from.y * 0.2 : 0, duration: d, ease: 'power4.out' }, t);
+  tl.set(prev, { opacity: 0 }, t + d + 0.05);
+};
+// 6) Slow push-in on a scene container (camera feel): pushIn(tl, '#sc2', 2.5, 5.5)
+const pushIn = (tl, sel, a, b, s = 1.05) => tl.fromTo(sel, { scale: 1 }, { scale: s, duration: b - a, ease: 'none', immediateRender: false }, a + 0.01);
+
+
+      // ================= SCENES (src/scenes.js) =================
+      // ===== helpers =====
+      const norm = (s) => s.toLowerCase().replace(/[^a-z0-9$]/g, '');
+      const LS = (n) => WORDS.find((w) => w.line === n).s;
+      const WW = (n, p) => { const x = WORDS.find((w) => w.line === n && norm(w.w).startsWith(p)); if (!x) throw new Error('word not found: L' + n + ' ' + p); return x; };
+      const W = (n, p) => WW(n, p).s;
+      const TOTAL = WORDS[WORDS.length - 1].e + 1.8;
+      const NO_CAPTION_LINES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];   // brief: no captions
+      const PAL = ['#15803D', '#22A65A', '#F59E0B', '#111827', '#86EFAC', '#FCD34D'];
+      const r01 = (i) => hashH(i * 7.31 + 1.7);
+      const lerp = (a, b, p) => a + (b - a) * p;
+      const clamp = (x, a, b) => Math.min(b, Math.max(a, x));
+      const pop = (sel, t, o = {}) => tl.fromTo(sel, { opacity: 0, scale: o.s === undefined ? 0.6 : o.s, y: o.y === undefined ? 36 : o.y, x: o.x || 0, rotation: o.r || 0 }, { opacity: 1, scale: 1, y: 0, x: 0, rotation: 0, duration: o.d || 0.6, ease: o.e || 'expo.out', immediateRender: false }, t);
+      const out = (sel, t, d) => tl.to(sel, { opacity: 0, duration: d || 0.25, ease: 'power2.in' }, t);
+      const bob = (sel, from, to, amp, per) => { amp = amp || 12; per = per || 2.4; const n = Math.max(2, 2 * Math.round((to - from) / per)); tl.fromTo(sel, { y: 0 }, { y: -amp, duration: (to - from) / n, ease: 'sine.inOut', yoyo: true, repeat: n - 1, immediateRender: false }, from); };
+      const driver = (t0, t1, fn) => { const o = { p: 0 }; tl.to(o, { p: 1, duration: t1 - t0, ease: 'none', onUpdate: () => fn(o.p * (t1 - t0), o.p) }, t0); };
+      const HD = (id, top, size, txt, cls, left, width) => { width = width || 900; size = Math.min(Math.round(size * 1.2), Math.floor((width - 40) / (txt.length * 0.76))); return `<div id="${id}" class="abs hd ${cls || ''}" style="left:${left === undefined ? 60 : left}px;top:${top}px;width:${width}px;font-size:${size}px">${txt}</div>`; };
+      const IM = (id, l, t, s, file, cls) => `<div id="${id}" class="tilex ${cls || ''}" style="left:${l}px;top:${t}px;width:${s}px;height:${s}px"><img src="assets/img/${file}.svg"></div>`;
+      const CG = (id, l, t, w, h, icon, label, sub, fs) => `<div id="${id}" class="chg" style="left:${l}px;top:${t}px;width:${w}px;height:${h}px;font-size:${fs || 30}px"><img src="assets/img/ico-${icon}.svg"><div style="white-space:normal">${label}${sub ? '<small>' + sub + '</small>' : ''}</div></div>`;
+      const ringBurst = (sel, t, d, s0, s1) => tl.fromTo(sel, { scale: s0 || 0.5, opacity: 0.85 }, { scale: s1 || 1.6, opacity: 0, duration: d || 1.2, ease: 'power2.out', immediateRender: false }, t);
+      const SC = (n, off, inner) => `<div class="sc" id="s${n}"><div class="shk" id="k${n}"><div class="cam" id="c${n}" style="top:${off}px">${inner}</div></div></div>`;
+      const camMove = (n, t0, t1, a) => tl.fromTo('#c' + n, { scale: a.s0 === undefined ? 1 : a.s0, x: a.x0 || 0, y: a.y0 || 0, rotation: a.r0 || 0 }, { scale: a.s1 === undefined ? 1 : a.s1, x: a.x1 || 0, y: a.y1 || 0, rotation: a.r1 || 0, duration: t1 - t0, ease: a.e || 'none', immediateRender: false }, t0);
+      const shake = (sel, t, amp, dur) => { amp = amp || 14; dur = dur || 0.4; const n = 8; for (let i = 0; i < n; i++) tl.to(sel, { x: (r01(i + Math.floor(t * 10)) - 0.5) * 2 * amp * (1 - i / n), y: (r01(i + 40 + Math.floor(t * 10)) - 0.5) * 2 * amp * (1 - i / n), duration: dur / n, ease: 'none' }, t + i * dur / n); tl.to(sel, { x: 0, y: 0, duration: 0.05 }, t + dur); };
+      const kin = (sel, t, mode, o = {}) => maskReveal(tl, sel, t, { dur: 0.6, stagger: 0.07 });
+      const rays = (id, cx, cy, t0, o = {}) => { const n = o.n || 34; let h = '';
+        for (let i = 0; i < n; i++) { const a = (i * 360 / n + hashH(i + 3) * 9).toFixed(1), col = PAL[i % 6]; h += `<div class="rw" style="left:${cx}px;top:${cy}px;transform:rotate(${a}deg)"><div id="${id}${i}" class="rb" style="width:${(120 + hashH(i + 11) * 280).toFixed(0)}px;height:${(3 + hashH(i + 5) * 4).toFixed(1)}px;background:linear-gradient(90deg,rgba(255,255,255,0),${col} 60%,${col})"></div></div>`; }
+        add(h);
+        for (let i = 0; i < n; i++) { const st = t0 + hashH(i + 1) * (o.spread || 0.25), d = o.dur || 0.75, far = 1150 + hashH(i) * 300;
+          if (o.inward) { tl.fromTo('#' + id + i, { x: far, opacity: 0 }, { x: 30, opacity: 1, duration: d, ease: 'power3.in', immediateRender: false }, st); tl.to('#' + id + i, { opacity: 0, duration: 0.12 }, st + d); }
+          else { tl.fromTo('#' + id + i, { x: 40, opacity: 0 }, { x: far, opacity: 1, duration: d, ease: 'power2.in', immediateRender: false }, st); tl.to('#' + id + i, { opacity: 0, duration: 0.2 }, st + d - 0.15); } } };
+      const confetti = (pre, n, cx, cy, t0, o = {}) => { let h = ''; for (let i = 0; i < n; i++) { const sz = 10 + r01(i + 5) * 16; h += `<div id="${pre}${i}" class="dot" style="left:${cx}px;top:${cy}px;width:${sz}px;height:${sz * (i % 3 ? 1 : 0.5)}px;background:${PAL[i % 6]};border-radius:${i % 2 ? '50%' : '3px'}"></div>`; } add(h);
+        for (let i = 0; i < n; i++) { const a = r01(i + 9) * 6.283, d = (o.dist || 500) * (0.4 + r01(i + 3) * 0.9); tl.fromTo('#' + pre + i, { x: 0, y: 0, opacity: 1, scale: 1, rotation: 0 }, { x: Math.cos(a) * d, y: Math.sin(a) * d + (o.grav || 260), opacity: 0, scale: 0.5, rotation: (r01(i) - 0.5) * 900, duration: o.dur || 1.3, ease: 'power3.out', immediateRender: false }, t0 + r01(i + 2) * 0.1); } };
+      const coinRain = (pre, n, t0, o = {}) => { let h = ''; for (let i = 0; i < n; i++) h += `<div id="${pre}${i}" class="tilex" style="left:${60 + r01(i + 4) * 800}px;top:${o.top || 200}px;width:${70 + r01(i) * 40}px;height:${70 + r01(i) * 40}px"><img src="assets/img/ico-coins.svg"></div>`; add(h);
+        for (let i = 0; i < n; i++) tl.fromTo('#' + pre + i, { opacity: 1, y: 0, rotation: (r01(i) - 0.5) * 60 }, { opacity: 0, y: o.fall || 1300, rotation: (r01(i + 6) - 0.5) * 540, duration: 1.3 + r01(i + 1) * 0.6, ease: 'power1.in', immediateRender: false }, t0 + r01(i + 7) * (o.spread || 0.5)); };
+
+
+      // ---- flat-design helpers: 3D is used ONLY for logos (stacked layers) ----
+      const LOGO3D = (id, l, t, s, logo) => `<div id="${id}" class="lg3" style="left:${l}px;top:${t}px;width:${s}px;height:${s}px"><div id="${id}i" class="lg3i">${Array.from({ length: 9 }, (_, k) => `<img src="assets/img/app-${logo}.svg" style="transform:translateZ(${(k - 4) * 3}px);${k === 0 || k === 8 ? '' : 'filter:brightness(' + (0.52 + k * 0.03).toFixed(2) + ')'}">`).join('')}</div></div>`;
+      const PERSON = (id, l, t, sc, body, pose) => { const arm = pose === 'up' ? `<path d="M12 30 L4 8" stroke="${body}" stroke-width="7" stroke-linecap="round" fill="none"/><path d="M28 32 L33 46" stroke="${body}" stroke-width="7" stroke-linecap="round" fill="none"/>` : pose === 'point' ? `<path d="M28 31 L47 22" stroke="${body}" stroke-width="7" stroke-linecap="round" fill="none"/><path d="M12 32 L8 48" stroke="${body}" stroke-width="7" stroke-linecap="round" fill="none"/>` : pose === 'carry' ? `<path d="M12 32 L24 44" stroke="${body}" stroke-width="7" stroke-linecap="round" fill="none"/><path d="M28 32 L26 44" stroke="${body}" stroke-width="7" stroke-linecap="round" fill="none"/><rect x="14" y="40" width="22" height="16" rx="3" fill="#F59E0B"/>` : `<path d="M12 32 L7 50" stroke="${body}" stroke-width="7" stroke-linecap="round" fill="none"/><path d="M28 32 L33 50" stroke="${body}" stroke-width="7" stroke-linecap="round" fill="none"/>`;
+        const legs = pose === 'sit' ? '<rect x="12" y="56" width="34" height="9" rx="4" fill="#111827"/><rect x="38" y="56" width="9" height="26" rx="4" fill="#111827"/>' : '<rect x="12" y="56" width="9" height="34" rx="4" fill="#111827"/><rect x="25" y="56" width="9" height="34" rx="4" fill="#111827"/>';
+        return `<svg id="${id}" viewBox="0 0 52 92" style="position:absolute;left:${l}px;top:${t}px;width:${52 * sc}px;height:${92 * sc}px;opacity:0;overflow:visible"><circle cx="20" cy="12" r="10" fill="#111827"/><rect x="9" y="24" width="22" height="34" rx="9" fill="${body}"/>${arm}${legs}</svg>`; };
+      // scene visibility is toggled with display (nothing can ghost through)
+      const showS = (n, t) => tl.set('#s' + n, { display: 'block' }, t), hideS = (n, t) => tl.set('#s' + n, { display: 'none' }, t);
+      // ===== times =====
+      const TG = W(1, 'experience') + 0.25, SHT = W(2, 'five') + 0.05;
+      const T3 = LS(3) - 0.1, T4 = LS(4) - 0.1, T5 = LS(5) - 0.1, T6 = LS(6) - 0.1, T7 = LS(7) - 0.1, T8 = LS(8) - 0.1, T9 = LS(9) - 0.1, T10 = LS(10) - 0.1, T11 = LS(11) - 0.1, T12 = LS(12) - 0.1, T13 = LS(13) - 0.1;
+      const STARTS = [0, TG, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13];
+
+      // ===== background: flat cream with two very soft colour washes =====
+      add('<div id="bl1" style="position:absolute;left:560px;top:-260px;width:900px;height:900px;border-radius:50%;background:radial-gradient(closest-side,rgba(34,166,90,0.13),transparent)"></div><div id="bl2" style="position:absolute;left:-340px;top:1280px;width:900px;height:900px;border-radius:50%;background:radial-gradient(closest-side,rgba(245,158,11,0.12),transparent)"></div><div style="position:absolute;left:0;top:0;width:1080px;height:1920px;background-image:radial-gradient(rgba(17,24,39,0.07) 1.4px,transparent 1.6px);background-size:60px 60px"></div>');
+      tl.fromTo('#bl1', { x: 0, y: 0 }, { x: -120, y: 160, duration: TOTAL, ease: 'sine.inOut', immediateRender: false }, 0); tl.fromTo('#bl2', { x: 0, y: 0 }, { x: 140, y: -180, duration: TOTAL, ease: 'sine.inOut', immediateRender: false }, 0);
+
+      // ============ S1  HOOK (reference 06: spotlight + "YOU"; reference 01: light streaks) ============
+      add(SC(1, 0, `<div id="spot" style="position:absolute;left:170px;top:-80px;width:740px;height:1500px;background:linear-gradient(rgba(245,158,11,0.30),rgba(245,158,11,0.03));clip-path:polygon(38% 0,62% 0,100% 100%,0 100%);opacity:0"></div>
+        <div id="hfl" style="position:absolute;left:300px;top:1160px;width:480px;height:44px;border-radius:50%;background:radial-gradient(closest-side,rgba(17,24,39,0.22),transparent);opacity:0"></div>
+        ${IM('hu', 440, 900, 200, 'ico-user')}<div id="hlb" class="abs mono" style="left:340px;top:1130px;width:400px;font-size:26px;color:#111827">You</div>
+        ${IM('hc0', 220, 760, 120, 'ico-coins')}${IM('hc1', 740, 740, 120, 'ico-chart-line-up')}${IM('hg', 470, 600, 140, 'ico-globe')}
+        <div id="hrg" class="ring" style="left:390px;top:850px;width:300px;height:300px;border-color:#F59E0B"></div>
+        <div id="cdc" class="card3" style="left:60px;top:260px;width:430px;height:230px;opacity:0"><img src="assets/img/ico-code.svg" style="position:absolute;left:28px;top:28px;width:100px;height:100px"><div class="mono" style="position:absolute;left:150px;top:44px;font-size:26px;text-align:left;text-indent:0;color:#111827">Coding</div><div class="mono" style="position:absolute;left:150px;top:88px;font-size:20px;text-align:left;text-indent:0">Experience</div><div class="meter" style="left:28px;top:160px;width:374px;height:24px;opacity:1"><i style="background:#15803D"></i></div></div>
+        <div id="cdp" class="card3" style="left:590px;top:260px;width:430px;height:230px;opacity:0"><img src="assets/img/ico-palette.svg" style="position:absolute;left:28px;top:28px;width:100px;height:100px"><div class="mono" style="position:absolute;left:150px;top:44px;font-size:26px;text-align:left;text-indent:0;color:#111827">Design</div><div class="mono" style="position:absolute;left:150px;top:88px;font-size:20px;text-align:left;text-indent:0">Experience</div><div class="meter" style="left:28px;top:160px;width:374px;height:24px;opacity:1"><i style="background:#D97706"></i></div></div>
+        ${IM('cx1', 340, 300, 160, 'ico-x-circle')}${IM('cx2', 870, 300, 160, 'ico-x-circle')}`));
+      document.getElementById('s1').style.display = 'block'; tl.set('#s1', { display: 'block' }, 0);
+      rays('r1_', 540, 1000, 0.05, { n: 30, dur: 0.85 });
+      tl.set(['#spot', '#hu', '#hlb', '#hfl'], { opacity: 1 }, 0); tl.fromTo('#hu', { y: 0 }, { y: -10, duration: 1.1, ease: 'sine.inOut', yoyo: true, repeat: 7, immediateRender: false }, 0.6);
+      [['#hc0', 'making', -1], ['#hc1', 'money', 1], ['#hg', 'online', 0]].forEach(([id, w, d], k) => { tl.fromTo(id, { opacity: 0, y: 140, scale: 0.3, x: d * 80 }, { opacity: 1, y: 0, scale: 1, x: 0, duration: 0.6, ease: 'back.out(1.8)', immediateRender: false }, W(1, w) - 0.05); bob(id, W(1, w) + 0.7, W(1, 'even') - 0.1, 10, 1.3 + k * 0.1); });
+      ringBurst('#hrg', W(1, 'using'), 1.0, 0.7, 2.2); shake('#k1', W(1, 'using') + 0.05, 8, 0.3);
+      tl.to(['#hc0', '#hc1', '#hg'], { opacity: 0, y: -60, duration: 0.3, ease: 'power2.in' }, W(1, 'even') - 0.1);
+      pop('#cdc', W(1, 'even') - 0.05, { x: -160, y: 0, s: 0.8 }); pop('#cdp', W(1, 'even') + 0.1, { x: 160, y: 0, s: 0.8 });
+      [['#cx1', 'coding', '#cdc'], ['#cx2', 'design', '#cdp']].forEach(([x, w, card]) => { const t = W(1, w); tl.fromTo(x, { opacity: 0, scale: 3, rotation: -25 }, { opacity: 1, scale: 1, rotation: 0, duration: 0.3, ease: 'back.out(2)', immediateRender: false }, t); shake('#k1', t + 0.1, 12, 0.3); });
+      camMove(1, 0, TG + 0.2, { s0: 1.0, s1: 1.08, e: 'power1.in' });
+
+      // ============ S2  GLASS BREAK -> "5 AI tools" with five 3D logos ============
+      const GCn = 6, GRn = 10, CWd = 1080 / GCn, CHt = 1920 / GRn, IX = 540, IY = 880;
+      let shards = ''; const shardMeta = [];
+      for (let r = 0; r < GRn; r++) for (let c = 0; c < GCn; c++) { const id = r * GCn + c; const j = (k) => (r01(id * 5 + k) - 0.5) * 0.5; const pts = [[0 + j(1) * CWd, 0 + j(2) * CHt], [CWd + 12 + j(3) * CWd, 0 + j(4) * CHt], [CWd + 12 + j(5) * CWd, CHt + 12 + j(6) * CHt], [0 + j(7) * CWd, CHt + 12 + j(8) * CHt]].map((p) => `${Math.max(0, p[0]).toFixed(0)}px ${Math.max(0, p[1]).toFixed(0)}px`).join(',');
+        shards += `<div id="sg${id}" class="shd" style="left:${c * CWd - 6}px;top:${r * CHt - 6}px;width:${CWd + 12}px;height:${CHt + 12}px;background:linear-gradient(${120 + r01(id) * 60}deg,rgba(255,255,255,0.80),rgba(190,225,205,0.55) 55%,rgba(255,255,255,0.72));clip-path:polygon(${pts})"></div>`; shardMeta.push([c * CWd + CWd / 2, r * CHt + CHt / 2]); }
+      let cracks = ''; for (let i = 0; i < 16; i++) { const a = i * 0.3927 + (r01(i) - 0.5) * 0.25; let x = IX, y = IY, pts = `${x},${y}`; const segs = 3 + (i % 3); for (let k = 0; k < segs; k++) { const L = 130 + r01(i * 7 + k) * 260; x += Math.cos(a + (r01(i * 3 + k) - 0.5) * 0.5) * L; y += Math.sin(a + (r01(i * 3 + k) - 0.5) * 0.5) * L; pts += ` ${x.toFixed(0)},${y.toFixed(0)}`; } cracks += `<polyline id="cr${i}" points="${pts}" fill="none" stroke="#111827" stroke-width="${i % 4 ? 3 : 5}" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1600" stroke-dashoffset="1600" opacity="0"/>`; }
+      const LOGOS = ['chatgpt', 'canva', 'capcut', 'lovable', 'zapier'], LX = [60, 245, 430, 615, 800], LY = [880, 850, 836, 850, 880];
+      add(SC(2, 0, `<div id="gbg" style="position:absolute;left:0;top:0;width:1080px;height:1920px;background:#F7F5EF;opacity:0"></div>
+        <div id="five" class="abs hd g" style="left:60px;top:170px;width:960px;font-size:520px;line-height:1">5</div>
+        ${LOGOS.map((n, k) => LOGO3D('lg' + k, LX[k], LY[k], 160, n)).join('')}<div id="lgs" class="shadow" style="left:120px;top:1040px;width:840px;height:56px"></div>
+        ${HD('aitl', 1110, 110, 'AI TOOLS', '')}
+        ${IM('sk1', 160, 1300, 170, 'ico-lightbulb')}${IM('sk2', 750, 1300, 170, 'ico-storefront')}
+        <svg width="1080" height="1920" style="position:absolute;left:0;top:0"><path id="flw" d="M345 1385 C 450 1310, 630 1310, 735 1385" fill="none" stroke="#15803D" stroke-width="10" stroke-linecap="round" stroke-dasharray="500" stroke-dashoffset="500"/><polygon id="flh" points="720,1362 764,1394 712,1412" fill="#15803D" opacity="0"/></svg>
+        <div id="sk1l" class="abs mono" style="left:100px;top:1500px;width:300px;font-size:22px;color:#111827">Your skills</div><div id="sk2l" class="abs mono" style="left:680px;top:1500px;width:300px;font-size:22px;color:#111827">A business</div>
+        ${shards}<svg id="crk" width="1080" height="1920" style="position:absolute;left:0;top:0">${cracks}</svg>
+        ${[0, 1, 2].map((k) => `<div id="gr${k}" class="ring" style="left:${IX - 260}px;top:${IY - 260}px;width:520px;height:520px;border-color:${['#15803D', '#F59E0B', '#111827'][k]}"></div>`).join('')}`));
+      confetti('cf2_', 40, IX, IY, SHT, { dist: 650, grav: 320 });
+      tl.set('#gbg', { opacity: 1 }, TG);
+      tl.fromTo('#five', { opacity: 0, scale: 0.8 }, { opacity: 0.25, scale: 0.9, duration: 0.6, immediateRender: false }, TG);
+      shardMeta.forEach(([sx, sy], id) => { const d = Math.hypot(sx - IX, sy - IY); tl.fromTo('#sg' + id, { opacity: 0, scale: 1.1 }, { opacity: 1, scale: 1, duration: 0.4, ease: 'power3.out', immediateRender: false }, TG + 0.02 + d / 3000); });
+      for (let i = 0; i < 16; i++) { tl.set('#cr' + i, { opacity: 1 }, SHT - 0.34 + (i % 4) * 0.025); tl.fromTo('#cr' + i, { attr: { 'stroke-dashoffset': 1600 } }, { attr: { 'stroke-dashoffset': 0 }, duration: 0.24, ease: 'power2.out', immediateRender: false }, SHT - 0.34 + (i % 4) * 0.025); tl.to('#cr' + i, { opacity: 0, duration: 0.15 }, SHT + 0.02); }
+      shardMeta.forEach(([sx, sy], id) => { const d = Math.hypot(sx - IX, sy - IY) + 40, dx = (sx - IX) / d, dy = (sy - IY) / d, dist = 380 + r01(id + 2) * 620, delay = d / 2400 * 0.35; tl.to('#sg' + id, { x: dx * dist, y: dy * dist + 700 + r01(id) * 500, rotation: (r01(id + 4) - 0.5) * 900, scale: 0.7 + r01(id + 1) * 0.6, opacity: 0, duration: 1.0 + r01(id + 6) * 0.5, ease: 'power2.in' }, SHT + delay); });
+      tl.to('#five', { opacity: 1, scale: 1, duration: 0.6, ease: 'back.out(1.8)' }, SHT); [0, 1, 2].forEach((k) => ringBurst('#gr' + k, SHT + k * 0.14, 1.2, 0.4, 2.4)); shake('#k2', SHT, 26, 0.5);
+      LOGOS.forEach((n, k) => { tl.fromTo('#lg' + k, { opacity: 0, y: 260, scale: 0.3 }, { opacity: 1, y: 0, scale: 1, duration: 0.8, ease: 'back.out(1.6)', immediateRender: false }, SHT + 0.25 + k * 0.1); tl.fromTo('#lg' + k + 'i', { rotationY: -40 + k * 6, rotationX: 10 }, { rotationY: 40 - k * 6, rotationX: 10, duration: 2.2, ease: 'sine.inOut', yoyo: true, repeat: 3, immediateRender: false }, SHT + 0.3 + k * 0.1); }); tl.fromTo('#lgs', { opacity: 0, scaleX: 0.3 }, { opacity: 1, scaleX: 1, duration: 0.8, immediateRender: false }, SHT + 0.3);
+      kin('#aitl', W(2, 'tools') - 0.1, 'up');
+      pop('#sk1', W(2, 'skills') - 0.3, { s: 0.3 }); pop('#sk1l', W(2, 'skills') - 0.1, { s: 0.8, y: 20 }); tl.fromTo('#flw', { attr: { 'stroke-dashoffset': 500 } }, { attr: { 'stroke-dashoffset': 0 }, duration: 0.7, ease: 'power2.inOut', immediateRender: false }, W(2, 'into') - 0.1); tl.set('#flh', { opacity: 1 }, W(2, 'into') + 0.55);
+      pop('#sk2', W(2, 'business') - 0.2, { s: 0.3 }); pop('#sk2l', W(2, 'business') + 0.1, { s: 0.8, y: 20 });
+      camMove(2, SHT, T3, { s0: 1.06, s1: 1.0, e: 'power2.out' });
+
+      // ============ tool scene builder (flat UI; only the logo is 3D) ============
+      const TOOL = (n, cfg) => { const { num, name, logo, line, nameWord, items, tStart, tEnd, mini, people } = cfg; const lh = 58 + items.length * 80 + 22;
+        add(SC(n, 0, `<div id="tg${n}" class="abs mono" style="left:60px;top:130px;width:960px;font-size:24px">Tool ${num} of 5</div>
+          <div id="td${n}" style="position:absolute;left:480px;top:190px;width:120px;height:14px;opacity:0;display:flex;gap:10px">${[1, 2, 3, 4, 5].map((k) => `<i style="display:block;width:14px;height:14px;border-radius:7px;background:${k <= num ? '#15803D' : 'rgba(17,24,39,0.15)'}"></i>`).join('')}</div>
+          ${LOGO3D('nl' + n, 400, 240, 280, logo)}<div id="ns${n}" class="shadow" style="left:350px;top:540px;width:380px;height:44px"></div>
+          ${HD('nn' + n, 580, 96, name, '')}
+          <div style="position:absolute;left:0;top:-60px;width:1080px;height:1920px">${mini.html}</div>
+          ${people || ''}
+          <div id="li${n}" class="card3" style="left:60px;top:1210px;width:960px;height:${lh}px;opacity:0"><div class="mono" style="position:absolute;left:28px;top:18px;font-size:20px;text-align:left;text-indent:0">What it does</div>
+            ${items.map((it, k) => `<div id="ro${n}_${k}" class="row3" style="left:28px;top:${58 + k * 80}px;width:904px;height:72px"><img src="assets/img/ico-${it[0]}.svg" style="width:56px;height:56px"><div>${it[1]}</div><img id="rc${n}_${k}" src="assets/img/ico-check-circle.svg" style="margin-left:auto;width:44px;height:44px;opacity:0"></div>`).join('')}</div>`));
+        const tl0 = W(line, nameWord);
+        tl.fromTo('#tg' + n, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, immediateRender: false }, tStart + 0.15); tl.fromTo('#td' + n, { opacity: 0 }, { opacity: 1, duration: 0.5, immediateRender: false }, tStart + 0.3);
+        tl.fromTo('#nl' + n, { opacity: 0, y: -420, scale: 0.7 }, { opacity: 1, y: 0, scale: 1, duration: 0.85, ease: 'bounce.out', immediateRender: false }, tl0 - 0.7);
+        tl.fromTo('#nl' + n + 'i', { rotationY: -200, rotationX: 8 }, { rotationY: -20, rotationX: 8, duration: 0.85, ease: 'power3.out', immediateRender: false }, tl0 - 0.7);
+        tl.fromTo('#nl' + n + 'i', { rotationY: -20 }, { rotationY: 20, duration: 2.0, ease: 'sine.inOut', yoyo: true, repeat: Math.max(1, Math.round((tEnd - tl0) / 2.0) - 1), immediateRender: false }, tl0 + 0.2);
+        tl.fromTo('#ns' + n, { opacity: 0, scaleX: 0.2 }, { opacity: 1, scaleX: 1, duration: 0.5, ease: 'expo.out', immediateRender: false }, tl0 - 0.3); shake('#k' + n, tl0 + 0.1, 8, 0.3);
+        kin('#nn' + n, tl0 - 0.05, 'up'); pop('#li' + n, W(line, items[0][2]) - 0.3, { s: 0.96, y: 40 });
+        items.forEach((it, k) => { const t = W(line, it[2]) - 0.1; tl.fromTo('#ro' + n + '_' + k, { opacity: 0, x: -50 }, { opacity: 1, x: 0, duration: 0.45, ease: 'expo.out', immediateRender: false }, t); tl.fromTo('#rc' + n + '_' + k, { opacity: 0, scale: 0.2 }, { opacity: 1, scale: 1, duration: 0.4, ease: 'back.out(2)', immediateRender: false }, t + 0.35); });
+        (people ? ['#pa' + n, '#pb' + n] : []).forEach((id, k) => { pop(id, tl0 + 0.5 + k * 0.15, { s: 0.6, y: 30 }); bob(id, tl0 + 1.2, tEnd, 4 + k * 2, 1.2 + k * 0.2); });
+        mini.anim(); camMove(n, tStart, tEnd, { s0: 1.03, s1: 1.0, e: 'power1.out' }); };
+      const PPL = (n, ca, cb, posa, posb) => `${PERSON('pa' + n, posa[0], posa[1], 1.0, ca, posa[2])}${PERSON('pb' + n, posb[0], posb[1], 1.0, cb, posb[2])}`;
+
+      // ---- mini visual 1: ChatGPT conversation ----
+      TOOL(3, { people: PPL(3, '#15803D', '#D97706', [30, 1075, 'point'], [880, 662, 'sit']), num: 1, name: 'ChatGPT', logo: 'chatgpt', line: 3, nameWord: 'chatgpt', tStart: T3, tEnd: T4, items: [['pen-nib', 'Write content', 'write'], ['magnifying-glass', 'Research ideas', 'research'], ['strategy', 'Marketing strategies', 'marketing'], ['list-checks', 'Everyday tasks', 'everyday']],
+        mini: { html: `<div id="m3" data-scroll="1" class="card3" style="left:110px;top:790px;width:860px;height:430px;opacity:0;overflow:hidden"><div id="m3i" style="position:absolute;left:0;top:0;width:860px;height:900px">
+            <div id="m3u" class="bub" style="left:300px;top:26px;width:520px;background:#111827;color:#fff;border-radius:34px 34px 8px 34px">Write a launch post for my bakery</div>
+            <div id="m3g1" class="bub" style="left:30px;top:150px;width:640px;background:#E6F4EA;color:#111827;border-radius:34px 34px 34px 8px"><img src="assets/img/app-chatgpt.svg" style="width:46px;height:46px;border-radius:12px;vertical-align:middle"><div class="sk" style="position:relative;display:block;width:420px;height:16px;margin:14px 0 8px;background:rgba(21,128,61,0.35)"></div><div class="sk" style="position:relative;display:block;width:540px;height:16px;background:rgba(21,128,61,0.25)"></div></div>
+            <div id="m3g2" class="bub" style="left:30px;top:310px;width:640px;background:#E6F4EA;color:#111827;border-radius:34px 34px 34px 8px;font-size:30px"><img src="assets/img/glyphg-magnifying-glass.svg" style="width:40px;height:40px;vertical-align:middle"> 5 ideas that sell<div class="sk" style="position:relative;display:block;width:360px;height:14px;margin:12px 0 6px;background:rgba(21,128,61,0.3)"></div><div class="sk" style="position:relative;display:block;width:300px;height:14px;background:rgba(21,128,61,0.22)"></div></div>
+            <div id="m3g3" class="bub" style="left:30px;top:480px;width:640px;height:150px;background:#E6F4EA;border-radius:34px 34px 34px 8px">${[60, 100, 80, 120].map((h, k) => `<div id="m3b${k}" style="position:absolute;left:${50 + k * 70}px;bottom:24px;width:46px;height:${h}px;border-radius:8px 8px 0 0;background:${k % 2 ? '#F59E0B' : '#15803D'};transform-origin:bottom"></div>`).join('')}<div style="position:absolute;left:340px;top:30px;font-weight:700;font-size:30px">Strategy</div></div>
+            <div id="m3g4" class="bub" style="left:30px;top:660px;width:640px;background:#E6F4EA;color:#111827;border-radius:34px 34px 34px 8px;font-size:30px">${['Reply to clients', 'Plan the week', 'Draft invoices'].map((t) => `<div style="display:flex;align-items:center;gap:14px;margin:6px 0"><img src="assets/img/ico-check-circle.svg" style="width:38px;height:38px">${t}</div>`).join('')}</div></div></div>`,
+          anim: () => { const wr = W(3, 'write'), rs = W(3, 'research'), mk = W(3, 'marketing'), ev = W(3, 'everyday');
+            pop('#m3', wr - 0.4, { s: 0.9, y: 60 }); tl.fromTo('#m3u', { opacity: 0, x: 80, scale: 0.8 }, { opacity: 1, x: 0, scale: 1, duration: 0.5, ease: 'back.out(1.5)', immediateRender: false }, wr - 0.05);
+            [['#m3g1', wr + 0.6], ['#m3g2', rs - 0.05], ['#m3g3', mk - 0.05], ['#m3g4', ev - 0.05]].forEach(([id, t]) => tl.fromTo(id, { opacity: 0, x: -80, scale: 0.8 }, { opacity: 1, x: 0, scale: 1, duration: 0.5, ease: 'back.out(1.5)', immediateRender: false }, t));
+            [0, 1, 2, 3].forEach((k) => tl.fromTo('#m3b' + k, { scaleY: 0 }, { scaleY: 1, duration: 0.5, ease: 'back.out(1.7)', immediateRender: false }, mk + 0.2 + k * 0.1));
+            tl.to('#m3i', { y: -150, duration: 0.5, ease: 'power2.out' }, mk + 0.3); tl.to('#m3i', { y: -330, duration: 0.5, ease: 'power2.out' }, ev + 0.3); } } });
+
+      // ---- mini visual 2: Canva design boards ----
+      TOOL(4, { people: PPL(4, '#D97706', '#15803D', [28, 1075, 'carry'], [985, 980, 'up']), num: 2, name: 'Canva', logo: 'canva', line: 4, nameWord: 'canva', tStart: T4, tEnd: T5, items: [['image', 'Social media designs', 'social'], ['presentation-chart', 'Presentations', 'presentations'], ['megaphone', 'Advertisements', 'advertisements'], ['package', 'Digital products', 'digital']],
+        mini: { html: `<div id="m4a" class="card3" style="left:110px;top:780px;width:280px;height:280px;opacity:0;overflow:hidden"><div style="position:absolute;inset:0;background:linear-gradient(135deg,#34C27A,#F59E0B)"></div><div style="position:absolute;left:60px;top:50px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,0.92)"></div><div class="sk" style="left:40px;top:225px;width:190px;height:18px;background:#fff"></div></div>
+          <div id="m4b" class="card3" style="left:420px;top:780px;width:490px;height:276px;opacity:0;overflow:hidden"><div style="position:absolute;left:0;top:0;width:100%;height:70px;background:#111827"></div><div class="sk" style="left:30px;top:24px;width:200px;height:20px;background:#fff"></div><div class="sk" style="left:30px;top:100px;width:230px;height:18px"></div><div class="sk" style="left:30px;top:136px;width:190px;height:18px"></div><div class="sk" style="left:30px;top:172px;width:210px;height:18px"></div>${[70, 110, 90, 130].map((h, k) => `<div style="position:absolute;left:${290 + k * 44}px;bottom:30px;width:30px;height:${h}px;border-radius:6px 6px 0 0;background:${k % 2 ? '#F59E0B' : '#15803D'}"></div>`).join('')}</div>
+          <div id="m4c" class="card3" style="left:110px;top:1080px;width:470px;height:150px;opacity:0;overflow:hidden;background:#111827"><div style="position:absolute;left:30px;top:34px;font-family:'Space Grotesk';font-weight:800;font-size:46px;color:#fff">BIG SALE</div><div style="position:absolute;left:30px;top:92px;width:130px;height:34px;border-radius:17px;background:#F59E0B"></div><div style="position:absolute;right:30px;top:24px;width:100px;height:100px;border-radius:50%;background:#15803D"></div></div>
+          <div id="m4d" class="card3" style="left:640px;top:1070px;width:130px;height:170px;opacity:0;overflow:hidden;background:linear-gradient(160deg,#15803D,#0E5C2B)"><div style="position:absolute;left:14px;top:16px;font-family:'Space Grotesk';font-weight:800;font-size:22px;color:#fff;line-height:1.1">THE<br>GUIDE</div><div style="position:absolute;left:14px;bottom:16px;width:80px;height:10px;border-radius:5px;background:#F59E0B"></div></div>
+          <div id="m4e" class="card3" style="left:790px;top:1070px;width:120px;height:170px;opacity:0;overflow:hidden;background:#fff"><div style="position:absolute;left:14px;top:16px;width:92px;height:70px;border-radius:12px;background:linear-gradient(135deg,#F59E0B,#FCD34D)"></div><div class="sk" style="left:14px;top:104px;width:80px;height:12px"></div><div class="sk" style="left:14px;top:128px;width:60px;height:12px"></div></div>
+          ${IM('m4cur', 0, 0, 74, 'glyphk-cursor-click', 'flat')}`,
+          anim: () => { const ts = [W(4, 'social'), W(4, 'presentations'), W(4, 'advertisements'), W(4, 'digital')], ids = ['#m4a', '#m4b', '#m4c', '#m4d'], cx = [250, 665, 345, 705], cy = [920, 918, 1155, 1160];
+            ids.forEach((id, k) => { tl.fromTo(id, { opacity: 0, y: 80, scale: 0.9 }, { opacity: 1, y: 0, scale: 1, duration: 0.7, ease: 'back.out(1.5)', immediateRender: false }, ts[k] - 0.1); tl.fromTo(id, { rotation: -2 }, { rotation: 2, duration: 1.4, ease: 'sine.inOut', yoyo: true, repeat: 7, immediateRender: false }, ts[k] + 0.6); });
+            pop('#m4e', ts[3] + 0.25, { s: 0.5, y: 40 }); tl.set('#m4cur', { opacity: 1 }, ts[0] - 0.2);
+            cx.forEach((x, k) => { tl.to('#m4cur', { x: x, y: cy[k], duration: 0.5, ease: 'power2.inOut' }, ts[k] - 0.05); tl.fromTo('#m4cur', { scale: 1 }, { scale: 0.75, duration: 0.07, yoyo: true, repeat: 1 }, ts[k] + 0.5); }); } } });
+
+      // ---- mini visual 3: CapCut timeline (clips, playhead, scissors cut) ----
+      const CL = [[30, 140], [178, 100], [286, 85], [371, 85], [464, 110], [582, 130], [720, 90]], CLC = ['#34C27A,#15803D', '#FBBF24,#D97706', '#4B5567,#111827', '#4B5567,#111827', '#34C27A,#15803D', '#FBBF24,#D97706', '#4B5567,#111827'];
+      TOOL(5, { people: PPL(5, '#15803D', '#D97706', [30, 1075, 'point'], [880, 662, 'sit']), num: 3, name: 'CapCut', logo: 'capcut', line: 5, nameWord: 'capcut', tStart: T5, tEnd: T6, items: [['film-strip', 'Short-form video editing', 'short'], ['storefront', 'For businesses', 'businesses'], ['users-three', 'For content creators', 'content']],
+        mini: { html: `<div id="m5" class="card3" style="left:110px;top:790px;width:860px;height:430px;opacity:0;overflow:hidden"><div style="position:absolute;left:30px;top:24px;width:800px;height:30px;background:repeating-linear-gradient(90deg,rgba(17,24,39,0.35) 0 2px,transparent 2px 40px);opacity:0.5"></div><img src="assets/img/glyphk-play.svg" style="position:absolute;left:30px;top:62px;width:0px;height:0px">
+            ${CL.map((c, k) => `<div id="m5c${k}" style="position:absolute;left:${c[0]}px;top:100px;width:${c[1]}px;height:130px;border-radius:${k === 2 ? '16px 0 0 16px' : k === 3 ? '0 16px 16px 0' : '16px'};background:linear-gradient(135deg,${CLC[k]});box-shadow:0 5px 0 rgba(17,24,39,0.25);opacity:0"></div>`).join('')}
+            ${Array.from({ length: 40 }, (_, k) => `<div id="m5w${k}" style="position:absolute;left:${30 + k * 20}px;top:${330 - (14 + r01(k + 3) * 62) / 2}px;width:11px;height:${14 + r01(k + 3) * 62}px;border-radius:5px;background:${k % 3 ? '#15803D' : '#F59E0B'};opacity:0"></div>`).join('')}
+            <div id="m5ph" style="position:absolute;left:30px;top:70px;width:5px;height:300px;background:#111827;opacity:0"><div style="position:absolute;left:-9px;top:-8px;width:22px;height:22px;border-radius:50%;background:#F59E0B;box-shadow:0 3px 0 #111827"></div></div></div>
+          ${IM('m5sc', 380, 790, 100, 'ico-scissors', 'flat')}${IM('m5s1', 330, 770, 96, 'ico-storefront', 'flat')}${IM('m5s2', 640, 770, 96, 'ico-users-three', 'flat')}<div id="m5fl" class="ring" style="left:385px;top:795px;width:90px;height:90px;border-color:#F59E0B"></div>`,
+          anim: () => { const of_ = W(5, 'offer'), sh = W(5, 'short'), ed = W(5, 'editing'), bz = W(5, 'businesses'), cc = W(5, 'content');
+            pop('#m5', of_ - 0.3, { s: 0.9, y: 60 }); CL.forEach((c, k) => tl.fromTo('#m5c' + k, { opacity: 0, y: -50, scale: 0.8 }, { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: 'back.out(1.6)', immediateRender: false }, of_ + 0.1 + k * 0.1));
+            for (let k = 0; k < 40; k++) tl.fromTo('#m5w' + k, { opacity: 0, scaleY: 0.2 }, { opacity: 1, scaleY: 1, duration: 0.3, ease: 'back.out(1.4)', immediateRender: false }, of_ + 0.4 + k * 0.02);
+            tl.set('#m5ph', { opacity: 1 }, sh - 0.2); tl.fromTo('#m5ph', { x: 0 }, { x: 780, duration: cc + 0.9 - sh + 0.2, ease: 'none', immediateRender: false }, sh - 0.2);
+            pop('#m5sc', ed - 0.3, { s: 0.3, y: -40, r: -40 }); tl.fromTo('#m5fl', { opacity: 0.9, scale: 0.3 }, { opacity: 0, scale: 2.2, duration: 0.5, immediateRender: false }, ed + 0.05); shake('#m5', ed + 0.05, 6, 0.2);
+            [3, 4, 5, 6].forEach((k) => tl.to('#m5c' + k, { x: 16, duration: 0.25, ease: 'back.out(2)' }, ed + 0.05)); tl.to('#m5c3', { x: 16, duration: 0.25, ease: 'back.out(2)' }, ed + 0.05); tl.to('#m5sc', { opacity: 0, y: -60, duration: 0.3 }, ed + 0.7);
+            pop('#m5s1', bz - 0.1, { s: 0.3, y: 30 }); pop('#m5s2', cc - 0.1, { s: 0.3, y: 30 }); bob('#m5s1', bz + 0.6, T6, 8, 1.2); bob('#m5s2', cc + 0.6, T6, 8, 1.2); } } });
+
+      // ---- mini visual 4: Lovable prompt -> site, plus a simple app ----
+      TOOL(6, { people: PPL(6, '#D97706', '#15803D', [28, 1075, 'carry'], [985, 940, 'up']), num: 4, name: 'Lovable', logo: 'lovable', line: 6, nameWord: 'lovable', tStart: T6, tEnd: T7, items: [['browser', 'Websites', 'websites'], ['app-window', 'Simple applications', 'simple'], ['graduation-cap', 'No programmer needed', 'experienced']],
+        mini: { html: `<div id="m6p" class="card3" style="left:110px;top:790px;width:860px;height:100px;opacity:0;border-radius:50px"><img src="assets/img/app-lovable.svg" style="position:absolute;left:22px;top:18px;width:64px;height:64px"><div id="m6t" style="position:absolute;left:110px;top:0;height:100px;display:flex;align-items:center;font-family:'JetBrains Mono';font-size:30px;color:#111827;clip-path:inset(0 100% 0 0)">Build a website for my café</div></div>
+          <div id="m6b" class="card3" style="left:110px;top:915px;width:860px;height:310px;opacity:0;overflow:hidden"><div style="position:absolute;left:0;top:0;width:100%;height:54px;background:rgba(17,24,39,0.05)"></div>
+            <div id="m6h" style="position:absolute;left:24px;top:74px;width:520px;height:150px;border-radius:20px;background:linear-gradient(135deg,#FF7A00,#FF3D7F 55%,#6F8CFF);opacity:0"></div><div id="m6x" class="sk" style="left:50px;top:110px;width:240px;height:26px;background:rgba(255,255,255,0.9);opacity:0"></div><div id="m6y" class="sk" style="left:50px;top:156px;width:180px;height:16px;background:rgba(255,255,255,0.6);opacity:0"></div>
+            ${[0, 1, 2].map((k) => `<div id="m6c${k}" style="position:absolute;left:${24 + k * 180}px;top:240px;width:160px;height:56px;border-radius:14px;background:${['#E6F4EA', '#FEF3C7', '#E5E7EB'][k]};opacity:0"></div>`).join('')}</div>
+          <div id="m6a" class="card3" style="left:700px;top:880px;width:240px;height:350px;opacity:0;border-radius:40px;overflow:hidden"><div style="position:absolute;left:0;top:0;width:100%;height:70px;background:#111827"></div>${[0, 1, 2].map((k) => `<div style="position:absolute;left:20px;top:${95 + k * 70}px;width:200px;height:54px;border-radius:14px;background:${['#E6F4EA', '#FEF3C7', '#E5E7EB'][k]}"></div>`).join('')}<div style="position:absolute;left:20px;top:300px;width:200px;height:34px;border-radius:17px;background:#15803D"></div></div>
+          <div id="m6n" class="btn3" style="left:140px;top:1180px;width:260px;height:80px;font-size:34px">NO CODE</div>`,
+          anim: () => { const bd = W(6, 'build'), wb = W(6, 'websites'), ap = W(6, 'applications'), ex = W(6, 'experienced');
+            pop('#m6p', bd - 0.4, { s: 0.9, y: 40 }); tl.fromTo('#m6t', { clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 0% 0 0)', duration: 1.1, ease: 'steps(27)', immediateRender: false }, bd + 0.1);
+            pop('#m6b', wb - 0.3, { s: 0.9, y: 60 }); ['m6h', 'm6x', 'm6y', 'm6c0', 'm6c1', 'm6c2'].forEach((id, k) => tl.fromTo('#' + id, { opacity: 0, y: 40, scale: 0.9 }, { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: 'back.out(1.5)', immediateRender: false }, wb + 0.1 + k * 0.18));
+            tl.fromTo('#m6a', { opacity: 0, x: 120, scale: 0.8 }, { opacity: 1, x: 0, scale: 1, duration: 0.7, ease: 'back.out(1.4)', immediateRender: false }, ap - 0.2);
+            tl.fromTo('#m6n', { opacity: 0, scale: 0.3, rotation: -14 }, { opacity: 1, scale: 1, rotation: -6, duration: 0.5, ease: 'back.out(2)', immediateRender: false }, ex - 0.4); shake('#k6', ex - 0.35, 10, 0.3); tl.fromTo('#m6n', { rotation: -6 }, { rotation: -2, duration: 0.9, ease: 'sine.inOut', yoyo: true, repeat: 3, immediateRender: false }, ex + 0.3); } } });
+
+      // ---- mini visual 5: Zapier connects the apps ----
+      TOOL(7, { people: PPL(7, '#15803D', '#D97706', [30, 1075, 'stand'], [985, 1000, 'point']), num: 5, name: 'Zapier', logo: 'zapier', line: 7, nameWord: 'zapier', tStart: T7, tEnd: T8, items: [['arrows-clockwise', 'Automate repetitive tasks', 'automate'], ['plugs-connected', 'Connect their apps', 'connect'], ['hourglass', 'Save hours of work', 'save']],
+        mini: { html: `<svg width="1080" height="1920" style="position:absolute;left:0;top:0">${[[540, 925, 185, 935], [540, 925, 895, 935], [540, 925, 540, 1150]].map((l, k) => `<line id="m7l${k}" x1="${l[0]}" y1="${l[1]}" x2="${l[2]}" y2="${l[3]}" stroke="#F97316" stroke-width="8" stroke-linecap="round" stroke-dasharray="500" stroke-dashoffset="500"/>`).join('')}</svg>
+          ${[0, 1, 2].map((k) => `<div id="m7d${k}" class="dot" style="left:0;top:0;width:24px;height:24px;background:#F59E0B;box-shadow:0 0 18px #F59E0B"></div>`).join('')}
+          ${IM('m7z', 445, 830, 190, 'app-zapier')}${IM('m7a', 110, 860, 150, 'app-chatgpt')}${IM('m7b', 820, 860, 150, 'app-canva')}${IM('m7c', 465, 1075, 150, 'app-capcut')}
+          ${IM('m7r', 610, 780, 110, 'ico-arrows-clockwise', 'flat')}${IM('m7k', 150, 1080, 130, 'ico-hourglass')}<div id="m7p" class="btn3" style="left:300px;top:1110px;width:200px;height:70px;font-size:30px;background:linear-gradient(180deg,#22A65A,#15803D)">+5 HRS</div><div id="m7q" class="ring" style="left:420px;top:805px;width:240px;height:240px;border-color:#F97316"></div>`,
+          anim: () => { const au = W(7, 'automate'), cn = W(7, 'connect'), sv = W(7, 'save'), rp = W(7, 'repetitive');
+            pop('#m7z', W(7, 'zapier') - 0.2, { s: 0.2, r: -40 }); tl.fromTo('#m7r', { opacity: 0, rotation: 0, scale: 0.3 }, { opacity: 1, rotation: 720, scale: 1, duration: 1.8, ease: 'power2.out', immediateRender: false }, au - 0.1); ringBurst('#m7q', rp, 0.9, 0.8, 1.6);
+            ['#m7a', '#m7b', '#m7c'].forEach((id, k) => { pop(id, cn + k * 0.2, { s: 0.2, y: 60, r: (k - 1) * 40 }); tl.fromTo('#m7l' + k, { attr: { 'stroke-dashoffset': 500 } }, { attr: { 'stroke-dashoffset': 0 }, duration: 0.5, ease: 'power2.out', immediateRender: false }, cn + 0.15 + k * 0.2); bob(id, cn + 1.0, T8, 8, 1.3 + k * 0.1); });
+            const ends = [[185, 935], [895, 935], [540, 1150]]; driver(cn + 0.6, T8, (t) => ends.forEach((e, k) => { const el = document.getElementById('m7d' + k), p = ((t * 0.9 + k * 0.33) % 1); el.style.opacity = '1'; el.style.transform = `translate(${lerp(540, e[0], p) - 12}px, ${lerp(925, e[1], p) - 12}px)`; }));
+            pop('#m7k', sv - 0.2, { s: 0.3, r: -40 }); tl.fromTo('#m7k img', { rotation: 0 }, { rotation: -720, duration: 1.4, ease: 'power2.out', immediateRender: false }, sv - 0.1); tl.fromTo('#m7p', { opacity: 0, scale: 0.3, y: 20 }, { opacity: 1, scale: 1, y: 0, duration: 0.5, ease: 'back.out(2)', immediateRender: false }, sv + 0.5); confetti('cf7_', 30, 400, 1140, W(7, 'work') - 0.1, { dist: 420, grav: 220 }); } } });
+
+
+      // ============ S8  "Here's the interesting part." (reference 06 spotlight) ============
+      add(SC(8, 40, `<div id="ibco" style="position:absolute;left:170px;top:-100px;width:740px;height:1500px;background:linear-gradient(rgba(245,158,11,0.30),rgba(245,158,11,0.03));clip-path:polygon(38% 0,62% 0,100% 100%,0 100%);opacity:0"></div>
+        ${HD('ib1', 300, 100, 'HERE\'S THE', '')}${HD('ib2', 430, 100, 'INTERESTING', 'a')}${HD('ib3', 570, 230, 'PART', 'g')}
+        ${IM('ibl', 360, 900, 340, 'ico-lightbulb')}<div id="ibs" class="shadow" style="left:330px;top:1260px;width:420px;height:50px"></div><div id="ibr" class="ring" style="left:340px;top:880px;width:400px;height:400px;border-color:#F59E0B"></div>`));
+      tl.fromTo('#ibco', { opacity: 0 }, { opacity: 1, duration: 0.4, immediateRender: false }, T8 + 0.1); kin('#ib1', W(8, 'heres') - 0.05, 'up'); kin('#ib2', W(8, 'interesting') - 0.1, 'up'); kin('#ib3', W(8, 'part') - 0.15, 'up');
+      tl.fromTo('#ibl', { opacity: 0, y: -400, scale: 0.6 }, { opacity: 1, y: 0, scale: 1, duration: 0.8, ease: 'bounce.out', immediateRender: false }, T8 + 0.15); tl.fromTo('#ibs', { opacity: 0, scaleX: 0.3 }, { opacity: 1, scaleX: 1, duration: 0.6, immediateRender: false }, T8 + 0.4); ringBurst('#ibr', T8 + 0.8, 0.9, 0.8, 1.7); shake('#k8', T8 + 0.8, 10, 0.3);
+
+      // ============ S9  "You don't need to master all five tools" ============
+      add(SC(9, 170, `${HD('mm1', 240, 110, 'NO NEED', '')}${HD('mm2', 395, 84, 'TO MASTER', 'm')}${HD('mm3', 510, 110, 'ALL FIVE', 'g')}
+        ${LOGOS.map((n, k) => LOGO3D('mg' + k, LX[k], 800 + (LY[k] - 880), 160, n)).join('')}<div id="mgs" class="shadow" style="left:120px;top:985px;width:840px;height:56px"></div>
+        <div id="mst" style="position:absolute;left:40px;top:880px;width:1000px;height:24px;border-radius:12px;background:#F59E0B;transform-origin:left;transform:scaleX(0);box-shadow:0 5px 0 #B45309"></div>
+        ${IM('mx', 400, 1090, 280, 'ico-x-circle')}`));
+      kin('#mm1', W(9, 'you'), 'up'); kin('#mm2', W(9, 'master') - 0.15, 'up'); kin('#mm3', W(9, 'all') - 0.05, 'up');
+      LOGOS.forEach((n, k) => { tl.fromTo('#mg' + k, { opacity: 0, y: 160, scale: 0.4 }, { opacity: 1, y: 0, scale: 1, duration: 0.7, ease: 'back.out(1.6)', immediateRender: false }, T9 + 0.25 + k * 0.08); tl.fromTo('#mg' + k + 'i', { rotationY: -35, rotationX: 8 }, { rotationY: 35, rotationX: 8, duration: 2.0, ease: 'sine.inOut', yoyo: true, repeat: 2, immediateRender: false }, T9 + 0.3 + k * 0.08); tl.to('#mg' + k, { opacity: 0.35, duration: 0.4 }, W(9, 'five') + k * 0.04); });
+      tl.fromTo('#mgs', { opacity: 0 }, { opacity: 1, duration: 0.6, immediateRender: false }, T9 + 0.3);
+      tl.fromTo('#mst', { scaleX: 0 }, { scaleX: 1, duration: 0.3, ease: 'power3.out', immediateRender: false }, W(9, 'five') - 0.1); tl.fromTo('#mx', { opacity: 0, scale: 3, rotation: -25 }, { opacity: 1, scale: 1, rotation: 0, duration: 0.35, ease: 'back.out(2)', immediateRender: false }, W(9, 'tools') - 0.1); shake('#k9', W(9, 'tools') - 0.05, 14, 0.35);
+
+      // ============ S10  Pick one -> learn -> create examples -> offer (reference 05 diagram: cards + status pills) ============
+      const STEPS = [['check-circle', 'Pick one tool', 'ONE IS ENOUGH', 'pick'], ['graduation-cap', 'Learn how to use it', 'A FEW HOURS A DAY', 'learn'], ['image', 'Create a few examples', 'YOUR PORTFOLIO', 'create'], ['handshake', 'Offer it to businesses', 'YOUR FIRST CLIENT', 'offering']];
+      add(SC(10, 70, `${STEPS.map((s, k) => `<div id="st${k}" class="card3" style="left:150px;top:${250 + k * 300}px;width:780px;height:230px;opacity:0"><div style="position:absolute;left:26px;top:73px;width:84px;height:84px;border-radius:42px;background:#111827;color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk';font-weight:700;font-size:46px">${k + 1}</div><img src="assets/img/ico-${s[0]}.svg" style="position:absolute;left:130px;top:55px;width:120px;height:120px"><div style="position:absolute;left:276px;top:58px;font-weight:700;font-size:40px;line-height:1.1;width:440px">${s[1]}</div><div class="mono" style="position:absolute;left:276px;top:150px;font-size:19px;text-align:left;text-indent:0;color:#15803D">${s[2]}</div><div id="sp${k}" class="pill" style="left:600px;top:20px;width:150px;height:40px;font-size:15px;background:rgba(17,24,39,0.08);color:#6B7280;opacity:1">TO DO</div></div>`).join('')}
+        ${[0, 1, 2].map((k) => `<div id="sa${k}" style="position:absolute;left:536px;top:${480 + k * 300}px;width:8px;height:70px;border-radius:4px;background:#15803D;transform-origin:top;transform:scaleY(0)"></div>`).join('')}`));
+      STEPS.forEach((s, k) => { const t = W(10, s[3]) - 0.2; tl.fromTo('#st' + k, { opacity: 0, y: 90, scale: 0.95 }, { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: 'back.out(1.3)', immediateRender: false }, t); shake('#k10', t + 0.2, 6, 0.25); tl.fromTo('#st' + k + ' img', { scale: 0.4, rotation: -90 }, { scale: 1, rotation: 0, duration: 0.6, ease: 'expo.out', immediateRender: false }, t + 0.05);
+        if (k < 3) tl.fromTo('#sa' + k, { scaleY: 0 }, { scaleY: 1, duration: 0.3, ease: 'power2.out', immediateRender: false }, W(10, STEPS[k + 1][3]) - 0.45);
+        if (k > 0) tl.to('#sp' + (k - 1), { backgroundColor: '#15803D', color: '#ffffff', duration: 0.25 }, t + 0.1); });
+      tl.to('#sp3', { backgroundColor: '#15803D', color: '#ffffff', duration: 0.25 }, W(10, 'businesses') + 0.2); [0, 1, 2, 3].forEach((k) => tl.call(() => { }, [], 0));
+      confetti('cf10_', 30, 540, 1150, W(10, 'businesses') + 0.2, { dist: 520, grav: 240 });
+      for (let k = 0; k < 4; k++) { const el = '#sp' + k; tl.set(el, { opacity: 1 }, 0); }
+      camMove(10, T10, T11, { s0: 1.0, s1: 1.04 });
+
+      // ============ S11  Instead of selling AI, you're selling a solution (reference 05 diagram) ============
+      add(SC(11, 120, `${HD('sv1', 270, 130, 'SELLING AI', '')}<div id="svs" style="position:absolute;left:100px;top:340px;width:880px;height:22px;border-radius:11px;background:#F59E0B;transform-origin:left;transform:scaleX(0);box-shadow:0 4px 0 #B45309"></div>${HD('sv2', 440, 130, 'SOLUTION', 'g')}
+        <div id="svl" class="card3" style="left:60px;top:760px;width:360px;height:320px;opacity:0"><img src="assets/img/ico-warning.svg" style="position:absolute;left:30px;top:30px;width:120px;height:120px"><div class="mono" style="position:absolute;left:30px;top:178px;font-size:22px;text-align:left;text-indent:0;color:#111827">A real problem</div><div class="sk" style="left:30px;top:226px;width:240px;height:16px"></div><div class="sk" style="left:30px;top:258px;width:180px;height:16px"></div></div>
+        <div id="svr" class="card3" style="left:660px;top:760px;width:360px;height:320px;opacity:0;border:3px solid #15803D"><img src="assets/img/ico-check-circle.svg" style="position:absolute;left:30px;top:30px;width:120px;height:120px"><div class="mono" style="position:absolute;left:30px;top:178px;font-size:22px;text-align:left;text-indent:0;color:#15803D">Your solution</div><div class="sk" style="left:30px;top:226px;width:240px;height:16px;background:rgba(21,128,61,0.35)"></div><div class="sk" style="left:30px;top:258px;width:180px;height:16px;background:rgba(21,128,61,0.25)"></div></div>
+        ${IM('svn', 465, 835, 150, 'ico-sparkle')}<div id="svr1" class="ring" style="left:420px;top:790px;width:240px;height:240px;border-color:#15803D"></div>
+        <svg width="1080" height="1920" style="position:absolute;left:0;top:0"><line id="sl_a" x1="420" y1="920" x2="465" y2="910" stroke="#111827" stroke-width="8" stroke-linecap="round" stroke-dasharray="200" stroke-dashoffset="200"/><line id="sl_b" x1="615" y1="910" x2="660" y2="920" stroke="#15803D" stroke-width="8" stroke-linecap="round" stroke-dasharray="200" stroke-dashoffset="200"/></svg>
+        <div id="svd" class="dot" style="left:0;top:0;width:22px;height:22px;background:#F59E0B"></div>`));
+      kin('#sv1', W(11, 'selling') - 0.1, 'up'); tl.fromTo('#svs', { scaleX: 0 }, { scaleX: 1, duration: 0.3, ease: 'power3.out', immediateRender: false }, W(11, 'ai') + 0.05); tl.to('#sv1', { opacity: 0.35, duration: 0.3 }, W(11, 'ai') + 0.3); shake('#k11', W(11, 'ai') + 0.1, 12, 0.35);
+      pop('#svl', W(11, 'selling') + 0.5, { x: -120, y: 0, s: 0.9 }); pop('#svn', W(11, 'selling') + 0.8, { s: 0.2, r: -60 }); pop('#svr', W(11, 'selling') + 1.0, { x: 120, y: 0, s: 0.9 }); tl.fromTo('#svr', { opacity: 0.0 }, { opacity: 0.0, duration: 0.01, immediateRender: false }, 0);
+      tl.fromTo('#sl_a', { attr: { 'stroke-dashoffset': 200 } }, { attr: { 'stroke-dashoffset': 0 }, duration: 0.3, immediateRender: false }, W(11, 'selling') + 1.0); tl.fromTo('#sl_b', { attr: { 'stroke-dashoffset': 200 } }, { attr: { 'stroke-dashoffset': 0 }, duration: 0.3, immediateRender: false }, W(11, 'solution') - 0.1);
+      driver(W(11, 'selling') + 1.2, W(11, 'solution') + 0.9, (t) => { const el = document.getElementById('svd'), p = (t * 0.8) % 1; el.style.opacity = '1'; el.style.transform = `translate(${lerp(430, 650, p) - 11}px, ${915 - 11}px)`; });
+      kin('#sv2', W(11, 'solution') - 0.1, 'up'); ringBurst('#svr1', W(11, 'solution') + 0.5, 1.0, 0.6, 2.2); confetti('cf11_', 36, 540, 920, W(11, 'solution') + 0.5, { dist: 520, grav: 240 }); coinRain('cr11_', 8, W(11, 'solution') + 0.55, { top: 160, fall: 1400 });
+      camMove(11, T11, T12, { s0: 1.0, s1: 1.05 });
+
+      // ============ S12  not rich overnight... but it opens doors (flat door: the panel swings away) ============
+      const OPP = ['rocket-launch', 'chart-line-up', 'globe', 'briefcase', 'trophy'], OPY = [1290, 1340, 1360, 1340, 1290];
+      add(SC(12, 90, `${HD('dr1', 230, 120, 'RICH', 'g')}${HD('dr2', 410, 100, 'OVERNIGHT?', '')}<div id="drx" style="position:absolute;left:90px;top:490px;width:900px;height:22px;border-radius:11px;background:#F59E0B;transform-origin:left;transform:scaleX(0);box-shadow:0 4px 0 #B45309"></div>
+        <div id="drc" class="card3" style="left:360px;top:640px;width:360px;height:360px;border-radius:50%;opacity:0">${Array.from({ length: 12 }, (_, k) => `<div style="position:absolute;left:174px;top:14px;width:12px;height:${k % 3 ? 22 : 36}px;border-radius:6px;background:#111827;transform:rotate(${k * 30}deg);transform-origin:6px 166px"></div>`).join('')}<div id="drh" style="position:absolute;left:174px;top:100px;width:12px;height:80px;border-radius:6px;background:#111827;transform-origin:50% 100%"></div><div id="drm" style="position:absolute;left:176px;top:60px;width:8px;height:120px;border-radius:4px;background:#15803D;transform-origin:50% 100%"></div><div style="position:absolute;left:166px;top:166px;width:28px;height:28px;border-radius:50%;background:#F59E0B"></div></div>
+        ${IM('drn', 790, 670, 170, 'ico-moon-stars')}
+        <div id="dro" style="position:absolute;left:360px;top:430px;width:360px;height:580px;opacity:0"><div id="drl" style="position:absolute;left:22px;top:22px;width:316px;height:558px;background:radial-gradient(closest-side,#FFFFFF,#FDE68A 60%,#F59E0B)"></div><div style="position:absolute;left:0;top:0;width:360px;height:580px;border:22px solid #111827;border-radius:30px 30px 0 0"></div><div id="drp" style="position:absolute;left:22px;top:22px;width:316px;height:558px;background:#15803D;transform-origin:0 50%;border-radius:12px 12px 0 0"><div style="position:absolute;right:28px;top:270px;width:30px;height:30px;border-radius:50%;background:#F59E0B"></div></div></div>
+        ${OPP.map((n, k) => IM('dq' + k, LX[k], OPY[k], 170, 'ico-' + n)).join('')}${OPP.map((n, k) => `<div id="dp${k}" class="pill" style="left:${LX[k] + 25}px;top:${OPY[k] - 40}px;width:120px;height:40px;font-size:18px;background:#F59E0B;color:#111827">NEW</div>`).join('')}
+        ${HD('dr3', 1495, 100, 'NEW DOORS', 'g')}`));
+      kin('#dr1', T12 + 0.15, 'up'); kin('#dr2', W(12, 'rich') + 0.2, 'up');
+      tl.fromTo('#drc', { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, duration: 0.6, ease: 'back.out(1.6)', immediateRender: false }, W(12, 'make') + 0.1); pop('#drn', W(12, 'make') + 0.3, { s: 0.3 });
+      tl.fromTo('#drm', { rotation: 0 }, { rotation: 2160, duration: W(12, 'but') - W(12, 'make') + 0.2, ease: 'power2.in', immediateRender: false }, W(12, 'make') + 0.2); tl.fromTo('#drh', { rotation: 0 }, { rotation: 180, duration: W(12, 'but') - W(12, 'make') + 0.2, ease: 'power2.in', immediateRender: false }, W(12, 'make') + 0.2);
+      tl.fromTo('#drx', { scaleX: 0 }, { scaleX: 1, duration: 0.3, ease: 'power3.out', immediateRender: false }, W(12, 'overnight') + 0.35); shake('#k12', W(12, 'overnight') + 0.4, 12, 0.3);
+      ['#drc', '#drn', '#dr1', '#dr2', '#drx'].forEach((s) => tl.to(s, { opacity: 0, y: -50, duration: 0.35, ease: 'power2.in' }, W(12, 'but') + 0.35));
+      tl.fromTo('#dro', { opacity: 0, y: 100, scale: 0.9 }, { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: 'back.out(1.4)', immediateRender: false }, W(12, 'learning') - 0.1);
+      tl.to('#drp', { scaleX: 0.14, duration: 0.8, ease: 'power3.inOut' }, W(12, 'open') - 0.05); shake('#k12', W(12, 'doors') - 0.1, 10, 0.3);
+      OPP.forEach((n, k) => { const t = W(12, 'opportunities') + k * 0.12; tl.fromTo('#dq' + k, { opacity: 0, x: 540 - (LX[k] + 85), y: 860 - OPY[k], scale: 0.15 }, { opacity: 1, x: 0, y: 0, scale: 1, duration: 0.8, ease: 'back.out(1.4)', immediateRender: false }, t); pop('#dp' + k, t + 0.45, { s: 0.3, y: 20 }); bob('#dq' + k, t + 1.0, T13, 8, 1.3 + k * 0.1); });
+      kin('#dr3', W(12, 'exist') - 0.1, 'up'); confetti('cf12_', 34, 540, 860, W(12, 'opportunities'), { dist: 520, grav: 240 });
+
+      // ============ S13  CTA (references 04/05: comment thread -> DM reply) ============
+      add(SC(13, 60, `${HD('ct1', 230, 170, 'COMMENT', '')}<div id="ctb" class="btn3" style="left:190px;top:430px;width:700px;height:230px;font-size:140px">&ldquo;AI&rdquo;</div>
+        <div id="ct2" class="card3" style="left:130px;top:760px;width:820px;height:150px;opacity:0"><img src="assets/img/ico-list-checks.svg" style="position:absolute;left:24px;top:23px;width:104px;height:104px"><div style="position:absolute;left:156px;top:0;height:150px;display:flex;align-items:center;font-weight:700;font-size:42px">Step-by-step tutorial</div></div>
+        <div id="ct3" class="card3" style="left:130px;top:940px;width:820px;height:150px;opacity:0"><img src="assets/img/ico-envelope.svg" style="position:absolute;left:24px;top:23px;width:104px;height:104px"><div style="position:absolute;left:156px;top:0;height:150px;display:flex;align-items:center;font-weight:700;font-size:42px">Sent to your DMs</div></div>
+        <div id="cth" class="card3" style="left:80px;top:1130px;width:860px;height:380px;opacity:0"><div style="position:absolute;left:30px;top:30px;width:80px;height:80px"><img src="assets/img/ico-user.svg" style="width:80px;height:80px"></div><div style="position:absolute;left:130px;top:30px;width:560px;height:80px;border-radius:40px;background:rgba(17,24,39,0.06);overflow:hidden"><div id="ctx" style="position:absolute;left:30px;top:0;height:80px;display:flex;align-items:center;font-weight:700;font-size:40px;clip-path:inset(0 100% 0 0)">AI</div></div>
+          <div id="ctd" style="position:absolute;left:720px;top:30px;width:100px;height:80px;border-radius:40px;background:#15803D;display:flex;align-items:center;justify-content:center"><img src="assets/img/glyph-paper-plane-tilt.svg" style="width:48px;height:48px"></div>
+          <div id="ctr" style="position:absolute;left:30px;top:170px;width:800px;height:180px;opacity:0"><div style="display:flex;align-items:center;gap:20px"><img src="assets/img/ico-seal-check.svg" style="width:90px;height:90px"><div style="font-weight:700;font-size:38px;line-height:1.15;background:#E6F4EA;color:#111827;padding:22px 30px;border-radius:36px 36px 36px 10px">Sent! Check your DMs</div></div></div></div>
+        ${IM('ctp', 790, 1090, 140, 'ico-paper-plane-tilt')}${LOGOS.map((n, k) => IM('ctl' + k, 140 + k * 150, 1570, 110, 'app-' + n)).join('')}`));
+      kin('#ct1', W(13, 'comment') - 0.05, 'up'); tl.fromTo('#ctb', { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, duration: 0.55, ease: 'back.out(2)', immediateRender: false }, W(13, 'ai') - 0.1);
+      tl.fromTo('#ctb', { scale: 1 }, { scale: 1.05, duration: 0.45, yoyo: true, repeat: 9, ease: 'sine.inOut', immediateRender: false }, W(13, 'ai') + 0.6);
+      pop('#ct2', W(13, 'step') - 0.2, { x: -100, y: 0, s: 0.95 }); pop('#ct3', W(13, 'in') - 0.15, { x: 100, y: 0, s: 0.95 });
+      pop('#cth', W(13, 'ai') + 0.15, { s: 0.95, y: 50 }); tl.fromTo('#ctx', { clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 0% 0 0)', duration: 0.4, ease: 'steps(2)', immediateRender: false }, W(13, 'ai') + 0.5); tl.fromTo('#ctd', { scale: 1 }, { scale: 0.85, duration: 0.1, yoyo: true, repeat: 1, immediateRender: false }, W(13, 'ai') + 1.1);
+      tl.fromTo('#ctr', { opacity: 0, x: -60 }, { opacity: 1, x: 0, duration: 0.5, ease: 'back.out(1.4)', immediateRender: false }, W(13, 'tutorial') - 0.1); pop('#ctp', W(13, 'tutorial') - 0.1, { s: 0.2 }); tl.fromTo('#ctp', { x: 0, y: 0 }, { x: 150, y: -240, rotation: 25, duration: 0.8, ease: 'power2.in', immediateRender: false }, W(13, 'tutorial') + 0.7); tl.to('#ctp', { opacity: 0, duration: 0.2 }, W(13, 'in') + 0.2);
+      LOGOS.forEach((n, k) => { pop('#ctl' + k, W(13, 'your') + k * 0.08, { s: 0.3, y: 40 }); bob('#ctl' + k, W(13, 'your') + 0.8, TOTAL, 8, 1.3 + k * 0.1); });
+      confetti('cf13a_', 52, 540, 540, W(13, 'ai'), { dist: 700, grav: 300 }); confetti('cf13b_', 52, 540, 540, W(13, 'your'), { dist: 760, grav: 320 }); rays('r13_', 540, 540, W(13, 'ai') - 0.1, { n: 30, dur: 0.9 });
+      camMove(13, T13, TOTAL, { s0: 1.04, s1: 1.0, e: 'power2.out' });
+
+      // ============ bottom editor strip (reference 04): waveform + playhead + scene counter ============
+      const NB = 60; add(`<div id="strip" style="position:absolute;left:60px;top:1772px;width:960px;height:80px;z-index:60;opacity:0"><div id="stl" class="mono" style="position:absolute;left:0;top:-32px;font-size:16px;text-align:left;text-indent:0">SCENE 01 / 13</div><div id="stt" class="mono" style="position:absolute;right:0;top:-32px;font-size:16px;text-align:right;text-indent:0">00:00</div>${Array.from({ length: NB }, (_, k) => { const h = 14 + r01(k + 5) * 56; return `<i id="sb${k}" style="position:absolute;left:${k * 16}px;top:${40 - h / 2}px;width:10px;height:${h}px;border-radius:5px;background:rgba(17,24,39,0.22)"></i>`; }).join('')}<div id="stp" style="position:absolute;left:0;top:-6px;width:4px;height:92px;border-radius:2px;background:#F59E0B"></div></div>`);
+      tl.fromTo('#strip', { opacity: 0 }, { opacity: 1, duration: 0.6, immediateRender: false }, 0.4);
+      driver(0, TOTAL, (t, p) => { document.getElementById('stp').style.left = (p * 956) + 'px'; for (let k = 0; k < NB; k++) document.getElementById('sb' + k).style.background = k < p * NB ? '#15803D' : 'rgba(17,24,39,0.22)'; let si = 0; STARTS.forEach((s, i) => { if (t >= s - 0.05) si = i; }); document.getElementById('stl').textContent = 'SCENE ' + String(si + 1).padStart(2, '0') + ' / 13'; const m = Math.floor(t / 60), s = Math.floor(t % 60); document.getElementById('stt').textContent = String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0'); });
+
+      // ===== transitions: flat green wipe / clean slide; scenes are shown/hidden with display =====
+      add('<div id="pnl" style="position:absolute;left:0;top:0;width:1080px;height:1920px;z-index:72;background:#15803D;transform:translateX(-1080px);pointer-events:none"></div><div id="fl" style="position:absolute;left:0;top:0;width:1080px;height:1920px;z-index:71;background:#ffffff;opacity:0;pointer-events:none"></div>');
+      const flash = (t, a) => { tl.fromTo('#fl', { opacity: 0 }, { opacity: a || 0.7, duration: 0.05, immediateRender: false }, t); tl.to('#fl', { opacity: 0, duration: 0.3, ease: 'power2.out' }, t + 0.05); };
+      const panel = (a, b, t) => { tl.fromTo('#pnl', { x: -1080 }, { x: 0, duration: 0.3, ease: 'power3.in', immediateRender: false }, t - 0.32); showS(b, t - 0.015); hideS(a, t - 0.015); tl.to('#pnl', { x: 1080, duration: 0.34, ease: 'power3.out' }, t - 0.01); };
+      const slideX = (a, b, t) => { showS(b, t - 0.3); tl.fromTo('#s' + b, { x: 1080 }, { x: 0, duration: 0.5, ease: 'power3.out', immediateRender: false }, t - 0.3); hideS(a, t + 0.25); };
+      showS(2, TG); hideS(1, TG + 0.02);
+      panel(2, 3, T3); slideX(3, 4, T4); panel(4, 5, T5); slideX(5, 6, T6); panel(6, 7, T7); slideX(7, 8, T8); panel(8, 9, T9); slideX(9, 10, T10); panel(10, 11, T11); slideX(11, 12, T12); panel(12, 13, T13); flash(T13 - 0.04, 0.45);
+
+
+      // ================= captions (word-timed karaoke) =================
+      const css = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+      const hexA = (h, a) => { const n = parseInt(h.replace('#', ''), 16); return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${a})`; };
+      const ACC = css('--accent'), INK = css('--ink'), ONACC = css('--on-accent');
+      const capsEl = $('#caps');
+      const groups = []; let cur = [];
+      WORDS.forEach((w, i) => { cur.push(w); const nx = WORDS[i + 1]; const endS = /[.!?]$/.test(w.w); const endC = /,$/.test(w.w) && cur.length >= 2; if (!nx || endS || endC || cur.length >= 4 || (nx && nx.s - w.e > 0.5)) { groups.push(cur); cur = []; } });
+      groups.forEach((g, gi) => {
+        if (typeof NO_CAPTION_LINES !== 'undefined' && NO_CAPTION_LINES.includes(g[0].line)) return;
+        const d = document.createElement('div'); d.className = 'cg'; const pill = document.createElement('div'); pill.className = 'pill'; d.appendChild(pill);
+        g.forEach((w, wi) => { const s = document.createElement('span'); s.className = 'cw'; s.id = `cw${gi}_${wi}`; s.textContent = w.w; pill.appendChild(s); });
+        capsEl.appendChild(d);
+        const a0 = g[0].s - 0.03, nextS = groups[gi + 1] ? groups[gi + 1][0].s : 1e9, b = Math.min(g[g.length - 1].e + 0.2, nextS - 0.08);
+        tl.fromTo(d, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.1, ease: 'power2.out', immediateRender: false }, Math.max(0, a0));
+        tl.to(d, { opacity: 0, duration: 0.06, ease: 'none' }, b);
+        g.forEach((w, wi) => { const sp = `#cw${gi}_${wi}`;
+          tl.fromTo(sp, { backgroundColor: hexA(ACC, 0), color: INK }, { backgroundColor: ACC, color: ONACC, duration: 0.06, ease: 'none', immediateRender: false }, w.s);
+          tl.to(sp, { backgroundColor: hexA(ACC, 0), color: INK, duration: 0.06, ease: 'none' }, Math.max(w.e, w.s + 0.1)); });
+      });
+      tl.fromTo('#prog', { scaleX: 0 }, { scaleX: 1, duration: 88.08, ease: 'none', immediateRender: false }, 0);
+      window.__timelines['main'] = tl;
+      tl.seek(0);
+    </script>
+
+  </body>
+</html>

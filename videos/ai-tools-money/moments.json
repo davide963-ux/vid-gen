@@ -1,0 +1,50 @@
+[
+ {
+  "t": 0,
+  "style": "intro",
+  "override": {
+   "bright": 0.55,
+   "gain": 0.8
+  }
+ },
+ {
+  "t": 9.21,
+  "style": "groove",
+  "override": {
+   "bright": 0.55,
+   "gain": 0.9
+  }
+ },
+ {
+  "t": 31.81,
+  "style": "build",
+  "override": {
+   "bright": 0.55,
+   "gain": 0.95
+  }
+ },
+ {
+  "t": 56.15,
+  "style": "lift",
+  "override": {
+   "bright": 0.55,
+   "gain": 1
+  }
+ },
+ {
+  "t": 72.18,
+  "style": "climb",
+  "override": {
+   "bright": 0.55,
+   "gain": 1.05
+  }
+ },
+ {
+  "t": 81.37,
+  "style": "peak",
+  "override": {
+   "bright": 0.55,
+   "gain": 1.1
+  }
+ }
+]
